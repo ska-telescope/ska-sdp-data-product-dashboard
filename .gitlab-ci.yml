@@ -62,7 +62,7 @@ test_and_coverage:
     - mkdir htmlcov
     - cp -r coverage/lcov-report/* htmlcov
     - cp coverage/clover.xml htmlcov
-    - cp coverage-final.json htmlcov
+    - cp coverage/coverage-final.json htmlcov
 
   coverage: /All\sfiles.*?\s+(\d+.\d+)/
   artifacts:
