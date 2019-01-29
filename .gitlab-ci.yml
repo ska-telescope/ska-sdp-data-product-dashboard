@@ -51,7 +51,6 @@ code_analysis:
     - npm run code-analysis
 
 # run the test coverage reports
-# TODO: the codeclinmmate test reporter is depricated so need to fix
 test_and_coverage:
   stage: test
   cache:
@@ -62,6 +61,9 @@ test_and_coverage:
     - CI=true npm test -- --coverage
     - mkdir htmlcov
     - cp -r coverage/lcov-report/* htmlcov
+    - cp coverage/clover.xml htmlcov
+    - cp coverage-final.json htmlcov
+
   coverage: /All\sfiles.*?\s+(\d+.\d+)/
   artifacts:
     paths:
@@ -88,6 +90,7 @@ list_dependencies:
       - .public
 
 # Run the gitlab (code climate)  code quality checks
+# TODO: the codeclinmmate test reporter is depricated so need to fix
 code_quality:
   stage: test
   image: docker:stable

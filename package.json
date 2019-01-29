@@ -31,6 +31,14 @@
     "prettier": "^1.15.3",
     "react-test-renderer": "^16.7.0"
   },
+  "jest": {
+    "collectCoverageFrom": [
+      "src/**/*.{js,jsx}",
+      "!<rootDir>/node_modules/",
+      "!<rootDir>/path/to/dir/",
+      "!src/index.jsx"
+    ]
+  },
   "browserslist": [
     ">0.2%",
     "not dead",
