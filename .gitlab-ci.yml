@@ -3,7 +3,17 @@
 # In this case we use the latest node docker image to build and test this project.
 image: node:alpine
 
-# cache is used to specify a list of files and directories which should be cached between jobs. You can only use paths that are within the project workspace.
+# Docker in Docker (dind) allows this CI file to be run locally (assuming you have docker installed).
+# Note this relies on a number of system variables on the local system. 
+# TODO: Find an elegant way of setting these in a robust way without exposing them in a public file.
+#
+#    DOCKER_REGISTRY_USER_LOGIN, DOCKER_REGISTRY_USER, DOCKER_REGISTRY_HOST,  DOCKER_AUTH_CONFIG, 
+#    CI_REGISTRY_PASS_LOGIN, CI_REGISTRY 
+
+services:
+  - docker:dind
+
+  # cache is used to specify a list of files and directories which should be cached between jobs. You can only use paths that are within the project workspace.
 # If cache is defined outside the scope of jobs, it means it is set globally and all jobs will use that definition
 # cache:
 #   paths:
