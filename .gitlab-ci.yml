@@ -15,7 +15,7 @@ install_dependencies:
   tags:
   - k8srunner
   script:
-    - rm -rf node_modules && yarn install --frozen-lockfile
+    - rm -rf node_modules && yarn install
   cache:
     paths:
       - node_modules/
