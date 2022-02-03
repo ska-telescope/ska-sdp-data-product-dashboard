@@ -1,11 +1,21 @@
 {
     "cSpell.words": [
-        "Segoe",
-        "UKATC",
         "antialiased",
+        "cobertura",
+        "deps",
+        "dind",
+        "extrafooter",
+        "LSST",
+        "mkdir",
         "noopener",
         "noreferrer",
         "repos",
+        "Segoe",
+        "sidebartitle",
+        "skatelescope",
+        "srunner",
+        "UKATC",
         "webapp"
-    ]
+    ],
+    "files.eol": "\n",
 }

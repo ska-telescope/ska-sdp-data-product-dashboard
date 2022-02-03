@@ -24,3 +24,11 @@ yarn-error.log*
 
 # built docs
 /docs/build
+
+.vs/
+
+/coverage
+junit.xml
+linting.xml
+
+package-lock.json

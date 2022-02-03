@@ -8,7 +8,7 @@ It includes tools for linting, code formatting, and testing which are easily int
 
 ### Requirements
 
-This skeleton requires **Node** and **NPM** to install and run. To install these follow the instructions for your operating system at [https://nodejs.org/en/download/](https://nodejs.org/en/download/).
+This skeleton requires **Node** and **YARN** to install and run. To install these follow the instructions for your operating system at [https://nodejs.org/en/download/](https://nodejs.org/en/download/).
 
 Alternatively the official Node docker image can be used. Instructions can be found on the [official Node docker image site](https://github.com/nodejs/docker-node/blob/master/README.md#how-to-use-this-image).
 
@@ -16,32 +16,32 @@ Alternatively the official Node docker image can be used. Instructions can be fo
 
 _All the following notes assume you are at the command prompt for your chosen environment._
 
-1.  Confirm Node and NPM are installed and configured correctly, both the following commands should return the relevant version number.
+1.  Confirm Node and YARN are installed and configured correctly, both the following commands should return the relevant version number.
 
         > node --version
-        > npm --version
+        > yarn --version
 
 2.  Clone the project from GitHub
 
 3.  Install all the necessary project dependencies by running
 
-        > npm install
+        > yarn init
 
 ### Running and Building the Application
 
-Scripts for running, testing, and building the application are provided as part of the standard configuration. These are run using NPM and listed in the scripts section of the package.json file.
+Scripts for running, testing, and building the application are provided as part of the standard configuration. These are run using YARN and listed in the scripts section of the package.json file.
 
 From the project directory, you can run any of the following:
 
-- `> npm start`
+- `> yarn start`
 
   Runs the app in the development mode at [http://localhost:3000](http://localhost:3000). The app will recompile and restart if you make any edits to the source files. Any linting errors will also be shown in the console.
 
-- `> npm test`
+- `> yarn test`
 
   Launches the test runner in the interactive watch mode. See the [testing](#testing) section for more information.
 
-- `> npm run build`
+- `> yarn build`
 
   Builds the app for production to the `build` folder. The build is minified and any JSX is transpiled to JavaScript. Your app is ready to be deployed!
 
@@ -74,13 +74,13 @@ See the developer guide for more information
 
 To run the interactive test runner, execute
 
-    > npm test
+    > yarn test
 
 This will also watch the source files and re-run when any changes are detected
 
 To run the tests with coverage, execute
 
-    > npm run test:coverage
+    > yarn test:coverage
 
 The coverage results are displayed in the console. They are also written to the `coverage` folder as:
 
@@ -93,7 +93,7 @@ The coverage results are displayed in the console. They are also written to the 
 ## Code Analysis
 
 [ESLint](https://ESLint.org/) and [Prettier](https://prettier.io/) are included as code analysis and formatting tools.
-These do not need installing as they're included in `node_modules` by running `npm install`.
+These do not need installing as they're included in `node_modules` by running `yarn init`.
 
 These tools can be run in the command line or integrated into your IDE (recommended).
 
@@ -103,9 +103,9 @@ JavaScript based SKA projects must comply with the [AirBnB JavaScript Style Guid
 
 To run the analysis tools, execute
 
-    > npm run code-analysis -s
+    > yarn code-analysis
 
-This will display any errors in the command line. If there are any errors, NPM will exit with a non-zero code, the `-s` argument suppresses this and cleans up the output.
+This will display any errors in the command line. If there are any errors, YARN will exit with a non-zero code, the `-s` argument suppresses this and cleans up the output.
 
 ### IDE Integration
 

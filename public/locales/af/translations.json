@@ -1,0 +1,5 @@
+{
+    "language": "Afrikaans",
+    "date_format_one": "{{-date, DD/MM/YY}}",
+    "date_format_two": "{{date, YY-MM-DD}}"
+  }
