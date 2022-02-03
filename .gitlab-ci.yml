@@ -107,12 +107,8 @@ pages:
     expire_in: 30 days
 
 include:
-<<<<<<< HEAD
   - template: Code-Quality.gitlab-ci.yml
 
 code_quality:
   artifacts:
     paths: [gl-code-quality-report.json]
-=======
-  - template: Code-Quality.gitlab-ci.yml
->>>>>>> 85567e4... NAL-8:ci_test
