@@ -31,7 +31,7 @@ code_analysis:
       - node_modules/
     policy: pull
   script:
-    - npm run code-analysis
+    - yarn run code-analysis
 
 # run the test coverage reports
 test_and_coverage:
@@ -44,9 +44,9 @@ test_and_coverage:
     policy: pull
   script:
     - mkdir -p build/reports
-    - npm run test
-    - npm run code-analysis
-    - npm run test:coverage
+    - yarn run test
+    - yarn run code-analysis
+    - yarn run test:coverage
     - mv junit.xml build/reports/unit-tests.xml
     - mv linting.xml build/reports/linting.xml
     - mv build/coverage/cobertura-coverage.xml build/reports/code-coverage.xml
@@ -86,7 +86,7 @@ build:
       - node_modules/
     policy: pull
   script:
-    - npm run-script build
+    - yarn build
 
 # export the report
 pages:

@@ -6,7 +6,7 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom --reporters=default --reporters=jest-junit",
-    "test:coverage": "react-scripts test --coverage --watchAll=true",
+    "test:coverage": "react-scripts test --coverage --coverageDirectory=build/coverage",
     "code-analysis": "./node_modules/.bin/eslint \"src/**\" --ignore-path .eslintignore -f junit -o linting.xml",
     "eject": "react-scripts eject"
   },
