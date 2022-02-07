@@ -5,6 +5,7 @@
         "deps",
         "dind",
         "extrafooter",
+        "homescreen",
         "LSST",
         "mkdir",
         "noopener",
@@ -15,7 +16,8 @@
         "skatelescope",
         "srunner",
         "UKATC",
-        "webapp"
+        "webapp",
+        "webfonts"
     ],
     "files.eol": "\n",
 }

@@ -25,8 +25,8 @@ yarn-error.log*
 # built docs
 /docs/build
 
-.vs/
-
+/.vs
+/.vscode
 /coverage
 junit.xml
 linting.xml
