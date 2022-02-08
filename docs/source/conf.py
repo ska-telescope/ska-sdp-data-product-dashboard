@@ -97,7 +97,6 @@ html_theme = 'sphinx_rtd_theme'
 # html_theme_options = {}
 
 html_context = {
-    'favicon': 'img/favicon.ico',
     'logo': 'img/logo.jpg',
     'theme_logo_only' : True,
     'display_github': True, # Integrate GitHub

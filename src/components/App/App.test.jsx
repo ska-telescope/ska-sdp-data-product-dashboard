@@ -1,7 +1,6 @@
 import React from 'react';
-import { shallow, mount } from 'enzyme';
+import { shallow } from 'enzyme';
 import App from './App';
-import logo from '../../resources/logo.svg';
 
 describe('App Component', () => {
   it('renders without crashing', () => {
@@ -11,17 +10,21 @@ describe('App Component', () => {
   it('displays text correctly', () => {
     const wrapper = shallow(<App />);
     const text = (
-      <p>
-        Edit&nbsp;
-        <code>src/App.js</code>
-        &nbsp;and save to reload.
-      </p>
+      <a
+        className="App-link"
+        href="https://reactjs.org"
+        id="appLinkId"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        Learn React
+      </a>
     );
     expect(wrapper).toContainReact(text);
   });
 
-  it('displays the image correctly', () => {
-    const wrapper = mount(<App />);
-    expect(wrapper.find('img').prop('src')).toEqual(logo);
+  it('displays the exampleComponent', () => {
+    const wrapper = shallow(<App />);
+    expect(wrapper.find('ExampleComponent').prop('id')).toEqual('exampleComponentId');
   });
 });
