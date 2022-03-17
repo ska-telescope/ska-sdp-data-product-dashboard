@@ -34,6 +34,7 @@ code_analysis:
     policy: pull
   script:
     - yarn run code-analysis
+    - mv linting.xml build/reports/linting.xml
 
 # run the test coverage reports
 test_and_coverage:
@@ -49,7 +50,6 @@ test_and_coverage:
     - yarn run test
     - yarn run test:coverage
     - mv junit.xml build/reports/unit-tests.xml
-    - mv linting.xml build/reports/linting.xml
     - mv build/coverage/cobertura-coverage.xml build/reports/code-coverage.xml
 
   coverage: /All\sfiles.*?\s+(\d+.\d+)/
