@@ -5,6 +5,7 @@ stages:
   - lint
   - build
   - test
+  - pages
   - deploy
 
 #Install basic dependencies using yarn
@@ -87,7 +88,7 @@ build:
 
 # export the report
 pages:
-  stage: deploy
+  stage: pages
   tags:
   - k8srunner
   dependencies:
