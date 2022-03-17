@@ -32,6 +32,8 @@ code_analysis:
     paths:
       - node_modules/
     policy: pull
+  before_script:
+    - mkdir -p build/reports
   script:
     - yarn run code-analysis
     - mv linting.xml build/reports/linting.xml
@@ -48,8 +50,9 @@ test_and_coverage:
     paths:
       - node_modules/
     policy: pull
-  script:
+  before_script:
     - mkdir -p build/reports
+  script:
     - yarn run test
     - yarn run test:coverage
     - mv junit.xml build/reports/unit-tests.xml
