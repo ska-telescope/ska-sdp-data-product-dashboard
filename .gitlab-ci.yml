@@ -2,8 +2,9 @@ image: node:alpine
 
 stages:
   - dependencies
-  - test
+  - lint
   - build
+  - test
   - deploy
 
 #Install basic dependencies using yarn
@@ -20,7 +21,7 @@ install_dependencies:
 
 #Run the static code analysis
 code_analysis:
-  stage: test
+  stage: lint
   tags:
   - k8srunner
   cache:
@@ -42,7 +43,6 @@ test_and_coverage:
   script:
     - mkdir -p build/reports
     - yarn run test
-    - yarn run code-analysis
     - yarn run test:coverage
     - mv junit.xml build/reports/unit-tests.xml
     - mv linting.xml build/reports/linting.xml
@@ -113,6 +113,7 @@ include:
   - project: 'ska-telescope/templates-repository'
     file: 'gitlab-ci/includes/docs.gitlab-ci.yml'
     
+
 
 code_quality:
   # https://docs.gitlab.com/ee/user/project/merge_requests/code_quality.html#generate-an-html-report
