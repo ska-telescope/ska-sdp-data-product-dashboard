@@ -11,6 +11,7 @@ stages:
   - test
   - pages
   - deploy
+  - publish
 
 #Install basic dependencies using yarn
 install_dependencies:
