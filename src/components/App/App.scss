@@ -1,7 +1,9 @@
+@import '../../scss/colors';
+@import '../../scss/variables';
 
 .App {
   text-align: center;
-  background-image: linear-gradient(to bottom left, var(--color-pri-01) 75%, var(--color-pri-02));
+  background-image: linear-gradient(to bottom left, $color-pri-01 75%, $color-pri-02);
   min-height: 100vh;
   display: flex;
   flex-direction: column;
@@ -9,9 +11,9 @@
   justify-content: center;
   font-family: var(--font-face-regular);
   font-size: calc(10px + 2vmin);
-  color: var(--font-color);
+  color: $font-color;
 }
 
 .App-link {
-  color: var(--color-tec-08);
+  color: $color-tec-08;
 }

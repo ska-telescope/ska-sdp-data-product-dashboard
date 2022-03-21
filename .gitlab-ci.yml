@@ -11,6 +11,7 @@ stages:
   - test
   - pages
   - deploy
+  - publish
 
 #Install basic dependencies using yarn
 install_dependencies:
@@ -123,6 +124,9 @@ include:
 # .post step finalisers eg: badges
   - project: 'ska-telescope/templates-repository'
     file: 'gitlab-ci/includes/docs.gitlab-ci.yml'
+# deploy
+  - project: 'ska-telescope/templates-repository'
+    file: 'gitlab-ci/includes/release.gitlab-ci.yml'
     
 
 
