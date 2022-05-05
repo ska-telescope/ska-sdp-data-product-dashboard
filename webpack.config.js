@@ -59,6 +59,31 @@ module.exports = {
           eager: true,
           singleton: true,
           requiredVersion: deps['react-dom']
+        },
+        i18next: {
+          eager: true,
+          singleton: true,
+          requiredVersion: deps.i18next
+        },
+        'react-i18next': {
+          eager: true,
+          singleton: true,
+          requiredVersion: deps['react-i18next']
+        },
+        'i18next-browser-languagedetector': {
+          eager: true,
+          singleton: true,
+          requiredVersion: deps['i18next-browser-languagedetector']
+        },
+        'i18next-http-backend': {
+          eager: true,
+          singleton: true,
+          requiredVersion: deps['i18next-http-backend']
+        },
+        moment: {
+          eager: true,
+          singleton: true,
+          requiredVersion: deps.moment
         }
       }
     }),
