@@ -20,13 +20,6 @@ module.exports = {
   module: {
     rules: [
       {
-        test: /bootstrap\.jsx$/,
-        loader: 'bundle-loader',
-        options: {
-          lazy: true
-        }
-      },
-      {
         test: /\.m?js|\.jsx/,
         type: 'javascript/auto',
         resolve: {
