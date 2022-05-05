@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "build": "react-scripts build",
-    "code-analysis": "eslint \"src/**\" --ignore-path .eslintignore -f junit -o linting.xml",
+    "code-analysis": "./node_modules/.bin/eslint \"src/**\" --ignore-path .eslintignore -f junit -o linting.xml",
     "lint:fix": "eslint src/**/*.{js,jsx} --fix",
     "lint": "eslint src/**/*.{js,jsx}",
     "test": "react-scripts test --env=jsdom --reporters=default --reporters=jest-junit",
