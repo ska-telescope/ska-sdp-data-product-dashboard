@@ -27,16 +27,6 @@ function App() {
         </div>
         */}
         <ExampleComponent id="exampleComponentId" />
-
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          id="appLinkId"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
       </div>
     </Suspense>
   );

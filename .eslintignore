@@ -3,3 +3,4 @@ coverage
 **/*.css
 **/*.scss
 **/*.ttf
+webpack.config.js
