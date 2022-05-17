@@ -53,7 +53,7 @@ module.exports = {
         react: {
           eager: true,
           singleton: true,
-          requiredVersion: deps.react
+          requiredVersion: deps['react']
         },
         'react-dom': {
           eager: true,
