@@ -1,11 +1,10 @@
-# SKA React Web App Skeleton
+# SKA SDP Data Product Dashboard
 
-[![Documentation Status](https://readthedocs.org/projects/ska-react-webapp-skeleton/badge/?version=latest)](https://developer.skatelescope.org/projects/ska-react-webapp-skeleton/en/latest/?badge=latest)
+[![Documentation Status](https://readthedocs.org/projects/ska-telescope-ska-sdp-data-product-dashboard/badge/?version=latest)](https://ska-telescope-ska-sdp-data-product-dashboard.readthedocs.io/en/latest/?badge=latest)
 
-This project is intended to act as a skeleton for any SKA developer looking to make a React based web application.
+This project contains a modular federated component to view and download SDP Data Products.
 
 It includes tools for linting, code formatting, and testing which are easily integrated into various IDEs.
-It also includes modular federation, exposing the ExampleComponent, which can be imported into other applications.
 
 ### Requirements
 

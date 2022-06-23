@@ -19,7 +19,7 @@
 
 # -- Project information -----------------------------------------------------
 
-project = 'ska-web-apps-documentation'
+project = 'ska-sdp-data-product-dashboard'
 copyright = '2018, Snehal Valame'
 author = 'Snehal Valame'
 
@@ -97,7 +97,7 @@ html_theme = 'sphinx_rtd_theme'
 # html_theme_options = {}
 
 html_context = {
-    'logo': 'img/logo.jpg',
+    'logo': 'img/logo.png',
     'theme_logo_only' : True,
     'display_github': True, # Integrate GitHub
     'github_user': 'flyingfrog81', # Username
@@ -126,7 +126,7 @@ html_static_path = ['_static']
 # -- Options for HTMLHelp output ---------------------------------------------
 
 # Output file base name for HTML help builder.
-htmlhelp_basename = 'ska-web-apps-documentationdoc'
+htmlhelp_basename = 'ska-sdp-data-product-dashboarddoc'
 
 
 # -- Options for LaTeX output ------------------------------------------------
@@ -153,7 +153,7 @@ latex_elements = {
 # (source start file, target name, title,
 #  author, documentclass [howto, manual, or own class]).
 latex_documents = [
-    (master_doc, 'ska-web-apps-documentation.tex', 'ska-web-apps-documentation Documentation',
+    (master_doc, 'ska-sdp-data-product-dashboard.tex', 'ska-sdp-data-product-dashboard Documentation',
      'Snehal Valame', 'manual'),
 ]
 
@@ -163,7 +163,7 @@ latex_documents = [
 # One entry per manual page. List of tuples
 # (source start file, name, description, authors, manual section).
 man_pages = [
-    (master_doc, 'ska-web-apps-documentation', 'ska-web-apps-documentation Documentation',
+    (master_doc, 'ska-sdp-data-product-dashboard', 'ska-sdp-data-product-dashboard Documentation',
      [author], 1)
 ]
 
@@ -174,8 +174,8 @@ man_pages = [
 # (source start file, target name, title, author,
 #  dir menu entry, description, category)
 texinfo_documents = [
-    (master_doc, 'ska-web-apps-documentation', 'ska-web-apps-documentation Documentation',
-     author, 'ska-web-apps-documentation', 'One line description of project.',
+    (master_doc, 'ska-sdp-data-product-dashboard', 'ska-sdp-data-product-dashboard Documentation',
+     author, 'ska-sdp-data-product-dashboard', 'One line description of project.',
      'Miscellaneous'),
 ]
 

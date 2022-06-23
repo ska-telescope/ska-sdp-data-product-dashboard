@@ -42,7 +42,7 @@ module.exports = {
 
   plugins: [
     new ModuleFederationPlugin({
-      name: 'skeleton',
+      name: 'ska-sdp-data-product-dashboard',
       filename: 'remoteEntry.js',
       remotes: {},
       exposes: {
