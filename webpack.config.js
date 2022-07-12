@@ -5,7 +5,7 @@ const deps = require('./package.json').dependencies;
 
 module.exports = {
   output: {
-    publicPath: 'http://localhost:8090/'
+    publicPath: 'http://localhost:3300/'
   },
 
   resolve: {
@@ -13,7 +13,7 @@ module.exports = {
   },
 
   devServer: {
-    port: 8090,
+    port: 3300,
     historyApiFallback: true
   },
 
@@ -42,11 +42,11 @@ module.exports = {
 
   plugins: [
     new ModuleFederationPlugin({
-      name: 'ska-sdp-data-product-dashboard',
+      name: 'Ska_sdp_data_product_dashboard',
       filename: 'remoteEntry.js',
       remotes: {},
       exposes: {
-        './ExampleComponent': './src/components/ExampleComponent/ExampleComponent.jsx'
+        './Ska_sdp_data_product_dashboard': './src/components/App/App.jsx'
       },
       shared: {
         ...deps,
@@ -80,6 +80,12 @@ module.exports = {
           singleton: true,
           requiredVersion: deps['i18next-http-backend']
         },
+        // Material UI
+        '@material-ui/core': { singleton: true, requiredVersion: 'auto' },
+        '@mui/icons-material': { singleton: true, requiredVersion: 'auto' },
+        '@mui/material': { singleton: true, requiredVersion: 'auto', eager: true },
+        '@emotion/react': { singleton: true, requiredVersion: 'auto', eager: true },
+        '@emotion/styled': { singleton: true, requiredVersion: 'auto', eager: true },
         moment: {
           eager: true,
           singleton: true,
