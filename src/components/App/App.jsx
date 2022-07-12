@@ -1,6 +1,6 @@
 import React from 'react';
 import { createTheme, CssBaseline, ThemeProvider } from '@mui/material';
-import Ska_sdp_data_product_dashboard from '../Ska_sdp_data_product_dashboard/Ska_sdp_data_product_dashboard';
+import DataProductDashboard from '../Ska_sdp_data_product_dashboard/Ska_sdp_data_product_dashboard';
 
 const theme = createTheme({
   palette: {
@@ -31,7 +31,7 @@ function App() {
       <CssBaseline enableColorScheme />
       <React.Suspense fallback="...is loading">
         <div className="App">
-          <Ska_sdp_data_product_dashboard id="Ska_sdp_data_product_dashboardId" />
+          <DataProductDashboard id="Ska_sdp_data_product_dashboardId" />
         </div>
       </React.Suspense>
     </ThemeProvider>
