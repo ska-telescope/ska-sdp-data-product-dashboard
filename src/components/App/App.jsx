@@ -1,34 +1,40 @@
-import React, { Suspense } from 'react';
-import './App.scss';
-import ExampleComponent from '../ExampleComponent/ExampleComponent';
-/* Include if language buttons required
-import i18n from '../../services/i18n/i18n';
-*/
+import React from 'react';
+import { createTheme, CssBaseline, ThemeProvider } from '@mui/material';
+import Ska_sdp_data_product_dashboard from '../Ska_sdp_data_product_dashboard/Ska_sdp_data_product_dashboard';
+
+const theme = createTheme({
+  palette: {
+    primary: {
+      light: '#c1c6ca',
+      main: '#c1c6ca',
+      dark: '#212121',
+      contrastText: '#000000'
+    },
+    secondary: {
+      main: '#070068',
+      light: '#070068',
+      dark: '#f7be00',
+      contrastText: '#FFFFFF'
+    }
+  },
+  shape: {
+    borderRadius: 25
+  },
+  typography: {
+    fontFamily: 'Roboto, Helvetica, Arial, sans-serif'
+  }
+});
 
 function App() {
-  /* Code below to change the language when language buttons are clicked
-  const handleOnclick = e => {
-    e.preventDefault();
-    i18n.changeLanguage(e.target.value);
-  };
-  */
-
   return (
-    <Suspense fallback="...is loading">
-      <div className="App">
-        {/* Language buttons should translations need to be checked, and changing browser language is not desired
-        <div>
-          <button value="af" onClick={handleOnclick} type="submit">
-            Afrikaans
-          </button>
-          <button value="en" onClick={handleOnclick} type="submit">
-            English
-          </button>
+    <ThemeProvider theme={theme}>
+      <CssBaseline enableColorScheme />
+      <React.Suspense fallback="...is loading">
+        <div className="App">
+          <Ska_sdp_data_product_dashboard id="Ska_sdp_data_product_dashboardId" />
         </div>
-        */}
-        <ExampleComponent id="exampleComponentId" />
-      </div>
-    </Suspense>
+      </React.Suspense>
+    </ThemeProvider>
   );
 }
 
