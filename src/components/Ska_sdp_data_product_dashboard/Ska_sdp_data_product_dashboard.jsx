@@ -13,6 +13,14 @@ import DownloadIcon from '@mui/icons-material/Download';
 const DataProductDashboard = () => {
   const [filelist, setFilelist] = React.useState([]);
 
+
+  const onDownload = () => {
+    const link = document.createElement("a");
+    link.download = `download.txt`;
+    link.href = "./download.txt";
+    link.click();
+  };
+
   async function fetchfilelist() {
     fetch('http://localhost:8000/filelist', {
       method: 'get',
@@ -44,7 +52,7 @@ const DataProductDashboard = () => {
                 <ListItem
                   key={key}
                   secondaryAction={
-                    <IconButton edge="end" aria-label="download">
+                    <IconButton edge="end" aria-label="download" onClick={onDownload}>
                       <DownloadIcon />
                     </IconButton>
                   }
