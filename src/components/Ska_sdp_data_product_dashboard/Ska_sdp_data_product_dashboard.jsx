@@ -11,19 +11,31 @@ import Typography from '@mui/material/Typography';
 import FolderIcon from '@mui/icons-material/Folder';
 import DownloadIcon from '@mui/icons-material/Download';
 
-function generate(element) {
-  return [0, 1, 2].map(value =>
-    React.cloneElement(element, {
-      key: value
-    })
-  );
-}
-
 const Demo = styled('div')(({ theme }) => ({
   backgroundColor: theme.palette.background.paper
 }));
 
-export default function DataProductDashboard() {
+const DataProductDashboard = () => {
+  const [filelist, setFilelist] = React.useState([]);
+
+  async function fetchfilelist() {
+    fetch('http://localhost:8000/filelist', {
+      method: 'get',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json'
+      }
+    })
+      .then(response => response.json())
+      .then(data => {
+        setFilelist(data.Filelist);
+      });
+  }
+
+  if (filelist.length === 0) {
+    fetchfilelist();
+  }
+
   return (
     <Box sx={{ flexGrow: 1, maxWidth: 752 }}>
       <Grid container spacing={2}>
@@ -33,25 +45,28 @@ export default function DataProductDashboard() {
           </Typography>
           <Demo>
             <List dense>
-              {generate(
-                <ListItem
-                  /* eslint-disable react/jsx-wrap-multilines */
-                  secondaryAction={
-                    <IconButton edge="end" aria-label="download">
-                      <DownloadIcon />
-                    </IconButton>
-                  }
-                >
-                  <ListItemIcon>
-                    <FolderIcon />
-                  </ListItemIcon>
-                  <ListItemText primary="Single-line item" />
-                </ListItem>
-              )}
+              {filelist.map(file => {
+                return (
+                  <ListItem
+                    secondaryAction={
+                      <IconButton edge="end" aria-label="download">
+                        <DownloadIcon />
+                      </IconButton>
+                    }
+                  >
+                    <ListItemIcon>
+                      <FolderIcon />
+                    </ListItemIcon>
+                    <ListItemText primary={file} />
+                  </ListItem>
+                );
+              })}
             </List>
           </Demo>
         </Grid>
       </Grid>
     </Box>
   );
-}
+};
+
+export default DataProductDashboard;
