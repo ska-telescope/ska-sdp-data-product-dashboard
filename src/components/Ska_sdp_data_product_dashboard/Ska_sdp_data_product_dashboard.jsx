@@ -12,12 +12,11 @@ import DownloadIcon from '@mui/icons-material/Download';
 
 const DataProductDashboard = () => {
   const [filelist, setFilelist] = React.useState([]);
-  let fileUrl = 'http://localhost:8000/download/Chicken.jpg'
 
-  function onDownload(fileName) {
-    var a = document.createElement("a");
-    a.href = fileUrl;
-    a.setAttribute("download", fileName);
+  async function onDownload(fileName) {
+    const a = document.createElement('a');
+    a.href = `http://localhost:8000/download/${fileName.file}`;
+    a.setAttribute('download', fileName);
     a.click();
   }
 
@@ -47,23 +46,27 @@ const DataProductDashboard = () => {
             Available data products:
           </Typography>
           <List dense>
-            {filelist.map((file, key) => {
-              return (
-                <ListItem
-                  key={key}
-                  secondaryAction={
-                    <IconButton edge="end" aria-label="download" onClick={onDownload({file})}>
-                      <DownloadIcon />
-                    </IconButton>
-                  }
-                >
-                  <ListItemIcon>
-                    <FolderIcon />
-                  </ListItemIcon>
-                  <ListItemText primary={file} />
-                </ListItem>
-              );
-            })}
+            {filelist.map((file, key) => (
+              <ListItem
+                key={key}
+                secondaryAction={(
+                  <IconButton
+                    edge="end"
+                    aria-label="download"
+                    onClick={() => {
+                      onDownload({ file });
+                    }}
+                  >
+                    <DownloadIcon />
+                  </IconButton>
+                )}
+              >
+                <ListItemIcon>
+                  <FolderIcon />
+                </ListItemIcon>
+                <ListItemText primary={file} />
+              </ListItem>
+            ))}
           </List>
         </Grid>
       </Grid>
