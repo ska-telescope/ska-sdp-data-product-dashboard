@@ -11,7 +11,7 @@ import FolderIcon from '@mui/icons-material/Folder';
 import DownloadIcon from '@mui/icons-material/Download';
 
 const DataProductDashboard = () => {
-  const [filelist, setFilelist] = React.useState([]);
+  const [fileList, setFilelist] = React.useState([]);
 
   async function onDownload(fileName) {
     const a = document.createElement('a');
@@ -34,9 +34,21 @@ const DataProductDashboard = () => {
       });
   }
 
-  if (filelist.length === 0) {
+  if (fileList.length === 0) {
     fetchfilelist();
   }
+
+  const secondAction = file => (
+    <IconButton
+      edge="end"
+      aria-label="download"
+      onClick={() => {
+        onDownload({ file });
+      }}
+    >
+      <DownloadIcon />
+    </IconButton>
+  );
 
   return (
     <Box sx={{ flexGrow: 1, maxWidth: 752 }}>
@@ -46,21 +58,8 @@ const DataProductDashboard = () => {
             Available data products:
           </Typography>
           <List dense>
-            {filelist.map((file, key) => (
-              <ListItem
-                key={key}
-                secondaryAction={(
-                  <IconButton
-                    edge="end"
-                    aria-label="download"
-                    onClick={() => {
-                      onDownload({ file });
-                    }}
-                  >
-                    <DownloadIcon />
-                  </IconButton>
-                )}
-              >
+            {fileList.map((file, key) => (
+              <ListItem key={key} secondaryAction={secondAction(file)}>
                 <ListItemIcon>
                   <FolderIcon />
                 </ListItemIcon>
