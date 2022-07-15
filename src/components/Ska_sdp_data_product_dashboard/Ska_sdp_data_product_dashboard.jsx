@@ -58,12 +58,12 @@ const DataProductDashboard = () => {
             Available data products:
           </Typography>
           <List dense>
-            {fileList.map((file, key) => (
-              <ListItem key={key} secondaryAction={secondAction(file)}>
+            {fileList.map((filename, id) => (
+              <ListItem key={filename.id} secondaryAction={secondAction(filename.filename)}>
                 <ListItemIcon>
                   <FolderIcon />
                 </ListItemIcon>
-                <ListItemText primary={file} />
+                <ListItemText key={id.id} primary={filename.filename} />
               </ListItem>
             ))}
           </List>
