@@ -30,7 +30,7 @@ const DataProductDashboard = () => {
     })
       .then(response => response.json())
       .then(data => {
-        setFilelist(data.Filelist);
+        setFilelist(data.filelist);
       });
   }
 
