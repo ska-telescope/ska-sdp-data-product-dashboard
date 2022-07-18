@@ -12,7 +12,6 @@
     "start": "webpack serve --open --mode development"
   },
   "dependencies": {
-    "@chakra-ui/react": "^2.2.3",
     "@emotion/react": "^11.9.3",
     "@emotion/styled": "^11.9.3",
     "@mui/icons-material": "^5.8.4",
@@ -35,6 +34,7 @@
     "@types/enzyme": "^3.1.15",
     "@types/enzyme-adapter-react-16": "^1.0.3",
     "babel-loader": "^8.2.5",
+    "babel-plugin-import": "^1.13.5",
     "css-loader": "^6.7.1",
     "eslint-config-airbnb": "^17.1.0",
     "eslint-config-prettier": "^3.4.0",

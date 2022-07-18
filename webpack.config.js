@@ -82,7 +82,7 @@ module.exports = {
         },
         // Material UI
         '@material-ui/core': { singleton: true, requiredVersion: 'auto' },
-        '@mui/icons-material': { singleton: true, requiredVersion: 'auto' },
+        '@mui/icons-material': { singleton: true, requiredVersion: 'auto', eager: true },
         '@mui/material': { singleton: true, requiredVersion: 'auto', eager: true },
         '@emotion/react': { singleton: true, requiredVersion: 'auto', eager: true },
         '@emotion/styled': { singleton: true, requiredVersion: 'auto', eager: true },
