@@ -1,4 +1,4 @@
-Welcome to ska-sdp-data-product-dashboard's documentation!
+Welcome to SKA SDP Data Product Dashboard's documentation!
 ======================================================
 
 .. toctree::
