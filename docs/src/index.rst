@@ -10,6 +10,7 @@ Welcome to ska-sdp-data-product-dashboard's documentation!
    :maxdepth: 2
    :caption: Contents:
 
+   overview
 
 
 Indices and tables

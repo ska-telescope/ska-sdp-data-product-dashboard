@@ -1,18 +1,22 @@
 # SKA SDP Data Product Dashboard
 
-[![Documentation Status](https://readthedocs.org/projects/ska-telescope-ska-sdp-data-product-dashboard/badge/?version=latest)](https://ska-telescope-ska-sdp-data-product-dashboard.readthedocs.io/en/latest/?badge=latest)
+## Description
+This repository contains a SKA modular federated component that is used to list SDP data products (files) and make them available to download.
 
-This project contains a modular federated component to view and download SDP Data Products.
+##### Badges
+[![Documentation Status](https://readthedocs.org/projects/ska-telescope-ska-sdp-data-product-dashboard/badge/?version=latest)](https://ska-telescope-ska-sdp-data-product-dashboard.readthedocs.io/en/latest/?badge=latest)  ![Pipeline](https://gitlab.com/ska-telescope/sdp/ska-sdp-data-product-dashboard/badges/main/pipeline.svg)
 
-It includes tools for linting, code formatting, and testing which are easily integrated into various IDEs.
+## Getting Started
 
-### Requirements
+## Tooling Pre-requisites
 
-This skeleton requires **Node** and **YARN** to install and run. To install these follow the instructions for your operating system at [https://nodejs.org/en/download/](https://nodejs.org/en/download/).
+This project requires **Node** and **YARN** to install and run. To install these follow the instructions for your operating system at [https://nodejs.org/en/download/](https://nodejs.org/en/download/).
 
 Alternatively the official Node docker image can be used. Instructions can be found on the [official Node docker image site](https://github.com/nodejs/docker-node/blob/master/README.md#how-to-use-this-image).
 
-### Installation
+<!-- - Docker 20.10 or later versions: Install page URL: https://docs.docker.com/engine/install/ -->
+
+## Installation
 
 _All the following notes assume you are at the command prompt for your chosen environment._
 
@@ -25,9 +29,9 @@ _All the following notes assume you are at the command prompt for your chosen en
 
 3.  Install all the necessary project dependencies by running
 
-        > yarn init
+        > yarn install
 
-### Running and Building the Application
+## Usage
 
 Scripts for running, testing, and building the application are provided as part of the standard configuration. These are run using YARN and listed in the scripts section of the package.json file.
 
@@ -142,3 +146,18 @@ or
 The latter requires Docker to be installed on your system but not Python, Sphinx, and other dependencies.
 
 The documentation can then be consulted by opening the file `./docs/build/html/index.html`
+
+## Roadmap
+This project is in very early development, but the following have already been identified to be added:
+[]  Make change the list to a folder tree
+[]  Update the file icon based on file type
+[]  Add selection of source to Rucio / Direct file storage
+[]  Add selection and view of metadata capability
+[]  Add filter based on metadata
+[]  Enable download of folders 
+
+## Contributing
+Contributions are welcome, please see the SKAO developer portal for guidance. https://developer.skao.int/en/latest/
+
+## Project status
+Initial proof of concept working towards a minimum viable product.
