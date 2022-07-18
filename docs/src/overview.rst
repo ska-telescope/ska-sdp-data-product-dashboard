@@ -20,11 +20,10 @@ This project requires **Node** and **YARN** to install and run. To install these
 
 Alternatively the official Node docker image can be used. Instructions can be found on the [official Node docker image site](https://github.com/nodejs/docker-node/blob/master/README.md#how-to-use-this-image).
 
-<!-- - Docker 20.10 or later versions: Install page URL: https://docs.docker.com/engine/install/ -->
 
 ## Installation
 
-_All the following notes assume you are at the command prompt for your chosen environment._
+All the following notes assume you are at the command prompt for your chosen environment.
 
 1.  Confirm Node and YARN are installed and configured correctly, both the following commands should return the relevant version number.
 
