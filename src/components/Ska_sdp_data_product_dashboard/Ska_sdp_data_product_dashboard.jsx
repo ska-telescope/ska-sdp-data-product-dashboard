@@ -11,6 +11,8 @@ import FolderIcon from '@mui/icons-material/Folder';
 import DownloadIcon from '@mui/icons-material/Download';
 // import { DownloadIcon, FolderIcon } from '@mui/icons-material';
 
+const result = process.env.REACT_APP_SKA_SDP_DATA_PRODUCT_API_URL
+
 const DataProductDashboard = () => {
   const [fileList, setFilelist] = React.useState([]);
 
