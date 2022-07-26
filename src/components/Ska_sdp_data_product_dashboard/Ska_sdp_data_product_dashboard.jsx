@@ -1,4 +1,5 @@
-import * as React from 'react';
+import React from 'react';
+
 import Box from '@mui/material/Box';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
@@ -11,10 +12,12 @@ import FolderIcon from '@mui/icons-material/Folder';
 import DownloadIcon from '@mui/icons-material/Download';
 // import { DownloadIcon, FolderIcon } from '@mui/icons-material';
 
-const result = process.env.REACT_APP_SKA_SDP_DATA_PRODUCT_API_URL
-
 const DataProductDashboard = () => {
-  const [fileList, setFilelist] = React.useState([]);
+  const [fileList, setFileList] = React.useState([]);
+
+  console.log('TREVOR');
+  console.log(process.env.REACT_APP_SKA_SDP_DATA_PRODUCT_API_URL);
+  console.log('======');
 
   async function onDownload(fileName) {
     const a = document.createElement('a');
@@ -33,7 +36,7 @@ const DataProductDashboard = () => {
     })
       .then(response => response.json())
       .then(data => {
-        setFilelist(data.filelist);
+        setFileList(data.filelist);
       });
   }
 

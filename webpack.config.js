@@ -1,7 +1,10 @@
+const dotenv = require('dotenv').config({ path: __dirname + '/.env' });
+const isDevelopment = process.env.NODE_ENV !== 'production';
 const HtmlWebPackPlugin = require('html-webpack-plugin');
 const ModuleFederationPlugin = require('webpack/lib/container/ModuleFederationPlugin');
 
 const deps = require('./package.json').dependencies;
+const webpack = require('webpack');
 
 module.exports = {
   output: {
@@ -41,6 +44,10 @@ module.exports = {
   },
 
   plugins: [
+    new webpack.DefinePlugin({
+      'process.env': JSON.stringify(dotenv.parsed),
+      'process.env.NODE_ENV': JSON.stringify(isDevelopment ? 'development' : 'production')
+    }),
     new ModuleFederationPlugin({
       name: 'Ska_sdp_data_product_dashboard',
       filename: 'remoteEntry.js',
