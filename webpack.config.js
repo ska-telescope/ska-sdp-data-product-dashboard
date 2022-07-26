@@ -6,9 +6,12 @@ const ModuleFederationPlugin = require('webpack/lib/container/ModuleFederationPl
 const deps = require('./package.json').dependencies;
 const webpack = require('webpack');
 
+const dashboardUrl = process.env.REACT_APP_SKA_SDP_DATA_PRODUCT_DASHBOARD_URL;
+const dashboardPort = process.env.REACT_APP_SKA_SDP_DATA_PRODUCT_DASHBOARD_PORT;
+
 module.exports = {
   output: {
-    publicPath: 'http://localhost:3300/'
+    publicPath: `${dashboardUrl}:${dashboardPort}/`
   },
 
   resolve: {

@@ -15,19 +15,18 @@ import DownloadIcon from '@mui/icons-material/Download';
 const DataProductDashboard = () => {
   const [fileList, setFileList] = React.useState([]);
 
-  console.log('TREVOR');
-  console.log(process.env.REACT_APP_SKA_SDP_DATA_PRODUCT_API_URL);
-  console.log('======');
+  const apiUrl = process.env.REACT_APP_SKA_SDP_DATA_PRODUCT_API_URL;
+  const apiPort = process.env.REACT_APP_SKA_SDP_DATA_PRODUCT_API_PORT;
 
   async function onDownload(fileName) {
     const a = document.createElement('a');
-    a.href = `http://localhost:8000/download/${fileName.file}`;
+    a.href = `${apiUrl}:${apiPort}/download/${fileName.file}`;
     a.setAttribute('download', fileName);
     a.click();
   }
 
   async function fetchfilelist() {
-    fetch('http://localhost:8000/filelist', {
+    fetch(`${apiUrl}:${apiPort}/filelist`, {
       method: 'get',
       headers: {
         Accept: 'application/json',

@@ -39,7 +39,7 @@ From the project directory, you can run any of the following:
 
 - `> yarn start`
 
-  Runs the app in the development mode at [http://localhost:3000](http://localhost:3000). The app will recompile and restart if you make any edits to the source files. Any linting errors will also be shown in the console.
+  Runs the app in the development mode at default url and port configured in .env file: [http://localhost:3000](http://localhost:3000). The app will recompile and restart if you make any edits to the source files. Any linting errors will also be shown in the console.
 
 - `> yarn test`
 
