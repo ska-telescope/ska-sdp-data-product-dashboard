@@ -1,15 +1,11 @@
-.. ska-sdp-data-product-dashboard documentation master file, created by
-   sphinx-quickstart on Thu Dec 27 19:20:54 2018.
-   You can adapt this file completely to your liking, but it should at least
-   contain the root `toctree` directive.
-
-Welcome to ska-sdp-data-product-dashboard's documentation!
+Welcome to SKA SDP Data Product Dashboard's documentation!
 ======================================================
 
 .. toctree::
    :maxdepth: 2
    :caption: Contents:
 
+   overview
 
 
 Indices and tables

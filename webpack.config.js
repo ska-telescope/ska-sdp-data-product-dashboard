@@ -1,11 +1,17 @@
+const dotenv = require('dotenv').config({ path: __dirname + '/.env' });
+const isDevelopment = process.env.NODE_ENV !== 'production';
 const HtmlWebPackPlugin = require('html-webpack-plugin');
 const ModuleFederationPlugin = require('webpack/lib/container/ModuleFederationPlugin');
 
 const deps = require('./package.json').dependencies;
+const webpack = require('webpack');
+
+const dashboardUrl = process.env.REACT_APP_SKA_SDP_DATA_PRODUCT_DASHBOARD_URL;
+const dashboardPort = process.env.REACT_APP_SKA_SDP_DATA_PRODUCT_DASHBOARD_PORT;
 
 module.exports = {
   output: {
-    publicPath: 'http://localhost:8090/'
+    publicPath: `${dashboardUrl}:${dashboardPort}/`
   },
 
   resolve: {
@@ -13,7 +19,7 @@ module.exports = {
   },
 
   devServer: {
-    port: 8090,
+    port: 3300,
     historyApiFallback: true
   },
 
@@ -41,12 +47,16 @@ module.exports = {
   },
 
   plugins: [
+    new webpack.DefinePlugin({
+      'process.env': JSON.stringify(dotenv.parsed),
+      'process.env.NODE_ENV': JSON.stringify(isDevelopment ? 'development' : 'production')
+    }),
     new ModuleFederationPlugin({
-      name: 'ska-sdp-data-product-dashboard',
+      name: 'Ska_sdp_data_product_dashboard',
       filename: 'remoteEntry.js',
       remotes: {},
       exposes: {
-        './ExampleComponent': './src/components/ExampleComponent/ExampleComponent.jsx'
+        './Ska_sdp_data_product_dashboard': './src/components/App/App.jsx'
       },
       shared: {
         ...deps,
@@ -80,6 +90,12 @@ module.exports = {
           singleton: true,
           requiredVersion: deps['i18next-http-backend']
         },
+        // Material UI
+        '@material-ui/core': { singleton: true, requiredVersion: 'auto' },
+        '@mui/icons-material': { singleton: true, requiredVersion: 'auto', eager: true },
+        '@mui/material': { singleton: true, requiredVersion: 'auto', eager: true },
+        '@emotion/react': { singleton: true, requiredVersion: 'auto', eager: true },
+        '@emotion/styled': { singleton: true, requiredVersion: 'auto', eager: true },
         moment: {
           eager: true,
           singleton: true,
