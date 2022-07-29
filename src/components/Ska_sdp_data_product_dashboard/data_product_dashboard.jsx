@@ -13,11 +13,10 @@ import {
 
 import FolderIcon from '@mui/icons-material/Folder';
 import DownloadIcon from '@mui/icons-material/Download';
-
-// import { DownloadIcon, FolderIcon } from '@mui/icons-material';
+import DataProductFetcher from './data_product_api/data_product_api';
 
 const DataProductDashboard = () => {
-  const [fileList, setFileList] = React.useState([]);
+  const fileList = DataProductFetcher();
 
   const apiUrl = process.env.REACT_APP_SKA_SDP_DATA_PRODUCT_API_URL;
   const apiPort = process.env.REACT_APP_SKA_SDP_DATA_PRODUCT_API_PORT;
@@ -27,24 +26,6 @@ const DataProductDashboard = () => {
     a.href = `${apiUrl}:${apiPort}/download/${fileName.file}`;
     a.setAttribute('download', fileName);
     a.click();
-  }
-
-  async function fetchfilelist() {
-    fetch(`${apiUrl}:${apiPort}/filelist`, {
-      method: 'get',
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json'
-      }
-    })
-      .then(response => response.json())
-      .then(data => {
-        setFileList(data.filelist);
-      });
-  }
-
-  if (fileList.length === 0) {
-    fetchfilelist();
   }
 
   const secondAction = file => (

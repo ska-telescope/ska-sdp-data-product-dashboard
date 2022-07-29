@@ -1,6 +1,6 @@
 import React from 'react';
 import { createTheme, CssBaseline, ThemeProvider } from '@mui/material';
-import DataProductDashboard from '../Ska_sdp_data_product_dashboard/Ska_sdp_data_product_dashboard';
+import DataProductDashboard from '../Ska_sdp_data_product_dashboard/data_product_dashboard';
 
 const theme = createTheme({
   palette: {
