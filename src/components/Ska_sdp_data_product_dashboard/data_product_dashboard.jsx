@@ -1,65 +1,45 @@
 import React from 'react';
-
-import {
-  Box,
-  List,
-  ListItem,
-  ListItemIcon,
-  ListItemText,
-  IconButton,
-  Grid,
-  Typography
-} from '@mui/material';
-
-import FolderIcon from '@mui/icons-material/Folder';
+import FolderTree from 'react-folder-tree';
+import { Button } from '@mui/material';
 import DownloadIcon from '@mui/icons-material/Download';
-import DataProductFetcher from './data_product_api/data_product_api';
+import DataProductFileList from './data_product_api/data_product_api_filelist';
+import DataProductDownload from './data_product_api/data_product_api_download';
 
 const DataProductDashboard = () => {
-  const fileList = DataProductFetcher();
+  const fileList = DataProductFileList();
+  const [selectedFileNames, setSelectedFileNames] = React.useState({
+    fileName: '',
+    relativeFileName: ''
+  });
 
-  const apiUrl = process.env.REACT_APP_SKA_SDP_DATA_PRODUCT_API_URL;
-  const apiPort = process.env.REACT_APP_SKA_SDP_DATA_PRODUCT_API_PORT;
+  const onNameClick = ({ nodeData }) => {
+    const FileName = nodeData.name;
+    const FileUrl = nodeData.url;
+    setSelectedFileNames({ fileName: FileName, relativeFileName: FileUrl });
+  };
 
-  async function onDownload(fileName) {
-    const a = document.createElement('a');
-    a.href = `${apiUrl}:${apiPort}/download/${fileName.file}`;
-    a.setAttribute('download', fileName);
-    a.click();
-  }
+  const onDownloadClick = () => {
+    DataProductDownload(selectedFileNames);
+  };
 
-  const secondAction = file => (
-    <IconButton
-      edge="end"
-      aria-label="download"
-      onClick={() => {
-        onDownload({ file });
-      }}
-    >
-      <DownloadIcon />
-    </IconButton>
-  );
+  // const onTreeStateChange = (state, event) => console.log(state, event);
 
   return (
-    <Box sx={{ flexGrow: 1, maxWidth: 752 }}>
-      <Grid container spacing={2}>
-        <Grid item xs={12} md={6}>
-          <Typography sx={{ mt: 4, mb: 2 }} variant="h6" component="div">
-            Available data products:
-          </Typography>
-          <List dense>
-            {fileList.map((filename, id) => (
-              <ListItem key={filename.id} secondaryAction={secondAction(filename.filename)}>
-                <ListItemIcon>
-                  <FolderIcon />
-                </ListItemIcon>
-                <ListItemText key={id.id} primary={filename.filename} />
-              </ListItem>
-            ))}
-          </List>
-        </Grid>
-      </Grid>
-    </Box>
+    <>
+      <FolderTree
+        data={fileList}
+        initOpenStatus="open"
+        showCheckbox={false}
+        indentPixels={10}
+        onNameClick={onNameClick}
+        // onChange={onTreeStateChange}
+      />
+      <Button variant="outlined" color="secondary" onClick={onDownloadClick}>
+        <DownloadIcon />
+        Download:
+        {selectedFileNames.fileName}
+      </Button>
+    </>
   );
 };
 

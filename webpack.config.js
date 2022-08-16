@@ -91,11 +91,14 @@ module.exports = {
           requiredVersion: deps['i18next-http-backend']
         },
         // Material UI
-        '@material-ui/core': { singleton: true, requiredVersion: 'auto' },
-        '@mui/icons-material': { singleton: true, requiredVersion: 'auto', eager: true },
-        '@mui/material': { singleton: true, requiredVersion: 'auto', eager: true },
-        '@emotion/react': { singleton: true, requiredVersion: 'auto', eager: true },
-        '@emotion/styled': { singleton: true, requiredVersion: 'auto', eager: true },
+        '@material-ui/core': { singleton: true, requiredVersion: '^auto' },
+        '@mui/icons-material': { singleton: true, requiredVersion: '^auto', eager: true },
+        '@mui/material': { singleton: true, requiredVersion: '^auto', eager: true },
+        '@emotion/react': { singleton: true, requiredVersion: '^auto', eager: true },
+        '@emotion/styled': { singleton: true, requiredVersion: '^auto', eager: true },
+        'prop-types': { singleton: true, requiredVersion: '^auto', eager: true },
+        'react-folder-tree': { singleton: true, requiredVersion: '^auto', eager: true },
+        'downloadjs': { singleton: true, requiredVersion: '^auto', eager: true },
         moment: {
           eager: true,
           singleton: true,
