@@ -1,6 +1,6 @@
 import React from 'react';
 
-function DataProductFetcher() {
+function DataProductFileList() {
   const [fileList, setFileList] = React.useState([]);
 
   const apiUrl = process.env.REACT_APP_SKA_SDP_DATA_PRODUCT_API_URL;
@@ -23,8 +23,7 @@ function DataProductFetcher() {
   if (fileList.length === 0) {
     fetchFileList();
   }
-
   return fileList;
 }
 
-export default DataProductFetcher;
+export default DataProductFileList;

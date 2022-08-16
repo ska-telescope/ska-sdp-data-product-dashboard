@@ -25,7 +25,16 @@ afterEach(() => {
 });
 
 it('renders user data', async () => {
-  const fakeFileList = { filelist: [{ id: 0, filename: 'testfile.txt' }] };
+  const fakeFileList = {
+    filelist: [
+      {
+        name: 'test_files',
+        url: '.',
+        type: 'directory',
+        children: [{ name: 'testfile.txt', url: 'testfile.txt', type: 'file' }]
+      }
+    ]
+  };
   jest.spyOn(global, 'fetch').mockImplementation(() =>
     Promise.resolve({
       json: () => Promise.resolve(fakeFileList)
@@ -37,7 +46,7 @@ it('renders user data', async () => {
     render(<DataProductDashboard />, container);
   });
 
-  expect(container.textContent).toContain('testfile.txt');
+  expect(container).toContain('testfile.txt');
 
   // remove the mock to ensure tests are completely isolated
   global.fetch.mockRestore();
