@@ -93,12 +93,12 @@ module.exports = {
         // Material UI
         '@material-ui/core': { singleton: true, requiredVersion: '^auto' },
         '@mui/icons-material': { singleton: true, requiredVersion: '^auto', eager: true },
-        '@mui/material': { singleton: true, requiredVersion: '^auto', eager: true },
-        '@emotion/react': { singleton: true, requiredVersion: '^auto', eager: true },
-        '@emotion/styled': { singleton: true, requiredVersion: '^auto', eager: true },
-        'prop-types': { singleton: true, requiredVersion: '^auto', eager: true },
-        'react-folder-tree': { singleton: true, requiredVersion: '^auto', eager: true },
-        'downloadjs': { singleton: true, requiredVersion: '^auto', eager: true },
+        '@mui/material': { singleton: true, requiredVersion: '^5.9.0', eager: true },
+        '@emotion/react': { singleton: true, requiredVersion: '^11.9.3', eager: true },
+        '@emotion/styled': { singleton: true, requiredVersion: '^11.9.3', eager: true },
+        'prop-types': { singleton: true, requiredVersion: '^15.8.1', eager: true },
+        // 'react-folder-tree': { singleton: true, requiredVersion: '^auto', eager: true },
+        'downloadjs': { singleton: true, requiredVersion: '^1.4.7', eager: true },
         moment: {
           eager: true,
           singleton: true,
