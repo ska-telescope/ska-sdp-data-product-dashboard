@@ -52,7 +52,7 @@ const DataProductDashboard = () => {
     fileName: '',
     relativeFileName: ''
   });
-  const [selectedNode, setSelectedNode] = React.useState([]);
+  // const [selectedNode, setSelectedNode] = React.useState([]);
   const [selectedNodeId, setSelectedNodeId] = React.useState(null);
   const dummyFilesTree = {
     id: 'root',
@@ -69,9 +69,9 @@ const DataProductDashboard = () => {
     ]
   };
   const jsonFilesTree = dummy ? dummyFilesTree : DataProductFileList();
-  console.log('jsonFilesTree:', jsonFilesTree);
 
-  const getObject = ({ theObject }) => {
+  const getObject = theObject => {
+    // console.log('theObject:', theObject);
     let result = null;
     if (theObject instanceof Array) {
       for (let i = 0; i < theObject.length; i += 1) {
@@ -83,10 +83,11 @@ const DataProductDashboard = () => {
     } else {
       // eslint-disable-next-line no-restricted-syntax, guard-for-in
       for (const prop in theObject) {
-        console.log(`${prop}: ${theObject[prop]}`);
+        // console.log(`${prop}: ${theObject[prop]}`);
         if (prop === 'id') {
           if (theObject[prop] === selectedNodeId) {
-            setSelectedNode(theObject);
+            // setSelectedNode(theObject);
+            setSelectedFileNames({ fileName: theObject.name, relativeFileName: theObject.url });
             // return theObject;
           }
         }
@@ -98,19 +99,19 @@ const DataProductDashboard = () => {
         }
       }
     }
-    setSelectedNode(result);
+    // setSelectedNode(result);
     // return result;
   };
 
   useEffect(() => {
     // This will be called for each new value of selectedNode, including the initial empty one
     // Here is where you can make your API call
-    console.log('selectedNodeId:', selectedNodeId);
     getObject(jsonFilesTree);
   }, [selectedNodeId]);
 
   const handleSelectedNode = (_event, nodeId) => {
     setSelectedNodeId(nodeId);
+    console.log(`selectedNodeId:`, selectedNodeId);
   };
 
   function renderTreeFunction() {
@@ -126,6 +127,7 @@ const DataProductDashboard = () => {
   }
 
   const onDownloadClick = () => {
+    console.log(selectedFileNames);
     DataProductDownload(selectedFileNames);
   };
 
