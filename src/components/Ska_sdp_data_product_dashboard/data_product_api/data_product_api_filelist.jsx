@@ -16,7 +16,7 @@ function DataProductFileList() {
     })
       .then(response => response.json())
       .then(data => {
-        setFileList(data.filelist);
+        setFileList(data);
       });
   }
 

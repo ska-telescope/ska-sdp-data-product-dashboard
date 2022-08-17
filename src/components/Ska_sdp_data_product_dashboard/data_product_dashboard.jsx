@@ -47,13 +47,29 @@ import DataProductDownload from './data_product_api/data_product_api_download';
 // };
 
 const DataProductDashboard = () => {
+  const dummy = false;
   const [selectedFileNames, setSelectedFileNames] = React.useState({
     fileName: '',
     relativeFileName: ''
   });
   const [selectedNode, setSelectedNode] = React.useState([]);
-  const [selectedNodeId, setSelectedNodeId] = React.useState('');
-  const jsonFilesTree = DataProductFileList();
+  const [selectedNodeId, setSelectedNodeId] = React.useState(null);
+  const dummyFilesTree = {
+    id: 'root',
+    name: 'test_files',
+    url: '.',
+    type: 'directory',
+    children: [
+      {
+        id: 1,
+        name: 'testfile.txt',
+        url: 'testfile.txt',
+        type: 'file'
+      }
+    ]
+  };
+  const jsonFilesTree = dummy ? dummyFilesTree : DataProductFileList();
+  console.log('jsonFilesTree:', jsonFilesTree);
 
   const getObject = ({ theObject }) => {
     let result = null;
@@ -90,24 +106,24 @@ const DataProductDashboard = () => {
     // This will be called for each new value of selectedNode, including the initial empty one
     // Here is where you can make your API call
     console.log('selectedNodeId:', selectedNodeId);
+    getObject(jsonFilesTree);
   }, [selectedNodeId]);
 
-  const handleSelectedNode = (event, nodeId) => {
-    console.log(`searching for node original ID:${nodeId}`);
-    const node = nodeId;
-    console.log(`searching for node original2 ID:${node}`);
+  const handleSelectedNode = (_event, nodeId) => {
     setSelectedNodeId(nodeId);
-    console.log(`searching for node assigned ID:${selectedNodeId}`);
-
-    getObject(jsonFilesTree);
-    console.log(`Selected node: ${selectedNode}`);
   };
 
-  const renderTree = nodes => (
-    <TreeItem key={nodes.id} {...console.log(nodes.id)} nodeId={nodes.id} label={nodes.name}>
-      {Array.isArray(nodes.children) ? nodes.children.map(node => renderTree(node)) : null}
-    </TreeItem>
-  );
+  function renderTreeFunction() {
+    if (jsonFilesTree.length !== 0) {
+      const renderTree = nodes => (
+        <TreeItem key={nodes.id} nodeId={nodes.id.toString()} label={nodes.name}>
+          {Array.isArray(nodes.children) ? nodes.children.map(node => renderTree(node)) : null}
+        </TreeItem>
+      );
+      return renderTree(jsonFilesTree);
+    }
+    return null;
+  }
 
   const onDownloadClick = () => {
     DataProductDownload(selectedFileNames);
@@ -123,7 +139,7 @@ const DataProductDashboard = () => {
         onNodeSelect={handleSelectedNode}
         sx={{ height: 500, flexGrow: 1, maxWidth: 500, overflowY: 'auto' }}
       >
-        {jsonFilesTree && renderTree(jsonFilesTree)}
+        {jsonFilesTree && renderTreeFunction(jsonFilesTree)}
       </TreeView>
       <Button variant="outlined" color="secondary" onClick={onDownloadClick}>
         <DownloadIcon />
