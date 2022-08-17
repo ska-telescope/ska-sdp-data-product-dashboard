@@ -71,10 +71,9 @@ const DataProductDashboard = () => {
   const jsonFilesTree = dummy ? dummyFilesTree : DataProductFileList();
 
   const getObject = theObject => {
-    // console.log('theObject:', theObject);
     let result = null;
     if (theObject instanceof Array) {
-      for (let i = 0; i < theObject.length; i += 1) {
+      for (let i = 0; i < theObject.length + 1; i += 1) {
         result = getObject(theObject[i]);
         if (result) {
           break;
@@ -85,10 +84,8 @@ const DataProductDashboard = () => {
       for (const prop in theObject) {
         // console.log(`${prop}: ${theObject[prop]}`);
         if (prop === 'id') {
-          if (theObject[prop] === selectedNodeId) {
-            // setSelectedNode(theObject);
+          if (theObject[prop].toString() === selectedNodeId) {
             setSelectedFileNames({ fileName: theObject.name, relativeFileName: theObject.url });
-            // return theObject;
           }
         }
         if (theObject[prop] instanceof Object || theObject[prop] instanceof Array) {
@@ -99,8 +96,6 @@ const DataProductDashboard = () => {
         }
       }
     }
-    // setSelectedNode(result);
-    // return result;
   };
 
   useEffect(() => {
@@ -111,7 +106,6 @@ const DataProductDashboard = () => {
 
   const handleSelectedNode = (_event, nodeId) => {
     setSelectedNodeId(nodeId);
-    console.log(`selectedNodeId:`, selectedNodeId);
   };
 
   function renderTreeFunction() {
@@ -127,7 +121,6 @@ const DataProductDashboard = () => {
   }
 
   const onDownloadClick = () => {
-    console.log(selectedFileNames);
     DataProductDownload(selectedFileNames);
   };
 
@@ -145,7 +138,7 @@ const DataProductDashboard = () => {
       </TreeView>
       <Button variant="outlined" color="secondary" onClick={onDownloadClick}>
         <DownloadIcon />
-        Download
+        Download:
         {selectedFileNames.fileName}
       </Button>
     </>
