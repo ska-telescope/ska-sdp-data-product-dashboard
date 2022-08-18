@@ -1,4 +1,4 @@
-import React, { useEffect, useCallback } from 'react';
+import React from 'react';
 import { Button } from '@mui/material';
 import DownloadIcon from '@mui/icons-material/Download';
 import TreeView from '@mui/lab/TreeView';
@@ -29,47 +29,36 @@ const DataProductDashboard = () => {
     fileName: '',
     relativeFileName: ''
   });
-  const [selectedNodeId, setSelectedNodeId] = React.useState(null);
 
-  const getSelectedNodeInfo = useCallback(jsonTree => {
-    // const getSelectedNodeInfo = jsonTree => {
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  const getSelectedNodeInfo = (jsonTree, nodeId) => {
     // Test if the jsonTree is defined.
     if (typeof jsonTree === 'undefined') {
       return;
     }
-    // Eveluate first elements of the jsonTree, it is of type array, reevaluate each element of the array.
+    // Evaluate first elements of the jsonTree, it is of type array, reevaluate each element of the array.
     if (jsonTree instanceof Array) {
       for (let i = 0; i < jsonTree.length + 1; i += 1) {
-        getSelectedNodeInfo(jsonTree[i]);
+        getSelectedNodeInfo(jsonTree[i], nodeId);
       }
     } else {
       // If the element of the array is not an array, evaluate its properties. If matching ID is found, update the setSelectedFileNames.
       Object.keys(jsonTree).forEach(prop => {
-        if (jsonTree.id.toString() === selectedNodeId) {
+        if (jsonTree.id.toString() === nodeId) {
           setSelectedFileNames({
             fileName: jsonTree.name,
             relativeFileName: jsonTree.relativefilename
           });
         }
         if (jsonTree[prop] instanceof Object || jsonTree[prop] instanceof Array) {
-          getSelectedNodeInfo(jsonTree[prop]);
+          getSelectedNodeInfo(jsonTree[prop], nodeId);
         }
       });
     }
-  });
-
-  useEffect(() => {
-    // This will be called for each new value of selectedNodeId.
-    getSelectedNodeInfo(jsonFilesTree);
-  }, [selectedNodeId]);
-
-  // useEffect(() => {
-  //   // This will be called for each new value of selectedNodeId.
-  //   getSelectedNodeInfo(jsonFilesTree);
-  // }, [getSelectedNodeInfo, jsonFilesTree, selectedNodeId]);
+  };
 
   const handleSelectedNode = (_event, nodeId) => {
-    setSelectedNodeId(nodeId);
+    getSelectedNodeInfo(jsonFilesTree, nodeId);
   };
 
   function renderTreeFunction() {
