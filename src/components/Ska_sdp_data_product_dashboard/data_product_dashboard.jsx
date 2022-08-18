@@ -1,6 +1,4 @@
-// import React from 'react';
-import React, { useEffect, useState } from 'react';
-// import FolderTree from 'react-folder-tree';
+import React, { useEffect } from 'react';
 import { Button } from '@mui/material';
 import DownloadIcon from '@mui/icons-material/Download';
 import TreeView from '@mui/lab/TreeView';
@@ -9,87 +7,54 @@ import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import TreeItem from '@mui/lab/TreeItem';
 import DataProductFileList from './data_product_api/data_product_api_filelist';
 import DataProductDownload from './data_product_api/data_product_api_download';
-// import { stringify } from 'querystring';
-
-// const DataProductDashboard = () => {
-//   const jsonFilesTree = DataProductFileList();
-//   const [selectedFileNames, setSelectedFileNames] = React.useState({
-//     fileName: '',
-//     relativeFileName: ''
-//   });
-
-//   const onNameClick = ({ nodeData }) => {
-//     const FileName = nodeData.name;
-//     const FileUrl = nodeData.url;
-//     setSelectedFileNames({ fileName: FileName, relativeFileName: FileUrl });
-//   };
-
-//   const onDownloadClick = () => {
-//     DataProductDownload(selectedFileNames);
-//   };
-
-//   return (
-//     <>
-//       <FolderTree
-//         data={jsonFilesTree}
-//         initOpenStatus="open"
-//         showCheckbox={false}
-//         indentPixels={10}
-//         onNameClick={onNameClick}
-//       />
-//       <Button variant="outlined" color="secondary" onClick={onDownloadClick}>
-//         <DownloadIcon />
-//         Download:
-//         {selectedFileNames.fileName}
-//       </Button>
-//     </>
-//   );
-// };
 
 const DataProductDashboard = () => {
-  const dummy = false;
-  const [selectedFileNames, setSelectedFileNames] = React.useState({
-    fileName: '',
-    relativeFileName: ''
-  });
-  // const [selectedNode, setSelectedNode] = React.useState([]);
-  const [selectedNodeId, setSelectedNodeId] = React.useState(null);
+  const useDummyData = JSON.parse(process.env.REACT_APP_SKA_SDP_DATA_PRODUCT_DUMMY_DATA);
   const dummyFilesTree = {
     id: 'root',
     name: 'test_files',
-    url: '.',
+    relativefilename: '.',
     type: 'directory',
     children: [
       {
         id: 1,
         name: 'testfile.txt',
-        url: 'testfile.txt',
+        relativefilename: 'testfile.txt',
         type: 'file'
       }
     ]
   };
-  const jsonFilesTree = dummy ? dummyFilesTree : DataProductFileList();
+  const jsonFilesTree = useDummyData ? dummyFilesTree : DataProductFileList();
+  const [selectedFileNames, setSelectedFileNames] = React.useState({
+    fileName: '',
+    relativeFileName: ''
+  });
+  const [selectedNodeId, setSelectedNodeId] = React.useState(null);
 
-  const getObject = theObject => {
+  const getSelectedNodeInfo = jsonFilesTreeObject => {
     let result = null;
-    if (theObject instanceof Array) {
-      for (let i = 0; i < theObject.length + 1; i += 1) {
-        result = getObject(theObject[i]);
+    if (jsonFilesTreeObject instanceof Array) {
+      for (let i = 0; i < jsonFilesTreeObject.length + 1; i += 1) {
+        result = getSelectedNodeInfo(jsonFilesTreeObject[i]);
         if (result) {
           break;
         }
       }
     } else {
-      // eslint-disable-next-line no-restricted-syntax, guard-for-in
-      for (const prop in theObject) {
-        // console.log(`${prop}: ${theObject[prop]}`);
+      for (const prop in jsonFilesTreeObject) {
         if (prop === 'id') {
-          if (theObject[prop].toString() === selectedNodeId) {
-            setSelectedFileNames({ fileName: theObject.name, relativeFileName: theObject.url });
+          if (jsonFilesTreeObject[prop].toString() === selectedNodeId) {
+            setSelectedFileNames({
+              fileName: jsonFilesTreeObject.name,
+              relativeFileName: jsonFilesTreeObject.relativefilename
+            });
           }
         }
-        if (theObject[prop] instanceof Object || theObject[prop] instanceof Array) {
-          result = getObject(theObject[prop]);
+        if (
+          jsonFilesTreeObject[prop] instanceof Object ||
+          jsonFilesTreeObject[prop] instanceof Array
+        ) {
+          result = getSelectedNodeInfo(jsonFilesTreeObject[prop]);
           if (result) {
             break;
           }
@@ -99,9 +64,8 @@ const DataProductDashboard = () => {
   };
 
   useEffect(() => {
-    // This will be called for each new value of selectedNode, including the initial empty one
-    // Here is where you can make your API call
-    getObject(jsonFilesTree);
+    // This will be called for each new value of selectedNodeId.
+    getSelectedNodeInfo(jsonFilesTree);
   }, [selectedNodeId]);
 
   const handleSelectedNode = (_event, nodeId) => {
@@ -138,8 +102,7 @@ const DataProductDashboard = () => {
       </TreeView>
       <Button variant="outlined" color="secondary" onClick={onDownloadClick}>
         <DownloadIcon />
-        Download:
-        {selectedFileNames.fileName}
+        Download
       </Button>
     </>
   );
