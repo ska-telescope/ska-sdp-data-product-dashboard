@@ -4,7 +4,7 @@ import { render, unmountComponentAtNode } from 'react-dom';
 import { act } from 'react-dom/test-utils';
 import DataProductDashboard from './data_product_dashboard';
 
-describe('Login Component', () => {
+describe('Data Product Dashboard', () => {
   it('renders without crashing', () => {
     shallow(<DataProductDashboard />);
   });
