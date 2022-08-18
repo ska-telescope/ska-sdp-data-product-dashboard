@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useCallback } from 'react';
 import { Button } from '@mui/material';
 import DownloadIcon from '@mui/icons-material/Download';
 import TreeView from '@mui/lab/TreeView';
@@ -31,42 +31,42 @@ const DataProductDashboard = () => {
   });
   const [selectedNodeId, setSelectedNodeId] = React.useState(null);
 
-  const getSelectedNodeInfo = jsonFilesTreeObject => {
-    let result = null;
-    if (jsonFilesTreeObject instanceof Array) {
-      for (let i = 0; i < jsonFilesTreeObject.length + 1; i += 1) {
-        result = getSelectedNodeInfo(jsonFilesTreeObject[i]);
-        if (result) {
-          break;
-        }
+  const getSelectedNodeInfo = useCallback(jsonTree => {
+    // const getSelectedNodeInfo = jsonTree => {
+    // Test if the jsonTree is defined.
+    if (typeof jsonTree === 'undefined') {
+      return;
+    }
+    // Eveluate first elements of the jsonTree, it is of type array, reevaluate each element of the array.
+    if (jsonTree instanceof Array) {
+      for (let i = 0; i < jsonTree.length + 1; i += 1) {
+        getSelectedNodeInfo(jsonTree[i]);
       }
     } else {
-      for (const prop in jsonFilesTreeObject) {
-        if (prop === 'id') {
-          if (jsonFilesTreeObject[prop].toString() === selectedNodeId) {
-            setSelectedFileNames({
-              fileName: jsonFilesTreeObject.name,
-              relativeFileName: jsonFilesTreeObject.relativefilename
-            });
-          }
+      // If the element of the array is not an array, evaluate its properties. If matching ID is found, update the setSelectedFileNames.
+      Object.keys(jsonTree).forEach(prop => {
+        if (jsonTree.id.toString() === selectedNodeId) {
+          setSelectedFileNames({
+            fileName: jsonTree.name,
+            relativeFileName: jsonTree.relativefilename
+          });
         }
-        if (
-          jsonFilesTreeObject[prop] instanceof Object ||
-          jsonFilesTreeObject[prop] instanceof Array
-        ) {
-          result = getSelectedNodeInfo(jsonFilesTreeObject[prop]);
-          if (result) {
-            break;
-          }
+        if (jsonTree[prop] instanceof Object || jsonTree[prop] instanceof Array) {
+          getSelectedNodeInfo(jsonTree[prop]);
         }
-      }
+      });
     }
-  };
+  });
 
   useEffect(() => {
     // This will be called for each new value of selectedNodeId.
     getSelectedNodeInfo(jsonFilesTree);
   }, [selectedNodeId]);
+
+  // useEffect(() => {
+  //   // This will be called for each new value of selectedNodeId.
+  //   getSelectedNodeInfo(jsonFilesTree);
+  // }, [getSelectedNodeInfo, jsonFilesTree, selectedNodeId]);
 
   const handleSelectedNode = (_event, nodeId) => {
     setSelectedNodeId(nodeId);
@@ -98,7 +98,7 @@ const DataProductDashboard = () => {
         onNodeSelect={handleSelectedNode}
         sx={{ height: 500, flexGrow: 1, maxWidth: 500, overflowY: 'auto' }}
       >
-        {jsonFilesTree && renderTreeFunction(jsonFilesTree)}
+        {jsonFilesTree && renderTreeFunction()}
       </TreeView>
       <Button variant="outlined" color="secondary" onClick={onDownloadClick}>
         <DownloadIcon />
