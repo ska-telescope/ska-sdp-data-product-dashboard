@@ -12,19 +12,22 @@ const DataProductDashboard = () => {
   const useDummyData = JSON.parse(process.env.REACT_APP_SKA_SDP_DATA_PRODUCT_DUMMY_DATA);
   const dummyFilesTree = {
     id: 'root',
-    name: 'test_files',
+    name: 'SDP Data API not available',
     relativefilename: '.',
     type: 'directory',
     children: [
       {
         id: 1,
-        name: 'testfile.txt',
+        name: 'Moc tree file.txt',
         relativefilename: 'testfile.txt',
         type: 'file'
       }
     ]
   };
-  const jsonFilesTree = useDummyData ? dummyFilesTree : DataProductFileList();
+  const revievedJsonFilesTree = DataProductFileList();
+  console.log(revievedJsonFilesTree);
+  const jsonFilesTree =
+    useDummyData || revievedJsonFilesTree === null ? dummyFilesTree : revievedJsonFilesTree;
   const [selectedFileNames, setSelectedFileNames] = React.useState({
     fileName: '',
     relativeFileName: ''
@@ -49,6 +52,7 @@ const DataProductDashboard = () => {
             fileName: jsonTree.name,
             relativeFileName: jsonTree.relativefilename
           });
+          return;
         }
         if (jsonTree[prop] instanceof Object || jsonTree[prop] instanceof Array) {
           getSelectedNodeInfo(jsonTree[prop], nodeId);
