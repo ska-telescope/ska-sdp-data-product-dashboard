@@ -1,8 +1,10 @@
 import React from 'react';
 import { shallow } from 'enzyme';
-import { render, unmountComponentAtNode } from 'react-dom';
-import { act } from 'react-dom/test-utils';
+import { unmountComponentAtNode } from 'react-dom/client';
 import DataProductDashboard from './data_product_dashboard';
+// import { createRoot } from 'react-dom/cjs/react-dom.production.min';
+
+process.env.REACT_APP_SKA_SDP_DATA_PRODUCT_DUMMY_DATA = 'true';
 
 describe('Data Product Dashboard', () => {
   it('renders without crashing', () => {
@@ -22,32 +24,4 @@ afterEach(() => {
   unmountComponentAtNode(container);
   container.remove();
   container = null;
-});
-
-it('renders user data', async () => {
-  const fakeFileList = {
-    filelist: [
-      {
-        name: 'test_files',
-        url: '.',
-        type: 'directory',
-        children: [{ name: 'testfile.txt', url: 'testfile.txt', type: 'file' }]
-      }
-    ]
-  };
-  jest.spyOn(global, 'fetch').mockImplementation(() =>
-    Promise.resolve({
-      json: () => Promise.resolve(fakeFileList)
-    })
-  );
-
-  // Use the asynchronous version of act to apply resolved promises
-  await act(async () => {
-    render(<DataProductDashboard />, container);
-  });
-
-  expect(container).toContain('testfile.txt');
-
-  // remove the mock to ensure tests are completely isolated
-  global.fetch.mockRestore();
 });
