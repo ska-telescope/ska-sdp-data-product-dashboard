@@ -1,10 +1,8 @@
-import React from 'react';
 import axios from 'axios';
 
 async function DataProductFileList() {
   const apiUrl = process.env.REACT_APP_SKA_SDP_DATA_PRODUCT_API_URL;
   const apiPort = process.env.REACT_APP_SKA_SDP_DATA_PRODUCT_API_PORT;
-  // const [jsonFilesTree, setJsonFilesTree] = React.useState([]);
 
   function pupulateFilesTree(fileList) {
     const useDummyData = JSON.parse(process.env.REACT_APP_SKA_SDP_DATA_PRODUCT_DUMMY_DATA);
