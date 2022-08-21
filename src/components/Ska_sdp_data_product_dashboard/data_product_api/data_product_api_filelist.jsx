@@ -1,7 +1,7 @@
 import React from 'react';
 import axios, { AxiosError } from 'axios';
 
-function DataProductFileList() {
+async function DataProductFileList() {
   const [fileList, setFileList] = React.useState([]);
 
   const apiUrl = process.env.REACT_APP_SKA_SDP_DATA_PRODUCT_API_URL;
@@ -26,24 +26,15 @@ function DataProductFileList() {
             return Promise.reject(error);
           }
         )
-        .then(response => {
-          setFileList(response.data);
-        })
-        .catch(error => {
-          if (!error?.response) {
-            return 'No Server Response';
+        .then(
+          response => {
+            setFileList(response.data);
+          },
+          err => {
+            console.log('error', err);
+            return null;
           }
-          if (error?.code === AxiosError.ERR_NETWORK) {
-            return 'Network Error';
-          }
-          if (error.response?.status === 404) {
-            return '404 - Not Found';
-          }
-          if (error?.code) {
-            return `Code: ${error.code}`;
-          }
-          throw Error('Unhandled error:', error);
-        });
+        );
     } catch (e) {
       console.error('Catch error', e);
     }
