@@ -1,15 +1,16 @@
 import React from 'react';
 import { shallow } from 'enzyme';
-import { unmountComponentAtNode } from 'react-dom/client';
+import { cleanup } from '@testing-library/react';
+import renderer from 'react-test-renderer';
+import { render, unmountComponentAtNode } from 'react-dom';
+import { act } from 'react-dom/test-utils';
 import DataProductDashboard from './data_product_dashboard';
-// import { createRoot } from 'react-dom/cjs/react-dom.production.min';
 
 process.env.REACT_APP_SKA_SDP_DATA_PRODUCT_DUMMY_DATA = 'true';
 
-describe('Data Product Dashboard', () => {
-  it('renders without crashing', () => {
-    shallow(<DataProductDashboard />);
-  });
+// afterEach function runs after each test suite is executed
+afterEach(() => {
+  cleanup(); // Resets the DOM after each test suite
 });
 
 let container = null;
@@ -24,4 +25,39 @@ afterEach(() => {
   unmountComponentAtNode(container);
   container.remove();
   container = null;
+});
+
+describe('Data Product Dashboard', () => {
+  it('renders without crashing', () => {
+    shallow(<DataProductDashboard />);
+  });
+});
+
+it('renders user data', async () => {
+  const fakeFileList = {
+    filelist: [
+      {
+        name: 'test_files',
+        url: '.',
+        type: 'directory',
+        children: [{ name: 'testfile.txt', url: 'testfile.txt', type: 'file' }]
+      }
+    ]
+  };
+  jest.spyOn(global, 'fetch').mockImplementation(() =>
+    Promise.resolve({
+      json: () => Promise.resolve(fakeFileList)
+    })
+  );
+
+  // Use the asynchronous version of act to apply resolved promises
+  await act(async () => {
+    render(<DataProductDashboard />, container);
+  });
+
+  console.log(container);
+  expect(container).toMatchSnapshot();
+
+  // remove the mock to ensure tests are completely isolated
+  global.fetch.mockRestore();
 });
