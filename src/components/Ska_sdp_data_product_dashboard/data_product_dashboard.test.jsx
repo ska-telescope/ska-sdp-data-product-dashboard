@@ -24,6 +24,8 @@ afterEach(() => {
   unmountComponentAtNode(container);
   container.remove();
   container = null;
+  // restore the spy created with spyOn
+  jest.restoreAllMocks();
 });
 
 describe('Data Product Dashboard', () => {
@@ -34,12 +36,16 @@ describe('Data Product Dashboard', () => {
 
 it('renders user data', async () => {
   const fakeFileList = {
-    filelist: [
+    id: 'root',
+    name: 'SDP Data API not available',
+    relativefilename: '.',
+    type: 'directory',
+    children: [
       {
-        name: 'test_files',
-        url: '.',
-        type: 'directory',
-        children: [{ name: 'testfile.txt', url: 'testfile.txt', type: 'file' }]
+        id: 1,
+        name: 'Moc tree file.txt',
+        relativefilename: 'testfile.txt',
+        type: 'file'
       }
     ]
   };
