@@ -40,6 +40,7 @@ async function DataProductFileList() {
       const awaitedFileTree = pupulateFilesTree(data.data);
       return awaitedFileTree;
     } catch (e) {
+      // eslint-disable-next-line no-console
       console.error('Catch error', e);
       return null;
     }

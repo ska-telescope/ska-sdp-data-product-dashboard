@@ -1,7 +1,6 @@
 import React from 'react';
 import { shallow } from 'enzyme';
 import { cleanup } from '@testing-library/react';
-import renderer from 'react-test-renderer';
 import { render, unmountComponentAtNode } from 'react-dom';
 import { act } from 'react-dom/test-utils';
 import DataProductDashboard from './data_product_dashboard';
@@ -54,8 +53,6 @@ it('renders user data', async () => {
   await act(async () => {
     render(<DataProductDashboard />, container);
   });
-
-  console.log(container);
   expect(container).toMatchSnapshot();
 
   // remove the mock to ensure tests are completely isolated
