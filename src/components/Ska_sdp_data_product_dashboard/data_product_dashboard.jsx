@@ -15,30 +15,6 @@ const DataProductDashboard = () => {
     relativeFileName: ''
   });
 
-  async function PopulateDataProductFileList() {
-    const useDummyData = JSON.parse(process.env.REACT_APP_SKA_SDP_DATA_PRODUCT_DUMMY_DATA);
-    const dummyFilesTree = {
-      id: 'root',
-      name: 'SDP Data API not available',
-      relativefilename: '.',
-      type: 'directory',
-      children: [
-        {
-          id: 1,
-          name: 'Moc tree file.txt',
-          relativefilename: 'testfile.txt',
-          type: 'file'
-        }
-      ]
-    };
-    const revievedJsonFilesTree = await DataProductFileList();
-    if (revievedJsonFilesTree.length !== 0) {
-      setJsonFilesTree(
-        useDummyData || revievedJsonFilesTree === null ? dummyFilesTree : revievedJsonFilesTree
-      );
-    }
-  }
-
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const getSelectedNodeInfo = (jsonTree, nodeId) => {
     // Test if the jsonTree is defined.
@@ -71,7 +47,13 @@ const DataProductDashboard = () => {
     getSelectedNodeInfo(jsonFilesTree, nodeId);
   };
 
-  PopulateDataProductFileList();
+  async function getJsonFilesTree() {
+    setJsonFilesTree(await DataProductFileList());
+  }
+
+  if (jsonFilesTree.length === 0) {
+    getJsonFilesTree();
+  }
 
   function renderTreeFunction() {
     if (jsonFilesTree.length !== 0) {
@@ -82,7 +64,7 @@ const DataProductDashboard = () => {
       );
       return renderTree(jsonFilesTree);
     }
-    return null;
+    return <></>;
   }
 
   const onDownloadClick = () => {
@@ -99,7 +81,7 @@ const DataProductDashboard = () => {
         onNodeSelect={handleSelectedNode}
         sx={{ height: 500, flexGrow: 1, maxWidth: 500, overflowY: 'auto' }}
       >
-        {renderTreeFunction()}
+        {jsonFilesTree && renderTreeFunction()}
       </TreeView>
       <Button variant="outlined" color="secondary" onClick={onDownloadClick}>
         <DownloadIcon />
