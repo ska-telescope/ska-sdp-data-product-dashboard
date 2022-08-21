@@ -9,29 +9,35 @@ import DataProductFileList from './data_product_api/data_product_api_filelist';
 import DataProductDownload from './data_product_api/data_product_api_download';
 
 const DataProductDashboard = () => {
-  const useDummyData = JSON.parse(process.env.REACT_APP_SKA_SDP_DATA_PRODUCT_DUMMY_DATA);
-  const dummyFilesTree = {
-    id: 'root',
-    name: 'SDP Data API not available',
-    relativefilename: '.',
-    type: 'directory',
-    children: [
-      {
-        id: 1,
-        name: 'Moc tree file.txt',
-        relativefilename: 'testfile.txt',
-        type: 'file'
-      }
-    ]
-  };
-  const revievedJsonFilesTree = DataProductFileList();
-  console.log(revievedJsonFilesTree);
-  const jsonFilesTree =
-    useDummyData || revievedJsonFilesTree === null ? dummyFilesTree : revievedJsonFilesTree;
+  const [jsonFilesTree, setJsonFilesTree] = React.useState([]);
   const [selectedFileNames, setSelectedFileNames] = React.useState({
     fileName: '',
     relativeFileName: ''
   });
+
+  async function PopulateDataProductFileList() {
+    const useDummyData = JSON.parse(process.env.REACT_APP_SKA_SDP_DATA_PRODUCT_DUMMY_DATA);
+    const dummyFilesTree = {
+      id: 'root',
+      name: 'SDP Data API not available',
+      relativefilename: '.',
+      type: 'directory',
+      children: [
+        {
+          id: 1,
+          name: 'Moc tree file.txt',
+          relativefilename: 'testfile.txt',
+          type: 'file'
+        }
+      ]
+    };
+    const revievedJsonFilesTree = await DataProductFileList();
+    if (revievedJsonFilesTree.length !== 0) {
+      setJsonFilesTree(
+        useDummyData || revievedJsonFilesTree === null ? dummyFilesTree : revievedJsonFilesTree
+      );
+    }
+  }
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const getSelectedNodeInfo = (jsonTree, nodeId) => {
@@ -65,6 +71,8 @@ const DataProductDashboard = () => {
     getSelectedNodeInfo(jsonFilesTree, nodeId);
   };
 
+  PopulateDataProductFileList();
+
   function renderTreeFunction() {
     if (jsonFilesTree.length !== 0) {
       const renderTree = nodes => (
@@ -91,7 +99,7 @@ const DataProductDashboard = () => {
         onNodeSelect={handleSelectedNode}
         sx={{ height: 500, flexGrow: 1, maxWidth: 500, overflowY: 'auto' }}
       >
-        {jsonFilesTree && renderTreeFunction()}
+        {renderTreeFunction()}
       </TreeView>
       <Button variant="outlined" color="secondary" onClick={onDownloadClick}>
         <DownloadIcon />
