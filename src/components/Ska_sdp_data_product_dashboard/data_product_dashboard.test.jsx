@@ -29,8 +29,24 @@ afterEach(() => {
 });
 
 describe('Data Product Dashboard', () => {
-  it('renders without crashing', () => {
-    shallow(<DataProductDashboard />);
+  it('renders', () => {
+    const wrapper = shallow(<DataProductDashboard />);
+    expect(wrapper.exists());
+  });
+
+  describe('TreeView', () => {
+    it('renders', () => {
+      const wrapper = shallow(<DataProductDashboard />);
+      expect(wrapper.find('TreeView').exists());
+    });
+  });
+
+  describe('Download Button', () => {
+    it('renders', () => {
+      const wrapper = shallow(<DataProductDashboard />);
+      expect(wrapper.find('button').exists());
+      expect(wrapper.find('button').contains('DOWNLOAD'));
+    });
   });
 });
 

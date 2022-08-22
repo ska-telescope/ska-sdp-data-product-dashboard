@@ -51,12 +51,12 @@ const DataProductDashboard = () => {
     setJsonFilesTree(await DataProductFileList());
   }
 
-  if (jsonFilesTree.length === 0) {
+  if (!jsonFilesTree || jsonFilesTree.length) {
     getJsonFilesTree();
   }
 
   function renderTreeFunction() {
-    if (jsonFilesTree.length !== 0) {
+    if (jsonFilesTree && jsonFilesTree.length) {
       const renderTree = nodes => (
         <TreeItem key={nodes.id} nodeId={nodes.id.toString()} label={nodes.name}>
           {Array.isArray(nodes.children) ? nodes.children.map(node => renderTree(node)) : null}
