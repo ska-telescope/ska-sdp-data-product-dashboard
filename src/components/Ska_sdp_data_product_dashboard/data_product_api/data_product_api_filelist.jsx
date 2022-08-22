@@ -4,7 +4,7 @@ async function DataProductFileList() {
   const apiUrl = process.env.REACT_APP_SKA_SDP_DATA_PRODUCT_API_URL;
   const apiPort = process.env.REACT_APP_SKA_SDP_DATA_PRODUCT_API_PORT;
 
-  function pupulateFilesTree(fileList) {
+  function populateFilesTree(fileList) {
     const useDummyData = JSON.parse(process.env.REACT_APP_SKA_SDP_DATA_PRODUCT_DUMMY_DATA);
     let newFileTree;
     const dummyFilesTree = {
@@ -21,10 +21,10 @@ async function DataProductFileList() {
         }
       ]
     };
-    const revievedJsonFilesTree = fileList;
-    if (revievedJsonFilesTree.length !== 0) {
+    const reviewedJsonFilesTree = fileList;
+    if (reviewedJsonFilesTree && reviewedJsonFilesTree.length) {
       newFileTree =
-        useDummyData || revievedJsonFilesTree === null ? dummyFilesTree : revievedJsonFilesTree;
+        useDummyData || reviewedJsonFilesTree === null ? dummyFilesTree : reviewedJsonFilesTree;
     }
     return newFileTree;
   }
@@ -37,8 +37,7 @@ async function DataProductFileList() {
           'Content-Type': 'application/json'
         }
       });
-      const awaitedFileTree = pupulateFilesTree(data.data);
-      return awaitedFileTree;
+      return populateFilesTree(data.data);
     } catch (e) {
       // eslint-disable-next-line no-console
       console.error('Catch error', e);

@@ -1,18 +1,3 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`renders user data 1`] = `
-Object {
-  "children": Array [
-    Object {
-      "id": 1,
-      "name": "Moc tree file.txt",
-      "relativefilename": "testfile.txt",
-      "type": "file",
-    },
-  ],
-  "id": "root",
-  "name": "SDP Data API not available",
-  "relativefilename": ".",
-  "type": "directory",
-}
-`;
+exports[`data_product_api_filelist Retrieves user data 1`] = `null`;
