@@ -54,3 +54,14 @@ From the project directory, you can run any of the following:
 
   Builds the app for production to the `build` folder. The build is minified and any JSX is transpiled to JavaScript. Your app is ready to be deployed!
  
+Running the application inside a containder
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+To run the application using docker, build the docker file in the root directory and run the container exposing port 3300.
+
+```
+ docker build -t react-docker .
+ docker run -p 3300:3300 react-docker
+```
+
+The project will then be accessiable at the url http://localhost:3300/
