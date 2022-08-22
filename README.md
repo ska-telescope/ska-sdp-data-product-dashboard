@@ -3,9 +3,6 @@
 ## Description
 This repository contains a SKA modular federated component that is used to list SDP data products (files) and make them available to download.
 
-##### Badges
-[![Documentation Status](https://readthedocs.org/projects/ska-telescope-ska-sdp-data-product-dashboard/badge/?version=latest)](https://ska-telescope-ska-sdp-data-product-dashboard.readthedocs.io/en/latest/?badge=latest)  ![Pipeline](https://gitlab.com/ska-telescope/sdp/ska-sdp-data-product-dashboard/badges/main/pipeline.svg)
-
 ## Getting Started
 
 ## Tooling Pre-requisites
@@ -48,6 +45,17 @@ From the project directory, you can run any of the following:
 - `> yarn build`
 
   Builds the app for production to the `build` folder. The build is minified and any JSX is transpiled to JavaScript. Your app is ready to be deployed!
+
+## Running the application inside a containder
+
+To run the application using docker, build the docker file in the root directory and run the container exposing port 3300.
+
+```
+ docker build -t react-docker .
+ docker run -p 3300:3300 react-docker
+```
+
+The project will then be accessiable at the url http://localhost:3300/
 
 ## Testing
 
@@ -149,15 +157,12 @@ The documentation can then be consulted by opening the file `./docs/build/html/i
 
 ## Roadmap
 This project is in very early development, but the following have already been identified to be added:
-[]  Make change the list to a folder tree
 []  Update the file icon based on file type
-[]  Add selection of source to Rucio / Direct file storage
 []  Add selection and view of metadata capability
 []  Add filter based on metadata
-[]  Enable download of folders 
 
 ## Contributing
 Contributions are welcome, please see the SKAO developer portal for guidance. https://developer.skao.int/en/latest/
 
 ## Project status
-Initial proof of concept working towards a minimum viable product.
+Working towards a minimum viable product.
