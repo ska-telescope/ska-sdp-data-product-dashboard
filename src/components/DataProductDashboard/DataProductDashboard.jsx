@@ -5,7 +5,7 @@ import TreeView from '@mui/lab/TreeView';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import TreeItem from '@mui/lab/TreeItem';
-import DataProductFileList from '../../services/DataProduct/DataProductFilelist';
+import DataProductFileList from '../../services/DataProduct/DataProductFileList';
 import DataProductDownload from '../../services/DataProduct/DataProductDownload';
 
 const DataProductDashboard = () => {
