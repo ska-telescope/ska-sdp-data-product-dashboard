@@ -1,17 +1,17 @@
 import axios from 'axios';
 import { cleanup } from '@testing-library/react';
-import DataProductFileList from './data_product_api_filelist';
-import mockFilesTree from '../../../mockFilesTreeStructure';
+import DataProductFileList from './DataProductFileList';
+import mockFilesTree from '../Mocking/mockFilesTree';
 
 jest.mock('axios');
 
 describe('data_product_api_filelist MOCK', () => {
   beforeEach(() => {
-    process.env.REACT_APP_SKA_SDP_DATA_PRODUCT_DUMMY_DATA = true;
+    process.env.SKA_SDP_DATA_PRODUCT_DUMMY_DATA = true;
   });
 
   afterEach(() => {
-    process.env.REACT_APP_SKA_SDP_DATA_PRODUCT_DUMMY_DATA = false;
+    process.env.SKA_SDP_DATA_PRODUCT_DUMMY_DATA = false;
     cleanup();
   });
 

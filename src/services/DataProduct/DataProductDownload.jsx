@@ -1,8 +1,8 @@
 import download from 'downloadjs';
 
 function DataProductDownload(selectedFileNames) {
-  const apiUrl = process.env.REACT_APP_SKA_SDP_DATA_PRODUCT_API_URL;
-  const apiPort = process.env.REACT_APP_SKA_SDP_DATA_PRODUCT_API_PORT;
+  const apiUrl = process.env.SKA_SDP_DATA_PRODUCT_API_URL;
+  const apiPort = process.env.SKA_SDP_DATA_PRODUCT_API_PORT;
 
   fetch(`${apiUrl}:${apiPort}/download`, {
     method: 'POST',
