@@ -14,6 +14,8 @@ const DataProductDashboard = () => {
     fileName: '',
     relativeFileName: ''
   });
+  const TREE_MAX_WIDTH = 500;
+  const TREE_HEIGHT = 500;
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const getSelectedNodeInfo = (jsonTree, nodeId) => {
@@ -79,7 +81,7 @@ const DataProductDashboard = () => {
         defaultExpanded={['root']}
         defaultExpandIcon={<ChevronRightIcon />}
         onNodeSelect={handleSelectedNode}
-        sx={{ height: 500, flexGrow: 1, maxWidth: 500, overflowY: 'auto' }}
+        sx={{ height: TREE_HEIGHT, flexGrow: 1, maxWidth: TREE_MAX_WIDTH, overflowY: 'auto' }}
       >
         {jsonFilesTree && renderTreeFunction()}
       </TreeView>

@@ -4,9 +4,23 @@ exports[`data_product_api_filelist Retrieves user data 1`] = `
 Object {
   "children": Array [
     Object {
+      "children": Array [
+        Object {
+          "id": 2,
+          "name": "Mock tree file 1.txt",
+          "relativefilename": "testfile1.txt",
+          "type": "file",
+        },
+        Object {
+          "id": 3,
+          "name": "Mock tree file 2.txt",
+          "relativefilename": "testfile2.txt",
+          "type": "file",
+        },
+      ],
       "id": 1,
-      "name": "Moc tree file.txt",
-      "relativefilename": "testfile.txt",
+      "name": "Mock tree folder",
+      "relativefilename": "testfile1.txt",
       "type": "file",
     },
   ],
