@@ -2,6 +2,10 @@
   "name": "ska-sdp-data-product-dashboard",
   "version": "0.1.0",
   "private": true,
+  "main": "index.js",
+  "repository": "git@gitlab.com:ska-telescope/sdp/ska-sdp-data-product-dashboard.git",
+  "author": "Andre Odendaal <andre@vivosa.co.za>",
+  "license": "BSD 3-Clause",
   "scripts": {
     "build": "react-scripts build",
     "code-analysis": "./node_modules/.bin/eslint \"src/**\" --ignore-path .eslintignore -f junit -o linting.xml",
@@ -83,9 +87,5 @@
     "not dead",
     "not ie <= 11",
     "not op_mini all"
-  ],
-  "main": "index.js",
-  "repository": "git@gitlab.com:ska-telescope/sdp/ska-sdp-data-product-dashboard.git",
-  "author": "Andre Odendaal <andre@vivosa.co.za>",
-  "license": "MIT"
+  ]
 }
