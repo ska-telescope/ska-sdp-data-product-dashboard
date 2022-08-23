@@ -5,8 +5,8 @@ import TreeView from '@mui/lab/TreeView';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import TreeItem from '@mui/lab/TreeItem';
-import DataProductFileList from './data_product_api/data_product_api_filelist';
-import DataProductDownload from './data_product_api/data_product_api_download';
+import DataProductFileList from '../../services/DataProduct/DataProductFilelist';
+import DataProductDownload from '../../services/DataProduct/DataProductDownload';
 
 const DataProductDashboard = () => {
   const [jsonFilesTree, setJsonFilesTree] = React.useState([]);

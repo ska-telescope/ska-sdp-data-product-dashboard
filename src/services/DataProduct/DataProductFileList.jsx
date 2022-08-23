@@ -1,10 +1,10 @@
 import axios from 'axios';
-import mockFilesTree from '../../../mockFilesTreeStructure';
+import mockFilesTree from '../Mocking/mockFilesTree';
 
 async function DataProductFileList() {
   async function fetchFileList() {
-    const apiUrl = process.env.REACT_APP_SKA_SDP_DATA_PRODUCT_API_URL;
-    const apiPort = process.env.REACT_APP_SKA_SDP_DATA_PRODUCT_API_PORT;
+    const apiUrl = process.env.SKA_SDP_DATA_PRODUCT_API_URL;
+    const apiPort = process.env.SKA_SDP_DATA_PRODUCT_API_PORT;
     try {
       const data = await axios.get(`${apiUrl}:${apiPort}/filelist`, {
         headers: {
@@ -19,9 +19,7 @@ async function DataProductFileList() {
       return [];
     }
   }
-  return JSON.parse(process.env.REACT_APP_SKA_SDP_DATA_PRODUCT_DUMMY_DATA)
-    ? mockFilesTree
-    : fetchFileList();
+  return JSON.parse(process.env.SKA_SDP_DATA_PRODUCT_DUMMY_DATA) ? mockFilesTree : fetchFileList();
 }
 
 export default DataProductFileList;
