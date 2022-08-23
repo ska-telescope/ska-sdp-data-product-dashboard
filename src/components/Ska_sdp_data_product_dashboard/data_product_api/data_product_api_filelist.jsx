@@ -22,7 +22,7 @@ async function DataProductFileList() {
       ]
     };
     const reviewedJsonFilesTree = fileList;
-    if (reviewedJsonFilesTree && reviewedJsonFilesTree.length) {
+    if (reviewedJsonFilesTree.length !== 0) {
       newFileTree =
         useDummyData || reviewedJsonFilesTree === null ? dummyFilesTree : reviewedJsonFilesTree;
     }

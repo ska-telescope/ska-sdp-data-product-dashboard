@@ -1,8 +1,7 @@
 import React from 'react';
 import { shallow } from 'enzyme';
 import { cleanup } from '@testing-library/react';
-import { render, unmountComponentAtNode } from 'react-dom';
-import { act } from 'react-dom/test-utils';
+import { unmountComponentAtNode } from 'react-dom';
 import DataProductDashboard from './data_product_dashboard';
 
 process.env.REACT_APP_SKA_SDP_DATA_PRODUCT_DUMMY_DATA = 'true';
@@ -48,35 +47,4 @@ describe('Data Product Dashboard', () => {
       expect(wrapper.find('button').contains('DOWNLOAD'));
     });
   });
-});
-
-it('renders user data', async () => {
-  const fakeFileList = {
-    id: 'root',
-    name: 'SDP Data API not available',
-    relativefilename: '.',
-    type: 'directory',
-    children: [
-      {
-        id: 1,
-        name: 'Moc tree file.txt',
-        relativefilename: 'testfile.txt',
-        type: 'file'
-      }
-    ]
-  };
-  jest.spyOn(global, 'fetch').mockImplementation(() =>
-    Promise.resolve({
-      json: () => Promise.resolve(fakeFileList)
-    })
-  );
-
-  // Use the asynchronous version of act to apply resolved promises
-  await act(async () => {
-    render(<DataProductDashboard />, container);
-  });
-  expect(container).toMatchSnapshot();
-
-  // remove the mock to ensure tests are completely isolated
-  global.fetch.mockRestore();
 });

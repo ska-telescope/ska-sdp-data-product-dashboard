@@ -1,35 +1,33 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`renders user data 1`] = `
-<div>
-  <ul
+<Fragment>
+  <ForwardRef(TreeView)
     aria-label="rich object"
-    aria-multiselectable="false"
-    class="MuiTreeView-root css-1mdl4un-MuiTreeView-root"
-    id=":r0:"
-    role="tree"
-    tabindex="0"
+    defaultCollapseIcon={<Memo />}
+    defaultExpandIcon={<Memo />}
+    defaultExpanded={
+      Array [
+        "root",
+      ]
+    }
+    onNodeSelect={[Function]}
+    sx={
+      Object {
+        "flexGrow": 1,
+        "height": 500,
+        "maxWidth": 500,
+        "overflowY": "auto",
+      }
+    }
   />
-  <button
-    class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedSecondary MuiButton-sizeMedium MuiButton-outlinedSizeMedium css-wnpvqa-MuiButtonBase-root-MuiButton-root"
-    tabindex="0"
-    type="button"
+  <ForwardRef(Button)
+    color="secondary"
+    onClick={[Function]}
+    variant="outlined"
   >
-    <svg
-      aria-hidden="true"
-      class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
-      data-testid="DownloadIcon"
-      focusable="false"
-      viewBox="0 0 24 24"
-    >
-      <path
-        d="M5 20h14v-2H5v2zM19 9h-4V3H9v6H5l7 7 7-7z"
-      />
-    </svg>
+    <Memo(ForwardRef(DownloadIcon)) />
     Download
-    <span
-      class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
-    />
-  </button>
-</div>
+  </ForwardRef(Button)>
+</Fragment>
 `;
