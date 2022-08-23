@@ -12,11 +12,17 @@ async function DataProductFileList() {
           'Content-Type': 'application/json'
         }
       });
-      return data;
+      return data.data;
     } catch (e) {
       // eslint-disable-next-line no-console
       // console.error('Catch error', e);
-      return [];
+      const noData = {
+        id: 'root',
+        name: 'SDP Data API not available',
+        relativefilename: '.',
+        type: 'directory'
+      };
+      return noData;
     }
   }
   return JSON.parse(process.env.SKA_SDP_DATA_PRODUCT_DUMMY_DATA) ? mockFilesTree : fetchFileList();

@@ -21,22 +21,33 @@ describe('data_product_api_filelist MOCK', () => {
   });
 });
 
-describe('data_product_api_filelist LIVE', () => {
+describe('data_product_api_filelist LIVE passing', () => {
   beforeEach(() => {
     process.env.SKA_SDP_DATA_PRODUCT_DUMMY_DATA = false;
   });
 
   it('Passes', async () => {
-    axios.get.mockResolvedValueOnce(mockFilesTree);
+    const data = { data: mockFilesTree };
+    axios.get.mockResolvedValueOnce(data);
+    await expect(DataProductFileList()).resolves.toEqual(mockFilesTree);
+  });
+});
 
-    const fileList = await DataProductFileList();
-    expect(fileList).toEqual(mockFilesTree);
+describe('data_product_api_filelist LIVE failing', () => {
+  beforeEach(() => {
+    process.env.SKA_SDP_DATA_PRODUCT_DUMMY_DATA = false;
   });
 
   it('Fails', async () => {
     axios.get.mockRejectedValueOnce(new Error('Network Error'));
 
     const fileList = await DataProductFileList();
-    expect(fileList).toEqual([]);
+    const noData = {
+      id: 'root',
+      name: 'SDP Data API not available',
+      relativefilename: '.',
+      type: 'directory'
+    };
+    expect(fileList).toEqual(noData);
   });
 });
