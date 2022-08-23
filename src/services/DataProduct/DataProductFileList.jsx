@@ -12,10 +12,10 @@ async function DataProductFileList() {
           'Content-Type': 'application/json'
         }
       });
-      return data && data.data ? data.data : [];
+      return data;
     } catch (e) {
       // eslint-disable-next-line no-console
-      console.error('Catch error', e);
+      // console.error('Catch error', e);
       return [];
     }
   }
