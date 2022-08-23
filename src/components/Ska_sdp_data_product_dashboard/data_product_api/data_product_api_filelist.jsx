@@ -1,31 +1,13 @@
 import axios from 'axios';
+import mockFilesTree from '../../../mockFilesTreeStructure';
 
 async function DataProductFileList() {
   const apiUrl = process.env.REACT_APP_SKA_SDP_DATA_PRODUCT_API_URL;
   const apiPort = process.env.REACT_APP_SKA_SDP_DATA_PRODUCT_API_PORT;
 
   function populateFilesTree(fileList) {
-    const useDummyData = JSON.parse(process.env.REACT_APP_SKA_SDP_DATA_PRODUCT_DUMMY_DATA);
-    let newFileTree;
-    const dummyFilesTree = {
-      id: 'root',
-      name: 'SDP Data API not available',
-      relativefilename: '.',
-      type: 'directory',
-      children: [
-        {
-          id: 1,
-          name: 'Moc tree file.txt',
-          relativefilename: 'testfile.txt',
-          type: 'file'
-        }
-      ]
-    };
-    const reviewedJsonFilesTree = fileList;
-    if (reviewedJsonFilesTree.length !== 0) {
-      newFileTree =
-        useDummyData || reviewedJsonFilesTree === null ? dummyFilesTree : reviewedJsonFilesTree;
-    }
+    const useMockData = JSON.parse(process.env.REACT_APP_SKA_SDP_DATA_PRODUCT_DUMMY_DATA);
+    const newFileTree = useMockData || fileList.length === 0 ? mockFilesTree : fileList;
     return newFileTree;
   }
 
@@ -41,7 +23,7 @@ async function DataProductFileList() {
     } catch (e) {
       // eslint-disable-next-line no-console
       console.error('Catch error', e);
-      return null;
+      return populateFilesTree([]);
     }
   }
   return fetchFileList();
