@@ -6,8 +6,8 @@ const ModuleFederationPlugin = require('webpack/lib/container/ModuleFederationPl
 const deps = require('./package.json').dependencies;
 const webpack = require('webpack');
 
-const dashboardUrl = process.env.REACT_APP_SKA_SDP_DATA_PRODUCT_DASHBOARD_URL;
-const dashboardPort = process.env.REACT_APP_SKA_SDP_DATA_PRODUCT_DASHBOARD_PORT;
+const dashboardUrl = process.env.SKA_SDP_DATA_PRODUCT_DASHBOARD_URL;
+const dashboardPort = process.env.SKA_SDP_DATA_PRODUCT_DASHBOARD_PORT;
 
 module.exports = {
   output: {
@@ -56,7 +56,7 @@ module.exports = {
       filename: 'remoteEntry.js',
       remotes: {},
       exposes: {
-        './Ska_sdp_data_product_dashboard': './src/components/App/App.jsx'
+        './DataProductDashboard': './src/components/App/App.jsx'
       },
       shared: {
         ...deps,
@@ -91,11 +91,14 @@ module.exports = {
           requiredVersion: deps['i18next-http-backend']
         },
         // Material UI
-        '@material-ui/core': { singleton: true, requiredVersion: 'auto' },
-        '@mui/icons-material': { singleton: true, requiredVersion: 'auto', eager: true },
-        '@mui/material': { singleton: true, requiredVersion: 'auto', eager: true },
-        '@emotion/react': { singleton: true, requiredVersion: 'auto', eager: true },
-        '@emotion/styled': { singleton: true, requiredVersion: 'auto', eager: true },
+        '@material-ui/core': { singleton: true, requiredVersion: '^auto' },
+        '@mui/icons-material': { singleton: true, requiredVersion: '^auto', eager: true },
+        '@mui/material': { singleton: true, requiredVersion: '^5.9.0', eager: true },
+        '@emotion/react': { singleton: true, requiredVersion: '^11.9.3', eager: true },
+        '@emotion/styled': { singleton: true, requiredVersion: '^11.9.3', eager: true },
+        'prop-types': { singleton: true, requiredVersion: '^15.8.1', eager: true },
+        axios: { singleton: true, requiredVersion: '^auto', eager: true },
+        downloadjs: { singleton: true, requiredVersion: '^1.4.7', eager: true },
         moment: {
           eager: true,
           singleton: true,
