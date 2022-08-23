@@ -1,20 +1,40 @@
+import axios from 'axios';
 import { cleanup } from '@testing-library/react';
 import DataProductFileList from './data_product_api_filelist';
+import mockFilesTree from '../../../mockFilesTreeStructure';
 
-describe('data_product_api_filelist', () => {
-  process.env.REACT_APP_SKA_SDP_DATA_PRODUCT_DUMMY_DATA = 'true';
+jest.mock('axios');
 
-  // afterEach function runs after each test suite is executed
+describe('data_product_api_filelist MOCK', () => {
+  beforeEach(() => {
+    process.env.REACT_APP_SKA_SDP_DATA_PRODUCT_DUMMY_DATA = true;
+  });
+
   afterEach(() => {
-    cleanup(); // Resets the DOM after each test suite
+    process.env.REACT_APP_SKA_SDP_DATA_PRODUCT_DUMMY_DATA = false;
+    cleanup();
   });
 
   it('Retrieves user data', async () => {
-    const originalValue = process.env.REACT_APP_SKA_SDP_DATA_PRODUCT_DUMMY_DATA;
-    process.env.REACT_APP_SKA_SDP_DATA_PRODUCT_DUMMY_DATA = 'true';
     const fileList = await DataProductFileList();
-    process.env.REACT_APP_SKA_SDP_DATA_PRODUCT_DUMMY_DATA = originalValue;
+    expect(fileList).toEqual(mockFilesTree);
+  });
+});
 
-    expect(fileList).toMatchSnapshot();
+describe('data_product_api_filelist LIVE PASS', () => {
+  it('Retrieves user data', async () => {
+    axios.get.mockResolvedValueOnce(mockFilesTree);
+
+    const fileList = await DataProductFileList();
+    expect(fileList).toEqual(mockFilesTree);
+  });
+});
+
+describe('data_product_api_filelist LIVE FAIL', () => {
+  it('Retrieves empty data', async () => {
+    axios.get.mockRejectedValueOnce(new Error('Network Error'));
+
+    const fileList = await DataProductFileList();
+    expect(fileList).toEqual([]);
   });
 });
