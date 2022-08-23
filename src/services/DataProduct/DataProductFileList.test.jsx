@@ -21,17 +21,19 @@ describe('data_product_api_filelist MOCK', () => {
   });
 });
 
-describe('data_product_api_filelist LIVE PASS', () => {
-  it('Retrieves user data', async () => {
+describe('data_product_api_filelist LIVE', () => {
+  beforeEach(() => {
+    process.env.SKA_SDP_DATA_PRODUCT_DUMMY_DATA = false;
+  });
+
+  it('Passes', async () => {
     axios.get.mockResolvedValueOnce(mockFilesTree);
 
     const fileList = await DataProductFileList();
     expect(fileList).toEqual(mockFilesTree);
   });
-});
 
-describe('data_product_api_filelist LIVE FAIL', () => {
-  it('Retrieves empty data', async () => {
+  it('Fails', async () => {
     axios.get.mockRejectedValueOnce(new Error('Network Error'));
 
     const fileList = await DataProductFileList();
