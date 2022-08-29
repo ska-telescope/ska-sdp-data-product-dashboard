@@ -1,6 +1,7 @@
 # SKA SDP Data Product Dashboard
 
 ## Description
+
 This repository contains a SKA modular federated component that is used to list SDP data products (files) and make them available to download.
 
 ## Getting Started
@@ -48,14 +49,14 @@ From the project directory, you can run any of the following:
 
 ## Running the application inside a containder
 
-To run the application using docker, build the docker file in the root directory and run the container exposing port 3300.
+To run the application using docker, build the docker file in the root directory and run the container exposing port 8100.
 
 ```
  docker build -t react-docker .
- docker run -p 3300:3300 react-docker
+ docker run -p 8100:8100 react-docker
 ```
 
-The project will then be accessiable at the url http://localhost:3300/
+The project will then be accessiable at the url http://localhost:8100/
 
 ## Testing
 
@@ -156,13 +157,16 @@ The latter requires Docker to be installed on your system but not Python, Sphinx
 The documentation can then be consulted by opening the file `./docs/build/html/index.html`
 
 ## Roadmap
+
 This project is in very early development, but the following have already been identified to be added:
-[]  Update the file icon based on file type
-[]  Add selection and view of metadata capability
-[]  Add filter based on metadata
+[] Update the file icon based on file type
+[] Add selection and view of metadata capability
+[] Add filter based on metadata
 
 ## Contributing
+
 Contributions are welcome, please see the SKAO developer portal for guidance. https://developer.skao.int/en/latest/
 
 ## Project status
+
 Working towards a minimum viable product.

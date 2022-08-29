@@ -15,7 +15,7 @@ RUN yarn install && yarn cache clean
 # add app
 COPY . ./
 
-EXPOSE 3300
+EXPOSE 8100
 
 # start app
 CMD ["yarn", "start"]
