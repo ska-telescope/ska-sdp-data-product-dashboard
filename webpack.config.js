@@ -19,7 +19,7 @@ module.exports = {
   },
 
   devServer: {
-    port: 3300,
+    port: 8100,
     historyApiFallback: true
   },
 
@@ -52,11 +52,11 @@ module.exports = {
       'process.env.NODE_ENV': JSON.stringify(isDevelopment ? 'development' : 'production')
     }),
     new ModuleFederationPlugin({
-      name: 'Ska_sdp_data_product_dashboard',
+      name: 'sdpDataProductDashboard',
       filename: 'remoteEntry.js',
       remotes: {},
       exposes: {
-        './DataProductDashboard': './src/components/App/App.jsx'
+        './Dashboard': './src/components/App/App.jsx'
       },
       shared: {
         ...deps,
