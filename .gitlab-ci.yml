@@ -18,7 +18,7 @@ stages:
 install_dependencies:
   stage: dependencies
   tags:
-  - k8srunner
+    - k8srunner
   script:
     - rm -rf node_modules && yarn install
   cache:
@@ -30,7 +30,7 @@ install_dependencies:
 code_analysis:
   stage: lint
   tags:
-  - k8srunner
+    - k8srunner
   cache:
     paths:
       - node_modules/
@@ -48,7 +48,7 @@ code_analysis:
 test_and_coverage:
   stage: test
   tags:
-  - k8srunner
+    - k8srunner
   cache:
     paths:
       - node_modules/
@@ -70,7 +70,7 @@ test_and_coverage:
 list_dependencies:
   stage: test
   tags:
-  - k8srunner
+    - k8srunner
   allow_failure: true
   cache:
     paths:
@@ -90,7 +90,7 @@ list_dependencies:
 build:
   stage: build
   tags:
-  - k8srunner
+    - k8srunner
   cache:
     paths:
       - node_modules/
@@ -102,7 +102,7 @@ build:
 pages:
   stage: pages
   tags:
-  - k8srunner
+    - k8srunner
   dependencies:
     - test_and_coverage
     - list_dependencies
@@ -118,17 +118,17 @@ pages:
 
 include:
   - template: Code-Quality.gitlab-ci.yml
-  
+
   # .post step finalisers eg: badges
   - project: 'ska-telescope/templates-repository'
     file: 'gitlab-ci/includes/finaliser.gitlab-ci.yml'
   # Docs pages
   - project: 'ska-telescope/templates-repository'
     file: 'gitlab-ci/includes/docs-pages.gitlab-ci.yml'
-# deploy
+  # deploy
   - project: 'ska-telescope/templates-repository'
     file: 'gitlab-ci/includes/release.gitlab-ci.yml'
-    
+
   # OCI Images
   # do a custom set of build and publish stages
   - project: 'ska-telescope/templates-repository'
@@ -145,9 +145,9 @@ code_quality:
   # disable dind service as it's not needed for k8srunner runners
   services: []
   tags:
-  - k8srunner
+    - k8srunner
   # We need to merge the rules with what we have here on template rules
-  # https://gitlab.com/ska-telescope/templates-repository/-/blob/master/gitlab-ci/includes/rules.gitlab-ci.yml 
+  # https://gitlab.com/ska-telescope/templates-repository/-/blob/master/gitlab-ci/includes/rules.gitlab-ci.yml
   # https://docs.gitlab.com/ee/user/project/merge_requests/code_quality.html#using-with-merge-request-pipelines
   rules:
     - if: '$CODE_QUALITY_DISABLED'

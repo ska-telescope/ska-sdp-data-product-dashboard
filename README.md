@@ -1,8 +1,8 @@
-# SKA SDP Data Product Dashboard
+# SKAO SDP Data Product Dashboard
 
 ## Description
 
-This repository contains a SKA modular federated component that is used to list SDP data products (files) and make them available to download.
+This repository contains a SKAO modular federated component that is used to list SDP data products (files) and make them available to download.
 
 ## Getting Started
 
@@ -110,7 +110,7 @@ These do not need installing as they're included in `node_modules` by running `y
 
 These tools can be run in the command line or integrated into your IDE (recommended).
 
-JavaScript based SKA projects must comply with the [AirBnB JavaScript Style Guide](https://github.com/airbnb/javascript). These rules are included in this project and ESLint and Prettier are configured to use them.
+JavaScript based SKAO projects must comply with the [AirBnB JavaScript Style Guide](https://github.com/airbnb/javascript). These rules are included in this project and ESLint and Prettier are configured to use them.
 
 ### Running
 
@@ -136,7 +136,7 @@ Prettier can be installed through a [plugin](https://plugins.jetbrains.com/plugi
 
 ## Documentation
 
-The documentation generator for this project is derived from SKA's [SKA Developer Portal repository](http://developer.skatelescope.org/en/latest/projects/document_project.html)
+The documentation generator for this project is derived from SKAO's [SKAO Developer Portal repository](http://developer.skatelescope.org/en/latest/projects/document_project.html)
 
 ### Writing
 
