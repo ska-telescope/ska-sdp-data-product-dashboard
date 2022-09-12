@@ -73,6 +73,17 @@ const DataProductDashboard = () => {
     DataProductDownload(selectedFileNames);
   };
 
+  function DownloadButton() {
+    if ( selectedFileNames.relativeFileName !== '' ) {
+      return (
+        <Button variant="outlined" color="secondary" onClick={onDownloadClick}>
+          <DownloadIcon />
+          Download
+        </Button>
+      );
+    }
+  }
+
   return (
     <>
       <TreeView
@@ -85,10 +96,7 @@ const DataProductDashboard = () => {
       >
         {jsonFilesTree && renderTreeFunction()}
       </TreeView>
-      <Button variant="outlined" color="secondary" onClick={onDownloadClick}>
-        <DownloadIcon />
-        Download
-      </Button>
+      {DownloadButton()}
     </>
   );
 };
