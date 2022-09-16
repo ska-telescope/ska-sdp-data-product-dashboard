@@ -18,7 +18,7 @@ async function DataProductFileList() {
       const noData = {
         id: 'root',
         name: 'SDP Data API not available',
-        relativefilename: '',
+        relativefilename: '.',
         type: 'directory'
       };
       return noData;

@@ -1,12 +1,10 @@
 import React from 'react';
-import { Button } from '@mui/material';
-import DownloadIcon from '@mui/icons-material/Download';
 import TreeView from '@mui/lab/TreeView';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import TreeItem from '@mui/lab/TreeItem';
+import DownloadCard from './DownloadCard';
 import DataProductFileList from '../../services/DataProduct/DataProductFileList';
-import DataProductDownload from '../../services/DataProduct/DataProductDownload';
 
 const DataProductDashboard = () => {
   const [jsonFilesTree, setJsonFilesTree] = React.useState([]);
@@ -69,17 +67,10 @@ const DataProductDashboard = () => {
     return <></>;
   }
 
-  const onDownloadClick = () => {
-    DataProductDownload(selectedFileNames);
-  };
-
-  function DownloadButton() {
+  function RenderDownloadCard() {
     if ( selectedFileNames.relativeFileName !== '' ) {
       return (
-        <Button variant="outlined" color="secondary" onClick={onDownloadClick}>
-          <DownloadIcon />
-          Download
-        </Button>
+       DownloadCard(selectedFileNames)
       );
     }
   }
@@ -96,7 +87,7 @@ const DataProductDashboard = () => {
       >
         {jsonFilesTree && renderTreeFunction()}
       </TreeView>
-      {DownloadButton()}
+      {RenderDownloadCard(selectedFileNames)}
     </>
   );
 };
