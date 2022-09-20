@@ -1,8 +1,10 @@
 import React from 'react';
 import TreeView from '@mui/lab/TreeView';
+import WarningIcon from '@mui/icons-material/Warning';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import TreeItem from '@mui/lab/TreeItem';
+import Typography from '@mui/material/Typography';
 import DownloadCard from './DownloadCard';
 import DataProductFileList from '../../services/DataProduct/DataProductFileList';
 
@@ -55,7 +57,7 @@ const DataProductDashboard = () => {
     getJsonFilesTree();
   }
 
-  function renderTreeFunction() {
+  function renderTreeNodes() {
     if (jsonFilesTree.length !== 0) {
       const renderTree = nodes => (
         <TreeItem key={nodes.id} nodeId={nodes.id.toString()} label={nodes.name}>
@@ -65,6 +67,32 @@ const DataProductDashboard = () => {
       return renderTree(jsonFilesTree);
     }
     return <></>;
+  }
+
+  function renderTreeComponent() {
+    if (jsonFilesTree !== 'SDP Data API not available') {
+      return (
+        <TreeView
+          aria-label="rich object"
+          defaultCollapseIcon={<ExpandMoreIcon />}       
+          defaultExpanded={['root']}
+          defaultExpandIcon={<ChevronRightIcon />}
+          onNodeSelect={handleSelectedNode}
+          sx={{ height: TREE_HEIGHT, flexGrow: 1, maxWidth: TREE_MAX_WIDTH, overflowY: 'auto' }}
+        >
+          {jsonFilesTree && renderTreeNodes()}
+        </TreeView>
+      );
+    }
+    return (
+      <>
+        <Typography sx={{ fontSize: 14 }} color="#D33115" gutterBottom>
+          <WarningIcon />
+          {" "}
+          SDP Data API not available
+        </Typography>
+      </>
+    );
   }
 
   function RenderDownloadCard() {
@@ -77,16 +105,7 @@ const DataProductDashboard = () => {
 
   return (
     <>
-      <TreeView
-        aria-label="rich object"
-        defaultCollapseIcon={<ExpandMoreIcon />}
-        defaultExpanded={['root']}
-        defaultExpandIcon={<ChevronRightIcon />}
-        onNodeSelect={handleSelectedNode}
-        sx={{ height: TREE_HEIGHT, flexGrow: 1, maxWidth: TREE_MAX_WIDTH, overflowY: 'auto' }}
-      >
-        {jsonFilesTree && renderTreeFunction()}
-      </TreeView>
+      {renderTreeComponent()}
       {RenderDownloadCard(selectedFileNames)}
     </>
   );

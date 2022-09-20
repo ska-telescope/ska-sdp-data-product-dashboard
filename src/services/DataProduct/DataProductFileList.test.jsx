@@ -42,12 +42,7 @@ describe('data_product_api_filelist LIVE failing', () => {
     axios.get.mockRejectedValueOnce(new Error('Network Error'));
 
     const fileList = await DataProductFileList();
-    const noData = {
-      id: 'root',
-      name: 'SDP Data API not available',
-      relativefilename: '.',
-      type: 'directory'
-    };
+    const noData = 'SDP Data API not available'
     expect(fileList).toEqual(noData);
   });
 });

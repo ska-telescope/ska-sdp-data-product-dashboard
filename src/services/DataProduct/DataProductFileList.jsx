@@ -13,14 +13,7 @@ async function DataProductFileList() {
         }
       });
     } catch (e) {
-      // eslint-disable-next-line no-console
-      // console.error('Catch error', e);
-      const noData = {
-        id: 'root',
-        name: 'SDP Data API not available',
-        relativefilename: '.',
-        type: 'directory'
-      };
+      const noData = 'SDP Data API not available';
       return noData;
     }
   }
