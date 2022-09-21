@@ -23,7 +23,7 @@ describe('data_product_api_filelist MOCK', () => {
 
 describe('data_product_api_filelist LIVE passing', () => {
   beforeEach(() => {
-    process.env.SKA_SDP_DATA_PRODUCT_DUMMY_DATA = false;
+    process.env.SKA_SDP_DATA_PRODUCT_DUMMY_DATA = true;
   });
 
   it('Passes', async () => {
