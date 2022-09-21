@@ -79,11 +79,11 @@ list_dependencies:
       - node_modules/
     policy: pull
   script:
-    - yarn list --depth=0 --json >> yarn_deps.json
-    - yarn list --depth=0  >> yarn_deps.txt
+    - npm list --depth=0 --json >> npm_deps.json
+    - npm list --depth=0  >> npm_deps.txt
     - mkdir .public
-    - cp yarn_deps.txt .public/
-    - cp yarn_deps.json .public/
+    - cp npm_deps.txt .public/
+    - cp npm_deps.json .public/
   artifacts:
     paths:
       - .public
