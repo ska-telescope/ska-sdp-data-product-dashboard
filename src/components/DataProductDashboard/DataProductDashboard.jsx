@@ -1,12 +1,12 @@
 import React from 'react';
-import { Button } from '@mui/material';
-import DownloadIcon from '@mui/icons-material/Download';
 import TreeView from '@mui/lab/TreeView';
+import WarningIcon from '@mui/icons-material/Warning';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import TreeItem from '@mui/lab/TreeItem';
+import Typography from '@mui/material/Typography';
+import DownloadCard from './DownloadCard';
 import DataProductFileList from '../../services/DataProduct/DataProductFileList';
-import DataProductDownload from '../../services/DataProduct/DataProductDownload';
 
 const DataProductDashboard = () => {
   const [jsonFilesTree, setJsonFilesTree] = React.useState([]);
@@ -57,7 +57,7 @@ const DataProductDashboard = () => {
     getJsonFilesTree();
   }
 
-  function renderTreeFunction() {
+  function renderTreeNodes() {
     if (jsonFilesTree.length !== 0) {
       const renderTree = nodes => (
         <TreeItem key={nodes.id} nodeId={nodes.id.toString()} label={nodes.name}>
@@ -69,26 +69,44 @@ const DataProductDashboard = () => {
     return <></>;
   }
 
-  const onDownloadClick = () => {
-    DataProductDownload(selectedFileNames);
-  };
+  function renderTreeComponent() {
+    if (jsonFilesTree !== 'SDP Data API not available') {
+      return (
+        <TreeView
+          aria-label="rich object"
+          defaultCollapseIcon={<ExpandMoreIcon />}       
+          defaultExpanded={['root']}
+          defaultExpandIcon={<ChevronRightIcon />}
+          onNodeSelect={handleSelectedNode}
+          sx={{ height: TREE_HEIGHT, flexGrow: 1, maxWidth: TREE_MAX_WIDTH, overflowY: 'auto' }}
+        >
+          {jsonFilesTree && renderTreeNodes()}
+        </TreeView>
+      );
+    }
+    return (
+      <>
+        <Typography sx={{ fontSize: 14 }} color="#D33115" gutterBottom>
+          <WarningIcon />
+          {" "}
+          SDP Data API not available
+        </Typography>
+      </>
+    );
+  }
+
+  function RenderDownloadCard() {
+    if ( selectedFileNames.relativeFileName !== '' ) {
+      return (
+       DownloadCard(selectedFileNames)
+      );
+    }
+  }
 
   return (
     <>
-      <TreeView
-        aria-label="rich object"
-        defaultCollapseIcon={<ExpandMoreIcon />}
-        defaultExpanded={['root']}
-        defaultExpandIcon={<ChevronRightIcon />}
-        onNodeSelect={handleSelectedNode}
-        sx={{ height: TREE_HEIGHT, flexGrow: 1, maxWidth: TREE_MAX_WIDTH, overflowY: 'auto' }}
-      >
-        {jsonFilesTree && renderTreeFunction()}
-      </TreeView>
-      <Button variant="outlined" color="secondary" onClick={onDownloadClick}>
-        <DownloadIcon />
-        Download
-      </Button>
+      {renderTreeComponent()}
+      {RenderDownloadCard(selectedFileNames)}
     </>
   );
 };

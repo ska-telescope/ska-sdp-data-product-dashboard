@@ -1,8 +1,8 @@
-# SKA SDP Data Product Dashboard
+# SKAO SDP Data Product Dashboard
 
 ## Description
 
-This repository contains a SKA modular federated component that is used to list SDP data products (files) and make them available to download.
+This repository contains a SKAO modular federated component that is used to list SDP data products (files) and make them available to download.
 
 ## Getting Started
 
@@ -37,7 +37,7 @@ From the project directory, you can run any of the following:
 
 - `> yarn start`
 
-  Runs the app in the development mode at default url and port configured in .env file: [http://localhost:3000](http://localhost:3000). The app will recompile and restart if you make any edits to the source files. Any linting errors will also be shown in the console.
+  Runs the app in the development mode at default url and port configured in .env file: default url and port configured in .env file: [http://localhost:3000](http://localhost:3000). The app will recompile and restart if you make any edits to the source files. Any linting errors will also be shown in the console.
 
 - `> yarn test`
 
@@ -46,6 +46,17 @@ From the project directory, you can run any of the following:
 - `> yarn build`
 
   Builds the app for production to the `build` folder. The build is minified and any JSX is transpiled to JavaScript. Your app is ready to be deployed!
+
+## Running the application inside a containder
+
+To run the application using docker, build the docker file in the root directory and run the container exposing port 8100.
+
+```
+ docker build -t react-docker .
+ docker run -p 8100:8100 react-docker
+```
+
+The project will then be accessiable at the url http://localhost:8100/
 
 ## Running the application inside a containder
 
@@ -110,7 +121,7 @@ These do not need installing as they're included in `node_modules` by running `y
 
 These tools can be run in the command line or integrated into your IDE (recommended).
 
-JavaScript based SKA projects must comply with the [AirBnB JavaScript Style Guide](https://github.com/airbnb/javascript). These rules are included in this project and ESLint and Prettier are configured to use them.
+JavaScript based SKAO projects must comply with the [AirBnB JavaScript Style Guide](https://github.com/airbnb/javascript). These rules are included in this project and ESLint and Prettier are configured to use them.
 
 ### Running
 
@@ -136,7 +147,7 @@ Prettier can be installed through a [plugin](https://plugins.jetbrains.com/plugi
 
 ## Documentation
 
-The documentation generator for this project is derived from SKA's [SKA Developer Portal repository](http://developer.skatelescope.org/en/latest/projects/document_project.html)
+The documentation generator for this project is derived from SKAO's [SKAO Developer Portal repository](http://developer.skatelescope.org/en/latest/projects/document_project.html)
 
 ### Writing
 
@@ -155,6 +166,21 @@ or
 The latter requires Docker to be installed on your system but not Python, Sphinx, and other dependencies.
 
 The documentation can then be consulted by opening the file `./docs/build/html/index.html`
+
+## Roadmap
+
+This project is in very early development, but the following have already been identified to be added:
+[] Update the file icon based on file type
+[] Add selection and view of metadata capability
+[] Add filter based on metadata
+
+## Contributing
+
+Contributions are welcome, please see the SKAO developer portal for guidance. https://developer.skao.int/en/latest/
+
+## Project status
+
+Working towards a minimum viable product.
 
 ## Roadmap
 
