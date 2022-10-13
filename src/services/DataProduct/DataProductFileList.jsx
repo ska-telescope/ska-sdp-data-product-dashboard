@@ -13,11 +13,11 @@ async function DataProductFileList() {
         }
       });
     } catch (e) {
-      const noData = 'SDP Data API not available';
+      const noData = 'API unreachable, SDP data not available';
       return noData;
     }
   }
-  return JSON.parse(process.env.SKA_SDP_DATA_PRODUCT_DUMMY_DATA) ? mockFilesTree : fetchFileList();
+  return (JSON.parse(process.env.SKA_SDP_DATA_PRODUCT_DUMMY_DATA) ? {data:mockFilesTree, status:200} : fetchFileList());
 }
 
 export default DataProductFileList;

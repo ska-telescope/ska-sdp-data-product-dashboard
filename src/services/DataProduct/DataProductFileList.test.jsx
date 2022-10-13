@@ -17,7 +17,7 @@ describe('data_product_api_filelist MOCK', () => {
 
   it('Retrieves user data', async () => {
     const fileList = await DataProductFileList();
-    expect(fileList).toEqual(mockFilesTree);
+    expect(fileList.data).toEqual(mockFilesTree);
   });
 });
 
@@ -28,8 +28,9 @@ describe('data_product_api_filelist LIVE passing', () => {
 
   it('Passes', async () => {
     const data = { data: mockFilesTree };
+    const fileList = await DataProductFileList();
     axios.get.mockResolvedValueOnce(data);
-    await expect(DataProductFileList()).resolves.toEqual(mockFilesTree);
+    await expect(fileList.data).toEqual(mockFilesTree);
   });
 });
 
@@ -42,7 +43,7 @@ describe('data_product_api_filelist LIVE failing', () => {
     axios.get.mockRejectedValueOnce(new Error('Network Error'));
 
     const fileList = await DataProductFileList();
-    const noData = 'SDP Data API not available'
+    const noData = 'API unreachable, SDP data not available'
     expect(fileList).toEqual(noData);
   });
 });
