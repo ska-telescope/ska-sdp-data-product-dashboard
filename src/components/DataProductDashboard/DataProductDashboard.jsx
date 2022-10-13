@@ -86,8 +86,8 @@ const DataProductDashboard = () => {
     }
     return (
       <>
-        <Typography sx={{ fontSize: 14 }} color="#D33115" gutterBottom>
-          <WarningIcon />
+        <Typography sx={{ fontSize: 25, display: "flex", justifyContent: "center" }} color="#D33115" gutterBottom>
+          <WarningIcon sx={{ fontSize: "35px" }}  />
           {" "}
           SDP Data API not available
         </Typography>
@@ -106,7 +106,7 @@ const DataProductDashboard = () => {
   return (
     <>
       {renderTreeComponent()}
-      {RenderDownloadCard(selectedFileNames)}
+      {RenderDownloadCard()}
     </>
   );
 };
