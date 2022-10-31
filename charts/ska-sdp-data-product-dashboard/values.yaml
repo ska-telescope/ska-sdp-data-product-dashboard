@@ -1,0 +1,18 @@
+---
+ska_sdp_data_product_dashboard:
+  ingress:
+    enabled: false
+  api:
+    enabled: true
+    container: ska_sdp_data_product_api
+    version: 0.0.0
+    imagePullPolicy: IfNotPresent
+    imagesFolder: "/tmp/Images"
+  dashboard:
+    enabled: true
+    container: ska_sdp_data_product_dashboard
+    version: 0.0.0
+    imagePullPolicy: IfNotPresent
+    imagesFolder: "/tmp/Images"
+    hostUri: "http://localhost"
+    hostPath: ""

@@ -1,0 +1,51 @@
+{{- if $.Values.ska_sdp_data_product_dashboard.api.enabled }}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: ska-sdp-data-product-api
+  labels:
+    app.kubernetes.io/name: ska-sdp-data-product-api
+{{ include "api_general.labels" . | indent 4 }}
+spec:
+  ports:
+  - port: 8000
+    targetPort: 8000
+    protocol: TCP
+  clusterIP: None
+  selector:
+    app.kubernetes.io/name: ska-sdp-data-product-api
+{{ include "api_general.labels" . | indent 4 }}
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ska-sdp-data-product-api
+  labels:
+    app.kubernetes.io/name: ska-sdp-data-product-api
+{{ include "api_general.labels" . | indent 4 }}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: ska-sdp-data-product-api
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: ska-sdp-data-product-api
+{{ include "api_general.labels" . | indent 8 }}
+    spec:
+      restartPolicy: Always
+      terminationGracePeriodSeconds: 10
+      containers:
+      - name: data-product-api
+        image: "{{ .Values.ska_sdp_data_product_dashboard.api.container }}:{{ .Values.ska_sdp_data_product_dashboard.api.version }}"
+        imagePullPolicy: {{ .Values.ska_sdp_data_product_dashboard.api.imagePullPolicy }}
+        env:
+          - name: IMAGES_FOLDER
+            value: {{ .Values.ska_sdp_data_product_dashboard.api.imagesFolder | quote }}
+        ports:
+          - containerPort: 8000
+        terminationMessagePath: "/dev/termination-log"
+        terminationMessagePolicy: "File"
+{{- end }}
