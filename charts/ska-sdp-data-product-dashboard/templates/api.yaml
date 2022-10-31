@@ -41,11 +41,15 @@ spec:
       - name: data-product-api
         image: "{{ .Values.ska_sdp_data_product_dashboard.api.container }}:{{ .Values.ska_sdp_data_product_dashboard.api.version }}"
         imagePullPolicy: {{ .Values.ska_sdp_data_product_dashboard.api.imagePullPolicy }}
-        env:
-          - name: IMAGES_FOLDER
-            value: {{ .Values.ska_sdp_data_product_dashboard.api.imagesFolder | quote }}
         ports:
           - containerPort: 8000
         terminationMessagePath: "/dev/termination-log"
         terminationMessagePolicy: "File"
+        env:
+          - name: REACT_APP_SKA_SDP_DATA_PRODUCT_DASHBOARD_URL
+            value: "{{ .Values.ska_sdp_data_product_dashboard.api.hostUrl }}"
+          - name: REACT_APP_SKA_SDP_DATA_PRODUCT_DASHBOARD_PORT
+            value: "{{ .Values.ska_sdp_data_product_dashboard.api.hostPort }}"
+          - name: PERSISTANT_STORAGE_PATH
+            value: "{{ .Values.ska_sdp_data_product_dashboard.api.storagePath }}"
 {{- end }}

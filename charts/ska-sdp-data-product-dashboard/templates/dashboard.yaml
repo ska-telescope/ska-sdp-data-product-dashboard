@@ -71,11 +71,6 @@ spec:
             - --output-clean
             - --output-path
             - /dist/
-          env:
-            - name: REACT_APP_DATA_API_URL
-              value: {{ .Values.ska_sdp_data_product_dashboard.dashboard.apiUrl }}
-            - name: DEPLOY_HOST
-              value: {{ .Values.ska_sdp_data_product_dashboard.dashboard.hostUri}}/{{ .Values.ska_sdp_data_product_dashboard.dashboard.hostPath}}
           volumeMounts:
             - name: dist
               mountPath: /dist
@@ -103,6 +98,17 @@ spec:
             httpGet:
               path: /
               port: http
+          env:
+            - name: SKA_SDP_DATA_PRODUCT_DASHBOARD_URL
+              value: "{{ .Values.ska_sdp_data_product_dashboard.dashboard.hostUrl }}"
+            - name: SKA_SDP_DATA_PRODUCT_DASHBOARD_PORT
+              value: "{{ .Values.ska_sdp_data_product_dashboard.dashboard.hostPort }}"
+            - name: SKA_SDP_DATA_PRODUCT_API_URL
+              value: "{{ .Values.ska_sdp_data_product_dashboard.dashboard.apiUrl }}"
+            - name: SKA_SDP_DATA_PRODUCT_API_PORT
+              value: "{{ .Values.ska_sdp_data_product_dashboard.dashboard.apiPort }}"
+            - name: SKA_SDP_DATA_PRODUCT_DUMMY_DATA
+              value: "{{ .Values.ska_sdp_data_product_dashboard.dashboard.dummyData }}"
       volumes:
         - name: dist
           emptyDir: {}

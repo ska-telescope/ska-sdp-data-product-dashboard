@@ -7,12 +7,17 @@ ska_sdp_data_product_dashboard:
     container: ska_sdp_data_product_api
     version: 0.0.0
     imagePullPolicy: IfNotPresent
-    imagesFolder: "/tmp/Images"
+    hostUrl: "http://localhost"
+    hostPort: "8100"
+    storagePath: "/var/log"
+
   dashboard:
     enabled: true
     container: ska_sdp_data_product_dashboard
     version: 0.0.0
     imagePullPolicy: IfNotPresent
-    imagesFolder: "/tmp/Images"
-    hostUri: "http://localhost"
-    hostPath: ""
+    hostUrl: "http://localhost"
+    hostPort: "8100"
+    apiUrl: "http://localhost"
+    apiPort: "8000" 
+    dummyData: "true" 
