@@ -6,7 +6,7 @@ ingress:
 api:
   enabled: true
   container: artefact.skao.int/ska-sdp-data-product-api
-  version: 0.0.0
+  version: 0.1.1
   imagePullPolicy: IfNotPresent
   hostUrl: "http://localhost"
   hostPort: "8100"
@@ -15,9 +15,9 @@ api:
 dashboard:
   enabled: true
   container: artefact.skao.int/ska-sdp-data-product-dashboard
-  version: 0.0.0
+  version: 0.1.1
   imagePullPolicy: IfNotPresent
-  hostUrl: "http://localhost"
+  hostUrl: "https://sdhp.stfc.skao.int"
   hostPort: "8100"
   apiUrl: "http://localhost"
   apiPort: "8000" 
