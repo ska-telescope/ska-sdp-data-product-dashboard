@@ -1,4 +1,4 @@
-{{- if $.Values.ska_sdp_data_product_dashboard.dashboard.enabled }}
+{{- if $.Values.dashboard.enabled }}
 ---
 apiVersion: v1
 kind: Service
@@ -58,8 +58,8 @@ spec:
     spec:
       initContainers:
         - name: build
-          image: "{{ .Values.ska_sdp_data_product_dashboard.dashboard.container }}:{{ .Values.ska_sdp_data_product_dashboard.dashboard.version }}"
-          imagePullPolicy: {{ .Values.ska_sdp_data_product_dashboard.dashboard.imagePullPolicy }}
+          image: "{{ .Values.dashboard.container }}:{{ .Values.dashboard.version }}"
+          imagePullPolicy: {{ .Values.dashboard.imagePullPolicy }}
           command:
             - yarn
             - webpack
@@ -100,15 +100,15 @@ spec:
               port: http
           env:
             - name: SKA_SDP_DATA_PRODUCT_DASHBOARD_URL
-              value: "{{ .Values.ska_sdp_data_product_dashboard.dashboard.hostUrl }}"
+              value: "{{ .Values.dashboard.hostUrl }}"
             - name: SKA_SDP_DATA_PRODUCT_DASHBOARD_PORT
-              value: "{{ .Values.ska_sdp_data_product_dashboard.dashboard.hostPort }}"
+              value: "{{ .Values.dashboard.hostPort }}"
             - name: SKA_SDP_DATA_PRODUCT_API_URL
-              value: "{{ .Values.ska_sdp_data_product_dashboard.dashboard.apiUrl }}"
+              value: "{{ .Values.dashboard.apiUrl }}"
             - name: SKA_SDP_DATA_PRODUCT_API_PORT
-              value: "{{ .Values.ska_sdp_data_product_dashboard.dashboard.apiPort }}"
+              value: "{{ .Values.dashboard.apiPort }}"
             - name: SKA_SDP_DATA_PRODUCT_DUMMY_DATA
-              value: "{{ .Values.ska_sdp_data_product_dashboard.dashboard.dummyData }}"
+              value: "{{ .Values.dashboard.dummyData }}"
       volumes:
         - name: dist
           emptyDir: {}

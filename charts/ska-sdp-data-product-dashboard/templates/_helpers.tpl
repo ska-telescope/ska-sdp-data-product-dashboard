@@ -1,3 +1,11 @@
+{{- define "ingress_path_prepend" }}
+    {{- if $.Values.ingress.namespaced }}
+        {{- printf "/%s%s" .Release.Namespace .Values.ingress.pathStart }}
+    {{- else }}
+        {{- printf "%s" $.Values.ingress.pathStart }}
+    {{- end }}
+{{- end }}
+
 {{- define "api_chart" }}
     {{- printf "%s-%s" .Chart.Name .Chart.Version | replace "+" "_" | trunc 63 | trimSuffix "-" }}
 {{- end }}
