@@ -24,7 +24,7 @@ export default function DownloadCard(selectedFileNames) {
         </Typography>
       </CardContent>
       <CardActions>
-        <Button variant="outlined" color="secondary" onClick={onDownloadClick(selectedFileNames)}>
+        <Button variant="outlined" color="secondary" onClick={() => onDownloadClick(selectedFileNames)}>
           <DownloadIcon />
           Download
         </Button>
