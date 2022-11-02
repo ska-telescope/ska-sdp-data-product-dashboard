@@ -15,10 +15,10 @@ api:
 dashboard:
   enabled: true
   container: artefact.skao.int/ska-sdp-data-product-dashboard
-  version: 0.1.1
+  version: 0.1.2
   imagePullPolicy: IfNotPresent
-  hostUrl: "http://localhost"
+  hostUrl: "https://sdhp.stfc.skao.int/dp-naledi-andre/data_product/dashboard"
   hostPort: "8100"
-  apiUrl: "http://localhost"
-  apiPort: "8000" 
-  dummyData: "true" 
+  apiUrl: "https://sdhp.stfc.skao.int"
+  apiPort: "443/dp-naledi-andre/data_product/api" 
+  dummyData: "false" 
