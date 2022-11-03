@@ -72,15 +72,11 @@ spec:
             - --output-path
             - /dist/
           env:
-            - name: SKA_SDP_DATA_PRODUCT_DASHBOARD_URL
+            - name: REACT_APP_SKA_SDP_DATA_PRODUCT_DASHBOARD_URL
               value: "{{ .Values.dashboard.hostUrl }}"
-            - name: SKA_SDP_DATA_PRODUCT_DASHBOARD_PORT
-              value: "{{ .Values.dashboard.hostPort }}"
-            - name: SKA_SDP_DATA_PRODUCT_API_URL
+            - name: REACT_APP_SKA_SDP_DATA_PRODUCT_API_URL
               value: "{{ .Values.dashboard.apiUrl }}"
-            - name: SKA_SDP_DATA_PRODUCT_API_PORT
-              value: "{{ .Values.dashboard.apiPort }}"
-            - name: SKA_SDP_DATA_PRODUCT_DUMMY_DATA
+            - name: REACT_APP_SKA_SDP_DATA_PRODUCT_DUMMY_DATA
               value: "{{ .Values.dashboard.dummyData }}"
           volumeMounts:
             - name: dist

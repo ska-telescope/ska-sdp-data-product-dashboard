@@ -18,7 +18,5 @@ dashboard:
   version: 0.1.2
   imagePullPolicy: IfNotPresent
   hostUrl: "https://sdhp.stfc.skao.int/dp-naledi-andre/data_product/dashboard"
-  hostPort: "8100"
-  apiUrl: "https://sdhp.stfc.skao.int"
-  apiPort: "443/dp-naledi-andre/data_product/api" 
+  apiUrl: "https://sdhp.stfc.skao.int:443/dp-naledi-andre/data_product/api" 
   dummyData: "false" 

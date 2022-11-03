@@ -4,19 +4,18 @@ import { cleanup } from '@testing-library/react';
 import { unmountComponentAtNode } from 'react-dom';
 import DataProductDashboard from './DataProductDashboard';
 
-process.env.SKA_SDP_DATA_PRODUCT_DUMMY_DATA = 'true';
 
-afterEach(() => {
-  cleanup();
-});
 
 let container = null;
 beforeEach(() => {
+  process.env.REACT_APP_SKA_SDP_DATA_PRODUCT_DUMMY_DATA = 'true';
   container = document.createElement('div');
   document.body.appendChild(container);
 });
 
 afterEach(() => {
+  process.env.REACT_APP_SKA_SDP_DATA_PRODUCT_DUMMY_DATA = 'false';
+  cleanup();
   unmountComponentAtNode(container);
   container.remove();
   container = null;
@@ -44,3 +43,4 @@ describe('Data Product Dashboard', () => {
     });
   });
 });
+

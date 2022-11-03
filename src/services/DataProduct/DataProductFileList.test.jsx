@@ -7,11 +7,11 @@ jest.mock('axios');
 
 describe('data_product_api_filelist MOCK', () => {
   beforeEach(() => {
-    process.env.SKA_SDP_DATA_PRODUCT_DUMMY_DATA = true;
+    process.env.REACT_APP_SKA_SDP_DATA_PRODUCT_DUMMY_DATA = true;
   });
 
   afterEach(() => {
-    process.env.SKA_SDP_DATA_PRODUCT_DUMMY_DATA = false;
+    process.env.REACT_APP_SKA_SDP_DATA_PRODUCT_DUMMY_DATA = false;
     cleanup();
   });
 
@@ -23,7 +23,7 @@ describe('data_product_api_filelist MOCK', () => {
 
 describe('data_product_api_filelist LIVE passing', () => {
   beforeEach(() => {
-    process.env.SKA_SDP_DATA_PRODUCT_DUMMY_DATA = true;
+    process.env.REACT_APP_SKA_SDP_DATA_PRODUCT_DUMMY_DATA = true;
   });
 
   it('Passes', async () => {
@@ -36,7 +36,7 @@ describe('data_product_api_filelist LIVE passing', () => {
 
 describe('data_product_api_filelist LIVE failing', () => {
   beforeEach(() => {
-    process.env.SKA_SDP_DATA_PRODUCT_DUMMY_DATA = false;
+    process.env.REACT_APP_SKA_SDP_DATA_PRODUCT_DUMMY_DATA = false;
   });
 
   it('Fails', async () => {

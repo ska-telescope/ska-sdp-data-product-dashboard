@@ -7,9 +7,7 @@ const deps = require('./package.json').dependencies;
 
 module.exports = (env, argv) => { return {
   entry: "./src/index.jsx",
-  output: {
-    publicPath: argv.mode == 'production' ? process.env.SKA_SDP_DATA_PRODUCT_DASHBOARD_URL : '/'
-  },
+  output: {},
 
   resolve: {
     extensions: ['.tsx', '.ts', '.jsx', '.js', '.json']
@@ -105,15 +103,10 @@ module.exports = (env, argv) => { return {
       inject: true,
       template: './public/index.html'
     }),
-    new webpack.EnvironmentPlugin([
-      'SKA_SDP_DATA_PRODUCT_DASHBOARD_URL',
-      'SKA_SDP_DATA_PRODUCT_DASHBOARD_PORT',
-      'SKA_SDP_DATA_PRODUCT_API_URL',
-      'SKA_SDP_DATA_PRODUCT_API_PORT',
-      'SKA_SDP_DATA_PRODUCT_DUMMY_DATA'
-    ]),
-    new webpack.DefinePlugin({
-      process: {env: {}}
+    new webpack.EnvironmentPlugin({
+      REACT_APP_SKA_SDP_DATA_PRODUCT_DASHBOARD_URL:'http://localhost',
+      REACT_APP_SKA_SDP_DATA_PRODUCT_API_URL: 'http://localhost:8000',
+      REACT_APP_SKA_SDP_DATA_PRODUCT_DUMMY_DATA: 'false'
     }),
     new CopyWebpackPlugin({
         patterns: [
