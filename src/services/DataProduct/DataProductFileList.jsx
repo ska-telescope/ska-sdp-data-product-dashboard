@@ -16,7 +16,6 @@ async function DataProductFileList() {
       return noData;
     }
   }
-  console.log(JSON.parse(process.env.REACT_APP_SKA_SDP_DATA_PRODUCT_DUMMY_DATA))
   return (JSON.parse(process.env.REACT_APP_SKA_SDP_DATA_PRODUCT_DUMMY_DATA) ? {data:mockFilesTree, status:200} : fetchFileList());
 }
 
