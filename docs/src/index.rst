@@ -6,6 +6,7 @@ Welcome to SKA SDP Data Product Dashboard's documentation!
    :caption: Contents:
 
    overview
+   helm
 
 
 Indices and tables
