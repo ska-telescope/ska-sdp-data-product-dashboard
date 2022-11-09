@@ -17,6 +17,6 @@ dashboard:
   container: artefact.skao.int/ska-sdp-data-product-dashboard
   version: 0.1.3
   imagePullPolicy: IfNotPresent
-  hostUrl: "https://sdhp.stfc.skao.int/dp-naledi-andre/data_product/dashboard"
-  apiUrl: "https://sdhp.stfc.skao.int:443/dp-naledi-andre/data_product/api" 
+  hostUrl: "https://sdhp.stfc.skao.int/[namespace]/data_product/dashboard"
+  apiUrl: "https://sdhp.stfc.skao.int:443/[namespace]/data_product/api" 
   dummyData: "false" 
