@@ -7,42 +7,43 @@ jest.mock('axios');
 
 describe('data_product_api_filelist MOCK', () => {
   beforeEach(() => {
-    process.env.SKA_SDP_DATA_PRODUCT_DUMMY_DATA = true;
+    process.env.REACT_APP_SKA_SDP_DATA_PRODUCT_DUMMY_DATA = true;
   });
 
   afterEach(() => {
-    process.env.SKA_SDP_DATA_PRODUCT_DUMMY_DATA = false;
+    process.env.REACT_APP_SKA_SDP_DATA_PRODUCT_DUMMY_DATA = false;
     cleanup();
   });
 
   it('Retrieves user data', async () => {
     const fileList = await DataProductFileList();
-    expect(fileList).toEqual(mockFilesTree);
+    expect(fileList.data).toEqual(mockFilesTree);
   });
 });
 
 describe('data_product_api_filelist LIVE passing', () => {
   beforeEach(() => {
-    process.env.SKA_SDP_DATA_PRODUCT_DUMMY_DATA = true;
+    process.env.REACT_APP_SKA_SDP_DATA_PRODUCT_DUMMY_DATA = true;
   });
 
   it('Passes', async () => {
     const data = { data: mockFilesTree };
+    const fileList = await DataProductFileList();
     axios.get.mockResolvedValueOnce(data);
-    await expect(DataProductFileList()).resolves.toEqual(mockFilesTree);
+    await expect(fileList.data).toEqual(mockFilesTree);
   });
 });
 
 describe('data_product_api_filelist LIVE failing', () => {
   beforeEach(() => {
-    process.env.SKA_SDP_DATA_PRODUCT_DUMMY_DATA = false;
+    process.env.REACT_APP_SKA_SDP_DATA_PRODUCT_DUMMY_DATA = false;
   });
 
   it('Fails', async () => {
     axios.get.mockRejectedValueOnce(new Error('Network Error'));
 
     const fileList = await DataProductFileList();
-    const noData = 'SDP Data API not available'
+    const noData = 'API unreachable, SDP data not available'
     expect(fileList).toEqual(noData);
   });
 });

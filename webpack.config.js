@@ -1,18 +1,13 @@
-const dotenv = require('dotenv').config({ path: __dirname + '/.env' });
-const isDevelopment = process.env.NODE_ENV !== 'production';
+const webpack = require('webpack');
 const HtmlWebPackPlugin = require('html-webpack-plugin');
 const ModuleFederationPlugin = require('webpack/lib/container/ModuleFederationPlugin');
+const CopyWebpackPlugin = require('copy-webpack-plugin');
 
 const deps = require('./package.json').dependencies;
-const webpack = require('webpack');
 
-const dashboardUrl = process.env.SKA_SDP_DATA_PRODUCT_DASHBOARD_URL;
-const dashboardPort = process.env.SKA_SDP_DATA_PRODUCT_DASHBOARD_PORT;
-
-module.exports = {
-  output: {
-    publicPath: `${dashboardUrl}:${dashboardPort}/`
-  },
+module.exports = (env, argv) => { return {
+  entry: "./src/index.jsx",
+  output: {},
 
   resolve: {
     extensions: ['.tsx', '.ts', '.jsx', '.js', '.json']
@@ -51,11 +46,9 @@ module.exports = {
     ]
   },
 
+  devtool: "source-map",
+
   plugins: [
-    new webpack.DefinePlugin({
-      'process.env': JSON.stringify(dotenv.parsed),
-      'process.env.NODE_ENV': JSON.stringify(isDevelopment ? 'development' : 'production')
-    }),
     new ModuleFederationPlugin({
       name: 'sdpDataProductDashboard',
       filename: 'remoteEntry.js',
@@ -112,7 +105,25 @@ module.exports = {
       }
     }),
     new HtmlWebPackPlugin({
+      inject: true,
       template: './public/index.html'
-    })
+    }),
+    new webpack.EnvironmentPlugin({
+      REACT_APP_SKA_SDP_DATA_PRODUCT_DASHBOARD_URL:'http://localhost',
+      REACT_APP_SKA_SDP_DATA_PRODUCT_API_URL: 'http://localhost:8000',
+      REACT_APP_SKA_SDP_DATA_PRODUCT_DUMMY_DATA: 'false'
+    }),
+    new CopyWebpackPlugin({
+        patterns: [
+            {
+              from: 'public',
+              globOptions: {
+                dot: true,
+                gitignore: true,
+                ignore: ["**/*.html"],
+              },
+            }
+        ]
+    })   
   ]
-};
+};};

@@ -9,7 +9,7 @@ import DownloadCard from './DownloadCard';
 import DataProductFileList from '../../services/DataProduct/DataProductFileList';
 
 const DataProductDashboard = () => {
-  const [jsonFilesTree, setJsonFilesTree] = React.useState([]);
+  const [jsonFilesTree, setJsonFilesTree] = React.useState({data:[]});
   const [selectedFileNames, setSelectedFileNames] = React.useState({
     fileName: '',
     relativeFileName: ''
@@ -46,31 +46,31 @@ const DataProductDashboard = () => {
   };
 
   const handleSelectedNode = (_event, nodeId) => {
-    getSelectedNodeInfo(jsonFilesTree, nodeId);
+    getSelectedNodeInfo(jsonFilesTree.data, nodeId);
   };
 
   async function getJsonFilesTree() {
     setJsonFilesTree(await DataProductFileList());
   }
 
-  if (jsonFilesTree.length === 0) {
+  if (jsonFilesTree.status === undefined) {
     getJsonFilesTree();
   }
 
   function renderTreeNodes() {
-    if (jsonFilesTree.length !== 0) {
+    if (jsonFilesTree.status === 200) {
       const renderTree = nodes => (
         <TreeItem key={nodes.id} nodeId={nodes.id.toString()} label={nodes.name}>
           {Array.isArray(nodes.children) ? nodes.children.map(node => renderTree(node)) : null}
         </TreeItem>
       );
-      return renderTree(jsonFilesTree);
+      return renderTree(jsonFilesTree.data);
     }
     return <></>;
   }
 
   function renderTreeComponent() {
-    if (jsonFilesTree !== 'SDP Data API not available') {
+    if (jsonFilesTree.status === 200 ) {
       return (
         <TreeView
           aria-label="rich object"
@@ -80,14 +80,14 @@ const DataProductDashboard = () => {
           onNodeSelect={handleSelectedNode}
           sx={{ height: TREE_HEIGHT, flexGrow: 1, maxWidth: TREE_MAX_WIDTH, overflowY: 'auto' }}
         >
-          {jsonFilesTree && renderTreeNodes()}
+          {jsonFilesTree.data && renderTreeNodes()}
         </TreeView>
       );
     }
     return (
       <>
-        <Typography sx={{ fontSize: 14 }} color="#D33115" gutterBottom>
-          <WarningIcon />
+        <Typography sx={{ fontSize: 25, display: "flex", justifyContent: "center" }} color="#D33115" gutterBottom>
+          <WarningIcon sx={{ fontSize: "35px" }}  />
           {" "}
           SDP Data API not available
         </Typography>
@@ -106,7 +106,7 @@ const DataProductDashboard = () => {
   return (
     <>
       {renderTreeComponent()}
-      {RenderDownloadCard(selectedFileNames)}
+      {RenderDownloadCard()}
     </>
   );
 };

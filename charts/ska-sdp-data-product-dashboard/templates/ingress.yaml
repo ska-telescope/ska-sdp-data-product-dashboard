@@ -1,0 +1,54 @@
+{{- if $.Values.ingress.enabled }}
+{{- if $.Values.dashboard.enabled }}
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  annotations:
+    kubernetes.io/ingress.class: nginx
+{{ include "api_general.labels" . | indent 4 }}
+    nginx.ingress.kubernetes.io/rewrite-target: /$1
+  labels:
+    app.kubernetes.io/name: ska-sdp-data-product-dashboard
+{{ include "api_general.labels" . | indent 4 }}
+  name: ska-sdp-data-product-dashboard
+  namespace: {{ .Release.Namespace }}
+spec:
+  rules:
+  - http:
+      paths:
+      - backend:
+          service:
+            name: ska-sdp-data-product-dashboard
+            port:
+              number: 8100
+        path: "{{ include "ingress_path_prepend" . }}/dashboard/?(.*)"
+        pathType: ImplementationSpecific
+{{- end }}
+{{- if $.Values.api.enabled }}
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  annotations:
+    kubernetes.io/ingress.class: nginx
+{{ include "api_general.labels" . | indent 4 }}
+    nginx.ingress.kubernetes.io/rewrite-target: /$1
+  labels:
+    app.kubernetes.io/name: ska-sdp-data-product-api
+{{ include "api_general.labels" . | indent 4 }}
+  name: ska-sdp-data-product-api
+  namespace: {{ .Release.Namespace }}
+spec:
+  rules:
+  - http:
+      paths:
+      - backend:
+          service:
+            name: ska-sdp-data-product-api
+            port:
+              number: 8000
+        path: "{{ include "ingress_path_prepend" . }}/api/?(.*)"
+        pathType: ImplementationSpecific
+{{- end }}
+{{- end }}

@@ -1,0 +1,7 @@
+---
+api:
+  hostUrl: "http://localhost"
+
+dashboard:
+  hostUrl: "http://localhost"
+  apiUrl: "http://localhost:8000" 

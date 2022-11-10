@@ -1,0 +1,55 @@
+{{- if $.Values.api.enabled }}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: ska-sdp-data-product-api
+  labels:
+    app.kubernetes.io/name: ska-sdp-data-product-api
+{{ include "api_general.labels" . | indent 4 }}
+spec:
+  ports:
+  - port: 8000
+    targetPort: 8000
+    protocol: TCP
+  clusterIP: None
+  selector:
+    app.kubernetes.io/name: ska-sdp-data-product-api
+{{ include "api_general.labels" . | indent 4 }}
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ska-sdp-data-product-api
+  labels:
+    app.kubernetes.io/name: ska-sdp-data-product-api
+{{ include "api_general.labels" . | indent 4 }}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: ska-sdp-data-product-api
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: ska-sdp-data-product-api
+{{ include "api_general.labels" . | indent 8 }}
+    spec:
+      restartPolicy: Always
+      terminationGracePeriodSeconds: 10
+      containers:
+      - name: data-product-api
+        image: "{{ .Values.api.container }}:{{ .Values.api.version }}"
+        imagePullPolicy: {{ .Values.api.imagePullPolicy }}
+        ports:
+          - containerPort: 8000
+        terminationMessagePath: "/dev/termination-log"
+        terminationMessagePolicy: "File"
+        env:
+          - name: REACT_APP_SKA_SDP_DATA_PRODUCT_DASHBOARD_URL
+            value: "{{ .Values.api.hostUrl }}"
+          - name: REACT_APP_SKA_SDP_DATA_PRODUCT_DASHBOARD_PORT
+            value: "{{ .Values.api.hostPort }}"
+          - name: PERSISTANT_STORAGE_PATH
+            value: "{{ .Values.api.storagePath }}"
+{{- end }}
