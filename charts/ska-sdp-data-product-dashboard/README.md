@@ -22,7 +22,7 @@ This can include the following:
 | ska_sdp_data_product_dashboard.dashboard.version               | string    | Yes        | latest                       | The version of the Docker image to use             |
 | ska_sdp_data_product_dashboard.dashboard.imagePullPolicy       | string    | Yes        | IfNotPresent                 | When should the image be pulled                    |
 | ska_sdp_data_product_dashboard.dashboard.hostUrl               | string    | Yes        | "http://localhost:8002"      | Host URL for example "https://sdhp.stfc.skao.int/dp-naledi-andre/data_product/dashboard" |
-| ska_sdp_data_product_dashboard.dashboard.apiUrl                | string    | Yes        | "http://localhost:8002"      | Dashboard URL for example "https://sdhp.stfc.skao.int:443/dp-naledi-andre/data_product/api" |
+| ska_sdp_data_product_dashboard.dashboard.apiUrl                | string    | Yes        | "http://localhost:8002"      | Dashboard URL for example "https://sdhp.stfc.skao.int/dp-naledi-andre/data_product/api" |
 | ska_sdp_data_product_dashboard.dashboard.dummyData             | boolean   | Yes        | False                        | Flag to use dummy data rather then the API         |
 
 

@@ -18,5 +18,5 @@ dashboard:
   version: 0.1.3
   imagePullPolicy: IfNotPresent
   hostUrl: "https://sdhp.stfc.skao.int/[namespace]/data_product/dashboard"
-  apiUrl: "https://sdhp.stfc.skao.int:443/[namespace]/data_product/api" 
+  apiUrl: "https://sdhp.stfc.skao.int/[namespace]/data_product/api" 
   dummyData: "false" 
