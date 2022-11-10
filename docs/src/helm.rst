@@ -22,7 +22,7 @@ Start Minikube if it is not already running:
 
 1. Change to the chart directory in the repository: ``cd ska-sdp-integration/charts/ska-sdp``
 2. Create a new namespace (optional): ``kubectl create namespace test``
-3. Install the helm chart with the following values: ``helm install test . -n test --set helmdeploy.namespace=test-sdp --values values_local_deployment.yaml``
+3. Install the helm chart with the following values: ``helm install test . -n test --values values_local_deployment.yaml``
 
 Once the above is complete you will have the following running:
 
@@ -56,7 +56,7 @@ Before you install the helm chart, update the values file with the namespace you
 .. code-block:: bash
     ...
     hostUrl: "https://sdhp.stfc.skao.int/[namespace]/data_product/dashboard"
-    apiUrl: "https://sdhp.stfc.skao.int:443/[namespace]/data_product/api" 
+    apiUrl: "https://sdhp.stfc.skao.int/[namespace]/data_product/api" 
     ...
 
 .. code-block:: bash
