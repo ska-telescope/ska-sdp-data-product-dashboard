@@ -1,6 +1,5 @@
 import React from 'react';
-import { shallow } from 'enzyme';
-import { cleanup } from '@testing-library/react';
+import { cleanup, render, screen, waitFor } from '@testing-library/react';
 import { unmountComponentAtNode } from 'react-dom';
 import DataProductDashboard from './DataProductDashboard';
 
@@ -24,22 +23,26 @@ afterEach(() => {
 
 describe('Data Product Dashboard', () => {
   it('renders', () => {
-    const wrapper = shallow(<DataProductDashboard />);
-    expect(wrapper.exists());
+    render(<DataProductDashboard />);
   });
 
   describe('TreeView', () => {
     it('renders', () => {
-      const wrapper = shallow(<DataProductDashboard />);
-      expect(wrapper.find('TreeView').exists());
+      render(<DataProductDashboard />);
+      waitFor(() => {
+        expect(screen.getByRole('TreeView')).toBeTruthy();
+      });
+      
     });
   });
 
   describe('Download Button', () => {
     it('renders', () => {
-      const wrapper = shallow(<DataProductDashboard />);
-      expect(wrapper.find('button').exists());
-      expect(wrapper.find('button').contains('DOWNLOAD'));
+      render(<DataProductDashboard />);
+      waitFor(() => {
+        expect(screen.getByRole('button')).toBeTruthy();
+        expect(screen.getByRole('button')).toHaveTextContent('DOWNLOAD');
+      });
     });
   });
 });

@@ -1,10 +1,9 @@
 import React from 'react';
-import { shallow } from 'enzyme';
+import { render } from '@testing-library/react';
 import App from './App';
 
 describe('App Component', () => {
   it('renders without crashing', () => {
-    const wrapper = shallow(<App />);
-    expect(wrapper.exists());
+    render(<App />);
   });
 });
