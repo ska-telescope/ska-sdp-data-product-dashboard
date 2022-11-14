@@ -98,7 +98,7 @@ build:
       - node_modules/
     policy: pull
   script:
-    - node --version
+    - export NODE_OPTIONS=--openssl-legacy-provider
     - yarn build
 
 # export the report
