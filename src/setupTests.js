@@ -1,8 +1,7 @@
-import { configure } from 'enzyme';
-import Adapter from 'enzyme-adapter-react-16';
-import 'jest-enzyme';
+import { configure } from '@testing-library/react';
+import '@testing-library/jest-dom';
 
-configure({ adapter: new Adapter() });
+configure();
 
 jest.mock(`react-i18next`, () => ({
   useTranslation: () => ({
