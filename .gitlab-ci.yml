@@ -98,6 +98,7 @@ build:
       - node_modules/
     policy: pull
   script:
+    - node --version
     - yarn build
 
 # export the report
