@@ -18,7 +18,7 @@
     "lint:tsc": "yarn tsc --noEmit",
     "lint:yarn-deduplicate": "yarn-deduplicate --fail --list --strategy=fewer",
     "test": "react-scripts test --env=jsdom --reporters=default --reporters=jest-junit",
-    "test:coverage": "react-scripts test --coverage --coverageDirectory=build/coverage",
+    "test:coverage": "react-scripts test --coverage --coverageDirectory=build/coverage --watchAll=false",
     "start": "webpack serve --open --mode development"
   },
   "dependencies": {
@@ -58,8 +58,10 @@
     "eslint-plugin-prettier": "^3.0.1",
     "eslint-plugin-react": "^7.12.3",
     "html-webpack-plugin": "^5.5.0",
+    "jest-fetch-mock": "^3.0.3",
     "jest-junit": "^13.0.0",
     "junit": "^1.4.9",
+    "msw": "^0.48.3",
     "prettier": "2.7.1",
     "react-scripts": "4.0.0",
     "react-test-renderer": "^16.7.0",
