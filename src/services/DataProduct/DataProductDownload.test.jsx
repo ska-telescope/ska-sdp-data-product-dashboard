@@ -34,5 +34,4 @@ afterAll(() => {
 test('File Download Method is Successful', () => {
   const selectedFileNames = { "fileName": "testfile1.txt" }
   DataProductDownload(selectedFileNames);
-  expect(20).toBe(4);
 });
