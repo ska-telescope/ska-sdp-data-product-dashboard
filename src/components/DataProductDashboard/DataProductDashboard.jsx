@@ -5,7 +5,7 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import TreeItem from '@mui/lab/TreeItem';
 import Typography from '@mui/material/Typography';
-import DownloadCard from './DownloadCard';
+import { DownloadCard } from './DownloadCard';
 import DataProductFileList from '../../services/DataProduct/DataProductFileList';
 
 const DataProductDashboard = () => {

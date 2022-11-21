@@ -16,7 +16,7 @@ function DataProductDownload(selectedFileNames) {
     }
   })
     .then(resp => resp.blob())
-    .then(blob => download(blob, `${selectedFileNames.fileName}`));
+    .then(blob => download(blob, `${selectedFileNames.fileName}`, 'text/plain'));
 }
 
 export default DataProductDownload;

@@ -1,0 +1,13 @@
+---
+version: '3.4'
+services:
+  data-product-dashboard:
+    build:
+      context: .
+    ports:
+      - 8100:8100
+    volumes:
+      - .:/usr/src/app
+      - /usr/src/app/node_modules
+    env_file:
+      - .env
