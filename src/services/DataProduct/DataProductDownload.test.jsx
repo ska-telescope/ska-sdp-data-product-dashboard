@@ -2,8 +2,8 @@ import * as path from 'path';
 import * as fs from 'fs';
 import { rest } from 'msw';
 import { setupServer } from 'msw/node';
-import DataProductDownload from './DataProductDownload';
 import { cleanup } from '@testing-library/react';
+import DataProductDownload from './DataProductDownload';
 
 const apiUrl = 'http://localhost:8000';
 const server = setupServer(

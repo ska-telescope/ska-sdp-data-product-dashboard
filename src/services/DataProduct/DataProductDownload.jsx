@@ -1,11 +1,6 @@
 import download from 'downloadjs';
 
-
-export const onDownloadClick = (selectedFileNames) => {
-  DataProductDownload(selectedFileNames);
-};
-
-function DataProductDownload(selectedFileNames) {
+export default function DataProductDownload(selectedFileNames) {
   const apiUrl = process.env.REACT_APP_SKA_SDP_DATA_PRODUCT_API_URL;
   fetch(`${apiUrl}/download`, {
     method: 'POST',
@@ -19,4 +14,8 @@ function DataProductDownload(selectedFileNames) {
     .then(blob => download(blob, `${selectedFileNames.fileName}`, 'text/plain'));
 }
 
-export default DataProductDownload;
+export const onDownloadClick = (selectedFileNames) => {
+  DataProductDownload(selectedFileNames);
+};
+
+

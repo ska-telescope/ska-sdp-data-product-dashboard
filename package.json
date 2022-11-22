@@ -13,7 +13,7 @@
     "fix:prettier": "prettier --write \"**/*\"",
     "fix:yarn-deduplicate": "yarn install; yarn-deduplicate --strategy=fewer; yarn install",
     "lint": "eslint 'src/**/*.{js,jsx,ts,tsx}'",
-    "lint:fix": "eslint src/**/*.{js,jsx,ts,tsx} --fix",
+    "lint:fix": "eslint 'src/**/*.{js,jsx,ts,tsx}' --fix",
     "lint:prettier": "prettier --check \"**/*\"",
     "lint:tsc": "yarn tsc --noEmit",
     "lint:yarn-deduplicate": "yarn-deduplicate --fail --list --strategy=fewer",

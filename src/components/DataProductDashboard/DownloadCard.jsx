@@ -10,7 +10,7 @@ import { onDownloadClick } from '../../services/DataProduct/DataProductDownload'
 // Moved the onDownloadClick to DataProductDownload as it is easier to test. 
 
 
-export function DownloadCard(selectedFileNames) {
+export default function DownloadCard(selectedFileNames) {
   const { fileName } = selectedFileNames
   return (
     <Card sx={{ minWidth: 275 }}>

@@ -1,14 +1,12 @@
 import React from 'react';
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
-import { DownloadCard } from './DownloadCard';
-import DataProductDownload, { onDownloadClick } from '../../services/DataProduct/DataProductDownload'
+import DownloadCard from './DownloadCard';
+import { onDownloadClick } from '../../services/DataProduct/DataProductDownload'
 
-jest.mock('../../services/DataProduct/DataProductDownload', () => {
-    return{
+jest.mock('../../services/DataProduct/DataProductDownload', () => ({
         ...jest.requireActual('../../services/DataProduct/DataProductDownload'),
         onDownloadClick: jest.fn()
-    }
-});
+    }));
 
 
 test("Download Card renders correctly", async () => {
