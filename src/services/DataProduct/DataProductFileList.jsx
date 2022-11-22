@@ -1,5 +1,4 @@
 import axios from 'axios';
-import mockFilesTree from '../Mocking/mockFilesTree';
 
 async function DataProductFileList() {
   async function fetchFileList() {
@@ -16,7 +15,7 @@ async function DataProductFileList() {
       return noData;
     }
   }
-  return (JSON.parse(process.env.REACT_APP_SKA_SDP_DATA_PRODUCT_DUMMY_DATA) ? {data:mockFilesTree, status:200} : fetchFileList());
+  return fetchFileList();
 }
 
 export default DataProductFileList;

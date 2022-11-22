@@ -1,24 +1,17 @@
 import React from 'react';
 import { cleanup, render, screen, waitFor } from '@testing-library/react';
-import { unmountComponentAtNode } from 'react-dom';
+import axios from 'axios';
 import DataProductDashboard from './DataProductDashboard';
 
+jest.mock('axios');
 
-
-let container = null;
 beforeEach(() => {
   process.env.REACT_APP_SKA_SDP_DATA_PRODUCT_DUMMY_DATA = 'true';
-  container = document.createElement('div');
-  document.body.appendChild(container);
 });
 
 afterEach(() => {
   process.env.REACT_APP_SKA_SDP_DATA_PRODUCT_DUMMY_DATA = 'false';
   cleanup();
-  unmountComponentAtNode(container);
-  container.remove();
-  container = null;
-  jest.restoreAllMocks();
 });
 
 describe('Data Product Dashboard', () => {
@@ -26,24 +19,30 @@ describe('Data Product Dashboard', () => {
     render(<DataProductDashboard />);
   });
 
-  describe('TreeView', () => {
-    it('renders', () => {
-      render(<DataProductDashboard />);
-      waitFor(() => {
-        expect(screen.getByRole('TreeView')).toBeTruthy();
-      });
-      
+  it('renders treeview', () => {
+    render(<DataProductDashboard />);
+    waitFor(() => {
+      expect(screen.getByRole('TreeView')).toBeTruthy();
+      expect(screen.getAllByRole('TreeItem').length).toBe(3);
     });
   });
 
-  describe('Download Button', () => {
-    it('renders', () => {
-      render(<DataProductDashboard />);
-      waitFor(() => {
-        expect(screen.getByRole('button')).toBeTruthy();
-        expect(screen.getByRole('button')).toHaveTextContent('DOWNLOAD');
-      });
+  it('renders button', () => {
+    render(<DataProductDashboard />);
+    waitFor(() => {
+      expect(screen.getByRole('button')).toBeTruthy();
+      expect(screen.getByRole('button')).toHaveTextContent('DOWNLOAD');
     });
+  });
+});
+
+test('If No Data Message show if Call is Failure', () => {
+  axios.get.mockRejectedValueOnce(new Error('Network Error'));
+
+  render(<DataProductDashboard />);
+  waitFor(()=> {
+    expect(screen.getByText('SDP Data API not available')).toBeInTheDocument();
+    expect(screen.getByRole('button')).not.toBeInTheDocument();
   });
 });
 

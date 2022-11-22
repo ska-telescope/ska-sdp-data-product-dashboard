@@ -5,11 +5,10 @@ import CardContent from '@mui/material/CardContent';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import DownloadIcon from '@mui/icons-material/Download';
-import DataProductDownload from '../../services/DataProduct/DataProductDownload';
+import { onDownloadClick } from '../../services/DataProduct/DataProductDownload';
 
-const onDownloadClick = (selectedFileNames) => {
-    DataProductDownload(selectedFileNames);
-  };
+// Moved the onDownloadClick to DataProductDownload as it is easier to test. 
+
 
 export default function DownloadCard(selectedFileNames) {
   const { fileName } = selectedFileNames

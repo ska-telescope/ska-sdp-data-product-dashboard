@@ -1,18 +1,17 @@
 # pull the base image
 FROM node:alpine
 
-# set the working direction
-WORKDIR /app
+ENV PORT 8100
 
-# add `/app/node_modules/.bin` to $PATH
-ENV PATH /app/node_modules/.bin:$PATH
+RUN mkdir -p /usr/src/app
+WORKDIR /usr/src/app
 
-# install app dependencies
-COPY package.json ./
+ENV PATH /usr/src/app/node_modules/.bin:$PATH
+
+COPY package.json /usr/src/app/
 RUN yarn install && yarn cache clean
 
-# add app
-COPY . ./
+COPY . /usr/src/app
 
 EXPOSE 8100
 

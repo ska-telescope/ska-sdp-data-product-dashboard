@@ -4,3 +4,10 @@ coverage
 **/*.scss
 **/*.ttf
 webpack.config.js
+build
+dist
+**/*.py
+**/*.svg
+**/*.html
+jest.config.js
+**/*.txt
