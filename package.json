@@ -70,7 +70,7 @@
     "junit": "^1.4.9",
     "msw": "^0.48.3",
     "prettier": "2.7.1",
-    "react-scripts": "4.0.0",
+    "react-scripts": "^5.0.1",
     "react-test-renderer": "^16.7.0",
     "sass": "^1.49.4",
     "sass-loader": "^12.6.0",
