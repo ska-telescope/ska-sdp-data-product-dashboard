@@ -2,13 +2,16 @@
 ingress:
   enabled: true
   pathStart: "/data_product"
-  namespaced: true    
+  namespaced: true   
+urls:
+  override: False
+  hostUrl: "http://localhost"
+  apiUrl: "http://localhost:8000" 
 api:
   enabled: true
   container: artefact.skao.int/ska-sdp-data-product-api
   version: 0.1.1
   imagePullPolicy: IfNotPresent
-  hostUrl: "https://sdhp.stfc.skao.int"
   hostPort: "8100"
   storagePath: "/var/log"
 
@@ -17,6 +20,4 @@ dashboard:
   container: artefact.skao.int/ska-sdp-data-product-dashboard
   version: 0.1.3
   imagePullPolicy: IfNotPresent
-  hostUrl: "https://sdhp.stfc.skao.int/[namespace]/data_product/dashboard"
-  apiUrl: "https://sdhp.stfc.skao.int/[namespace]/data_product/api" 
   dummyData: "false" 

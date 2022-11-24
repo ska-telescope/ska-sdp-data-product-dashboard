@@ -51,14 +51,6 @@ Clone the SDP Integration Repository (https://gitlab.com/ska-telescope/sdp/ska-s
 Load the KUBECONFIG file to access and test the deployment. Please contact Hodosan, Gabriella (@Gabi on Slack) if you haven't got a file yet. 
 Once you export the file (i.e. export KUBECONFIG=<my-config-file>), you will have access to your available namespaces.
 
-Before you install the helm chart, update the values file with the namespace you are going to deploy it to, to allow the dashboard to access the API.
-
-.. code-block:: bash
-    ...
-    hostUrl: "https://sdhp.stfc.skao.int/[namespace]/data_product/dashboard"
-    apiUrl: "https://sdhp.stfc.skao.int/[namespace]/data_product/api" 
-    ...
-
 .. code-block:: bash
 
     helm install [NAME] [CHART] [flags]
