@@ -18,3 +18,19 @@ app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
 {{- end }}
 app.kubernetes.io/managed-by: {{ .Release.Service }}
 {{- end }}
+
+{{- define "dashboard_url" }}
+    {{- if $.Values.urls.override }}
+        {{- printf "%s" $.Values.urls.dashboardurl }}
+    {{- else }}
+        {{- printf "%s/dashboard" (include "ingress_path_prepend" .) }}
+    {{- end }}
+{{- end }}
+
+{{- define "api_url" }}
+    {{- if $.Values.urls.override }}
+        {{- printf "%s" $.Values.urls.apiUrl }}
+    {{- else }}
+        {{- printf "%s/api" (include "ingress_path_prepend" .) }}
+    {{- end }}
+{{- end }}

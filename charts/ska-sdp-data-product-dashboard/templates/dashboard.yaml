@@ -73,9 +73,9 @@ spec:
             - /dist/
           env:
             - name: REACT_APP_SKA_SDP_DATA_PRODUCT_DASHBOARD_URL
-              value: "{{ .Values.dashboard.hostUrl }}"
+              value: {{ include "dashboard_url" . }}
             - name: REACT_APP_SKA_SDP_DATA_PRODUCT_API_URL
-              value: "{{ .Values.dashboard.apiUrl }}"
+              value: {{ include "api_url" . }}
             - name: REACT_APP_SKA_SDP_DATA_PRODUCT_DUMMY_DATA
               value: "{{ .Values.dashboard.dummyData }}"
           volumeMounts:

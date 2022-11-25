@@ -58,41 +58,7 @@ To run the application using docker, build the docker file in the root directory
 
 The project will then be accessiable at the url http://localhost:8100/
 
-## Running the application inside a containder
-
-To run the application using docker, build the docker file in the root directory and run the container exposing port 8100.
-
-```
- docker build -t react-docker .
- docker run -p 8100:8100 react-docker
-```
-
-The project will then be accessiable at the url http://localhost:8100/
-
 ## Testing
-
-### Writing
-
-We use Jest as the test running framework. It will look for test files with any of the following naming conventions:
-
-- Files with `.js` suffix in `__tests__` folders.
-- Files with `.test.js` suffix in any folder.
-- Files with `.spec.js` suffix in any folder.
-
-The .test.js / .spec.js files (or the `__tests__` folders) can be located at any depth under the src top level folder.
-We recommend to put the test files or folders next to the code they are testing.
-
-```
-components
-|
-└─ App
-   |  App.jsx
-   |  App.test.jsx
-```
-
-[Enzyme](https://airbnb.io/enzyme/) and [jest-enzyme](https://www.npmjs.com/package/jest-enzyme) have been included to improve the testing framework and test readability.
-
-See the developer guide for more information
 
 ### Running
 
@@ -105,12 +71,6 @@ This will also watch the source files and re-run when any changes are detected
 To run the tests with coverage, execute
 
     > yarn test:coverage
-
-The coverage results are displayed in the console. They are also written to the `coverage` folder as:
-
-- `lcov-report` - A coverage report as a series of html pages, open `index.html` in a web browser to view
-- `clover.xml` - A clover coverage report that can be viewed in the clover code-coverage tools
-- `coverage-final.json` - A json format.
 
 **All the tests should pass before merging the code**
 
@@ -147,7 +107,7 @@ Prettier can be installed through a [plugin](https://plugins.jetbrains.com/plugi
 
 ## Documentation
 
-The documentation generator for this project is derived from SKAO's [SKAO Developer Portal repository](http://developer.skatelescope.org/en/latest/projects/document_project.html)
+The documentation generator for this project is available at [SKA SDP Data Product Dashboard’s documentation](https://developer.skao.int/projects/ska-sdp-data-product-dashboard/en/latest/)
 
 ### Writing
 
@@ -159,40 +119,14 @@ In order to build the documentation for this specific project, execute the follo
 
     > make html
 
-or
-
-    > docker run --rm -d -v $(pwd):/tmp -w /tmp netresearch/sphinx-buildbox sh -c "make html"
-
-The latter requires Docker to be installed on your system but not Python, Sphinx, and other dependencies.
-
 The documentation can then be consulted by opening the file `./docs/build/html/index.html`
 
 ## Roadmap
 
 This project is in very early development, but the following have already been identified to be added:
-[] Update the file icon based on file type
-[] Add selection and view of metadata capability
-[] Add filter based on metadata
+- Add selection and view of metadata capability
+- Add filter based on metadata
 
 ## Contributing
 
 Contributions are welcome, please see the SKAO developer portal for guidance. https://developer.skao.int/en/latest/
-
-## Project status
-
-Working towards a minimum viable product.
-
-## Roadmap
-
-This project is in very early development, but the following have already been identified to be added:
-[] Update the file icon based on file type
-[] Add selection and view of metadata capability
-[] Add filter based on metadata
-
-## Contributing
-
-Contributions are welcome, please see the SKAO developer portal for guidance. https://developer.skao.int/en/latest/
-
-## Project status
-
-Working towards a minimum viable product.
