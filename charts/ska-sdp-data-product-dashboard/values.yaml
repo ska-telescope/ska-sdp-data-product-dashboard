@@ -5,7 +5,7 @@ ingress:
   namespaced: true   
 urls:
   override: False
-  hostUrl: "http://localhost"
+  dashboardurl: "http://localhost"
   apiUrl: "http://localhost:8000" 
 api:
   enabled: true

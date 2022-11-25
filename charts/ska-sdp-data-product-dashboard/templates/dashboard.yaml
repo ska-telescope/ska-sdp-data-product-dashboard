@@ -73,7 +73,7 @@ spec:
             - /dist/
           env:
             - name: REACT_APP_SKA_SDP_DATA_PRODUCT_DASHBOARD_URL
-              value: {{ include "host_url" . }}
+              value: {{ include "dashboard_url" . }}
             - name: REACT_APP_SKA_SDP_DATA_PRODUCT_API_URL
               value: {{ include "api_url" . }}
             - name: REACT_APP_SKA_SDP_DATA_PRODUCT_DUMMY_DATA

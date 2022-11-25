@@ -47,7 +47,7 @@ spec:
         terminationMessagePolicy: "File"
         env:
           - name: REACT_APP_SKA_SDP_DATA_PRODUCT_DASHBOARD_URL
-            value: {{ include "host_url" . }}
+            value: {{ include "dashboard_url" . }}
           - name: PERSISTANT_STORAGE_PATH
             value: "{{ .Values.api.storagePath }}"
 {{- end }}

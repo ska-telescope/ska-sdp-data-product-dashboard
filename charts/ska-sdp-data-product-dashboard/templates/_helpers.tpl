@@ -19,9 +19,9 @@ app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
 app.kubernetes.io/managed-by: {{ .Release.Service }}
 {{- end }}
 
-{{- define "host_url" }}
+{{- define "dashboard_url" }}
     {{- if $.Values.urls.override }}
-        {{- printf "%s" $.Values.urls.hostUrl }}
+        {{- printf "%s" $.Values.urls.dashboardurl }}
     {{- else }}
         {{- printf "%s/dashboard" (include "ingress_path_prepend" .) }}
     {{- end }}
