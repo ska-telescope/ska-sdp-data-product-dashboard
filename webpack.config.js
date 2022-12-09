@@ -9,6 +9,12 @@ module.exports = (env, argv) => { return {
   entry: "./src/index.jsx",
   output: {},
 
+  performance: {
+    hints: false,
+    maxEntrypointSize: 512000,
+    maxAssetSize: 512000
+  },
+
   resolve: {
     extensions: ['.tsx', '.ts', '.jsx', '.js', '.json']
   },
