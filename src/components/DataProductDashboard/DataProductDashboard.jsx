@@ -6,10 +6,10 @@ import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import TreeItem from '@mui/lab/TreeItem';
 import Typography from '@mui/material/Typography';
 import DownloadCard from './DownloadCard';
-import DataProductFileList from '../../services/DataProduct/DataProductFileList';
+import DataProductList from '../../services/DataProduct/DataProductList';
 
 const DataProductDashboard = () => {
-  const [jsonFilesTree, setJsonFilesTree] = React.useState({data:[]});
+  const [jsonDataProductsTree, setJsonDataProductsTree] = React.useState({data:[]});
   const [selectedFileNames, setSelectedFileNames] = React.useState({
     fileName: '',
     relativeFileName: ''
@@ -46,31 +46,31 @@ const DataProductDashboard = () => {
   };
 
   const handleSelectedNode = (_event, nodeId) => {
-    getSelectedNodeInfo(jsonFilesTree.data, nodeId);
+    getSelectedNodeInfo(jsonDataProductsTree.data, nodeId);
   };
 
-  async function getJsonFilesTree() {
-    setJsonFilesTree(await DataProductFileList());
+  async function getJsonDataProductsTree() {
+    setJsonDataProductsTree(await DataProductList());
   }
 
-  if (jsonFilesTree.status === undefined) {
-    getJsonFilesTree();
+  if (jsonDataProductsTree.status === undefined) {
+    getJsonDataProductsTree();
   }
 
-  function renderTreeNodes() {
-    if (jsonFilesTree.status === 200) {
+  function renderDataProductsTreeNodes() {
+    if (jsonDataProductsTree.status === 200) {
       const renderTree = nodes => (
         <TreeItem key={nodes.id} nodeId={nodes.id.toString()} label={nodes.name}>
           {Array.isArray(nodes.children) ? nodes.children.map(node => renderTree(node)) : null}
         </TreeItem>
       );
-      return renderTree(jsonFilesTree.data);
+      return renderTree(jsonDataProductsTree.data);
     }
     return <></>;
   }
 
-  function renderTreeComponent() {
-    if (jsonFilesTree.status === 200 ) {
+  function renderDataProductsTreeComponent() {
+    if (jsonDataProductsTree.status === 200 ) {
       return (
         <TreeView
           aria-label="rich object"
@@ -80,7 +80,7 @@ const DataProductDashboard = () => {
           onNodeSelect={handleSelectedNode}
           sx={{ height: TREE_HEIGHT, flexGrow: 1, maxWidth: TREE_MAX_WIDTH, overflowY: 'auto' }}
         >
-          {jsonFilesTree.data && renderTreeNodes()}
+          {jsonDataProductsTree.data && renderDataProductsTreeNodes()}
         </TreeView>
       );
     }
@@ -105,7 +105,7 @@ const DataProductDashboard = () => {
 
   return (
     <>
-      {renderTreeComponent()}
+      {renderDataProductsTreeComponent()}
       {RenderDownloadCard()}
     </>
   );
