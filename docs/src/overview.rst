@@ -1,67 +1,94 @@
 SDP Data Product Dashboard Overview
 =============
 
-This is the documentation for the SKA SDP Data Product Dashboard.
-
 This Dashboard is used to list SDP data products (files) that is hosted at a persistent storage or other orchestrated location and make them available to download.
 
-Usage
+Deployment
 -----
 
-This usage will assume that you have the repo and submodules checked out.
-
-Basic Usage
+Local Deployment
 ~~~~~~~~~~~
-
-Tooling Pre-requisites
-~~~~~~~~~~~~~~~~~~~~~~
+**Tooling Pre-requisites**
 
 This project requires **Node** and **YARN** to install and run. To install these follow the instructions for your operating system at [https://nodejs.org/en/download/](https://nodejs.org/en/download/).
 
 Alternatively the official Node docker image can be used. Instructions can be found on the [official Node docker image site](https://github.com/nodejs/docker-node/blob/master/README.md#how-to-use-this-image).
 
 
-## Installation
+**Installation**
+
+Clone the repository and its submodules:
+
+.. code-block:: bash
+
+    git clone git@gitlab.com:ska-telescope/sdp/ska-sdp-data-product-dashboard.git
+    git submodule update --init --recursive
+
+*To run the application directly on your host machine in developer mode:*
 
 All the following notes assume you are at the command prompt for your chosen environment.
 
-1.  Confirm Node and YARN are installed and configured correctly, both the following commands should return the relevant version number.
-
-        > node --version
-        > yarn --version
-
-2.  Clone the project from GitHub
-
-3.  Install all the necessary project dependencies by running
-
-        > yarn install
-
-Usage
-~~~~~
 Scripts for running, testing, and building the application are provided as part of the standard configuration. These are run using YARN and listed in the scripts section of the package.json file.
 
-From the project directory, you can run any of the following:
+1.  Confirm Node and YARN are installed and configured correctly, both the following commands should return the relevant version number.
 
-- `> yarn start`
+.. code-block:: bash
 
-  Runs the app in the development mode at default url and port configured in .env file: [http://localhost:3000](http://localhost:3000). The app will recompile and restart if you make any edits to the source files. Any linting errors will also be shown in the console.
+  > node --version
+  > yarn --version
 
-- `> yarn test`
+2.  Install all the necessary project dependencies by running
 
-  Launches the test runner in the interactive watch mode. See the [testing](#testing) section for more information.
+.. code-block:: bash
 
-- `> yarn build`
+  > yarn install
 
-  Builds the app for production to the `build` folder. The build is minified and any JSX is transpiled to JavaScript. Your app is ready to be deployed!
- 
-Running the application inside a container
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+3.  From the project directory, you can run any of the following:
+
+.. code-block:: bash
+
+  > yarn start
+
+Runs the app in the development mode at default url and port configured in .env file: [http://localhost:3000](http://localhost:3000). The app will recompile and restart if you make any edits to the source files. Any linting errors will also be shown in the console.
+
+.. code-block:: bash
+
+  > yarn test
+
+Launches the test runner in the interactive watch mode. See the [testing](#testing) section for more information.
+
+.. code-block:: bash
+
+  > yarn build
+
+Builds the app for production to the `build` folder. The build is minified and any JSX is transpiled to JavaScript. Your app is ready to be deployed!
+
+The dashboard will then be running on http://localhost:8100/
+
+
+*To run the application inside a docker container on your host machine:*
 
 To run the application using docker, build the docker file in the root directory and run the container exposing port 8100.
 
-```
- docker build -t react-docker .
- docker run -p 8100:8100 react-docker
-```
+.. code-block:: bash
+
+  docker build -t react-docker .
+  docker run -p 8100:8100 react-docker
 
 The project will then be accessible at the url http://localhost:8100/
+
+Kubernetes Deployment
+~~~~~~~~~~~
+The SDP Data Product API is deployed as part of the helm chart of the SDP Data Product Dashboard. Please see the Helm section of this documentation for details.
+
+Usage
+-----
+
+The dashboard contains a list of all the data products that can be accessed with the `SDP Data Product API <https://developer.skao.int/projects/ska-sdp-data-product-api/en/latest/?badge=latest>`_
+
+This dashboard is developed as a Webpack 5 Module that is used as a remote in the `SKA Landing Page <https://gitlab.com/ska-telescope/ska-landing-page>`_. It contains a tree view of all the Data Products and a capability to select and download a product or individual file when selected.
+
+.. figure:: /_static/img/dataproductdashboard.png
+   :width: 90%
+
+   Example SDP Data Product Dashboard
