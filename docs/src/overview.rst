@@ -72,8 +72,8 @@ To run the application using docker, build the docker file in the root directory
 
 .. code-block:: bash
 
-  docker build -t react-docker .
-  docker run -p 8100:8100 react-docker
+  docker build -t ska-sdp-data-product-dashboard .
+  docker run -p 8100:8100 ska-sdp-data-product-dashboard
 
 The project will then be accessible at the url http://localhost:8100/
 
