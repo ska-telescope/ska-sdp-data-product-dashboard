@@ -1,5 +1,7 @@
-Welcome to SKA SDP Data Product Dashboard's documentation!
+Documentation for the SKA SDP Data Product API Dashboard
 ======================================================
+
+The `ska-sdp-data-product-dashboard` repository contains the code for the dashboard that is used to access SDP Data Products in a storage volume.
 
 .. toctree::
    :maxdepth: 2
@@ -7,11 +9,3 @@ Welcome to SKA SDP Data Product Dashboard's documentation!
 
    overview
    helm
-
-
-Indices and tables
-==================
-
-* :ref:`genindex`
-* :ref:`modindex`
-* :ref:`search`

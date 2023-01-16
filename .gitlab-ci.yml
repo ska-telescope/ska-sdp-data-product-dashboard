@@ -18,11 +18,12 @@ stages:
 install_dependencies:
   stage: dependencies
   tags:
-    - k8srunner
+  - k8srunner
   before_script:
-    - rm -rf node_modules
+  - rm -rf node_modules 
   script:
-    - yarn install
+  - npm config set registry https://registry.npmjs.org/
+  - yarn install
   cache:
     paths:
       - node_modules/
@@ -32,7 +33,7 @@ install_dependencies:
 code_analysis:
   stage: lint
   tags:
-    - k8srunner
+  - k8srunner
   cache:
     paths:
       - node_modules/
@@ -40,8 +41,8 @@ code_analysis:
   before_script:
     - mkdir -p build/reports
   script:
-    - yarn
-    - yarn run code-analysis
+    - yarn install
+    - yarn code-analysis
     - mv linting.xml build/reports/linting.xml
   artifacts:
     paths:
@@ -51,7 +52,7 @@ code_analysis:
 test_and_coverage:
   stage: test
   tags:
-    - k8srunner
+  - k8srunner
   cache:
     paths:
       - node_modules/
@@ -59,8 +60,9 @@ test_and_coverage:
   before_script:
     - mkdir -p build/reports
   script:
-    - yarn run test
-    - yarn run test:coverage
+    - yarn install
+    - yarn test
+    - yarn test:coverage
     - mv junit.xml build/reports/unit-tests.xml
     - mv build/coverage/cobertura-coverage.xml build/reports/code-coverage.xml
 
@@ -73,15 +75,16 @@ test_and_coverage:
 list_dependencies:
   stage: test
   tags:
-    - k8srunner
+  - k8srunner
   allow_failure: true
   cache:
     paths:
       - node_modules/
     policy: pull
   script:
-    - npm list --depth=0 --json >> npm_deps.json
-    - npm list --depth=0  >> npm_deps.txt
+    - yarn install
+    - yarn list --depth=0 --json >> npm_deps.json
+    - yarn list --depth=0  >> npm_deps.txt
     - mkdir .public
     - cp npm_deps.txt .public/
     - cp npm_deps.json .public/
@@ -93,20 +96,21 @@ list_dependencies:
 build:
   stage: build
   tags:
-    - k8srunner
+  - k8srunner
   cache:
     paths:
       - node_modules/
     policy: pull
   script:
-    - export NODE_OPTIONS=--openssl-legacy-provider
+    - npm config set registry https://registry.npmjs.org/
+    - yarn install
     - yarn build
 
 # export the report
 pages:
   stage: pages
   tags:
-    - k8srunner
+  - k8srunner
   dependencies:
     - test_and_coverage
     - list_dependencies
