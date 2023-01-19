@@ -3,5 +3,8 @@
   "date_format_one": "{{-date, YYYY/MM/DD}}",
   "date_format_two": "{{date, DD-MM-YYYY}}",
   "dummy": "I am in ENGLISH translation file only",
-  "intlNumber": "{{val, number}}"
+  "intlNumber": "{{val, number}}",
+  "button": {
+    "settings": "Settings"
+  }
 }
