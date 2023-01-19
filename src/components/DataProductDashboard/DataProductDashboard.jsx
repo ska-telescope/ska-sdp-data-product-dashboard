@@ -1,33 +1,25 @@
 import React from 'react';
-import { useTranslation } from 'react-i18next';
-import { Box, Button, Divider, Drawer, Grid, Stack, Typography } from '@mui/material';
+import { Box, Card, CardContent, Divider, Grid, Typography } from '@mui/material';
 import TreeView from '@mui/lab/TreeView';
 import TreeItem from '@mui/lab/TreeItem';
-import DownloadCard from './DownloadCard';
+import DownloadCard from '../DownloadCard/DownloadCard';
+import YamlData from '../YamlData/YamlData';
 import DataProductList from '../../services/DataProduct/DataProductList';
 import MetaData from '../../services/MetaData/MetaData';
 import WarningIcon from '@mui/icons-material/Warning';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
-import BuildCircleOutlinedIcon from '@mui/icons-material/BuildCircleOutlined';
 
 const TREE_MAX_WIDTH = 500;
 const TREE_HEIGHT = 500;
 
 const DataProductDashboard = () => {
-  const { t } = useTranslation();
-
   const [jsonDataProductsTree, setJsonDataProductsTree] = React.useState({data:[]});
-  const [open, setOpen] = React.useState(false);
   const [metaData, setMetaData] = React.useState({data:[]});
   const [selectedFileNames, setSelectedFileNames] = React.useState({
     fileName: '',
     relativeFileName: ''
   });
-
-  function drawerTgggle() {
-    setOpen(!open);
-}
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const getSelectedNodeInfo = (jsonTree, nodeId) => {
@@ -120,67 +112,31 @@ const DataProductDashboard = () => {
     }
   }
 
-  function metaDataButton() {
-    return (
-      <Box m={2} >
-        <Button
-            id="metaDataButton"
-            variant="contained"
-            color='secondary'
-            startIcon={<BuildCircleOutlinedIcon />}
-            onClick={metaDataButtonClicked}
-        >
-            {t('button.settings')}
-        </Button>
-      </Box>
-    );
-  }
+  const displayData = (suffix) => {
+    let result = false;
+    const LEN = suffix.length;
+    const filename = selectedFileNames?.fileName;
 
-  function metaDataElements() {
-    const context = JSON.stringify(metaData.context);
-    return (
-      <Drawer anchor={'right'} open={open} onClose={drawerTgggle}  PaperProps={{ sx: { width: "25vw" }}}>
-        <Box m={1}>
-          <Stack>
-            <Typography variant="h4" component="div">Meta Data</Typography>
-            <Divider />
-            <Typography variant="h6" component="div">interface</Typography>
-            <Typography variant="body2" component="div">{metaData.interface}</Typography>
-            <Divider />
-            <Typography variant="h6" component="div">execution_block</Typography>
-            <Typography variant="body2" component="div">{metaData.execution_block}</Typography>
-            <Divider />
-            <Typography variant="h6" component="div">context</Typography>
-            <Typography variant="body2" component="div">{context}</Typography>
-            <Divider />
-            <Typography variant="h6" component="div">config</Typography>
-            <Typography variant="body2" component="div">{JSON.stringify(metaData.config)}</Typography>
-            <Divider />
-            <Typography variant="h6" component="div">files</Typography>
-            <Typography variant="body2" component="div">{JSON.stringify(metaData.files)}</Typography>
-            
-          </Stack>
-        </Box>
-      </Drawer>
-    );
-  }
-
-  function metaDataButtonClicked() {
-    getMetaData();
-    drawerTgggle();
+    if (filename && filename.length > LEN) {
+      const tail = filename.substring(filename.length - LEN);
+      if (tail === suffix) {
+        result = true;
+        getMetaData();
+      }
+    }
+    return result;
   }
 
   return (
     <>
       <Grid container direction="row" justifyContent="space-between">
-        <Grid item>
+        <Grid item xs={6}>
           {renderDataProductsTreeComponent()}
-          {RenderDownloadCard()}
         </Grid>
-        <Grid item>
+        <Grid item xs={6}>
           <>
-            {metaDataButton()}
-            {metaData && metaDataElements()}
+            {RenderDownloadCard()}
+            {displayData('.yaml') && YamlData(metaData)}
           </>
         </Grid>
       </Grid>

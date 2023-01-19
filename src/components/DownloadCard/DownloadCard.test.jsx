@@ -1,6 +1,6 @@
 import React from 'react';
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
-import DownloadCard from './DownloadCard';
+import DownloadCard from '../DataProductDashboard/DownloadCard';
 import { onDownloadClick } from '../../services/DataProduct/DataProductDownload'
 
 jest.mock('../../services/DataProduct/DataProductDownload', () => ({
