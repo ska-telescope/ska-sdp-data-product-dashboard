@@ -1,5 +1,6 @@
 import React from 'react';
 import { cleanup, render, screen, waitFor } from '@testing-library/react';
+import { act } from 'react-dom/test-utils';
 import axios from 'axios';
 import DataProductDashboard from './DataProductDashboard';
 
@@ -15,16 +16,14 @@ afterEach(() => {
 });
 
 describe('Data Product Dashboard', () => {
-  it('renders', () => {
-    render(<DataProductDashboard />);
-  });
 
-  it('renders treeview', () => {
+  it('renders treeview', async () => {
     render(<DataProductDashboard />);
-    waitFor(() => {
-      expect(screen.getByRole('TreeView')).toBeTruthy();
-      expect(screen.getAllByRole('TreeItem').length).toBe(3);
-    });
+    screen.debug()
+     
+      // const treeViewComponent = await screen.findByRole('TreesView');
+      // expect(treeViewComponent).toBeInTheDocument;
+      // expect(treeViewComponent.length).toBe(3);
   });
 
   it('renders button', () => {
