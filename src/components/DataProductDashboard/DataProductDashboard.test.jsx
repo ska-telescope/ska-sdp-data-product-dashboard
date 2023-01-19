@@ -1,4 +1,5 @@
 import React from 'react';
+import renderer from "react-test-renderer"
 import { cleanup, render, screen, waitFor } from '@testing-library/react';
 import { act } from 'react-dom/test-utils';
 import axios from 'axios';
@@ -19,11 +20,10 @@ describe('Data Product Dashboard', () => {
 
   it('renders treeview', async () => {
     render(<DataProductDashboard />);
+    const treeViewComponent = await screen.findAllByRole('treeitem');
     screen.debug()
-     
-      // const treeViewComponent = await screen.findByRole('TreesView');
-      // expect(treeViewComponent).toBeInTheDocument;
-      // expect(treeViewComponent.length).toBe(3);
+    expect(treeViewComponent).toBeInTheDocument;
+    expect(treeViewComponent.length).toBe(3);
   });
 
   it('renders button', () => {

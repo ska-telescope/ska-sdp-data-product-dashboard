@@ -59,7 +59,6 @@ const DataProductDashboard = () => {
 
   function renderDataProductsTreeNodes() {
     if (jsonDataProductsTree.status === 200) {
-      console.log(jsonDataProductsTree)
       const renderTree = nodes => (
         <TreeItem key={nodes.id} nodeId={nodes.id.toString()} label={nodes.name}>
           {Array.isArray(nodes.children) ? nodes.children.map(node => renderTree(node)) : null}
