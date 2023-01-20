@@ -1,9 +1,9 @@
 import React from 'react';
-import { Box, Card, CardContent, Divider, Grid, Typography } from '@mui/material';
+import { Grid, Typography } from '@mui/material';
 import TreeView from '@mui/lab/TreeView';
 import TreeItem from '@mui/lab/TreeItem';
 import DownloadCard from '../DownloadCard/DownloadCard';
-import YamlData from '../YamlData/YamlData';
+import MetaDataComponent from '../MetaDataComponent/MetaDataComponent';
 import DataProductList from '../../services/DataProduct/DataProductList';
 import MetaData from '../../services/MetaData/MetaData';
 import WarningIcon from '@mui/icons-material/Warning';
@@ -16,10 +16,16 @@ const TREE_HEIGHT = 500;
 const DataProductDashboard = () => {
   const [jsonDataProductsTree, setJsonDataProductsTree] = React.useState({data:[]});
   const [metaData, setMetaData] = React.useState({data:[]});
+  const [oldFilename, setOldFilename] = React.useState(null);
   const [selectedFileNames, setSelectedFileNames] = React.useState({
     fileName: '',
-    relativeFileName: ''
+    relativeFileName: '',
+    metaDataFile: ''
   });
+
+  React.useEffect(() => {
+    setOldFilename(selectedFileNames.metaDataFile);
+  }, [metaData]);
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const getSelectedNodeInfo = (jsonTree, nodeId) => {
@@ -38,7 +44,8 @@ const DataProductDashboard = () => {
         if (jsonTree.id.toString() === nodeId) {
           setSelectedFileNames({
             fileName: jsonTree.name,
-            relativeFileName: jsonTree.relativefilename
+            relativeFileName: jsonTree.relativefilename,
+            metaDataFile: jsonTree.metadatafile
           });
           return;
         }
@@ -58,7 +65,7 @@ const DataProductDashboard = () => {
   }
 
   async function getMetaData() {
-    const results = await MetaData();
+    const results = await MetaData(selectedFileNames?.metaDataFile);
     setMetaData(results.data);
   }
 
@@ -112,15 +119,13 @@ const DataProductDashboard = () => {
     }
   }
 
-  const displayData = (suffix) => {
+  const displayData = () => {
     let result = false;
-    const LEN = suffix.length;
-    const filename = selectedFileNames?.fileName;
+    const metaDataFile = selectedFileNames?.metaDataFile;
 
-    if (filename && filename.length > LEN) {
-      const tail = filename.substring(filename.length - LEN);
-      if (tail === suffix) {
-        result = true;
+    if (metaDataFile && metaDataFile.length) {
+      result = true;
+      if (oldFilename !== metaDataFile) {
         getMetaData();
       }
     }
@@ -136,7 +141,7 @@ const DataProductDashboard = () => {
         <Grid item xs={6}>
           <>
             {RenderDownloadCard()}
-            {displayData('.yaml') && YamlData(metaData)}
+            {displayData() && MetaDataComponent(metaData)}
           </>
         </Grid>
       </Grid>

@@ -1,13 +1,25 @@
 import axios from 'axios';
 
-async function MetaData() {
+async function MetaData(inData) {
+
+  function flipSlash(inData) {    
+    let outData = '';
+    const len = inData ? inData.length : 0;;
+    for (var i = 0; i < len; i++) { 
+      outData +=(inData[i] === '\\') ? '/' : inData[i];
+    }
+    return outData;
+  }
+
   async function fetchMetaData() {
+    const isWindows = window.navigator.userAgent.indexOf('Windows');
+    const paramData = (isWindows) ? flipSlash(inData) : inData;
     const apiUrl = process.env.REACT_APP_SKA_SDP_DATA_PRODUCT_API_URL;
-    const filename = "ska-data-product.yaml";
-    const path = "product/eb_id_2/ska-sub-system/scan_id_2/pb_id_2";
+    const fileName = inData ? inData.substring(inData.lastIndexOf('\\') + 1) : '';
+
     const params = {
-      "relativeFileName": `${path}/${filename}`,
-      "fileName": filename
+      "relativeFileName": paramData,
+      "fileName": fileName
     };
 
     try {
@@ -18,7 +30,7 @@ async function MetaData() {
         }
       });
     } catch (e) {
-      const noData = 'API unreachable, SDP meta data not available';
+      const noData = 'API unreachable, SDP Data Product MetaData is not currently available';
       return noData;
     }
   }
