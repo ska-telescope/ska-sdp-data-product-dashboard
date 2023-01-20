@@ -1,41 +1,45 @@
 import React from 'react';
 import renderer from "react-test-renderer"
 import { cleanup, render, screen, waitFor } from '@testing-library/react';
-import { act } from 'react-dom/test-utils';
+import { wait } from '@testing-library/react'
+import { act } from '@testing-library/react';
 import axios from 'axios';
 import DataProductDashboard from './DataProductDashboard';
+import mockFilesTree from '../../services/Mocking/mockFilesTree';
 
 jest.mock('axios');
 
 beforeEach(() => {
-  process.env.REACT_APP_SKA_SDP_DATA_PRODUCT_DUMMY_DATA = 'true';
 });
 
 afterEach(() => {
-  process.env.REACT_APP_SKA_SDP_DATA_PRODUCT_DUMMY_DATA = 'false';
   cleanup();
 });
 
 describe('Data Product Dashboard', () => {
 
   it('renders treeview', async () => {
+    axios.get.mockResolvedValue(mockFilesTree);
     render(<DataProductDashboard />);
-    const treeViewComponent = await screen.findAllByRole('treeitem');
-    screen.debug()
-    expect(treeViewComponent).toBeInTheDocument;
-    expect(treeViewComponent.length).toBe(3);
+    const treeViewComponent = await waitFor(() => {screen.findAllByRole('treeitem')});
+    // screen.debug()
+    // expect(treeViewComponent).toBeInTheDocument
+    // expect(treeViewComponent.length).toBe(3)
+    await waitFor(() => {expect(treeViewComponent).toBeInTheDocument });
+    await waitFor(() => {expect(treeViewComponent.length).toBe(3)});
   });
 
-  it('renders button', () => {
+
+  it('renders button', async () => {
+    axios.get.mockResolvedValue(mockFilesTree);
     render(<DataProductDashboard />);
-    waitFor(() => {
-      expect(screen.getByRole('button')).toBeTruthy();
-      expect(screen.getByRole('button')).toHaveTextContent('DOWNLOAD');
-    });
+    const button = await waitFor(() => {screen.getByRole('button')});
+    await waitFor(() => {expect(button).toBeTruthy()});
+      await waitFor(() => {expect(button).toHaveTextContent('DOWNLOAD')});
   });
 });
 
-test('If No Data Message show if Call is Failure', () => {
+test('If No Data Message show if Call is Failure', async () => {
   axios.get.mockRejectedValueOnce(new Error('Network Error'));
 
   render(<DataProductDashboard />);

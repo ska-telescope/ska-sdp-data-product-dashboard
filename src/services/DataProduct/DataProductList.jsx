@@ -4,9 +4,6 @@ import mockFilesTree from '../../services/Mocking/mockFilesTree';
 async function DataProductList() {
   async function fetchDataProductList() {
     const apiUrl = process.env.REACT_APP_SKA_SDP_DATA_PRODUCT_API_URL;
-    if (process.env.REACT_APP_SKA_SDP_DATA_PRODUCT_DUMMY_DATA === 'true') {
-      return mockFilesTree;
-    }
    
     try {
       return await axios.get(`${apiUrl}/dataproductlist`, {
