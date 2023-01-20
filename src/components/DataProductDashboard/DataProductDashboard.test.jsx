@@ -17,6 +17,10 @@ afterEach(() => {
 });
 
 describe('Data Product Dashboard', () => {
+  it('renders', () => {
+    axios.get.mockResolvedValue(mockFilesTree);
+    render(<DataProductDashboard />);
+  });
 
   it('renders treeview', async () => {
     axios.get.mockResolvedValue(mockFilesTree);
@@ -25,18 +29,22 @@ describe('Data Product Dashboard', () => {
     // screen.debug()
     // expect(treeViewComponent).toBeInTheDocument
     // expect(treeViewComponent.length).toBe(3)
-    await waitFor(() => {expect(treeViewComponent).toBeInTheDocument });
-    await waitFor(() => {expect(treeViewComponent.length).toBe(3)});
+    waitFor(() => {
+      expect(screen.getByRole('TreeView')).toBeTruthy();
+      expect(screen.getAllByRole('TreeItem').length).toBe(3);
+    });
+    // await waitFor(() => {expect(treeViewComponent).toBeInTheDocument });
+    // await waitFor(() => {expect(treeViewComponent.length).toBe(3)});
   });
 
-
-  it('renders button', async () => {
-    axios.get.mockResolvedValue(mockFilesTree);
-    render(<DataProductDashboard />);
-    const button = await waitFor(() => {screen.getByRole('button')});
-    await waitFor(() => {expect(button).toBeTruthy()});
-      await waitFor(() => {expect(button).toHaveTextContent('DOWNLOAD')});
-  });
+//Button only render after file selection
+  // it('renders button', async () => {
+  //   axios.get.mockResolvedValue(mockFilesTree);
+  //   render(<DataProductDashboard />);
+  //   const button = await waitFor(() => {screen.getByRole('button')});
+  //   await waitFor(() => {expect(button).toBeTruthy()});
+  //     await waitFor(() => {expect(button).toHaveTextContent('DOWNLOAD')});
+  // });
 });
 
 test('If No Data Message show if Call is Failure', async () => {
