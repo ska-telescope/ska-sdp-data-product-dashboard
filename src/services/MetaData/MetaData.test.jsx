@@ -4,11 +4,13 @@ import mockData from '../Mocking/mockMetaData';
 
 jest.mock('axios');
 
+const dummyPathName = 'product\eb_id_1\ska-sub-system\scan_id_1\pb_id_1\ska-data-product.yaml';
+
 describe('data_product_api_MetaData LIVE passing', () => {
   it('Passes', async () => {
     const data = { data: mockData };
     axios.post.mockResolvedValueOnce(data);
-    const inData = await MetaData();
+    const inData = await MetaData(dummyPathName);
     expect(inData.data).toEqual(mockData);
   });
 });

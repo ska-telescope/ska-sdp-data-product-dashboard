@@ -30,29 +30,28 @@ const DataProductDashboard = () => {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const getSelectedNodeInfo = (jsonTree, nodeId) => {
     // Test if the jsonTree is defined.
-    if (typeof jsonTree === 'undefined') {
-      return;
-    }
-    // Evaluate first elements of the jsonTree, it is of type array, reevaluate each element of the array.
-    if (jsonTree instanceof Array) {
-      for (let i = 0; i < jsonTree.length + 1; i += 1) {
-        getSelectedNodeInfo(jsonTree[i], nodeId);
+    if (typeof jsonTree !== 'undefined') {
+      // Evaluate first elements of the jsonTree, it is of type array, reevaluate each element of the array.
+      if (jsonTree instanceof Array) {
+        for (let i = 0; i < jsonTree.length + 1; i += 1) {
+          getSelectedNodeInfo(jsonTree[i], nodeId);
+        }
+      } else {
+        // If the element of the array is not an array, evaluate its properties. If matching ID is found, update the setSelectedFileNames.
+        Object.keys(jsonTree).forEach(prop => {
+          if (jsonTree.id.toString() === nodeId) {
+            setSelectedFileNames({
+              fileName: jsonTree.name,
+              relativeFileName: jsonTree.relativefilename,
+              metaDataFile: jsonTree.metadatafile
+            });
+            return;
+          }
+          if (jsonTree[prop] instanceof Object || jsonTree[prop] instanceof Array) {
+            getSelectedNodeInfo(jsonTree[prop], nodeId);
+          }
+        });
       }
-    } else {
-      // If the element of the array is not an array, evaluate its properties. If matching ID is found, update the setSelectedFileNames.
-      Object.keys(jsonTree).forEach(prop => {
-        if (jsonTree.id.toString() === nodeId) {
-          setSelectedFileNames({
-            fileName: jsonTree.name,
-            relativeFileName: jsonTree.relativefilename,
-            metaDataFile: jsonTree.metadatafile
-          });
-          return;
-        }
-        if (jsonTree[prop] instanceof Object || jsonTree[prop] instanceof Array) {
-          getSelectedNodeInfo(jsonTree[prop], nodeId);
-        }
-      });
     }
   };
 
