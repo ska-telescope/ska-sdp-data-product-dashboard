@@ -20,4 +20,3 @@ dashboard:
   container: artefact.skao.int/ska-sdp-data-product-dashboard
   version: 0.2.0
   imagePullPolicy: IfNotPresent
-  dummyData: "false" 

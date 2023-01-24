@@ -22,7 +22,6 @@ This can include the following:
 | ska_sdp_data_product_dashboard.dashboard.container        | string    | Yes        | link                      | The Docker image for the dashboard                 |
 | ska_sdp_data_product_dashboard.dashboard.version          | string    | Yes        | latest                    | The version of the Docker image to use             |
 | ska_sdp_data_product_dashboard.dashboard.imagePullPolicy  | string    | Yes        | IfNotPresent              | When should the image be pulled                    |
-| ska_sdp_data_product_dashboard.dashboard.dummyData        | boolean   | Yes        | False                     | Flag to use dummy data rather then the API         |
 
 
 ## Usage
