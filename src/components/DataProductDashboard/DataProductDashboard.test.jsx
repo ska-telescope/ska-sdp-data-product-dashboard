@@ -1,9 +1,7 @@
 import React from 'react';
-import { cleanup, render, screen, waitFor } from '@testing-library/react';
+import { cleanup, render, screen } from '@testing-library/react';
 import axios from 'axios';
 import DataProductDashboard from './DataProductDashboard';
-import MockData from '../../services/Mocking/mockFilesTree';
-import mockFilesTree from '../../services/Mocking/mockFilesTree';
 
 jest.mock('axios');
 
