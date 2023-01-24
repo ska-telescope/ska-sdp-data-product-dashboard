@@ -1,10 +1,8 @@
 import axios from 'axios';
-import mockFilesTree from '../../services/Mocking/mockFilesTree';
 
 async function DataProductList() {
   async function fetchDataProductList() {
     const apiUrl = process.env.REACT_APP_SKA_SDP_DATA_PRODUCT_API_URL;
-   
     try {
       return await axios.get(`${apiUrl}/dataproductlist`, {
         headers: {
