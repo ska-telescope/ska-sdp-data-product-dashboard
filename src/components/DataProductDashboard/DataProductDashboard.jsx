@@ -23,6 +23,10 @@ const DataProductDashboard = () => {
     metaDataFile: ''
   });
 
+  // React.useEffect(() => {
+  //   getJsonDataProductsTree();
+  // }, []);
+
   React.useEffect(() => {
     setOldFilename(selectedFileNames.metaDataFile);
   }, [metaData]);
@@ -66,10 +70,6 @@ const DataProductDashboard = () => {
   async function getMetaData() {
     const results = await MetaData(selectedFileNames?.metaDataFile);
     setMetaData(results.data);
-  }
-
-  if (jsonDataProductsTree.status === undefined) {
-    getJsonDataProductsTree();
   }
 
   function renderDataProductsTreeNodes() {
