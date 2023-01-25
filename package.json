@@ -9,17 +9,18 @@
   "scripts": {
     "build": "webpack --mode production",
     "code-analysis": "./node_modules/.bin/eslint \"src/**\" --ignore-path .eslintignore -f junit -o linting.xml",
+    "lint:fix": "eslint 'src/**/*.{js,jsx,ts,tsx}' --fix",
+    "lint": "eslint 'src/**/*.{js,jsx,ts,tsx}'",
+    "test": "react-scripts test --env=jsdom --reporters=default --reporters=jest-junit --watchAll=false",
+    "test:coverage": "react-scripts test --env=jsdom --watchAll=false --coverage --coverageDirectory=build/coverage",
+    "test:watch": "react-scripts test --env=jsdom --watchAll=true",
+    "start": "webpack serve --mode development --open",
     "fix": "npm-run-all --continue-on-error \"fix:*\"",
     "fix:prettier": "prettier --write \"**/*\"",
     "fix:yarn-deduplicate": "c install; yarn-deduplicate --strategy=fewer; yarn install",
-    "lint": "eslint 'src/**/*.{js,jsx,ts,tsx}'",
-    "lint:fix": "eslint 'src/**/*.{js,jsx,ts,tsx}' --fix",
     "lint:prettier": "prettier --check \"**/*\"",
     "lint:tsc": "yarn tsc --noEmit",
-    "lint:yarn-deduplicate": "yarn-deduplicate --fail --list --strategy=fewer",
-    "test": "react-scripts test --env=jsdom --reporters=default --reporters=jest-junit",
-    "test:coverage": "react-scripts test --coverage --coverageDirectory=build/coverage --watchAll=false",
-    "start": "webpack serve --open --mode development"
+    "lint:yarn-deduplicate": "yarn-deduplicate --fail --list --strategy=fewer"
   },
   "dependencies": {
     "@babel/plugin-transform-runtime": "^7.19.6",

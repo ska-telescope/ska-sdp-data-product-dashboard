@@ -3,8 +3,9 @@
 This helm chart can spin up all requirments for the SDP Data Product Dashboard.
 
 This can include the following:
-* SDP Data Product API
-* SDP Data Product Dashboard
+
+- SDP Data Product API
+- SDP Data Product Dashboard
 
 ## Values
 
