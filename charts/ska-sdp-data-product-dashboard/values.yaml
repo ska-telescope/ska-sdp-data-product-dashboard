@@ -25,9 +25,6 @@ elasticsearch:
   enabled: true
   fullnameOverride: ska-sdp-data-product-dashboard-elasticsearch
   storageClass: nfss1
-  elasticsearch:
-    service:
-      name: ska-sdp-data-product-dashboard-elasticsearch
   master:
     masterOnly: true
     replicaCount: 2
