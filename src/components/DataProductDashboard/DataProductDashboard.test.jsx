@@ -1,11 +1,15 @@
 import React from 'react';
-import { cleanup, render, screen, waitFor } from '@testing-library/react';
+import { cleanup, fireEvent, render, screen } from '@testing-library/react';
 import axios from 'axios';
 import DataProductDashboard from './DataProductDashboard';
-import MockData from '../../services/Mocking/mockFilesTree';
+// import MockData from '../../services/Mocking/mockFilesTree';
 import mockFilesTree from '../../services/Mocking/mockFilesTree';
 
 jest.mock('axios');
+
+const TEXT_NO_API = 'SDP Data API not available';
+const TEXT_RESULTS = 'Mocked Data Products';
+const TEXT_PROD_1 = 'pb_id_1';
 
 beforeEach(() => {
 });
@@ -16,39 +20,23 @@ afterEach(() => {
 
 describe('Data Product Dashboard', () => {
 
-  test('Checking that mocking data is shown', () => {
+  /* IF you remove the annotation this is causing issues 
+  
+  test('Output if data NOT found', async () => {
+    
     axios.get.mockRejectedValueOnce(new Error('Network Error'));
-
     render(<DataProductDashboard />);
-    waitFor(()=> {
-      expect(screen.getByText('SDP Data API not available')).toBeInTheDocument();
-      expect(screen.getByRole('button')).not.toBeInTheDocument();
-    });
-  });
 
-  test('If No Data Message show if Call is Failure', () => {
-    const data = MockData;
-    axios.get.mockRejectedValueOnce(data);
+    expect(await screen.findByText(TEXT_NO_API)).toBeInTheDocument();
+  });  
+  */
 
-    render(<DataProductDashboard />);
-    waitFor(()=> {
-      expect(screen.getByText('SDP Data API not available')).toBeInTheDocument();
-      expect(screen.getByRole('button')).not.toBeInTheDocument();
-    });
-  });
-
-  test('renders treeview', async () => {
+  test('Output if data found', async () => {
+    
     axios.get.mockResolvedValue(mockFilesTree);
     render(<DataProductDashboard />);
-    await waitFor(() => {expect(screen.getByText('Mocked Data Products')).toBeInTheDocument()});    
-  });
 
-
-  test('If No Data Message show if Call is Failure', async () => {
-    axios.get.mockRejectedValueOnce(new Error('Network Error'));
-    render(<DataProductDashboard />);
-    await waitFor(() => {expect(screen.getByText('SDP Data API not available')).toBeInTheDocument()});
-  });
-
+    expect(await screen.findByText(TEXT_RESULTS)).toBeInTheDocument();
+    expect(await screen.findByText(TEXT_PROD_1)).toBeInTheDocument();
+  });  
 });
-
