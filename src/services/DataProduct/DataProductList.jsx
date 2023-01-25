@@ -1,10 +1,10 @@
 import axios from 'axios';
 
-async function DataProductFileList() {
-  async function fetchFileList() {
+async function DataProductList() {
+  async function fetchDataProductList() {
     const apiUrl = process.env.REACT_APP_SKA_SDP_DATA_PRODUCT_API_URL;
     try {
-      return await axios.get(`${apiUrl}/filelist`, {
+      return await axios.get(`${apiUrl}/dataproductlist`, {
         headers: {
           Accept: 'application/json',
           'Content-Type': 'application/json'
@@ -15,7 +15,7 @@ async function DataProductFileList() {
       return noData;
     }
   }
-  return fetchFileList();
+  return fetchDataProductList();
 }
 
-export default DataProductFileList;
+export default DataProductList;
