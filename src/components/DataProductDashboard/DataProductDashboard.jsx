@@ -50,7 +50,7 @@ const DataProductDashboard = () => {
       } else {
         // If the element of the array is not an array, evaluate its properties. If matching ID is found, update the setSelectedFileNames.
         Object.keys(jsonTree).forEach(prop => {
-          if (jsonTree.id.toString() === nodeId) {
+          if (jsonTree.id === nodeId) {
             setSelectedFileNames({
               fileName: jsonTree.name,
               relativeFileName: jsonTree.relativefilename,
@@ -78,7 +78,7 @@ const DataProductDashboard = () => {
   function renderDataProductsTreeNodes() {
     if (TREE_OK) {
       const renderTree = nodes => (
-        <TreeItem key={nodes.id} nodeId={nodes.id.toString()} label={nodes.name}>
+        <TreeItem key={nodes.id} nodeId={nodes.id} label={nodes.name}>
           {Array.isArray(nodes.children) ? nodes.children.map(node => renderTree(node)) : null}
         </TreeItem>
       );
