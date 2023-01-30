@@ -12,6 +12,7 @@ import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 
 const TREE_MAX_WIDTH = 500;
 const TREE_HEIGHT = 500;
+const TEXT_NO_API = 'SDP Data API not available';
 
 const DataProductDashboard = () => {
   const [jsonDataProductsTree, setJsonDataProductsTree] = React.useState({data:[]});
@@ -23,9 +24,19 @@ const DataProductDashboard = () => {
     metaDataFile: ''
   });
 
+  const TREE_OK = jsonDataProductsTree?.status === 200;
+
+  React.useEffect(() => {
+    async function getJsonDataProductsTree() {
+      setJsonDataProductsTree(await DataProductList());
+    }
+    
+    getJsonDataProductsTree();
+  }, []);
+
   React.useEffect(() => {
     setOldFilename(selectedFileNames.metaDataFile);
-  }, [metaData]);
+  }, [selectedFileNames, metaData]);
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const getSelectedNodeInfo = (jsonTree, nodeId) => {
@@ -39,7 +50,7 @@ const DataProductDashboard = () => {
       } else {
         // If the element of the array is not an array, evaluate its properties. If matching ID is found, update the setSelectedFileNames.
         Object.keys(jsonTree).forEach(prop => {
-          if (jsonTree.id.toString() === nodeId) {
+          if (jsonTree.id === nodeId) {
             setSelectedFileNames({
               fileName: jsonTree.name,
               relativeFileName: jsonTree.relativefilename,
@@ -59,23 +70,15 @@ const DataProductDashboard = () => {
     getSelectedNodeInfo(jsonDataProductsTree.data, nodeId);
   };
 
-  async function getJsonDataProductsTree() {
-    setJsonDataProductsTree(await DataProductList());
-  }
-
   async function getMetaData() {
     const results = await MetaData(selectedFileNames?.metaDataFile);
     setMetaData(results.data);
   }
 
-  if (jsonDataProductsTree.status === undefined) {
-    getJsonDataProductsTree();
-  }
-
   function renderDataProductsTreeNodes() {
-    if (jsonDataProductsTree.status === 200) {
+    if (TREE_OK) {
       const renderTree = nodes => (
-        <TreeItem key={nodes.id} nodeId={nodes.id.toString()} label={nodes.name}>
+        <TreeItem key={nodes.id} nodeId={nodes.id} label={nodes.name}>
           {Array.isArray(nodes.children) ? nodes.children.map(node => renderTree(node)) : null}
         </TreeItem>
       );
@@ -85,7 +88,7 @@ const DataProductDashboard = () => {
   }
 
   function renderDataProductsTreeComponent() {
-    if (jsonDataProductsTree.status === 200 ) {
+    if (TREE_OK) {
       return (
         <TreeView
           aria-label="rich object"
@@ -101,10 +104,10 @@ const DataProductDashboard = () => {
     }
     return (
       <>
-        <Typography sx={{ fontSize: 25, display: "flex", justifyContent: "center" }} color="#D33115" gutterBottom>
+        <Typography sx={{ fontSize: 25, display: "flex", justifyContent: "center" }} color="error" gutterBottom>
           <WarningIcon sx={{ fontSize: "35px" }}  />
           {" "}
-          SDP Data API not available
+          {TEXT_NO_API}
         </Typography>
       </>
     );

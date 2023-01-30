@@ -5,10 +5,11 @@
     "jest": true,
     "node": true
   },
-  "extends": ["react-app", "prettier"],
-  "plugins": ["prettier"],
+  "extends": ["react-app", "prettier", "plugin:cypress/recommended"],
+  "plugins": ["prettier", "cypress"],
   "rules": {
     "prettier/prettier": ["error"],
-    "linebreak-style": 0
+    "linebreak-style": 0,
+    "jest/expect-expect": "off"
   }
 }
