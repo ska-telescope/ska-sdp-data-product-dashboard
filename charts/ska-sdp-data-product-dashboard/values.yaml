@@ -4,7 +4,7 @@ ingress:
   pathStart: "/data_product"
   namespaced: true   
 urls:
-  override: False
+  override: false
   dashboardurl: "http://localhost"
   apiUrl: "http://localhost:8000" 
 api:
@@ -20,3 +20,17 @@ dashboard:
   container: artefact.skao.int/ska-sdp-data-product-dashboard
   version: 0.2.0
   imagePullPolicy: IfNotPresent
+
+elasticsearch:
+  enabled: true
+  fullnameOverride: ska-sdp-data-product-dashboard-elasticsearch
+  storageClass: nfss1
+  master:
+    masterOnly: true
+    replicaCount: 2
+    persistence:
+      enabled: true
+  data:
+    replicaCount: 2
+    persistence:
+      enabled: true
