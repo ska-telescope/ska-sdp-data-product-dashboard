@@ -1,20 +1,16 @@
 import React from 'react';
+
 import { Grid, Typography } from '@mui/material';
 import TreeView from '@mui/lab/TreeView';
 import TreeItem from '@mui/lab/TreeItem';
-
 import WarningIcon from '@mui/icons-material/Warning';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 
 import DownloadCard from '../DownloadCard/DownloadCard';
 import MetaDataComponent from '../MetaDataComponent/MetaDataComponent';
-import DataProductList from '../../services/DataProduct/DataProductList';
+import DataProductList from '../../services/DataProductList/DataProductList';
 import MetaData from '../../services/MetaData/MetaData';
-
-const TREE_MAX_WIDTH = 500;
-const TREE_HEIGHT = 500;
-const TEXT_NO_API = 'SDP Data API not available';
 
 const DataProductDashboard = () => {
   const [jsonDataProductsTree, setJsonDataProductsTree] = React.useState({data:[]});
@@ -27,6 +23,8 @@ const DataProductDashboard = () => {
   });
 
   const TREE_OK = jsonDataProductsTree?.status === 200;
+  const TREE_MAX_WIDTH = 500;  
+  const TREE_HEIGHT = 500;
 
   React.useEffect(() => {
     async function getJsonDataProductsTree() {
@@ -109,7 +107,7 @@ const DataProductDashboard = () => {
         <Typography sx={{ fontSize: 25, display: "flex", justifyContent: "center" }} color="error" gutterBottom>
           <WarningIcon sx={{ fontSize: "35px" }}  />
           {" "}
-          {TEXT_NO_API}
+          {"SDP Data API not available"}
         </Typography>
       </>
     );

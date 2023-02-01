@@ -1,9 +1,7 @@
 import * as React from 'react';
 import { Box, Button, Card, CardActions, CardContent, Typography } from '@mui/material';
 import DownloadIcon from '@mui/icons-material/Download';
-import { onDownloadClick } from '../../services/DataProduct/DataProductDownload';
-
-// Moved the onDownloadClick to DataProductDownload as it is easier to test. 
+import DataProductDownload from '../../services/DataProductDownload/DataProductDownload';
 
 const DownloadCard = (selectedFileNames) => {
   const { fileName } = selectedFileNames
@@ -19,7 +17,7 @@ const DownloadCard = (selectedFileNames) => {
           </Typography>
         </CardContent>
         <CardActions>
-          <Button variant="outlined" color="secondary" onClick={() => onDownloadClick(selectedFileNames)}>
+          <Button variant="outlined" color="secondary" onClick={() => DataProductDownload(selectedFileNames)}>
             <DownloadIcon />
             Download
           </Button>
