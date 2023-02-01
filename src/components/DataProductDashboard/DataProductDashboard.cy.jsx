@@ -1,7 +1,6 @@
 import React from 'react'
 import MockData from '../../services/Mocking/mockFilesTree';
 import DataProductDashboard from './DataProductDashboard';
-// import DataProductList from '../../services/DataProductList/DataProductList';
 import axios from 'axios';
 
 const TEXT_NO_API = "SDP Data API not available";
