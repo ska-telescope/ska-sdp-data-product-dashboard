@@ -2,13 +2,15 @@ import React from 'react';
 import { Grid, Typography } from '@mui/material';
 import TreeView from '@mui/lab/TreeView';
 import TreeItem from '@mui/lab/TreeItem';
+
+import WarningIcon from '@mui/icons-material/Warning';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import ChevronRightIcon from '@mui/icons-material/ChevronRight';
+
 import DownloadCard from '../DownloadCard/DownloadCard';
 import MetaDataComponent from '../MetaDataComponent/MetaDataComponent';
 import DataProductList from '../../services/DataProduct/DataProductList';
 import MetaData from '../../services/MetaData/MetaData';
-import WarningIcon from '@mui/icons-material/Warning';
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 
 const TREE_MAX_WIDTH = 500;
 const TREE_HEIGHT = 500;
@@ -16,7 +18,7 @@ const TEXT_NO_API = 'SDP Data API not available';
 
 const DataProductDashboard = () => {
   const [jsonDataProductsTree, setJsonDataProductsTree] = React.useState({data:[]});
-  const [metaData, setMetaData] = React.useState({data:[]});
+  const [metaData, setMetaData] = React.useState(null);
   const [oldFilename, setOldFilename] = React.useState(null);
   const [selectedFileNames, setSelectedFileNames] = React.useState({
     fileName: '',
@@ -50,7 +52,7 @@ const DataProductDashboard = () => {
       } else {
         // If the element of the array is not an array, evaluate its properties. If matching ID is found, update the setSelectedFileNames.
         Object.keys(jsonTree).forEach(prop => {
-          if (jsonTree.id === nodeId) {
+          if (jsonTree?.id?.toString() === nodeId) {
             setSelectedFileNames({
               fileName: jsonTree.name,
               relativeFileName: jsonTree.relativefilename,
@@ -78,7 +80,7 @@ const DataProductDashboard = () => {
   function renderDataProductsTreeNodes() {
     if (TREE_OK) {
       const renderTree = nodes => (
-        <TreeItem key={nodes.id} nodeId={nodes.id} label={nodes.name}>
+        <TreeItem key={nodes?.id?.toString()} nodeId={nodes?.id?.toString()} label={nodes.name}>
           {Array.isArray(nodes.children) ? nodes.children.map(node => renderTree(node)) : null}
         </TreeItem>
       );
@@ -121,6 +123,14 @@ const DataProductDashboard = () => {
     }
   }
 
+  function RenderMetaData() {
+    if ( displayData() && metaData ) {
+      return (
+        <MetaDataComponent metaData={metaData} />
+      );
+    }
+  }
+
   const displayData = () => {
     let result = false;
     const metaDataFile = selectedFileNames?.metaDataFile;
@@ -143,7 +153,7 @@ const DataProductDashboard = () => {
         <Grid item xs={6}>
           <>
             {RenderDownloadCard()}
-            {displayData() && MetaDataComponent(metaData)}
+            {RenderMetaData()}
           </>
         </Grid>
       </Grid>

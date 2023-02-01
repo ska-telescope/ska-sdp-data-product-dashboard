@@ -4,6 +4,7 @@ import mockData from '../Mocking/mockMetaData';
 
 jest.mock('axios');
 
+// eslint-disable-next-line no-useless-escape
 const dummyPathName = 'product\eb_id_1\ska-sub-system\scan_id_1\pb_id_1\ska-data-product.yaml';
 
 describe('data_product_api_MetaData LIVE passing', () => {
