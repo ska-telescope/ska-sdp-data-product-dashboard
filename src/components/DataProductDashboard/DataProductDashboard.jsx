@@ -9,7 +9,7 @@ import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 
 import DownloadCard from '../DownloadCard/DownloadCard';
 import MetaDataComponent from '../MetaDataComponent/MetaDataComponent';
-import DataProductList from '../../services/DataProductList/DataProductList';
+import FetchDataProductList from '../../services/FetchDataProductList/FetchDataProductList';
 import MetaData from '../../services/MetaData/MetaData';
 
 const DataProductDashboard = () => {
@@ -28,7 +28,8 @@ const DataProductDashboard = () => {
 
   React.useEffect(() => {
     async function getJsonDataProductsTree() {
-      setJsonDataProductsTree(await DataProductList());
+      const results = await FetchDataProductList();
+      setJsonDataProductsTree(results);
     }
     
     getJsonDataProductsTree();

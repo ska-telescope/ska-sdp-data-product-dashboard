@@ -1,11 +1,13 @@
 import React from 'react'
 import MockData from '../../services/Mocking/mockFilesTree';
-import DataProductDashboard from './DataProductDashboard'
+import DataProductDashboard from './DataProductDashboard';
+// import DataProductList from '../../services/DataProductList/DataProductList';
 import axios from 'axios';
 
 const TEXT_NO_API = "SDP Data API not available";
-// const TEXT_MOCK_TITLE = "Data Products";
-// const apiUrl = process.env.REACT_APP_SKA_SDP_DATA_PRODUCT_API_URL;
+const TITLE = "Mocked Data Products";
+const PROD_1 = "pb_id_1";
+const PROD_2 = "pb_id_2";
 
 describe('<DataProductDashboard />', () => {
 
@@ -16,11 +18,12 @@ describe('<DataProductDashboard />', () => {
   })
 
   it('Data Product Dashboard renders correctly when data is available', () => {
-    cy.stub(axios, 'get').returns({MockData}).as('get')
-    cy.mount(<DataProductDashboard />)
-    cy.get('@get').should('have.been.called')
 
-    // cy.stub(DataProductList, 'FetchDataProductList').returns({MockData})
-    // cy.findByText(TEXT_MOCK_TITLE).should("be.visible")
+    cy.stub(axios, 'get').returns(MockData).as('fetch')
+    cy.mount(<DataProductDashboard />)
+    cy.get('@fetch').should('have.been.called')
+    cy.findByText(TITLE).should("be.visible") 
+    cy.findByText(PROD_1).should("be.visible") 
+    cy.findByText(PROD_2).should("be.visible")
   })
 })

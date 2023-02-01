@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { Box, Button, Card, CardActions, CardContent, Typography } from '@mui/material';
 import DownloadIcon from '@mui/icons-material/Download';
-import DataProductDownload from '../../services/DataProductDownload/DataProductDownload';
+import DownloadDataProduct from '../../services/DownloadDataProduct/DownloadDataProduct';
 
 const DownloadCard = (selectedFileNames) => {
   const { fileName } = selectedFileNames
@@ -17,7 +17,7 @@ const DownloadCard = (selectedFileNames) => {
           </Typography>
         </CardContent>
         <CardActions>
-          <Button variant="outlined" color="secondary" onClick={() => DataProductDownload(selectedFileNames)}>
+          <Button variant="outlined" color="secondary" onClick={() => DownloadDataProduct(selectedFileNames)}>
             <DownloadIcon />
             Download
           </Button>
