@@ -5,7 +5,7 @@ import { onDownloadClick } from '../../services/DataProduct/DataProductDownload'
 
 // Moved the onDownloadClick to DataProductDownload as it is easier to test. 
 
-export default function DownloadCard(selectedFileNames) {
+const DownloadCard = (selectedFileNames) => {
   const { fileName } = selectedFileNames
   return (
     <Box m={1}>
@@ -28,3 +28,5 @@ export default function DownloadCard(selectedFileNames) {
     </Box>
   );
 }
+
+export default DownloadCard

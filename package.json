@@ -9,6 +9,7 @@
   "scripts": {
     "build": "webpack --mode production",
     "code-analysis": "./node_modules/.bin/eslint \"src/**\" --ignore-path .eslintignore -f junit -o linting.xml",
+    "cypress": "cypress open",
     "lint:fix": "eslint 'src/**/*.{js,jsx,ts,tsx}' --fix",
     "lint": "eslint 'src/**/*.{js,jsx,ts,tsx}'",
     "test": "react-scripts test --env=jsdom --reporters=default --reporters=jest-junit --watchAll=false",
@@ -74,7 +75,6 @@
     "jest-junit": "^13.0.0",
     "junit": "^1.4.9",
     "msw": "^0.48.3",
-    "npm": "^9.4.0",
     "or": "^0.2.0",
     "prettier": "2.7.1",
     "react-scripts": "^5.0.1",

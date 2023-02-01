@@ -15,19 +15,21 @@ function sectionDisplay(title, data) {
   );
 }
 
-export default function MetaDataComponent(metaData) {  
+const MetaDataComponent = (metaData) => {  
   return (
     <Box m={1}>
       <Card variant="outlined" sx={{ minWidth: 275 }}>
         <CardContent>
           <Typography variant="h4" component="div">Meta Data</Typography>
-          {metaData?.interface && sectionDisplay('interface', metaData?.interface)}
-          {metaData?.execution_block && sectionDisplay('execution_block', metaData?.execution_block)}
-          {metaData?.context && sectionDisplay('context', metaData?.context)}
-          {metaData?.config && sectionDisplay('config', metaData?.config)}
-          {metaData?.files && sectionDisplay('files', metaData?.files)}
+          {metaData?.metaData?.interface && sectionDisplay('interface', metaData?.metaData?.interface)}
+          {metaData?.metaData?.execution_block && sectionDisplay('execution_block', metaData?.metaData?.execution_block)}
+          {metaData?.metaData?.context && sectionDisplay('context', metaData?.metaData?.context)}
+          {metaData?.metaData?.config && sectionDisplay('config', metaData?.metaData?.config)}
+          {metaData?.metaData?.files && sectionDisplay('files', metaData?.metaData?.files)}
         </CardContent>
       </Card>
     </Box>
   );
 }
+
+export default MetaDataComponent 
