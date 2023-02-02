@@ -3,7 +3,7 @@ import * as fs from 'fs';
 import { rest } from 'msw';
 import { setupServer } from 'msw/node';
 import { cleanup } from '@testing-library/react';
-import DataProductDownload from './DataProductDownload';
+import DownloadDataProduct from './DownloadDataProduct';
 
 const apiUrl = 'http://localhost:8000';
 const server = setupServer(
@@ -33,5 +33,5 @@ afterAll(() => {
 
 test('File Download Method is Successful', () => {
   const selectedFileNames = { "fileName": "testfile1.txt" }
-  DataProductDownload(selectedFileNames);
+  DownloadDataProduct(selectedFileNames);
 });
