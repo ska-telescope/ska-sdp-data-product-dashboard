@@ -116,7 +116,9 @@ const DataProductDashboard = () => {
   }
 
   function RenderDataProductsTable(){
-    DataProductsTable();
+    return (
+      DataProductsTable()
+    );
   }
 
   function RenderDownloadCard() {
