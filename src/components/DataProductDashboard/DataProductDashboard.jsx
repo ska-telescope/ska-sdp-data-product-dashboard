@@ -32,12 +32,11 @@ const DataProductDashboard = () => {
   }, [selectedFileNames, metaData]);
 
   const rowClickHandler = (data) => {
-    console.log("rowClickHandler()", data);
-    
+    console.log("rowClickHandler()", data);     // TODO: Remove when done
     setSelectedFileNames({
-      fileName: data.row.id,
-      relativeFileName: data.row.interface,
-      metaDataFile: data.row.execution_block
+      fileName: data.row.execution_block,
+      relativeFileName: data.row.dataproduct_file,
+      metaDataFile: data.row.metadata_file
     });
   };
 
@@ -55,7 +54,7 @@ const DataProductDashboard = () => {
   function RenderDownloadCard() {
     if ( selectedFileNames.relativeFileName !== '' ) {
       return (
-       DownloadCard(selectedFileNames)
+        DownloadCard(selectedFileNames)
       );
     }
   }
@@ -84,10 +83,10 @@ const DataProductDashboard = () => {
   return (
     <>
       <Grid container direction="row" justifyContent="space-between">
-        <Grid item xs={6}>
+        <Grid item xs={9}>
           {RenderDataProductsTable()}
         </Grid>
-        <Grid item xs={6}>
+        <Grid item xs={3}>
           <>
             {RenderDownloadCard()}
             {RenderMetaData()}

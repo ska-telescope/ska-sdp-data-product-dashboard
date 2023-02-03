@@ -5,8 +5,10 @@ import WarningIcon from '@mui/icons-material/Warning';
 import { DataGrid } from "@mui/x-data-grid";
 
 const columns = [
-  { field: "id", headerName: "ID", width: 70 },
-  { field: "execution_block", headerName: "execution_block", width: 250 },
+  { field: "id", headerName: "ID", width: 50 },
+  { field: "execution_block", headerName: "execution_block", width: 200 },
+  { field: "dataproduct_file", headerName: "dataproduct_file", width: 300 },
+  { field: "metadata_file", headerName: "metadata_file", width: 400 },
   { field: "interface", headerName: "interface", width: 400 }
 ];
 
