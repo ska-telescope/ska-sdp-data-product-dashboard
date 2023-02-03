@@ -1,4 +1,7 @@
 import * as React from 'react';
+
+import { Typography } from '@mui/material';
+import WarningIcon from '@mui/icons-material/Warning';
 import { DataGrid } from "@mui/x-data-grid";
 
 const columns = [
@@ -7,68 +10,34 @@ const columns = [
   { field: "interface", headerName: "interface", width: 400 }
 ];
 
-const rows = [
-  {
-    id: 1,
-    interface: "http://schema.skao.int/ska-data-product-meta/0.1",
-    execution_block: "eb-m001-20191031-12345"
-  },
-  {
-    id: 2,
-    interface: "http://schema.skao.int/ska-data-product-meta/0.1",
-    execution_block: "eb-m001-20191031-12345"
-  },
-  {
-    id: 3,
-    interface: "http://schema.skao.int/ska-data-product-meta/0.1",
-    execution_block: "eb-m001-20191031-12345"
-  },
-  {
-    id: 4,
-    interface: "http://schema.skao.int/ska-data-product-meta/0.1",
-    execution_block: "eb-m001-20191031-12345"
-  },
-  {
-    id: 5,
-    interface: "http://schema.skao.int/ska-data-product-meta/0.1",
-    execution_block: "eb-m001-20191031-12345"
-  },
-  {
-    id: 6,
-    interface: "http://schema.skao.int/ska-data-product-meta/0.1",
-    execution_block: "eb-m001-20191031-12345"
-  },
-  {
-    id: 7,
-    interface: "http://schema.skao.int/ska-data-product-meta/0.1",
-    execution_block: "eb-m001-20191031-12345"
-  },
-  {
-    id: 8,
-    interface: "http://schema.skao.int/ska-data-product-meta/0.1",
-    execution_block: "eb-m001-20191031-12345"
-  },
-  {
-    id: 9,
-    interface: "http://schema.skao.int/ska-data-product-meta/0.1",
-    execution_block: "eb-m001-20191031-12345"
-  },
-  {
-    id: 10,
-    interface: "http://schema.skao.int/ska-data-product-meta/0.1",
-    execution_block: "eb-m001-20191031-12345"
-  }
-];
+const DataProductsTable = (jsonDataProducts, handleSelectedNode) => {
+  console.log("DataProductsTable", jsonDataProducts);
 
-const DataProductsTable = () => {
+  // if jsonDataProducts contains no data, display a warning instead
+  if (jsonDataProducts === null){
+    return (
+      <>
+        <Typography sx={{ fontSize: 25, display: "flex", justifyContent: "center" }} color="error" gutterBottom>
+          <WarningIcon sx={{ fontSize: "35px" }}  />
+          {" "}
+          {"SDP Data API not available"}
+        </Typography>
+      </>
+    );
+  }
+
+  // TODO: dynamically build the columns array based on the contents of jsonDataProducts?
+
+
   return (
     <div style={{ height: 400, width: "100%" }}>
       <DataGrid
-        rows={rows}
+        rows={jsonDataProducts}
         columns={columns}
         pageSize={5}
         rowsPerPageOptions={[5]}
         checkboxSelection
+        onRowClick={handleSelectedNode}
       />
     </div>
   );
