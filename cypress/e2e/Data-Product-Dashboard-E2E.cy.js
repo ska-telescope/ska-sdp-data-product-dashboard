@@ -1,17 +1,14 @@
-context('Navigation', () => {
-
-  const PROD_1 = "pb_id_1";
-  const TEST_DATA_FILE_1 = "TestDataFile1.txt";
-  const DOWNLOAD_BUTTON = "DownloadIcon";
+import Constants from '../../src/constants/constants';
+context('Select and download data product', () => {
 
   beforeEach(() => {
-    cy.visit('http://localhost:8100/')
+    cy.visit(Constants.LOCAL_HOST)
   })
 
   it('Select data product and download file', () => {
-    cy.findByText(PROD_1).click()
-    cy.findByText(TEST_DATA_FILE_1).click()
-    cy.findByTestId(DOWNLOAD_BUTTON).click()
-    cy.readFile('cypress/downloads/' + TEST_DATA_FILE_1).should('contain', 'Error')
+    cy.findByText(Constants.PROD_1).click()
+    cy.findByText(Constants.TEST_DATA_FILE_1).click()
+    cy.findByTestId(Constants.DOWNLOAD_ICON).click()
+    cy.readFile('cypress/downloads/' + Constants.TEST_DATA_FILE_1).should('contain', 'Error')
   })
 })
