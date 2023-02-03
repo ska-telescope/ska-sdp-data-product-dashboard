@@ -7,6 +7,7 @@ import WarningIcon from '@mui/icons-material/Warning';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 
+import DataProductsTable from '../DataProductsTable/DataProductsTable';
 import DownloadCard from '../DownloadCard/DownloadCard';
 import MetaDataComponent from '../MetaDataComponent/MetaDataComponent';
 import FetchDataProductList from '../../services/FetchDataProductList/FetchDataProductList';
@@ -114,6 +115,10 @@ const DataProductDashboard = () => {
     );
   }
 
+  function RenderDataProductsTable(){
+    DataProductsTable();
+  }
+
   function RenderDownloadCard() {
     if ( selectedFileNames.relativeFileName !== '' ) {
       return (
@@ -147,6 +152,7 @@ const DataProductDashboard = () => {
     <>
       <Grid container direction="row" justifyContent="space-between">
         <Grid item xs={6}>
+          {RenderDataProductsTable()}
           {renderDataProductsTreeComponent()}
         </Grid>
         <Grid item xs={6}>
