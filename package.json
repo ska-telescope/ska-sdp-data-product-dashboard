@@ -31,6 +31,7 @@
     "@mui/lab": "^5.0.0-alpha.92",
     "@mui/material": "^5.9.0",
     "@mui/x-data-grid": "^5.17.22",
+    "@mui/x-date-pickers": "^5.0.17",
     "@testing-library/cypress": "^9.0.0",
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^13.4.0",

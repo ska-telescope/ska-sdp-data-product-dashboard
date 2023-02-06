@@ -4,6 +4,7 @@ import { Grid } from '@mui/material';
 
 import DataProductsTable from '../DataProductsTable/DataProductsTable';
 import DownloadCard from '../DownloadCard/DownloadCard';
+import SearchCard from '../SearchCard/SearchCard';
 import MetaDataComponent from '../MetaDataComponent/MetaDataComponent';
 import FetchDataProductList from '../../services/FetchDataProductList/FetchDataProductList';
 import MetaData from '../../services/MetaData/MetaData';
@@ -20,7 +21,7 @@ const DataProductDashboard = () => {
 
   React.useEffect(() => {
     async function getJsonDataProducts() {
-      const results = await FetchDataProductList();
+      const results = await FetchDataProductList("2015-01-01", "2050-12-12", "execution_block", "eb-m001-20191031-12345");
       setJsonDataProducts(results);
     }
     
@@ -84,6 +85,7 @@ const DataProductDashboard = () => {
     <>
       <Grid container direction="row" justifyContent="space-between">
         <Grid item xs={9}>
+          {SearchCard()}
           {RenderDataProductsTable()}
         </Grid>
         <Grid item xs={3}>
