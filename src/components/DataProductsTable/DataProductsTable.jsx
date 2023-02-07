@@ -13,7 +13,7 @@ const columns = [
 
 const DataProductsTable = (jsonDataProducts, handleSelectedNode) => {
   // if jsonDataProducts contains no data, display a warning instead
-  if (jsonDataProducts === null){
+  if (!jsonDataProducts || typeof jsonDataProducts === 'string'){
     return (
       <>
         <Typography sx={{ fontSize: 25, display: "flex", justifyContent: "center" }} color="error" gutterBottom>

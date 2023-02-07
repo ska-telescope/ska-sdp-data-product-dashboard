@@ -30,6 +30,7 @@ const DataProductDashboard = () => {
   React.useEffect(() => {
     async function getJsonDataProducts() {
       const results = await FetchDataProductList(startDate, endDate, metadataKey, metadataValue);
+      console.log('TREVOR', results);
       setJsonDataProducts(results);
     }
     
@@ -93,7 +94,7 @@ const DataProductDashboard = () => {
     return result;
   }
 
-  function RenderSerachBox() {
+  function RenderSearchBox() {
   return (
     <Box m={1}>
       <Card variant="outlined" sx={{ minWidth: 275 }}>
@@ -102,6 +103,7 @@ const DataProductDashboard = () => {
             Filter data products based on metadata:
           </Typography>
           <LocalizationProvider dateAdapter={AdapterDayjs}>
+          <Grid container direction="row" justifyContent="space-between">
             <DatePicker
               label="Start date"
               value={startDate}
@@ -133,7 +135,8 @@ const DataProductDashboard = () => {
               onChange={(newValue) => {
                 updateMetadataValue(newValue.target.value);
               }}
-            />      
+            />   
+            </Grid>
           </LocalizationProvider>
   
         </CardContent>
@@ -152,7 +155,7 @@ const DataProductDashboard = () => {
     <>
       <Grid container direction="row" justifyContent="space-between">
         <Grid item xs={9}>
-          {RenderSerachBox()}
+          {RenderSearchBox()}
           {RenderDataProductsTable()}
         </Grid>
         <Grid item xs={3}>
