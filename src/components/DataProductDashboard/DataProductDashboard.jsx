@@ -32,7 +32,6 @@ const DataProductDashboard = () => {
   React.useEffect(() => {
     async function getJsonDataProducts() {
       const results = await FetchDataProductList(startDate, endDate, metadataKey, metadataValue);
-      console.log('TREVOR', results);
       setJsonDataProducts(results);
     }
     
@@ -173,7 +172,7 @@ const DataProductDashboard = () => {
     </Box>
   );
   };
-
+  
   return (
     <>
       <Grid container direction="row" justifyContent="space-between">
