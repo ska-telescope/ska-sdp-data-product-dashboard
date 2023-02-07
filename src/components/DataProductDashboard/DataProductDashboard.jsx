@@ -127,7 +127,7 @@ const DataProductDashboard = () => {
               onChange={(newValue) => {
                 updateStartDate(newValue);
               }}
-              renderInput={(params) => <TextField {...params} />}
+              renderInput={(params) => <TextField {...params} sx={{width: 180}}/>}
             />
             <DatePicker
               label="End Date"
@@ -135,11 +135,12 @@ const DataProductDashboard = () => {
               onChange={(newValue) => {
                 updateEndDate(newValue);
               }}
-              renderInput={(params) => <TextField {...params} />}
+              renderInput={(params) => <TextField {...params} sx={{width: 180}}/>}
             />
             <TextField
               id="outlined"
               label="Key"
+              style = {{width: 300}}
               defaultValue={metadataKey}
               onChange={(newValue) => {
                 updateMetadataKey(newValue.target.value);
@@ -148,6 +149,7 @@ const DataProductDashboard = () => {
             <TextField
               id="outlined"
               label="Value"
+              style = {{width: 500}}
               defaultValue={metadataValue}
               onChange={(newValue) => {
                 updateMetadataValue(newValue.target.value);
