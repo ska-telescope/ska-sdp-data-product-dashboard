@@ -9,9 +9,11 @@ import FetchDataProductList from '../../services/FetchDataProductList/FetchDataP
 import MetaData from '../../services/MetaData/MetaData';
 import { Box, Button, Card, CardActions, CardContent, Typography, TextField } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
+import RefreshIcon from '@mui/icons-material/Refresh';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
+import axios from 'axios';
 
 const DataProductDashboard = () => {
   const [jsonDataProducts, setJsonDataProducts] = React.useState([]);
@@ -53,6 +55,21 @@ const DataProductDashboard = () => {
       metaDataFile: data.row.metadata_file
     });
   };
+
+  async function indexDataProduct() {
+    const apiUrl = process.env.REACT_APP_SKA_SDP_DATA_PRODUCT_API_URL;
+    try {
+      return await axios.get(`${apiUrl}/updatesearchindex`,  {
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json'
+        }
+      });
+    } catch (e) {
+      const noData = 'API unreachable, SDP Data Product MetaData is not currently available';
+      return noData;
+    }
+  }
 
   async function getMetaData() {
     const results = await MetaData(selectedFileNames?.metaDataFile);
@@ -141,6 +158,10 @@ const DataProductDashboard = () => {
   
         </CardContent>
         <CardActions>
+          <Button variant="outlined" color="secondary" onClick={() => indexDataProduct()}>
+            <RefreshIcon />
+            Index Data Products
+          </Button>      
           <Button variant="outlined" color="secondary" onClick={() => updateSearchResults()}>
             <SearchIcon />
             Search
