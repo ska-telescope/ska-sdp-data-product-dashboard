@@ -24,14 +24,18 @@ const DataProductDashboard = () => {
     relativeFileName: '',
     metaDataFile: ''
   });
-  const [startDate, updateStartDate] = React.useState("2015-01-01");
-  const [endDate, updateEndDate] = React.useState("2050-12-12");
-  const [metadataKey, updateMetadataKey] = React.useState("execution_block");
-  const [metadataValue, updateMetadataValue] = React.useState("eb-m001-20191031-12345");
+  const [startDate, updateStartDate] = React.useState(null);
+  const [endDate, updateEndDate] = React.useState(null);
+  const [metadataKey, updateMetadataKey] = React.useState(null);
+  const [metadataValue, updateMetadataValue] = React.useState(null);
 
   React.useEffect(() => {
     async function getJsonDataProducts() {
-      const results = await FetchDataProductList(startDate, endDate, metadataKey, metadataValue);
+      const startDateStr = startDate ? startDate : "1970-01-01"
+      const endDateStr = endDate ? endDate : "2070-12-31"
+      const metadataKeyStr = metadataKey ? metadataKey : "execution_block"
+      const metadataValueStr = metadataValue ? metadataValue : "eb-m001-20191031-12345"
+      const results = await FetchDataProductList(startDateStr, endDateStr, metadataKeyStr, metadataValueStr);
       setJsonDataProducts(results);
     }
     
@@ -39,7 +43,11 @@ const DataProductDashboard = () => {
   }, [startDate, endDate, metadataKey, metadataValue]);
 
   async function updateSearchResults() {
-    const results = await FetchDataProductList(startDate, endDate, metadataKey, metadataValue);
+    const startDateStr = startDate ? startDate : "1970-01-01"
+    const endDateStr = endDate ? endDate : "2070-12-31"
+    const metadataKeyStr = metadataKey ? metadataKey : "execution_block"
+    const metadataValueStr = metadataValue ? metadataValue : "eb-m001-20191031-12345"
+    const results = await FetchDataProductList(startDateStr, endDateStr, metadataKeyStr, metadataValueStr);
     setJsonDataProducts(results);
   }
 
