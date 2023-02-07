@@ -13,8 +13,6 @@ const columns = [
 ];
 
 const DataProductsTable = (jsonDataProducts, handleSelectedNode) => {
-  console.log("DataProductsTable", jsonDataProducts);
-
   // if jsonDataProducts contains an warning string, display the warning instead
   if (typeof jsonDataProducts === "undefined" || typeof jsonDataProducts === "string"){
     return (
