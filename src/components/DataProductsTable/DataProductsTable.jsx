@@ -28,9 +28,6 @@ const DataProductsTable = (jsonDataProducts, handleSelectedNode) => {
     );
   }
 
-  // TODO: dynamically build the columns array based on the contents of jsonDataProducts?
-
-
   return (
     <div style={{ height: 400, width: "100%" }}>
       <DataGrid

@@ -9,7 +9,7 @@ import FetchDataProductList from '../../services/FetchDataProductList/FetchDataP
 import MetaData from '../../services/MetaData/MetaData';
 
 const DataProductDashboard = () => {
-  const [jsonDataProducts, setJsonDataProducts] = React.useState([]);
+  const [jsonDataProducts, setJsonDataProducts] = React.useState({data:[]});
   const [metaData, setMetaData] = React.useState(null);
   const [oldFilename, setOldFilename] = React.useState(null);
   const [selectedFileNames, setSelectedFileNames] = React.useState({
@@ -47,7 +47,7 @@ const DataProductDashboard = () => {
 
   function RenderDataProductsTable(){
     return (
-      DataProductsTable(jsonDataProducts, rowClickHandler)
+      DataProductsTable(jsonDataProducts.data, rowClickHandler)
     );
   }
 

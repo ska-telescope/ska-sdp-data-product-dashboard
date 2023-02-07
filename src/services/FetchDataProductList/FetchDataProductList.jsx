@@ -18,22 +18,28 @@ const FetchDataProductList = async () => {
   };
 
   try {
-    const results = await axios.post(`${apiUrl}${URL_LIST}`, bodyParameters, config);
+    // NOTE: set this to false to use the dummy data instead of requesting real data from the API
+    const USE_REAL_API = true;
 
-    /* TODO: Start of dummy data from the API */
-    const dummyData = [
-      {"id": 1, "interface": "http://schema.skao.int/ska-data-product-meta/0.1", "execution_block": "eb-m001-20191031-12345", "date_created": "20230101", "dataproduct_file": "product/eb-m001-20221212-12345", "metadata_file": "product/eb-m001-20221212-12345/ska-data-product.yaml"}, 
-      {"id": 2, "interface": "http://schema.skao.int/ska-data-product-meta/0.1", "execution_block": "eb-m002-20221212-12345", "date_created": "20230101", "dataproduct_file": "product/eb-m002-20221212-12345", "metadata_file": "product/eb-m002-20221212-12345/ska-data-product.yaml"},
-      {"id": 3, "interface": "http://schema.skao.int/ska-data-product-meta/0.1", "execution_block": "eb-m003-20191031-12345", "date_created": "20230101", "dataproduct_file": "product/eb-m001-20221212-12345", "metadata_file": "product/eb-m001-20221212-12345/ska-data-product.yaml"}, 
-      {"id": 4, "interface": "http://schema.skao.int/ska-data-product-meta/0.1", "execution_block": "eb-m004-20221212-12345", "date_created": "20230101", "dataproduct_file": "product/eb-m002-20221212-12345", "metadata_file": "product/eb-m002-20221212-12345/ska-data-product.yaml"},
-      {"id": 5, "interface": "http://schema.skao.int/ska-data-product-meta/0.1", "execution_block": "eb-m005-20191031-12345", "date_created": "20230101", "dataproduct_file": "product/eb-m001-20221212-12345", "metadata_file": "product/eb-m001-20221212-12345/ska-data-product.yaml"}, 
-      {"id": 6, "interface": "http://schema.skao.int/ska-data-product-meta/0.1", "execution_block": "eb-m006-20221212-12345", "date_created": "20230101", "dataproduct_file": "product/eb-m002-20221212-12345", "metadata_file": "product/eb-m002-20221212-12345/ska-data-product.yaml"},
-    ];
-    return dummyData;
-    /* TODO: End of dummy data from the API */
+    if (USE_REAL_API){
+      return await axios.post(`${apiUrl}${URL_LIST}`, bodyParameters, config);
+    }
+    else {
+      /* TODO: Start of dummy data from the API */
+      const dummyData = [
+        {"id": 1, "interface": "http://schema.skao.int/ska-data-product-meta/0.1", "execution_block": "eb-m001-20191031-12345", "date_created": "20230101", "dataproduct_file": "product/eb-m001-20221212-12345", "metadata_file": "product/eb-m001-20221212-12345/ska-data-product.yaml"}, 
+        {"id": 2, "interface": "http://schema.skao.int/ska-data-product-meta/0.1", "execution_block": "eb-m002-20221212-12345", "date_created": "20230101", "dataproduct_file": "product/eb-m002-20221212-12345", "metadata_file": "product/eb-m002-20221212-12345/ska-data-product.yaml"},
+        {"id": 3, "interface": "http://schema.skao.int/ska-data-product-meta/0.1", "execution_block": "eb-m003-20191031-12345", "date_created": "20230101", "dataproduct_file": "product/eb-m001-20221212-12345", "metadata_file": "product/eb-m001-20221212-12345/ska-data-product.yaml"}, 
+        {"id": 4, "interface": "http://schema.skao.int/ska-data-product-meta/0.1", "execution_block": "eb-m004-20221212-12345", "date_created": "20230101", "dataproduct_file": "product/eb-m002-20221212-12345", "metadata_file": "product/eb-m002-20221212-12345/ska-data-product.yaml"},
+        {"id": 5, "interface": "http://schema.skao.int/ska-data-product-meta/0.1", "execution_block": "eb-m005-20191031-12345", "date_created": "20230101", "dataproduct_file": "product/eb-m001-20221212-12345", "metadata_file": "product/eb-m001-20221212-12345/ska-data-product.yaml"}, 
+        {"id": 6, "interface": "http://schema.skao.int/ska-data-product-meta/0.1", "execution_block": "eb-m006-20221212-12345", "date_created": "20230101", "dataproduct_file": "product/eb-m002-20221212-12345", "metadata_file": "product/eb-m002-20221212-12345/ska-data-product.yaml"},
+      ];
+      /* TODO: End of dummy data from the API */
 
-    // TODO: Replace dummy data with the following results.data when API is used
-    // return results.data;
+      return {
+        data: dummyData
+      };
+    }
   } catch (e) {
     return "API unreachable, SDP data not available";
   }
