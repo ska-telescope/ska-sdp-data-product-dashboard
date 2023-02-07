@@ -7,7 +7,7 @@ jest.mock('axios');
 describe('data_product_api_DataProductList LIVE passing', () => {
   it('Passes', async () => {
     const data = { data: mockFilesTree };
-    axios.get.mockResolvedValueOnce(data);
+    axios.post.mockResolvedValueOnce(data);
     const fileList = await FetchDataProductList();
     expect(fileList.data).toEqual(mockFilesTree);
   });

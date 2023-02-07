@@ -32,7 +32,6 @@ const DataProductDashboard = () => {
   }, [selectedFileNames, metaData]);
 
   const rowClickHandler = (data) => {
-    console.log("rowClickHandler()", data);     // TODO: Remove when done
     setSelectedFileNames({
       fileName: data.row.execution_block,
       relativeFileName: data.row.dataproduct_file,
