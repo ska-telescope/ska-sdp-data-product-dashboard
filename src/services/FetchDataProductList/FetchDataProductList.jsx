@@ -4,8 +4,6 @@ const FetchDataProductList = async (startDate, endDate, metadata_key, metadata_v
   const apiUrl = process.env.REACT_APP_SKA_SDP_DATA_PRODUCT_API_URL;
   const URL_LIST = '/dataproductsearch';
 
-  console.log(startDate, endDate, metadata_key, metadata_value)
-
   // TODO: Add date selection and data entry to dasboard for these parameters + Search Button
   const bodyParameters = {
     "start_date": startDate,

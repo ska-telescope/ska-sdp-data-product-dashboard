@@ -6,15 +6,12 @@ import { DataGrid } from "@mui/x-data-grid";
 
 const columns = [
   { field: "id", headerName: "ID", width: 50 },
-  { field: "execution_block", headerName: "execution_block", width: 200 },
-  { field: "dataproduct_file", headerName: "dataproduct_file", width: 300 },
-  { field: "metadata_file", headerName: "metadata_file", width: 400 },
-  { field: "interface", headerName: "interface", width: 400 }
+  { field: "execution_block", headerName: "Execution block ID", width: 200 },
+  { field: "date_created", headerName: "Date created", width: 100 },
+  { field: "interface", headerName: "Interface", width: 400 }  
 ];
 
 const DataProductsTable = (jsonDataProducts, handleSelectedNode) => {
-  console.log("DataProductsTable", jsonDataProducts);
-
   // if jsonDataProducts contains no data, display a warning instead
   if (jsonDataProducts === null){
     return (

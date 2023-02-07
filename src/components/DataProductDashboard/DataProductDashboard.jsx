@@ -7,7 +7,6 @@ import DownloadCard from '../DownloadCard/DownloadCard';
 import MetaDataComponent from '../MetaDataComponent/MetaDataComponent';
 import FetchDataProductList from '../../services/FetchDataProductList/FetchDataProductList';
 import MetaData from '../../services/MetaData/MetaData';
-
 import { Box, Button, Card, CardActions, CardContent, Typography, TextField } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
@@ -35,11 +34,10 @@ const DataProductDashboard = () => {
     }
     
     getJsonDataProducts();
-  }, []);
+  }, [startDate, endDate, metadataKey, metadataValue]);
 
   async function updateSearchResults() {
     const results = await FetchDataProductList(startDate, endDate, metadataKey, metadataValue);
-    console.log(results)
     setJsonDataProducts(results);
   }
 
@@ -48,7 +46,6 @@ const DataProductDashboard = () => {
   }, [selectedFileNames, metaData]);
 
   const rowClickHandler = (data) => {
-    console.log("rowClickHandler()", data);     // TODO: Remove when done
     setSelectedFileNames({
       fileName: data.row.execution_block,
       relativeFileName: data.row.dataproduct_file,
@@ -126,7 +123,7 @@ const DataProductDashboard = () => {
               label="Key"
               defaultValue={metadataKey}
               onChange={(newValue) => {
-                updateMetadataKey(newValue);
+                updateMetadataKey(newValue.target.value);
               }}
             />
             <TextField
@@ -134,7 +131,7 @@ const DataProductDashboard = () => {
               label="Value"
               defaultValue={metadataValue}
               onChange={(newValue) => {
-                updateMetadataValue(newValue);
+                updateMetadataValue(newValue.target.value);
               }}
             />      
           </LocalizationProvider>
