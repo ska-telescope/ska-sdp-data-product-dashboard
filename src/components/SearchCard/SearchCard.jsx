@@ -6,7 +6,7 @@ import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import FetchDataProductList from "../../services/FetchDataProductList/FetchDataProductList"
 
-const DownloadCard = () => {
+const SearchCard = () => {
   const [startDate, updateStartDate] = React.useState("2015-01-01");
   const [endDate, updateEndDate] = React.useState("2050-12-12");
   const [metadataKey, updateMetadataKey] = React.useState("execution_block");
@@ -37,8 +37,7 @@ const DownloadCard = () => {
               renderInput={(params) => <TextField {...params} />}
             />
             <TextField
-              required
-              id="outlined-required"
+              id="outlined"
               label="Key"
               defaultValue={metadataKey}
               onChange={(newValue) => {
@@ -46,8 +45,7 @@ const DownloadCard = () => {
               }}
             />
             <TextField
-              required
-              id="outlined-required"
+              id="outlined"
               label="Value"
               defaultValue={metadataValue}
               onChange={(newValue) => {
@@ -68,4 +66,4 @@ const DownloadCard = () => {
   );
 }
 
-export default DownloadCard
+export default SearchCard
