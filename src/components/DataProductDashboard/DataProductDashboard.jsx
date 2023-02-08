@@ -33,8 +33,8 @@ const DataProductDashboard = () => {
     async function getJsonDataProducts() {
       const startDateStr = startDate ? startDate : "1970-01-01"
       const endDateStr = endDate ? endDate : "2070-12-31"
-      const metadataKeyStr = metadataKey ? metadataKey : "execution_block"
-      const metadataValueStr = metadataValue ? metadataValue : "eb-m001-20191031-12345"
+      const metadataKeyStr = metadataKey ? metadataKey : "*"
+      const metadataValueStr = metadataValue ? metadataValue : "*"
       const results = await FetchDataProductList(startDateStr, endDateStr, metadataKeyStr, metadataValueStr);
       setJsonDataProducts(results);
     }
@@ -45,8 +45,8 @@ const DataProductDashboard = () => {
   async function updateSearchResults() {
     const startDateStr = startDate ? startDate : "1970-01-01"
     const endDateStr = endDate ? endDate : "2070-12-31"
-    const metadataKeyStr = metadataKey ? metadataKey : "execution_block"
-    const metadataValueStr = metadataValue ? metadataValue : "eb-m001-20191031-12345"
+    const metadataKeyStr = metadataKey ? metadataKey : "*"
+    const metadataValueStr = metadataValue ? metadataValue : "*"
     const results = await FetchDataProductList(startDateStr, endDateStr, metadataKeyStr, metadataValueStr);
     setJsonDataProducts(results);
   }
