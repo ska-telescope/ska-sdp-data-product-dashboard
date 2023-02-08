@@ -16,7 +16,7 @@ import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import axios from 'axios';
 
 const DataProductDashboard = () => {
-  const [jsonDataProducts, setJsonDataProducts] = React.useState([]);
+  const [jsonDataProducts, setJsonDataProducts] = React.useState({data:[]});
   const [metaData, setMetaData] = React.useState(null);
   const [oldFilename, setOldFilename] = React.useState(null);
   const [selectedFileNames, setSelectedFileNames] = React.useState({
@@ -85,7 +85,7 @@ const DataProductDashboard = () => {
 
   function RenderDataProductsTable(){
     return (
-      DataProductsTable(jsonDataProducts, rowClickHandler)
+      DataProductsTable(jsonDataProducts.data, rowClickHandler)
     );
   }
 

@@ -12,8 +12,8 @@ const columns = [
 ];
 
 const DataProductsTable = (jsonDataProducts, handleSelectedNode) => {
-  // if jsonDataProducts contains no data, display a warning instead
-  if (!jsonDataProducts || typeof jsonDataProducts === 'string'){
+  // if jsonDataProducts contains an warning string, display the warning instead
+  if (typeof jsonDataProducts === "undefined" || typeof jsonDataProducts === "string"){
     return (
       <>
         <Typography sx={{ fontSize: 25, display: "flex", justifyContent: "center" }} color="error" gutterBottom>
@@ -24,9 +24,6 @@ const DataProductsTable = (jsonDataProducts, handleSelectedNode) => {
       </>
     );
   }
-
-  // TODO: dynamically build the columns array based on the contents of jsonDataProducts?
-
 
   return (
     <div style={{ height: 400, width: "100%" }}>
