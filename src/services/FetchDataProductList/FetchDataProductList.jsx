@@ -1,14 +1,12 @@
 import axios from 'axios';
 
-const FetchDataProductList = async () => {
+const FetchDataProductList = async (startDate, endDate, metadata_key, metadata_value) => {
   const apiUrl = process.env.REACT_APP_SKA_SDP_DATA_PRODUCT_API_URL;
   const URL_LIST = '/dataproductsearch';
-
-  // TODO: Add date selection and data entry to dasboard for these parameters + Search Button
   const bodyParameters = {
-    "start_date": "20211212",
-    "end_date": "20221212",
-    "key_pair" : "execution_block:eb-m002-20191031-12345"
+    "start_date": startDate,
+    "end_date": endDate,
+    "key_pair" : metadata_key+":"+metadata_value
   };
   const config = {
     headers: {
