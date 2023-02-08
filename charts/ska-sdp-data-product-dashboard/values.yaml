@@ -34,3 +34,10 @@ elasticsearch:
     replicaCount: 2
     persistence:
       enabled: true
+
+data-pvc:
+  name: test-pvc
+  create:
+    enabled: false
+    size: 5Gi
+    storageClassName: nfss1
