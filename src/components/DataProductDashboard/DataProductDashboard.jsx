@@ -5,7 +5,9 @@ import { Grid } from '@mui/material';
 import DataProductsTable from '../DataProductsTable/DataProductsTable';
 import DownloadCard from '../DownloadCard/DownloadCard';
 import MetaDataComponent from '../MetaDataComponent/MetaDataComponent';
-import FetchDataProductList from '../../services/FetchDataProductList/FetchDataProductList';
+import SearchForDataProduct from '../../services/SearchForDataProduct/SearchForDataProduct';
+import ListAllDataProducts from '../../services/ListAllDataProducts/ListAllDataProducts';
+import GetAPIStatus from '../../services/GetAPIStatus/GetAPIStatus';
 import MetaData from '../../services/MetaData/MetaData';
 import { Box, Button, Card, CardActions, CardContent, Typography, TextField } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
@@ -28,6 +30,24 @@ const DataProductDashboard = () => {
   const [endDate, updateEndDate] = React.useState(null);
   const [metadataKey, updateMetadataKey] = React.useState(null);
   const [metadataValue, updateMetadataValue] = React.useState(null);
+  const [esAvailable, updateEsAvailable] = React.useState(false);
+
+  async function UpdateAPIStatus() {
+    const results = await GetAPIStatus()
+    updateEsAvailable(results.data.Search_enabled)
+  }
+  UpdateAPIStatus()
+
+  async function getDataproductList(startDateStr, endDateStr, metadataKeyStr, metadataValueStr){
+    if (esAvailable){
+      const results = await SearchForDataProduct(startDateStr, endDateStr, metadataKeyStr, metadataValueStr);
+      return results
+    }
+    else {
+      const results = await ListAllDataProducts();
+      return results
+    }
+  }
 
   React.useEffect(() => {
     async function getJsonDataProducts() {
@@ -35,19 +55,19 @@ const DataProductDashboard = () => {
       const endDateStr = endDate ? endDate : "2070-12-31"
       const metadataKeyStr = metadataKey ? metadataKey : "*"
       const metadataValueStr = metadataValue ? metadataValue : "*"
-      const results = await FetchDataProductList(startDateStr, endDateStr, metadataKeyStr, metadataValueStr);
+      const results = await getDataproductList(startDateStr, endDateStr, metadataKeyStr, metadataValueStr);
       setJsonDataProducts(results);
     }
     
     getJsonDataProducts();
-  }, [startDate, endDate, metadataKey, metadataValue]);
+  }, [startDate, endDate, metadataKey, metadataValue, esAvailable]);
 
   async function updateSearchResults() {
     const startDateStr = startDate ? startDate : "1970-01-01"
     const endDateStr = endDate ? endDate : "2070-12-31"
     const metadataKeyStr = metadataKey ? metadataKey : "*"
     const metadataValueStr = metadataValue ? metadataValue : "*"
-    const results = await FetchDataProductList(startDateStr, endDateStr, metadataKeyStr, metadataValueStr);
+    const results = await getDataproductList(startDateStr, endDateStr, metadataKeyStr, metadataValueStr);
     setJsonDataProducts(results);
   }
 
@@ -119,67 +139,70 @@ const DataProductDashboard = () => {
   }
 
   function RenderSearchBox() {
-  return (
-    <Box m={1}>
-      <Card variant="outlined" sx={{ minWidth: 275 }}>
-        <CardContent>
-          <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
-            Filter data products based on metadata:
-          </Typography>
-          <LocalizationProvider dateAdapter={AdapterDayjs}>
-          <Grid container direction="row" justifyContent="space-between">
-            <DatePicker
-              label="Start date"
-              value={startDate}
-              onChange={(newValue) => {
-                updateStartDate(newValue);
-              }}
-              renderInput={(params) => <TextField {...params} sx={{width: 180}}/>}
-            />
-            <DatePicker
-              label="End Date"
-              value={endDate}
-              onChange={(newValue) => {
-                updateEndDate(newValue);
-              }}
-              renderInput={(params) => <TextField {...params} sx={{width: 180}}/>}
-            />
-            <TextField
-              id="outlined"
-              label="Key"
-              style = {{width: 300}}
-              defaultValue={metadataKey}
-              onChange={(newValue) => {
-                updateMetadataKey(newValue.target.value);
-              }}
-            />
-            <TextField
-              id="outlined"
-              label="Value"
-              style = {{width: 500}}
-              defaultValue={metadataValue}
-              onChange={(newValue) => {
-                updateMetadataValue(newValue.target.value);
-              }}
-            />   
-            </Grid>
-          </LocalizationProvider>
+    if (esAvailable) {
+      return (
+        <Box m={1}>
+          <Card variant="outlined" sx={{ minWidth: 275 }}>
+            <CardContent>
+              <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
+                Filter data products based on metadata:
+              </Typography>
+              <LocalizationProvider dateAdapter={AdapterDayjs}>
+              <Grid container direction="row" justifyContent="space-between">
+                <DatePicker
+                  label="Start date"
+                  value={startDate}
+                  onChange={(newValue) => {
+                    updateStartDate(newValue);
+                  }}
+                  renderInput={(params) => <TextField {...params} sx={{width: 180}}/>}
+                />
+                <DatePicker
+                  label="End Date"
+                  value={endDate}
+                  onChange={(newValue) => {
+                    updateEndDate(newValue);
+                  }}
+                  renderInput={(params) => <TextField {...params} sx={{width: 180}}/>}
+                />
+                <TextField
+                  id="outlined"
+                  label="Key"
+                  style = {{width: 300}}
+                  defaultValue={metadataKey}
+                  onChange={(newValue) => {
+                    updateMetadataKey(newValue.target.value);
+                  }}
+                />
+                <TextField
+                  id="outlined"
+                  label="Value"
+                  style = {{width: 500}}
+                  defaultValue={metadataValue}
+                  onChange={(newValue) => {
+                    updateMetadataValue(newValue.target.value);
+                  }}
+                />   
+                </Grid>
+              </LocalizationProvider>
+      
+            </CardContent>
+            <CardActions>
+              <Button variant="outlined" color="secondary" onClick={() => indexDataProduct()}>
+                <RefreshIcon />
+                Index Data Products
+              </Button>      
+              <Button variant="outlined" color="secondary" onClick={() => updateSearchResults()}>
+                <SearchIcon />
+                Search
+              </Button>
+            </CardActions>
+          </Card>
+        </Box>
+      );
+      };
+    }
   
-        </CardContent>
-        <CardActions>
-          <Button variant="outlined" color="secondary" onClick={() => indexDataProduct()}>
-            <RefreshIcon />
-            Index Data Products
-          </Button>      
-          <Button variant="outlined" color="secondary" onClick={() => updateSearchResults()}>
-            <SearchIcon />
-            Search
-          </Button>
-        </CardActions>
-      </Card>
-    </Box>
-  );
-  };
   
   return (
     <>
