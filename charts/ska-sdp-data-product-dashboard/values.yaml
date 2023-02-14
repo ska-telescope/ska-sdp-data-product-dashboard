@@ -4,21 +4,24 @@ ingress:
   pathStart: "/data_product"
   namespaced: true   
 urls:
-  override: false
+  override: true
   dashboardurl: "http://localhost"
   apiUrl: "http://localhost:8000" 
 api:
   enabled: true
-  container: artefact.skao.int/ska-sdp-data-product-api
-  version: 0.2.0
+  container: docker.io/library/ska-sdp-data-product-api
+  version: 0.2.2
   imagePullPolicy: IfNotPresent
   hostPort: "8100"
-  storagePath: "/var/log"
+  storagePath: "/usr/"
+  metadata_file_name: ska-data-product.yaml
+  metadata_es_schema_file: ./src/ska_sdp_data_product_api/elasticsearch/data_product_metadata_schema.json
+  es_host: http://ska-sdp-data-product-dashboard-elasticsearch-master-hl.test.svc:9200/  
 
 dashboard:
   enabled: true
-  container: artefact.skao.int/ska-sdp-data-product-dashboard
-  version: 0.2.0
+  container: docker.io/library/ska-sdp-data-product-dashboard
+  version: 0.2.1
   imagePullPolicy: IfNotPresent
 
 elasticsearch:
@@ -27,17 +30,17 @@ elasticsearch:
   storageClass: nfss1
   master:
     masterOnly: true
-    replicaCount: 2
+    replicaCount: 1
     persistence:
       enabled: true
   data:
-    replicaCount: 2
+    replicaCount: 1
     persistence:
       enabled: true
 
 data-pvc:
   name: test-pvc
   create:
-    enabled: false
-    size: 5Gi
-    storageClassName: nfss1
+    enabled: true
+    size: 1Gi
+    storageClassName: standard
