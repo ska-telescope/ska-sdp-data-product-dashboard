@@ -11,5 +11,9 @@
   "errors": {
     "API_NO_DATA": "SDP Data API not available",
     "API_NOT_AVAILABLE": "API unreachable, SDP data not available"
+  },
+
+  "prompt": {
+    "selectFile" : "Select File:"
   }
 }
