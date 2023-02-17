@@ -8,6 +8,14 @@ This repository contains a SKAO modular federated component that is used to list
 
 Please see the latest project documentation on RTD: https://developer.skao.int/projects/ska-sdp-data-product-dashboard/en/latest/?badge=latest
 
+## Install the SKAO specific library  (TODO : Move this into the standard documentation)
+
+1. npm config set registry https://artefact.skao.int/repository/npm-internal/
+
+2. yarn add @ska-telescope/ska-javascript-components@latest
+
+3. npm config set registry https://registry.npmjs.org/
+
 ## Contributing
 
 Contributions are welcome, please see the SKAO developer portal for guidance. https://developer.skao.int/en/latest/

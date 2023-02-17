@@ -5,14 +5,14 @@ import DownloadDataProduct from '../../services/DownloadDataProduct/DownloadData
 import { useTranslation } from 'react-i18next';
 
 const DownloadCard = (selectedFileNames) => {
-  const { fileName } = selectedFileNames
+  const { fileName } = selectedFileNames;
   const { t } = useTranslation();
   return (
     <Box m={1}>
       <Card variant="outlined" sx={{ minWidth: 275 }}>
         <CardContent>
           <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
-            {t('selectFile')}
+            {t('prompt.selectFile')}
           </Typography>
           <Typography variant="h5" component="div">
             {fileName} 
@@ -21,7 +21,7 @@ const DownloadCard = (selectedFileNames) => {
         <CardActions>
           <Button variant="outlined" color="secondary" onClick={() => DownloadDataProduct(selectedFileNames)}>
             <DownloadIcon />
-            Download
+            {t('button.download')}
           </Button>
         </CardActions>
       </Card>

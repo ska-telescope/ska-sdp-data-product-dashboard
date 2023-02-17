@@ -100,6 +100,10 @@ module.exports = (env, argv) => { return {
         '@mui/icons-material': { singleton: true, requiredVersion: '^auto', eager: true },
         '@mui/material': { singleton: true, requiredVersion: '^5.9.0', eager: true },
         '@mui/x-data-grid': { singleton: true, requiredVersion: '^5.17.22', eager: true },
+        '@ska-telescope/ska-javascript-components': {
+          requiredVersion: 'auto',
+          eager: true
+        },
         '@emotion/react': { singleton: true, requiredVersion: '^11.9.3', eager: true },
         '@emotion/styled': { singleton: true, requiredVersion: '^11.9.3', eager: true },
         'prop-types': { singleton: true, requiredVersion: '^15.8.1', eager: true },

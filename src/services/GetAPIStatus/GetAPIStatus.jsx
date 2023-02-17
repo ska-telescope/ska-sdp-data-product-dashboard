@@ -1,6 +1,8 @@
 import axios from 'axios';
+import { useTranslation } from 'react-i18next';
 
 const GetAPIStatus = async () => {
+  const { t } = useTranslation();
   const apiUrl = process.env.REACT_APP_SKA_SDP_DATA_PRODUCT_API_URL;
   const URL_LIST = '/status';
   const config = {
@@ -10,17 +12,12 @@ const GetAPIStatus = async () => {
     }, 
   };
 
-
   try {
     const result = await axios.get(`${apiUrl}${URL_LIST}`, config);
+    return (typeof result === "undefined") ? t("error.API_UNKNOWN_ERROR") : result;
 
-    if (typeof result === "undefined"){
-      return "API unreachable due to undefined error, SDP data not available";
-    } else {
-      return result;
-    }
   } catch(e) {
-    return "API unreachable, SDP data not available";
+    return t("error.API_NOT_AVAILABLE");
   }
 }
 

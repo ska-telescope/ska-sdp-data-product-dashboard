@@ -1,6 +1,8 @@
 import axios from 'axios';
+import { useTranslation } from 'react-i18next';
 
 const FetchDataProductList = async (startDate, endDate, metadata_key, metadata_value) => {
+  const { t } = useTranslation();
   const apiUrl = process.env.REACT_APP_SKA_SDP_DATA_PRODUCT_API_URL;
   const URL_LIST = '/dataproductsearch';
   const bodyParameters = {
@@ -39,13 +41,10 @@ const FetchDataProductList = async (startDate, endDate, metadata_key, metadata_v
     const result = await axios.post(`${apiUrl}${URL_LIST}`, bodyParameters, config);
 
     // NOTE: within the test framework, axios.post does not seem to throw an exception on failure? so instead we check if the result is undefined
-    if (typeof result === "undefined"){
-      return "API unreachable, SDP data not available";
-    } else {
-      return result;
-    }
+    
+    return (typeof result === "undefined") ? t("error.API_UNKNOWN_ERROR") : result;
   } catch(e) {
-    return "API unreachable, SDP data not available";
+    return t("error.API_NOT_AVAILABLE");
   }
 }
 

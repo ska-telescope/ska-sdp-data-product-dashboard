@@ -4,6 +4,8 @@ import mockFilesTree from '../Mocking/mockFilesTree';
 
 jest.mock('axios');
 
+const NO_DATA = 'API unreachable, SDP data not available'
+
 describe('SearchForDataProduct LIVE passing', () => {
   it('Passes', async () => {
     const data = { data: mockFilesTree };
@@ -18,7 +20,7 @@ describe('SearchForDataProduct LIVE failing', () => {
     axios.get.mockRejectedValueOnce(new Error('Network Error'));
 
     const fileList = await SearchForDataProduct();
-    const noData = 'API unreachable, SDP data not available'
-    expect(fileList).toEqual(noData);
+
+    expect(fileList).toEqual(NO_DATA);
   });
 });

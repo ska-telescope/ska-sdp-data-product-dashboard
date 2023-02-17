@@ -1,5 +1,7 @@
 import download from 'downloadjs';
 
+// TODO : Need to add error handling, should this fail 
+
 const DownloadDataProduct = (selectedFileNames) => {
   const URL_DOWNLOAD = '/download';
   const apiUrl = process.env.REACT_APP_SKA_SDP_DATA_PRODUCT_API_URL;

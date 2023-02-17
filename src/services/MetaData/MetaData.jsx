@@ -1,6 +1,8 @@
 import axios from 'axios';
+import { useTranslation } from 'react-i18next';
 
 async function MetaData(inData) {
+  const { t } = useTranslation();
 
   function flipSlash(inData) {    
     let outData = '';
@@ -41,8 +43,7 @@ async function MetaData(inData) {
         }
       });
     } catch (e) {
-      const noData = 'API unreachable, SDP Data Product MetaData is not currently available';
-      return noData;
+      return t("error.API_NO_META_DATA");
     }
   }
   return fetchMetaData();

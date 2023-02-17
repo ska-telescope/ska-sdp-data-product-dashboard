@@ -2,6 +2,8 @@ import axios from 'axios';
 import ListAllDataProducts from './ListAllDataProducts';
 import mockFilesTree from '../Mocking/mockFilesTree';
 
+const NO_DATA = 'API unreachable, SDP data not available'
+
 jest.mock('axios');
 
 describe('data_product_api_DataProductList LIVE passing', () => {
@@ -18,7 +20,6 @@ describe('data_product_api_DataProductList LIVE failing', () => {
     axios.get.mockRejectedValueOnce(new Error('Network Error'));
 
     const fileList = await ListAllDataProducts();
-    const noData = 'API unreachable, SDP data not available'
-    expect(fileList).toEqual(noData);
+    expect(fileList).toEqual(NO_DATA);
   });
 });

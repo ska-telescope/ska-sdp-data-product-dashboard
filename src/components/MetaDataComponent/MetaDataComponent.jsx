@@ -1,5 +1,8 @@
 import * as React from 'react';
+import { useTranslation } from 'react-i18next';
 import { Box, Card, CardContent, Divider, Typography } from '@mui/material';
+
+export const SECTIONS= [ 'interface', 'execution_block', 'context', 'config', 'files'];
 
 function sectionDisplay(title, data) {  
   const isString = typeof data === 'string';
@@ -16,16 +19,18 @@ function sectionDisplay(title, data) {
 }
 
 const MetaDataComponent = (metaData) => {  
+  const { t } = useTranslation();
+  
   return (
     <Box m={1}>
       <Card variant="outlined" sx={{ minWidth: 275 }}>
         <CardContent>
-          <Typography variant="h4" component="div">Meta Data</Typography>
-          {metaData?.metaData?.interface && sectionDisplay('interface', metaData?.metaData?.interface)}
-          {metaData?.metaData?.execution_block && sectionDisplay('execution_block', metaData?.metaData?.execution_block)}
-          {metaData?.metaData?.context && sectionDisplay('context', metaData?.metaData?.context)}
-          {metaData?.metaData?.config && sectionDisplay('config', metaData?.metaData?.config)}
-          {metaData?.metaData?.files && sectionDisplay('files', metaData?.metaData?.files)}
+          <Typography variant="h4" component="div">{t('label.metaData')}</Typography>
+          {metaData?.metaData?.interface && sectionDisplay(SECTIONS[0], metaData?.metaData?.interface)}
+          {metaData?.metaData?.execution_block && sectionDisplay(SECTIONS[1], metaData?.metaData?.execution_block)}
+          {metaData?.metaData?.context && sectionDisplay(SECTIONS[2], metaData?.metaData?.context)}
+          {metaData?.metaData?.config && sectionDisplay(SECTIONS[3], metaData?.metaData?.config)}
+          {metaData?.metaData?.files && sectionDisplay(SECTIONS[4], metaData?.metaData?.files)}
         </CardContent>
       </Card>
     </Box>

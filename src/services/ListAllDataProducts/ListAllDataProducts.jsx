@@ -12,15 +12,10 @@ const ListAllDataProducts = async () => {
 
   try {
     const result = await axios.get(`${apiUrl}${URL_LIST}`, config);
-
-    if (typeof result === "undefined"){
-      return "API unreachable due to undefined error, SDP data not available";
-    } else {
-      console.log(result)
-      return result;
-    }
-  } catch(e) {
-    return "API unreachable, SDP data not available";
+    return  (typeof result === "undefined") ?  "error.API_NOT_AVAILABLE" : result;
+  } 
+  catch(e) {
+    return "error.API_NOT_AVAILABLE";
   }
 }
 
