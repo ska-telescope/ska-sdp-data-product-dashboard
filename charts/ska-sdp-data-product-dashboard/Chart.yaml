@@ -13,5 +13,4 @@ dependencies:
     version: '19.5.8'
     repository: 'https://charts.bitnami.com/bitnami'
     condition: elasticsearch.enabled
-    imagePullPolicy: IfNotPresent
     

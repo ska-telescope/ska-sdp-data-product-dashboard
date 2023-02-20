@@ -48,7 +48,7 @@ spec:
         ports:
           - containerPort: 8000
         volumeMounts:
-          - mountPath: "/usr/data"
+          - mountPath: "/mnt/data"
             name: test-pvc-storage
         terminationMessagePath: "/dev/termination-log"
         terminationMessagePolicy: "File"
