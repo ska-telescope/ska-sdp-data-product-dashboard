@@ -62,6 +62,6 @@ spec:
           - name: METADATA_ES_SCHEMA_FILE
             value: "{{ .Values.api.metadata_es_schema_file }}"
           - name: ES_HOST
-            value: "{{ .Values.api.es_host }}"
+            value: {{ include "es_host" . }}
 
 {{- end }}
