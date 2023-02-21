@@ -1,16 +1,19 @@
-import * as React from 'react';
+import React from 'react';
+import { useTranslation } from 'react-i18next';
 import { Box, Button, Card, CardActions, CardContent, Typography } from '@mui/material';
 import DownloadIcon from '@mui/icons-material/Download';
 import DownloadDataProduct from '../../services/DownloadDataProduct/DownloadDataProduct';
 
 const DownloadCard = (selectedFileNames) => {
-  const { fileName } = selectedFileNames
+  const { t } = useTranslation();
+  const { fileName } = selectedFileNames;
+
   return (
     <Box m={1}>
       <Card variant="outlined" sx={{ minWidth: 275 }}>
         <CardContent>
           <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
-            Selected file:
+          {t('prompt.selectFile')}
           </Typography>
           <Typography variant="h5" component="div">
             {fileName} 
@@ -19,7 +22,7 @@ const DownloadCard = (selectedFileNames) => {
         <CardActions>
           <Button variant="outlined" color="secondary" onClick={() => DownloadDataProduct(selectedFileNames)}>
             <DownloadIcon />
-            Download
+            {t('button.download')}
           </Button>
         </CardActions>
       </Card>

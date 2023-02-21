@@ -1,4 +1,5 @@
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 import { createTheme, CssBaseline, ThemeProvider } from '@mui/material';
 import DataProductDashboard from '../DataProductDashboard/DataProductDashboard';
 
@@ -26,10 +27,11 @@ const theme = createTheme({
 });
 
 function App() {
+  const { t } = useTranslation();
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline enableColorScheme />
-      <React.Suspense fallback="...is loading">
+      <React.Suspense fallback={t("isLoading")}>
         <div className="App">
           <DataProductDashboard id="DataProductDashboardId" />
         </div>

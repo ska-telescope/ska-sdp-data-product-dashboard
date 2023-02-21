@@ -4,12 +4,34 @@
   "date_format_two": "{{date, DD-MM-YYYY}}",
   "dummy": "I am in ENGLISH translation file only",
   "intlNumber": "{{val, number}}",
+  "isLoading": "...loading",
   "button": {
-    "settings": "Settings",
-    "download": "Download"
+    "download": "Download",
+    "indexDP": "Index Data Products",
+    "settings": "Settings"
   },
-  "errors": {
+  "column": {
+    "ex_block" : "Execution block ID",
+    "dateCreated" : "Date created", 
+    "id" : "ID",
+    "interface" : "Interface"
+  },
+  "error": {
     "API_NO_DATA": "SDP Data API not available",
-    "API_NOT_AVAILABLE": "API unreachable, SDP data not available"
+    "API_NO_META_DATA": "API unreachable, SDP Data Product MetaData is not currently available",
+    "API_NOT_AVAILABLE": "API unreachable, SDP data not available",
+    "API_UNKNOWN_ERROR": "API unreachable, Error undefined",
+    "SEARCH_NOT_AVAILABLE": "Search / filter functionality not available"
+  },
+  "label": {
+    "endDate": "End date",
+    "key": "Key",
+    "metaData": "Meta Data",
+    "startDate": "Start date",
+    "value": "Value"
+  },
+  "prompt": {
+    "filterOnMetaData": "Filter data products based on metadata:",
+    "selectFile" : "Select File:"
   }
 }
