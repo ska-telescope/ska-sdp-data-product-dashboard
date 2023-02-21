@@ -36,7 +36,7 @@ const DataProductsTable = (jsonDataProducts, handleSelectedNode) => {
         columns={columns}
         pageSize={5}
         rowsPerPageOptions={[5]}
-        checkboxSelection
+        checkboxSelection={false}
         onRowClick={handleSelectedNode}
       />
     </Box>
