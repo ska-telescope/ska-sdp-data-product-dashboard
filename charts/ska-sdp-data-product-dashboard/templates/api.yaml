@@ -35,6 +35,10 @@ spec:
         app.kubernetes.io/name: ska-sdp-data-product-api
 {{ include "api_general.labels" . | indent 8 }}
     spec:
+      volumes:
+      - name: test-pvc-storage
+        persistentVolumeClaim:
+          claimName: test-pvc
       restartPolicy: Always
       terminationGracePeriodSeconds: 10
       containers:
@@ -43,6 +47,9 @@ spec:
         imagePullPolicy: {{ .Values.api.imagePullPolicy }}
         ports:
           - containerPort: 8000
+        volumeMounts:
+          - mountPath: "/mnt/data"
+            name: test-pvc-storage
         terminationMessagePath: "/dev/termination-log"
         terminationMessagePolicy: "File"
         env:
@@ -50,4 +57,11 @@ spec:
             value: {{ include "dashboard_url" . }}
           - name: PERSISTANT_STORAGE_PATH
             value: "{{ .Values.api.storagePath }}"
+          - name: METADATE_FILE_NAME
+            value: "{{ .Values.api.metadata_file_name }}"
+          - name: METADATA_ES_SCHEMA_FILE
+            value: "{{ .Values.api.metadata_es_schema_file }}"
+          - name: ES_HOST
+            value: {{ include "es_host" . }}
+
 {{- end }}

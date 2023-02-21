@@ -49,13 +49,19 @@ Scripts for running, testing, and building the application are provided as part 
 
   > yarn start
 
-Runs the app in the development mode at default url and port configured in .env file: [http://localhost:3000](http://localhost:3000). The app will recompile and restart if you make any edits to the source files. Any linting errors will also be shown in the console.
+Runs the app in the development mode at http://localhost:8100. The app will recompile and restart if you make any edits to the source files. Any linting errors will also be shown in the console.
+
+.. code-block:: bash
+
+  > yarn cypress
+
+Launches Cypress which has been set up to provide component testing.   For further information on the use of Cypress, see https://docs.cypress.io/guides/component-testing/overview
 
 .. code-block:: bash
 
   > yarn test
 
-Launches the test runner in the interactive watch mode. See the [testing](#testing) section for more information.
+Launches the test runner in the interactive watch mode. 
 
 .. code-block:: bash
 
@@ -88,7 +94,7 @@ The dashboard contains a list of all the data products that can be accessed with
 
 This dashboard is developed as a Webpack 5 Module that is used as a remote in the `SKA Landing Page <https://gitlab.com/ska-telescope/ska-landing-page>`_. It contains a table view of all the Data Products and a capability to select and download a product or individual file when selected.
 
-.. figure:: /_static/img/dataproductdashboard.png
+.. figure:: /_static/img/dataproductdashboardWithSearch.png
    :width: 90%
 
    Example SDP Data Product Dashboard

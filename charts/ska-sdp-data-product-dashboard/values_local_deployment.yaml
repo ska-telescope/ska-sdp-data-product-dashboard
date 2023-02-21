@@ -1,3 +1,25 @@
 ---
 urls:
-  override: True
+  override: true
+
+api:
+  container: docker.io/library/ska-sdp-data-product-api
+  version: 0.2.0
+
+dashboard:
+  container: docker.io/library/ska-sdp-data-product-dashboard
+  version: 0.2.0
+
+elasticsearch:
+  enabled: true
+  storageClass: standard
+  master:
+    replicaCount: 1
+  data:
+    replicaCount: 1
+
+data-pvc:
+  create:
+    enabled: true
+    size: 1Gi
+    storageClassName: standard

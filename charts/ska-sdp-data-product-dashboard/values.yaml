@@ -2,18 +2,22 @@
 ingress:
   enabled: true
   pathStart: "/data_product"
-  namespaced: true   
+  namespaced: true  
+
 urls:
   override: false
   dashboardurl: "http://localhost"
-  apiUrl: "http://localhost:8000" 
+  apiUrl: "http://localhost:8000"
+  es_host: "http://ska-sdp-data-product-dashboard-elasticsearch-master-hl.test.svc:9200/"  
 api:
   enabled: true
   container: artefact.skao.int/ska-sdp-data-product-api
   version: 0.2.0
   imagePullPolicy: IfNotPresent
   hostPort: "8100"
-  storagePath: "/var/log"
+  storagePath: "/mnt/"
+  metadata_file_name: ska-data-product.yaml
+  metadata_es_schema_file: /mnt/src/ska_sdp_data_product_api/elasticsearch/data_product_metadata_schema.json
 
 dashboard:
   enabled: true
@@ -22,7 +26,7 @@ dashboard:
   imagePullPolicy: IfNotPresent
 
 elasticsearch:
-  enabled: true
+  enabled: false
   fullnameOverride: ska-sdp-data-product-dashboard-elasticsearch
   storageClass: nfss1
   master:
