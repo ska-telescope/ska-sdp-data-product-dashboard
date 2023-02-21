@@ -13,14 +13,9 @@ const GetAPIStatus = async () => {
 
   try {
     const result = await axios.get(`${apiUrl}${URL_LIST}`, config);
-
-    if (typeof result === "undefined"){
-      return "API unreachable due to undefined error, SDP data not available";
-    } else {
-      return result;
-    }
+    return (typeof result === "undefined") ? 'error.API_UNKNOWN_ERROR' :  result;
   } catch(e) {
-    return "API unreachable, SDP data not available";
+    return 'error.API_NOT_AVAILABLE';
   }
 }
 

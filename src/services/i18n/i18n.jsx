@@ -1,5 +1,3 @@
-/* istanbul ignore next */
-
 import i18n from 'i18next';
 import { initReactI18next } from 'react-i18next';
 import LanguageDetector from 'i18next-browser-languagedetector';
@@ -19,6 +17,7 @@ i18n
     useSuspense: true,
     debug: true,
     interpolation: {
+      escapeValue: false,
       format(value, format) {
         if (value instanceof Date) {
           return moment(value).format(format);

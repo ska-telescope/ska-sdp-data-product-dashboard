@@ -1,6 +1,13 @@
 import React from 'react';
+import axios from 'axios';
+import { useTranslation } from 'react-i18next';
 
-import { Grid } from '@mui/material';
+import { Box, Button, Card, CardActions, CardContent, Grid, Typography, TextField } from '@mui/material';
+import SearchIcon from '@mui/icons-material/Search';
+import RefreshIcon from '@mui/icons-material/Refresh';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 
 import DataProductsTable from '../DataProductsTable/DataProductsTable';
 import DownloadCard from '../DownloadCard/DownloadCard';
@@ -9,15 +16,13 @@ import SearchForDataProduct from '../../services/SearchForDataProduct/SearchForD
 import ListAllDataProducts from '../../services/ListAllDataProducts/ListAllDataProducts';
 import GetAPIStatus from '../../services/GetAPIStatus/GetAPIStatus';
 import MetaData from '../../services/MetaData/MetaData';
-import { Box, Button, Card, CardActions, CardContent, Typography, TextField } from '@mui/material';
-import SearchIcon from '@mui/icons-material/Search';
-import RefreshIcon from '@mui/icons-material/Refresh';
-import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-import { DatePicker } from '@mui/x-date-pickers/DatePicker';
-import axios from 'axios';
+
+const DEF_START_DATE = "1970-01-01"; 
+const DEF_END_DATE = "2070-12-31";
+const DEF_WILDCARD = "*";
 
 const DataProductDashboard = () => {
+  const { t } = useTranslation();
   const [jsonDataProducts, setJsonDataProducts] = React.useState({data:[]});
   const [metaData, setMetaData] = React.useState(null);
   const [oldFilename, setOldFilename] = React.useState(null);
@@ -30,16 +35,16 @@ const DataProductDashboard = () => {
   const [endDate, updateEndDate] = React.useState(null);
   const [metadataKey, updateMetadataKey] = React.useState(null);
   const [metadataValue, updateMetadataValue] = React.useState(null);
-  const [esAvailable, updateEsAvailable] = React.useState(false);
+  const [canSearch, updateCanSearch] = React.useState(false);
 
   async function UpdateAPIStatus() {
     const results = await GetAPIStatus()
-    updateEsAvailable(results.data.Search_enabled)
+    updateCanSearch(results.data.Search_enabled)
   }
   UpdateAPIStatus()
 
   async function getDataproductList(startDateStr, endDateStr, metadataKeyStr, metadataValueStr){
-    if (esAvailable){
+    if (canSearch){
       const results = await SearchForDataProduct(startDateStr, endDateStr, metadataKeyStr, metadataValueStr);
       return results
     }
@@ -50,23 +55,15 @@ const DataProductDashboard = () => {
   }
 
   React.useEffect(() => {
-    async function getJsonDataProducts() {
-      const startDateStr = startDate ? startDate : "1970-01-01"
-      const endDateStr = endDate ? endDate : "2070-12-31"
-      const metadataKeyStr = metadataKey ? metadataKey : "*"
-      const metadataValueStr = metadataValue ? metadataValue : "*"
-      const results = await getDataproductList(startDateStr, endDateStr, metadataKeyStr, metadataValueStr);
-      setJsonDataProducts(results);
-    }
-    
-    getJsonDataProducts();
-  }, [startDate, endDate, metadataKey, metadataValue, esAvailable]);
+    updateSearchResults();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   async function updateSearchResults() {
-    const startDateStr = startDate ? startDate : "1970-01-01"
-    const endDateStr = endDate ? endDate : "2070-12-31"
-    const metadataKeyStr = metadataKey ? metadataKey : "*"
-    const metadataValueStr = metadataValue ? metadataValue : "*"
+    const startDateStr = startDate ? startDate : DEF_START_DATE;
+    const endDateStr = endDate ? endDate : DEF_END_DATE;
+    const metadataKeyStr = metadataKey ? metadataKey : DEF_WILDCARD;
+    const metadataValueStr = metadataValue ? metadataValue : DEF_WILDCARD;
     const results = await getDataproductList(startDateStr, endDateStr, metadataKeyStr, metadataValueStr);
     setJsonDataProducts(results);
   }
@@ -93,8 +90,7 @@ const DataProductDashboard = () => {
         }
       });
     } catch (e) {
-      const noData = 'API unreachable, SDP Data Product MetaData is not currently available';
-      return noData;
+      return t('error.API_NOT_AVAILABLE');
     }
   }
 
@@ -103,21 +99,7 @@ const DataProductDashboard = () => {
     setMetaData(results.data);
   }
 
-  function RenderDataProductsTable(){
-    return (
-      DataProductsTable(jsonDataProducts.data, rowClickHandler)
-    );
-  }
-
-  function RenderDownloadCard() {
-    if ( selectedFileNames.relativeFileName !== '' ) {
-      return (
-        DownloadCard(selectedFileNames)
-      );
-    }
-  }
-
-  function RenderMetaData() {
+   function RenderMetaData() {
     if ( displayData() && metaData ) {
       return (
         <MetaDataComponent metaData={metaData} />
@@ -139,18 +121,18 @@ const DataProductDashboard = () => {
   }
 
   function RenderSearchBox() {
-    if (esAvailable) {
+    if (canSearch) {
       return (
         <Box m={1}>
           <Card variant="outlined" sx={{ minWidth: 275 }}>
             <CardContent>
               <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
-                Filter data products based on metadata:
+                {t('prompt.filterOnMetaData')}
               </Typography>
               <LocalizationProvider dateAdapter={AdapterDayjs}>
               <Grid container direction="row" justifyContent="space-between">
                 <DatePicker
-                  label="Start date"
+                  label={t('label.startDate')}
                   value={startDate}
                   onChange={(newValue) => {
                     updateStartDate(newValue);
@@ -158,7 +140,7 @@ const DataProductDashboard = () => {
                   renderInput={(params) => <TextField {...params} sx={{width: 180}}/>}
                 />
                 <DatePicker
-                  label="End Date"
+                  label={t('label.endDate')}
                   value={endDate}
                   onChange={(newValue) => {
                     updateEndDate(newValue);
@@ -167,7 +149,7 @@ const DataProductDashboard = () => {
                 />
                 <TextField
                   id="outlined"
-                  label="Key"
+                  label={t('label.key')}
                   style = {{width: 300}}
                   defaultValue={metadataKey}
                   onChange={(newValue) => {
@@ -176,7 +158,7 @@ const DataProductDashboard = () => {
                 />
                 <TextField
                   id="outlined"
-                  label="Value"
+                  label={t('label.value')}
                   style = {{width: 500}}
                   defaultValue={metadataValue}
                   onChange={(newValue) => {
@@ -190,11 +172,11 @@ const DataProductDashboard = () => {
             <CardActions>
               <Button variant="outlined" color="secondary" onClick={() => indexDataProduct()}>
                 <RefreshIcon />
-                Index Data Products
+                {t('button.indexDP')}
               </Button>      
               <Button variant="outlined" color="secondary" onClick={() => updateSearchResults()}>
                 <SearchIcon />
-                Search
+                {t('button.search')}
               </Button>
             </CardActions>
           </Card>
@@ -206,14 +188,14 @@ const DataProductDashboard = () => {
   
   return (
     <>
-      <Grid container direction="row" justifyContent="space-between">
+      <Grid container spacing={1} direction="row" justifyContent="space-between">
         <Grid item xs={9}>
           {RenderSearchBox()}
-          {RenderDataProductsTable()}
+          {DataProductsTable(jsonDataProducts.data, rowClickHandler)}
         </Grid>
         <Grid item xs={3}>
           <>
-            {RenderDownloadCard()}
+            {DownloadCard(selectedFileNames)}
             {RenderMetaData()}
           </>
         </Grid>

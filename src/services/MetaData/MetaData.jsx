@@ -41,8 +41,7 @@ async function MetaData(inData) {
         }
       });
     } catch (e) {
-      const noData = 'API unreachable, SDP Data Product MetaData is not currently available';
-      return noData;
+      return 'error.API_NO_META_DATA';
     }
   }
   return fetchMetaData();

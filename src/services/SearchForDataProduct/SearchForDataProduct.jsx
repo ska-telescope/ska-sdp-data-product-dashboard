@@ -37,15 +37,9 @@ const FetchDataProductList = async (startDate, endDate, metadata_key, metadata_v
 
   try {
     const result = await axios.post(`${apiUrl}${URL_LIST}`, bodyParameters, config);
-
-    // NOTE: within the test framework, axios.post does not seem to throw an exception on failure? so instead we check if the result is undefined
-    if (typeof result === "undefined"){
-      return "API unreachable, SDP data not available";
-    } else {
-      return result;
-    }
+    return (typeof result === "undefined") ? 'error.API_UNKNOWN_ERROR' : result;
   } catch(e) {
-    return "API unreachable, SDP data not available";
+    return "error.API_NOT_AVAILABLE";
   }
 }
 
