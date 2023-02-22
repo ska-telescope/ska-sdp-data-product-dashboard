@@ -18,7 +18,6 @@ describe('SearchForDataProduct LIVE failing', () => {
     axios.get.mockRejectedValueOnce(new Error('Network Error'));
 
     const fileList = await SearchForDataProduct();
-    const noData = 'API unreachable, SDP data not available'
-    expect(fileList).toEqual(noData);
+    expect(fileList).toEqual('error.API_UNKNOWN_ERROR');
   });
 });

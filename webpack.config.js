@@ -103,6 +103,10 @@ module.exports = (env, argv) => { return {
         '@emotion/react': { singleton: true, requiredVersion: '^11.9.3', eager: true },
         '@emotion/styled': { singleton: true, requiredVersion: '^11.9.3', eager: true },
         'prop-types': { singleton: true, requiredVersion: '^15.8.1', eager: true },
+        '@ska-telescope/ska-javascript-components': {
+          requiredVersion: 'auto',
+          eager: true
+        },
         axios: { singleton: true, requiredVersion: '^auto', eager: true },
         downloadjs: { singleton: true, requiredVersion: '^1.4.7', eager: true },
         moment: {

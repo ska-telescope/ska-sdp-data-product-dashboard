@@ -21,7 +21,6 @@ describe('data_product_api_MetaData LIVE failing', () => {
     axios.post.mockRejectedValueOnce(new Error('Network Error'));
 
     const fileList = await MetaData();
-    const noData = 'API unreachable, SDP Data Product MetaData is not currently available'
-    expect(fileList).toEqual(noData);
+    expect(fileList).toEqual('error.API_NO_META_DATA');
   });
 });
