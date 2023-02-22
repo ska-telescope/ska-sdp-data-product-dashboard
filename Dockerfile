@@ -3,6 +3,10 @@ FROM node:alpine
 
 ENV PORT 8100
 
+RUN npm config set registry https://artefact.skao.int/repository/npm-internal/ &&\
+    yarn add @ska-telescope/ska-javascript-components@latest &&\
+    npm config set registry https://registry.npmjs.org/
+
 RUN mkdir -p /usr/src/app
 WORKDIR /usr/src/app
 
