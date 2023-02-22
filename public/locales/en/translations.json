@@ -2,12 +2,14 @@
   "language": "English",
   "date_format_one": "{{-date, YYYY/MM/DD}}",
   "date_format_two": "{{date, DD-MM-YYYY}}",
-  "dummy": "I am in ENGLISH translation file only",
+  "date_input_format": "dd/mm/yyyy", 
   "intlNumber": "{{val, number}}",
+
   "isLoading": "...loading",
   "button": {
     "download": "Download",
     "indexDP": "Index Data Products",
+    "search": "Search",
     "settings": "Settings"
   },
   "column": {

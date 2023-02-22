@@ -35,11 +35,11 @@ const DataProductDashboard = () => {
   const [endDate, updateEndDate] = React.useState(null);
   const [metadataKey, updateMetadataKey] = React.useState(null);
   const [metadataValue, updateMetadataValue] = React.useState(null);
-  const [canSearch, updateCanSearch] = React.useState(false);
+  const [canSearch, updateCanSearch] = React.useState(true);
 
   async function UpdateAPIStatus() {
     const results = await GetAPIStatus()
-    updateCanSearch(results.data.Search_enabled)
+    // updateCanSearch(results.data.Search_enabled)
   }
   UpdateAPIStatus()
 
@@ -123,29 +123,31 @@ const DataProductDashboard = () => {
   function RenderSearchBox() {
     if (canSearch) {
       return (
-        <Box m={1}>
+        <Box m={1} sx={{ width: "100%" }}>
           <Card variant="outlined" sx={{ minWidth: 275 }}>
             <CardContent>
               <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
                 {t('prompt.filterOnMetaData')}
               </Typography>
-              <LocalizationProvider dateAdapter={AdapterDayjs}>
+              <LocalizationProvider dateAdapter={AdapterDayjs} >
               <Grid container direction="row" justifyContent="space-between">
                 <DatePicker
+                  inputFormat={t('date_input_format')}
                   label={t('label.startDate')}
-                  value={startDate}
                   onChange={(newValue) => {
                     updateStartDate(newValue);
                   }}
                   renderInput={(params) => <TextField {...params} sx={{width: 180}}/>}
+                  value={startDate}
                 />
                 <DatePicker
+                  inputFormat={t('date_input_format')}
                   label={t('label.endDate')}
-                  value={endDate}
                   onChange={(newValue) => {
                     updateEndDate(newValue);
                   }}
                   renderInput={(params) => <TextField {...params} sx={{width: 180}}/>}
+                  value={endDate}
                 />
                 <TextField
                   id="outlined"
