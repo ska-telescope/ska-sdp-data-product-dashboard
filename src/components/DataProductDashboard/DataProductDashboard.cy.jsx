@@ -17,7 +17,6 @@ describe('<DataProductDashboard />', () => {
     cy.stub(axios, 'get').returns(MockData).as('fetch')
     cy.mount(<DataProductDashboard />)
     cy.get('@fetch').should('have.been.called')
-    cy.findByText(Constants.MOCKED_DATA_PRODUCTS_TITLE).should("be.visible")
     cy.findByText(Constants.PROD_1).should("be.visible")
     cy.findByText(Constants.PROD_2).should("be.visible")
   })

@@ -16,7 +16,6 @@ describe('data_product_api_DataProductList LIVE failing', () => {
     // axios.get.mockRejectedValueOnce(new Error('Network Error'));
     cy.intercept('/dataproductlist', new Error('Network Error'))
     const fileList = ListAllDataProducts();
-    const noData = 'API unreachable, SDP data not available'
-    expect(fileList).equal(noData);
+    expect(fileList).equal('error.API_UNKNOWN_ERROR');
   });
 });
