@@ -34,4 +34,3 @@ junit.xml
 linting.xml
 
 PrivateRules.mak
-*.lock

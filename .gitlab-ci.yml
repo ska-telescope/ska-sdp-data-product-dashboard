@@ -22,8 +22,6 @@ install_dependencies:
   before_script:
     - rm -rf node_modules
   script:
-    - npm config set registry $CAR_NPM_REPOSITORY_URL
-    - yarn add @ska-telescope/ska-javascript-components@latest
     - npm config set registry https://registry.npmjs.org/
     - yarn install
   cache:
