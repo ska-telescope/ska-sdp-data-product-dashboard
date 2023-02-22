@@ -11,6 +11,7 @@ ENV PATH /usr/src/app/node_modules/.bin:$PATH
 
 # install app dependencies
 COPY package.json /usr/src/app/
+COPY yarn.lock /usr/src/app/
 
 # Remove SKAO speific libraries
 RUN npm config set registry https://registry.npmjs.org/ &&\
