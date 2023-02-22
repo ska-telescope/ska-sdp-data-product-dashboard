@@ -35,11 +35,11 @@ const DataProductDashboard = () => {
   const [endDate, updateEndDate] = React.useState(null);
   const [metadataKey, updateMetadataKey] = React.useState(null);
   const [metadataValue, updateMetadataValue] = React.useState(null);
-  const [canSearch, updateCanSearch] = React.useState(true);
+  const [canSearch, updateCanSearch] = React.useState(false);
 
   async function UpdateAPIStatus() {
     const results = await GetAPIStatus()
-    // updateCanSearch(results.data.Search_enabled)
+    updateCanSearch(results.data.Search_enabled)
   }
   UpdateAPIStatus()
 
