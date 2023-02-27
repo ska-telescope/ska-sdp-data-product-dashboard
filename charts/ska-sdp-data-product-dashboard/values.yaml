@@ -47,8 +47,8 @@ elasticsearch:
     persistence:
       enabled: true
 
-data-pvc:
-  name: test-pvc
+data_pvc:
+  name: shared
   create:
     enabled: false
     size: 5Gi

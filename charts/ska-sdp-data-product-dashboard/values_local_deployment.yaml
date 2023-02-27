@@ -18,7 +18,8 @@ elasticsearch:
   data:
     replicaCount: 1
 
-data-pvc:
+data_pvc:
+  name: test-pvc
   create:
     enabled: true
     size: 1Gi
