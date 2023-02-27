@@ -34,11 +34,3 @@ app.kubernetes.io/managed-by: {{ .Release.Service }}
         {{- printf "%s/api" (include "ingress_path_prepend" .) }}
     {{- end }}
 {{- end }}
-
-{{- define "es_host" }}
-    {{- if $.Values.urls.override }}
-        {{- printf "%s" $.Values.urls.es_host }}
-    {{- else }}
-        {{- printf "%s/es" (include "ingress_path_prepend" .) }}
-    {{- end }}
-{{- end }}
