@@ -2,7 +2,7 @@
 kind: PersistentVolumeClaim
 apiVersion: v1
 metadata:
-  name: {{ include "global_pvc" . }}
+  name: {{ include "data_pvc" . }}
   namespace: {{ .Release.Namespace }}
 spec:
   storageClassName: {{ index .Values "data_pvc" "create" "storageClassName" }}

@@ -35,9 +35,9 @@ app.kubernetes.io/managed-by: {{ .Release.Service }}
     {{- end }}
 {{- end }}
 
-{{- define "global_pvc" }}
-    {{- if ((.Values.global).global_pvc) }}
-        {{- printf "%s" $.Values.global.global_pvc }}
+{{- define "data_pvc" }}
+    {{- if (((.Values.global).data_pvc).name) }}
+        {{- printf "%s" $.Values.global.data_pvc.name}}
     {{- else }}
         {{- printf "%s" $.Values.data_pvc.name }}
     {{- end }}
