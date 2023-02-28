@@ -23,7 +23,7 @@ api:
 dashboard:
   enabled: true
   container: artefact.skao.int/ska-sdp-data-product-dashboard
-  version: 0.2.1
+  version: 0.2.2
   imagePullPolicy: IfNotPresent
   resources:
     requests:
