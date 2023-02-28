@@ -35,10 +35,10 @@ app.kubernetes.io/managed-by: {{ .Release.Service }}
     {{- end }}
 {{- end }}
 
-{{- define "es_host" }}
-    {{- if $.Values.urls.override }}
-        {{- printf "%s" $.Values.urls.es_host }}
+{{- define "data_pvc" }}
+    {{- if (((.Values.global).data_pvc).name) }}
+        {{- printf "%s" $.Values.global.data_pvc.name}}
     {{- else }}
-        {{- printf "%s/es" (include "ingress_path_prepend" .) }}
+        {{- printf "%s" $.Values.data_pvc.name }}
     {{- end }}
 {{- end }}
