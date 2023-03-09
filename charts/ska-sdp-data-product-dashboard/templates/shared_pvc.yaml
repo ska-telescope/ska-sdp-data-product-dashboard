@@ -1,19 +1,19 @@
-{{- if (index .Values "data-pvc" "create" "enabled") }}
+{{- if (index .Values "data_pvc" "create" "enabled") }}
 kind: PersistentVolumeClaim
 apiVersion: v1
 metadata:
-  name: {{ index .Values "data-pvc" "name" }}
+  name: {{ include "data_pvc" . }}
   namespace: {{ .Release.Namespace }}
 spec:
-  storageClassName: {{ index .Values "data-pvc" "create" "storageClassName" }}
+  storageClassName: {{ index .Values "data_pvc" "create" "storageClassName" }}
   accessModes:
     - ReadWriteMany
   resources:
     requests:
-      storage: {{ index .Values "data-pvc" "create" "size" }}
+      storage: {{ index .Values "data_pvc" "create" "size" }}
 status:
   accessModes:
   - ReadWriteMany
   capacity:
-    storage: {{ index .Values "data-pvc" "create" "size" }}
+    storage: {{ index .Values "data_pvc" "create" "size" }}
 {{- end }}
