@@ -73,6 +73,21 @@ test_and_coverage:
     paths:
       - build/
 
+#run the cypress test coverage reports
+cypress_test_coverage:
+  stage: test
+  tags:
+    - k8srunner
+  cache:
+    paths:
+      - node_modules/
+    policy: pull
+  before_script:
+    - mkdir -p build/reports
+  script:
+    - npm config set registry https://registry.npmjs.org/
+    - yarn install
+    -
 # list the current top level dependencies for the project
 list_dependencies:
   stage: test
@@ -118,6 +133,7 @@ pages:
     - test_and_coverage
     - list_dependencies
     - code_quality
+    - cypress_test_coverage
   script:
     - mv public/* .
     - cp -r build/* public

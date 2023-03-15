@@ -1,4 +1,5 @@
 import Constants from '../../src/constants/constants';
+import { unzip } from "zlib";
 context('Select and download data product', () => {
 
   beforeEach(() => {
@@ -8,12 +9,12 @@ context('Select and download data product', () => {
   it('Select data product 1 and download file', () => {
     cy.findByText("1").click()
     cy.findByTestId(Constants.DOWNLOAD_ICON).click()
-    cy.readFile('cypress/downloads/' + Constants.TEST_DATA_FILE_1).should('contain', 'Error')
+    cy.readFile('cypress/downloads/' + Constants.TEST_DATA_FILE_1).should('contain', 'This is test file 1')
   })
 
   it('Select data product 2 and download file', () => {
     cy.findByText("2").click()
     cy.findByTestId(Constants.DOWNLOAD_ICON).click()
-    cy.readFile('cypress/downloads/' + Constants.TEST_DATA_FILE_1).should('contain', 'Error')
+    cy.readFile('cypress/downloads/' + Constants.TEST_DATA_FILE_1).should('contain', 'This is test file 1')
   })
 })
