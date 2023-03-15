@@ -29,6 +29,6 @@ describe('<DataProductDashboard />', () => {
 
     cy.findByText("1").click()
     cy.findByTestId(Constants.DOWNLOAD_ICON).click()
-    cy.readFile('cypress/downloads/' + Constants.TEST_DATA_FILE_1).should('contain', 'This is test file 1')
+    cy.readFile('cypress/data/' + Constants.TEST_DATA_FILE_1).should('contain', 'This is test file 1')
   })
 })

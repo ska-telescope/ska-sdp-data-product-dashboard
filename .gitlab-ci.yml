@@ -87,6 +87,7 @@ cypress_test_coverage:
   script:
     - npm config set registry https://registry.npmjs.org/
     - yarn install
+    - npx cypress run --browser chrome
 
 # list the current top level dependencies for the project
 list_dependencies:
