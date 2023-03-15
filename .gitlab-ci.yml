@@ -87,7 +87,7 @@ cypress_test_coverage:
   script:
     - npm config set registry https://registry.npmjs.org/
     - yarn install
-    -
+
 # list the current top level dependencies for the project
 list_dependencies:
   stage: test
