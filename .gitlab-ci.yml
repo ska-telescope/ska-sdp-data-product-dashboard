@@ -76,18 +76,16 @@ test_and_coverage:
 #run the cypress test coverage reports
 cypress_test_coverage:
   stage: test
-  tags:
-    - k8srunner
-  cache:
-    paths:
-      - node_modules/
-    policy: pull
-  before_script:
-    - mkdir -p build/reports
+test:
+  image: node:latest
+  stage: test
   script:
-    - npm config set registry https://registry.npmjs.org/
-    - yarn install
-    - cypress run --spec cypress/e2e/DataProductDashboard.cy.js
+    # install dependencies
+    - npm ci
+    # start the server in the background
+    - npm run start:ci &
+    # run Cypress tests
+    - npm run e2e
 
 # list the current top level dependencies for the project
 list_dependencies:
