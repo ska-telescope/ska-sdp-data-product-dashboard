@@ -68,16 +68,8 @@ spec:
               cpu: {{ .Values.dashboard.resources.requests.cpu }}
               memory: {{ .Values.dashboard.resources.requests.memory }}
           command:
-            - yarn
-            - webpack
-            - build
-            - --optimization-concatenate-modules
-            - --mode
-            - production
-            - --optimization-minimize
-            - --output-clean
-            - --output-path
-            - /dist/
+            - make 
+            - production-deploy
           env:
             - name: REACT_APP_SKA_SDP_DATA_PRODUCT_DASHBOARD_URL
               value: {{ include "dashboard_url" . }}
@@ -94,8 +86,6 @@ spec:
             - name: http
               containerPort: 8100
               protocol: TCP
-          resources:
-            {{- toYaml $.Values.resources | nindent 12 }}
           volumeMounts:
             - name: dist
               mountPath: /usr/share/nginx/html

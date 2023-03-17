@@ -12,7 +12,7 @@ dashboard:
   version: 0.2.2
 
 elasticsearch:
-  enabled: true
+  enabled: false
   storageClass: standard
   master:
     replicaCount: 1
