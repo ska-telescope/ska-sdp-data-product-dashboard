@@ -10,8 +10,5 @@
 
 # Make production deployment to allow application to be run with Helm and Nginx image
 production-deploy:
-	yarn \
-	webpack \
-	build --optimization-concatenate-modules --mode \
-	production --optimization-minimize --output-clean --output-path /dist/
-	cp -r public /dist/
+	cp -R public /dist/
+	yarn webpack build --optimization-concatenate-modules --mode production --optimization-minimize --output-clean --output-path /dist/
