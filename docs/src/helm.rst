@@ -98,5 +98,5 @@ Once you export the file (i.e. export KUBECONFIG=<my-config-file>), you will hav
 
 You should now be able to access the API and the Dashboard on the following url's
 
-* https://sdhp.stfc.skao.int/[namespace]/data_product/api/filelist
-* https://sdhp.stfc.skao.int/[namespace]/data_product/dashboard/
+* https://sdhp.stfc.skao.int/[namespace]/dataproduct/api/filelist
+* https://sdhp.stfc.skao.int/[namespace]/dataproduct/dashboard/
