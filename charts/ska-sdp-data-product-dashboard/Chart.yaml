@@ -6,7 +6,7 @@ home: https://gitlab.com/ska-telescope/sdp/ska-sdp-data-product-dashboard
 maintainers:
   - email: naledi@sarao.ac.za
     name: NALEDI
-name: ska-sdp-data-product-dashboard
+name: ska-sdp-dataproduct-dashboard
 version: 0.2.2
 dependencies:
   - name: 'elasticsearch'
