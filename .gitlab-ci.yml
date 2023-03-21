@@ -73,7 +73,7 @@ test_and_coverage:
     paths:
       - build/
 
-#run the cypress test coverage reports
+# run the cypress test coverage reports
 cypress_test_and_coverage:
   image: cypress/browsers:node16.14.2-slim-chrome100-ff99-edge
   stage: test
