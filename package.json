@@ -21,7 +21,8 @@
     "fix:yarn-deduplicate": "c install; yarn-deduplicate --strategy=fewer; yarn install",
     "lint:prettier": "prettier --check \"**/*\"",
     "lint:tsc": "yarn tsc --noEmit",
-    "lint:yarn-deduplicate": "yarn-deduplicate --fail --list --strategy=fewer"
+    "lint:yarn-deduplicate": "yarn-deduplicate --fail --list --strategy=fewer",
+    "cypress:headless:chrome": "cypress run --component --browser chrome"
   },
   "dependencies": {
     "@babel/plugin-transform-runtime": "^7.19.6",
