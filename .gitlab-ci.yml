@@ -131,7 +131,7 @@ pages:
     - test_and_coverage
     - list_dependencies
     - code_quality
-    - cypress_test_coverage
+    - cypress_test_and_coverage
   script:
     - mv public/* .
     - cp -r build/* public
