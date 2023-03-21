@@ -86,8 +86,8 @@ cypress_test_coverage:
       - mkdir -p build/reports
     script:
       - npm config set registry https://registry.npmjs.org/
-      - npm cypress install
-      - yarn cypress run --e2e
+      - yarn install
+      - yarn cypress run --spec cypress/e2e/DataProductDashboard.cy.js
 
 # list the current top level dependencies for the project
 list_dependencies:
