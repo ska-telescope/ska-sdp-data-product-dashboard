@@ -88,7 +88,6 @@ cypress_test_coverage:
       - npm config set registry https://registry.npmjs.org/
       - yarn global add serve
       - serve -s build &
-      - wait-on http://localhost:8100
       - yarn cypress run --e2e
 
 # list the current top level dependencies for the project
