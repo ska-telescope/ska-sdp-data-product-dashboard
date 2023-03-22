@@ -81,7 +81,7 @@ const DataProductDashboard = () => {
   };
 
   async function indexDataProduct() {
-    const apiUrl = process.env.REACT_APP_SKA_SDP_DATA_PRODUCT_API_URL;
+    const apiUrl = process.env.REACT_APP_SKA_SDP_DATAPRODUCT_API_URL;
     try {
       return await axios.get(`${apiUrl}/updatesearchindex`,  {
         headers: {

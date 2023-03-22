@@ -2,7 +2,7 @@ import ListAllDataProducts from './ListAllDataProducts';
 import mockFilesTree from '../Mocking/mockFilesTree';
 
 
-describe('data_product_api_DataProductList LIVE passing', () => {
+describe('dataproduct_api_DataProductList LIVE passing', () => {
   it('Passes', () => {
     const staticResponse = { data: mockFilesTree };
     cy.intercept('/dataproductlist', staticResponse)
@@ -11,7 +11,7 @@ describe('data_product_api_DataProductList LIVE passing', () => {
   });
 });
 
-describe('data_product_api_DataProductList LIVE failing', () => {
+describe('dataproduct_api_DataProductList LIVE failing', () => {
   it('Fails', () => {
     // axios.get.mockRejectedValueOnce(new Error('Network Error'));
     cy.intercept('/dataproductlist', new Error('Network Error'))

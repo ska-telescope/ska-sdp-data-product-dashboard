@@ -20,7 +20,7 @@ const server = setupServer(
 );
 
 beforeAll(() => {
-  process.env.REACT_APP_SKA_SDP_DATA_PRODUCT_API_URL = 'http://localhost:8000';
+  process.env.REACT_APP_SKA_SDP_DATAPRODUCT_API_URL = 'http://localhost:8000';
   server.listen();
 });
 

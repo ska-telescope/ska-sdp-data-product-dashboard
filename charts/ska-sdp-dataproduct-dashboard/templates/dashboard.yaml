@@ -71,9 +71,9 @@ spec:
             - make 
             - production-deploy
           env:
-            - name: REACT_APP_SKA_SDP_DATA_PRODUCT_DASHBOARD_URL
+            - name: REACT_APP_SKA_SDP_DATAPRODUCT_DASHBOARD_URL
               value: {{ include "dashboard_url" . }}
-            - name: REACT_APP_SKA_SDP_DATA_PRODUCT_API_URL
+            - name: REACT_APP_SKA_SDP_DATAPRODUCT_API_URL
               value: {{ include "api_url" . }}
           volumeMounts:
             - name: dist

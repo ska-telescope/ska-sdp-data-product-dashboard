@@ -27,7 +27,7 @@ async function MetaData(inData) {
   async function fetchMetaData() {
     const paramData = setParamData(inData);
     const fileName = inData ? setFileName(inData) : '';
-    const apiUrl = process.env.REACT_APP_SKA_SDP_DATA_PRODUCT_API_URL;
+    const apiUrl = process.env.REACT_APP_SKA_SDP_DATAPRODUCT_API_URL;
     const params = {
       "relativeFileName": paramData,
       "fileName": fileName
