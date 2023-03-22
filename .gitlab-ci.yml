@@ -73,6 +73,18 @@ test_and_coverage:
     paths:
       - build/
 
+# run the cypress test coverage reports
+cypress_test_and_coverage:
+  image: cypress/browsers:node16.14.2-slim-chrome100-ff99-edge
+  stage: test
+  tags:
+    - k8srunner
+  before_script:
+    - mkdir -p build/reports
+    - yarn install --frozen-lockfile
+  script:
+    - yarn cypress:headless:chrome
+
 # list the current top level dependencies for the project
 list_dependencies:
   stage: test
@@ -118,6 +130,7 @@ pages:
     - test_and_coverage
     - list_dependencies
     - code_quality
+    - cypress_test_and_coverage
   script:
     - mv public/* .
     - cp -r build/* public
