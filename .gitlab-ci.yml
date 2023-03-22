@@ -81,7 +81,6 @@ cypress_test_and_coverage:
     - k8srunner
   before_script:
     - mkdir -p build/reports
-    - npm config set registry https://registry.npmjs.org/
     - yarn install --frozen-lockfile
   script:
     - yarn cypress:headless:chrome
