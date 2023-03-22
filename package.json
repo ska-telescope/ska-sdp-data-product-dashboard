@@ -1,9 +1,9 @@
 {
-  "name": "ska-sdp-data-product-dashboard",
+  "name": "ska-sdp-dataproduct-dashboard",
   "version": "0.2.2",
   "private": true,
   "main": "index.js",
-  "repository": "git@gitlab.com:ska-telescope/sdp/ska-sdp-data-product-dashboard.git",
+  "repository": "git@gitlab.com:ska-telescope/sdp/ska-sdp-dataproduct-dashboard.git",
   "author": "Andre Odendaal <andre@vivosa.co.za>",
   "license": "BSD 3-Clause",
   "scripts": {

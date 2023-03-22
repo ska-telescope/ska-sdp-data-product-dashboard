@@ -19,7 +19,7 @@
 
 # -- Project information -----------------------------------------------------
 
-project = 'ska-sdp-data-product-dashboard'
+project = 'ska-sdp-dataproduct-dashboard'
 copyright = '2022, SKA Organisation'
 author = 'Andre Odendaal'
 
@@ -126,7 +126,7 @@ html_static_path = ['_static']
 # -- Options for HTMLHelp output ---------------------------------------------
 
 # Output file base name for HTML help builder.
-htmlhelp_basename = 'ska-sdp-data-product-dashboarddoc'
+htmlhelp_basename = 'ska-sdp-dataproduct-dashboarddoc'
 
 
 # -- Options for LaTeX output ------------------------------------------------
@@ -153,7 +153,7 @@ latex_elements = {
 # (source start file, target name, title,
 #  author, documentclass [howto, manual, or own class]).
 latex_documents = [
-    (master_doc, 'ska-sdp-data-product-dashboard.tex', 'ska-sdp-data-product-dashboard Documentation',
+    (master_doc, 'ska-sdp-dataproduct-dashboard.tex', 'ska-sdp-dataproduct-dashboard Documentation',
      'Snehal Valame', 'manual'),
 ]
 
@@ -163,7 +163,7 @@ latex_documents = [
 # One entry per manual page. List of tuples
 # (source start file, name, description, authors, manual section).
 man_pages = [
-    (master_doc, 'ska-sdp-data-product-dashboard', 'ska-sdp-data-product-dashboard Documentation',
+    (master_doc, 'ska-sdp-dataproduct-dashboard', 'ska-sdp-dataproduct-dashboard Documentation',
      [author], 1)
 ]
 
@@ -174,8 +174,8 @@ man_pages = [
 # (source start file, target name, title, author,
 #  dir menu entry, description, category)
 texinfo_documents = [
-    (master_doc, 'ska-sdp-data-product-dashboard', 'ska-sdp-data-product-dashboard Documentation',
-     author, 'ska-sdp-data-product-dashboard', 'One line description of project.',
+    (master_doc, 'ska-sdp-dataproduct-dashboard', 'ska-sdp-dataproduct-dashboard Documentation',
+     author, 'ska-sdp-dataproduct-dashboard', 'One line description of project.',
      'Miscellaneous'),
 ]
 

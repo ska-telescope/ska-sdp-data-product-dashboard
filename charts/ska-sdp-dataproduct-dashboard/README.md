@@ -27,4 +27,4 @@ This can include the following:
 
 ## Usage
 
-Please see the project documentation for usage instructions https://developer.skao.int/projects/ska-sdp-data-product-dashboard/en/latest/overview.html
+Please see the project documentation for usage instructions https://developer.skao.int/projects/ska-sdp-dataproduct-dashboard/en/latest/overview.html

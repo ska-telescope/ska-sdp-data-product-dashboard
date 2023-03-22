@@ -5,6 +5,6 @@
 <title>Error</title>
 </head>
 <body>
-<pre>Cannot POST /__cypress/iframes/C:/Users/gallacherc/Documents/SKAO/ska-sdp-data-product-dashboard/src/components/DataProductDashboard/undefined/download</pre>
+<pre>Cannot POST /__cypress/iframes/C:/Users/gallacherc/Documents/SKAO/ska-sdp-dataproduct-dashboard/src/components/DataProductDashboard/undefined/download</pre>
 </body>
 </html>

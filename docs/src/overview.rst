@@ -21,7 +21,7 @@ Clone the repository and its submodules:
 
 .. code-block:: bash
 
-    git clone git@gitlab.com:ska-telescope/sdp/ska-sdp-data-product-dashboard.git
+    git clone git@gitlab.com:ska-telescope/sdp/ska-sdp-dataproduct-dashboard.git
     git submodule update --init --recursive
 
 *To run the application directly on your host machine in developer mode:*
@@ -78,8 +78,8 @@ To run the application using docker, build the docker file in the root directory
 
 .. code-block:: bash
 
-  docker build -t ska-sdp-data-product-dashboard .
-  docker run -p 8100:8100 ska-sdp-data-product-dashboard
+  docker build -t ska-sdp-dataproduct-dashboard .
+  docker run -p 8100:8100 ska-sdp-dataproduct-dashboard
 
 The project will then be accessible at the url http://localhost:8100/
 
@@ -90,7 +90,7 @@ The SDP Data Product API is deployed as part of the helm chart of the SDP Data P
 Usage
 -----
 
-The dashboard contains a list of all the data products that can be accessed with the `SDP Data Product API <https://developer.skao.int/projects/ska-sdp-data-product-api/en/latest/?badge=latest>`_
+The dashboard contains a list of all the data products that can be accessed with the `SDP Data Product API <https://developer.skao.int/projects/ska-sdp-dataproduct-api/en/latest/?badge=latest>`_
 
 This dashboard is developed as a Webpack 5 Module that is used as a remote in the `SKA Landing Page <https://gitlab.com/ska-telescope/ska-landing-page>`_. It contains a table view of all the Data Products and a capability to select and download a product or individual file when selected.
 

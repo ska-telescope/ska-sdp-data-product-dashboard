@@ -3,12 +3,12 @@ urls:
   override: true
 
 api:
-  container: docker.io/library/ska-sdp-data-product-api
+  container: docker.io/library/ska-sdp-dataproduct-api
   storagePath: "/mnt/"
   version: 0.2.2
 
 dashboard:
-  container: docker.io/library/ska-sdp-data-product-dashboard
+  container: docker.io/library/ska-sdp-dataproduct-dashboard
   version: 0.2.2
 
 elasticsearch:
