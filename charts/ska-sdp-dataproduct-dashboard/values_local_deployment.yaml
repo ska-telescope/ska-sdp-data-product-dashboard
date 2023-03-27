@@ -19,7 +19,7 @@ elasticsearch:
   data:
     replicaCount: 1
 
-data_pvc:
+dataProductPVC:
   name: test-pvc
   create:
     enabled: true

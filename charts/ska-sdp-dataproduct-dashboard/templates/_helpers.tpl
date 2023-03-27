@@ -35,10 +35,10 @@ app.kubernetes.io/managed-by: {{ .Release.Service }}
     {{- end }}
 {{- end }}
 
-{{- define "data_pvc" }}
-    {{- if (((.Values.global).data_pvc).name) }}
-        {{- printf "%s" $.Values.global.data_pvc.name}}
+{{- define "dataProductPVCName" }}
+    {{- if and (.Values.global) (index .Values.global "data-product-pvc-name") }}
+        {{- printf "%s" (index .Values.global "data-product-pvc-name")}}
     {{- else }}
-        {{- printf "%s" $.Values.data_pvc.name }}
+        {{- printf "%s" $.Values.dataProductPVC.name }}
     {{- end }}
 {{- end }}

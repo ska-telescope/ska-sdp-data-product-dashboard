@@ -47,7 +47,7 @@ elasticsearch:
     persistence:
       enabled: true
 
-data_pvc:
+dataProductPVC:
   name: shared
   create:
     enabled: false
