@@ -1,15 +1,15 @@
 {
-  "name": "ska-sdp-data-product-dashboard",
+  "name": "ska-sdp-dataproduct-dashboard",
   "version": "0.2.2",
   "private": true,
   "main": "index.js",
-  "repository": "git@gitlab.com:ska-telescope/sdp/ska-sdp-data-product-dashboard.git",
+  "repository": "git@gitlab.com:ska-telescope/sdp/ska-sdp-dataproduct-dashboard.git",
   "author": "Andre Odendaal <andre@vivosa.co.za>",
   "license": "BSD 3-Clause",
   "scripts": {
     "build": "webpack --mode production",
     "code-analysis": "./node_modules/.bin/eslint \"src/**\" --ignore-path .eslintignore -f junit -o linting.xml",
-    "cypress": "cypress open",
+    "cypress:component:headless": "cypress run --component --headless",
     "lint:fix": "eslint 'src/**/*.{js,jsx,ts,tsx}' --fix",
     "lint": "eslint 'src/**/*.{js,jsx,ts,tsx}'",
     "test": "nyc react-scripts test --env=jsdom --reporters=default --reporters=jest-junit --watchAll=false",
@@ -58,7 +58,7 @@
     "react-dom": "^18.2.0",
     "react-folder-tree": "^5.0.3",
     "react-i18next": "^11.15.3",
-    "webpack": "^5.75.0",
+    "webpack": "^5.76.2",
     "webpack-dev-middleware": "^6.0.0",
     "webpack-dev-server": "^4.11.1"
   },

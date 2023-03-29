@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const FetchDataProductList = async (startDate, endDate, metadata_key, metadata_value) => {
-  const apiUrl = process.env.REACT_APP_SKA_SDP_DATA_PRODUCT_API_URL;
+  const apiUrl = process.env.REACT_APP_SKA_SDP_DATAPRODUCT_API_URL;
   const URL_LIST = '/dataproductsearch';
   const bodyParameters = {
     "start_date": startDate,

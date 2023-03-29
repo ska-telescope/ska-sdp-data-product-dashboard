@@ -6,7 +6,7 @@ This repository contains a SKAO modular federated component that is used to list
 
 ## Documentation
 
-Please see the latest project documentation on RTD: https://developer.skao.int/projects/ska-sdp-data-product-dashboard/en/latest/?badge=latest
+Please see the latest project documentation on RTD: https://developer.skao.int/projects/ska-sdp-dataproduct-dashboard/en/latest/?badge=latest
 
 ## Contributing
 

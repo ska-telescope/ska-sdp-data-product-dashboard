@@ -9,9 +9,9 @@ metadata:
 {{ include "api_general.labels" . | indent 4 }}
     nginx.ingress.kubernetes.io/rewrite-target: /$1
   labels:
-    app.kubernetes.io/name: ska-sdp-data-product-dashboard
+    app.kubernetes.io/name: ska-sdp-dataproduct-dashboard
 {{ include "api_general.labels" . | indent 4 }}
-  name: ska-sdp-data-product-dashboard
+  name: ska-sdp-dataproduct-dashboard
   namespace: {{ .Release.Namespace }}
 spec:
   rules:
@@ -19,7 +19,7 @@ spec:
       paths:
       - backend:
           service:
-            name: ska-sdp-data-product-dashboard
+            name: ska-sdp-dataproduct-dashboard
             port:
               number: 8100
         path: "{{ include "ingress_path_prepend" . }}/dashboard/?(.*)"
@@ -35,9 +35,9 @@ metadata:
 {{ include "api_general.labels" . | indent 4 }}
     nginx.ingress.kubernetes.io/rewrite-target: /$1
   labels:
-    app.kubernetes.io/name: ska-sdp-data-product-api
+    app.kubernetes.io/name: ska-sdp-dataproduct-api
 {{ include "api_general.labels" . | indent 4 }}
-  name: ska-sdp-data-product-api
+  name: ska-sdp-dataproduct-api
   namespace: {{ .Release.Namespace }}
 spec:
   rules:
@@ -45,7 +45,7 @@ spec:
       paths:
       - backend:
           service:
-            name: ska-sdp-data-product-api
+            name: ska-sdp-dataproduct-api
             port:
               number: 8000
         path: "{{ include "ingress_path_prepend" . }}/api/?(.*)"

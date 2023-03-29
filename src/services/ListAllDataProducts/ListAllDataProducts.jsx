@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const ListAllDataProducts = async () => {
-  const apiUrl = process.env.REACT_APP_SKA_SDP_DATA_PRODUCT_API_URL;
+  const apiUrl = process.env.REACT_APP_SKA_SDP_DATAPRODUCT_API_URL;
   const URL_LIST = '/dataproductlist';
   const config = {
     headers: {

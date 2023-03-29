@@ -24,13 +24,13 @@ If needed, build images, tag and load them to Minikube.
 
 .. code-block:: bash
 
-    docker build -t ska-sdp-data-product-dashboard .
+    docker build -t ska-sdp-dataproduct-dashboard .
     docker images
-    docker tag [Image ID] ska-sdp-data-product-dashboard:[Tag]
-    minikube image load ska-sdp-data-product-dashbaord:[Tag]
+    docker tag [Image ID] ska-sdp-dataproduct-dashboard:[Tag]
+    minikube image load ska-sdp-dataproduct-dashboard:[Tag]
     minikube image ls
 
-2. Change to the chart directory in the repository: ``cd charts/ska-sdp-data-product-dashboard/``. Make the needed changes to image versions and enable the deployments as required in the values files. Then update the Helm dependencies.
+2. Change to the chart directory in the repository: ``cd charts/ska-sdp-dataproduct-dashboard/``. Make the needed changes to image versions and enable the deployments as required in the values files. Then update the Helm dependencies.
 
 .. code-block:: bash
 
@@ -58,8 +58,8 @@ To be able to access the API and the dashboard run the following:
 
 .. code-block:: bash
 
-    kubectl -n [namespace] port-forward service/ska-sdp-data-product-api 8000:8000
-    kubectl -n [namespace] port-forward service/ska-sdp-data-product-dashboard 8100:8100
+    kubectl -n [namespace] port-forward service/ska-sdp-dataproduct-api 8000:8000
+    kubectl -n [namespace] port-forward service/ska-sdp-dataproduct-dashboard 8100:8100
 
 You should now be able to access the API and the Dashboard on the following url's:
 
@@ -72,7 +72,7 @@ To get data onto the PV:
 .. code-block:: bash
 
 	kubectl get pod -n [namespace]
-    kubectl cp ska_repos_wsl/ska-sdp-data-product-api/tests/test_files/product ska-sdp-data-product-api-67b54b4948-dvhbj:/usr/data -n [namespace]
+    kubectl cp ska_repos_wsl/ska-sdp-dataproduct-api/tests/test_files/product ska-sdp-dataproduct-api-67b54b4948-dvhbj:/usr/data -n [namespace]
 
 
 Steps to deploy the system to a namespace on the SDP cluster
@@ -84,7 +84,7 @@ NOTE: This integration has not been merged into the integration repository. To d
 
 .. code-block:: bash
 
-    - name: ska-sdp-data-product-dashboard
+    - name: ska-sdp-dataproduct-dashboard
     version: 0.2.1
     repository: https://artefact.skao.int/repository/helm-internal
 
@@ -98,5 +98,5 @@ Once you export the file (i.e. export KUBECONFIG=<my-config-file>), you will hav
 
 You should now be able to access the API and the Dashboard on the following url's
 
-* https://sdhp.stfc.skao.int/[namespace]/data_product/api/filelist
-* https://sdhp.stfc.skao.int/[namespace]/data_product/dashboard/
+* https://sdhp.stfc.skao.int/[namespace]/dataproduct/api/filelist
+* https://sdhp.stfc.skao.int/[namespace]/dataproduct/dashboard/

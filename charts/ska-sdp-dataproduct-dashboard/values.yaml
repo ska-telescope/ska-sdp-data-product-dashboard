@@ -1,7 +1,7 @@
 ---
 ingress:
   enabled: true
-  pathStart: "/data_product"
+  pathStart: "/dataproduct"
   namespaced: true  
 
 urls:
@@ -11,18 +11,18 @@ urls:
 
 api:
   enabled: true
-  container: artefact.skao.int/ska-sdp-data-product-api
+  container: artefact.skao.int/ska-sdp-dataproduct-api
   version: 0.2.2
   imagePullPolicy: IfNotPresent
   hostPort: "8100"
   storagePath: "/mnt/data/product/"
   metadata_file_name: ska-data-product.yaml
-  metadata_es_schema_file: /mnt/src/ska_sdp_data_product_api/elasticsearch/data_product_metadata_schema.json
-  es_host: "http://ska-sdp-data-product-dashboard-elasticsearch-master-hl.test.svc:9200"
+  metadata_es_schema_file: /mnt/src/ska_sdp_dataproduct_api/elasticsearch/data_product_metadata_schema.json
+  es_host: "http://ska-sdp-dataproduct-dashboard-elasticsearch-master-hl.test.svc:9200"
 
 dashboard:
   enabled: true
-  container: artefact.skao.int/ska-sdp-data-product-dashboard
+  container: artefact.skao.int/ska-sdp-dataproduct-dashboard
   version: 0.2.2
   imagePullPolicy: IfNotPresent
   resources:
@@ -35,7 +35,7 @@ dashboard:
       
 elasticsearch:
   enabled: false
-  fullnameOverride: ska-sdp-data-product-dashboard-elasticsearch
+  fullnameOverride: ska-sdp-dataproduct-dashboard-elasticsearch
   storageClass: nfss1
   master:
     masterOnly: true
@@ -47,7 +47,7 @@ elasticsearch:
     persistence:
       enabled: true
 
-data_pvc:
+dataProductPVC:
   name: shared
   create:
     enabled: false

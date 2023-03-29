@@ -2,7 +2,7 @@ import download from 'downloadjs';
 
 const DownloadDataProduct = (selectedFileNames) => {
   const URL_DOWNLOAD = '/download';
-  const apiUrl = process.env.REACT_APP_SKA_SDP_DATA_PRODUCT_API_URL;
+  const apiUrl = process.env.REACT_APP_SKA_SDP_DATAPRODUCT_API_URL;
 
   fetch(`${apiUrl}${URL_DOWNLOAD}`, {
     method: 'POST',
