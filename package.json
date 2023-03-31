@@ -15,7 +15,7 @@
     "test": "nyc react-scripts test --env=jsdom --reporters=default --reporters=jest-junit --watchAll=false",
     "test:coverage": "nyc react-scripts test --env=jsdom --watchAll=false --coverage --coverageDirectory=build/coverage",
     "test:watch": "react-scripts test --env=jsdom --watchAll=true",
-    "start": "webpack serve --mode development --open",
+    "start": "NODE_ENV=test webpack serve --mode development --open",
     "fix": "npm-run-all --continue-on-error \"fix:*\"",
     "fix:prettier": "prettier --write \"**/*\"",
     "fix:yarn-deduplicate": "c install; yarn-deduplicate --strategy=fewer; yarn install",
