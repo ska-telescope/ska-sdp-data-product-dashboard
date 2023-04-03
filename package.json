@@ -10,19 +10,22 @@
     "build": "webpack --mode production",
     "code-analysis": "./node_modules/.bin/eslint \"src/**\" --ignore-path .eslintignore -f junit -o linting.xml",
     "cypress:component:headless": "cypress run --component --headless",
-    "lint:fix": "eslint 'src/**/*.{js,jsx,ts,tsx}' --fix",
-    "lint": "eslint 'src/**/*.{js,jsx,ts,tsx}'",
-    "test": "nyc react-scripts test --env=jsdom --reporters=default --reporters=jest-junit --watchAll=false",
-    "test:coverage": "nyc react-scripts test --env=jsdom --watchAll=false --coverage --coverageDirectory=build/coverage",
-    "test:watch": "react-scripts test --env=jsdom --watchAll=true",
-    "start": "NODE_ENV=test webpack serve --mode development --open",
+    "cypress:headless:chrome": "cypress run --component --browser chrome",
+    "cypress:open": "cypress open",
+    "cypress:run": "cypress run",
+    "cypress:run:component": "cypress run --component",
     "fix": "npm-run-all --continue-on-error \"fix:*\"",
     "fix:prettier": "prettier --write \"**/*\"",
     "fix:yarn-deduplicate": "c install; yarn-deduplicate --strategy=fewer; yarn install",
+    "lint": "eslint 'src/**/*.{js,jsx,ts,tsx}'",
+    "lint:fix": "eslint 'src/**/*.{js,jsx,ts,tsx}' --fix",
     "lint:prettier": "prettier --check \"**/*\"",
     "lint:tsc": "yarn tsc --noEmit",
     "lint:yarn-deduplicate": "yarn-deduplicate --fail --list --strategy=fewer",
-    "cypress:headless:chrome": "cypress run --component --browser chrome"
+    "start": "NODE_ENV=test webpack serve --mode development --open",
+    "test": "yarn cypress:open",
+    "test:component:ci": "yarn cypress:run:component",
+    "test:headless": "yarn cypress:run"
   },
   "dependencies": {
     "@babel/plugin-transform-runtime": "^7.19.6",
@@ -38,7 +41,6 @@
     "@rollup/plugin-typescript": "^11.0.0",
     "@ska-telescope/ska-javascript-components": "^0.1.13",
     "@testing-library/cypress": "^9.0.0",
-    "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^13.4.0",
     "axios": "^0.27.2",
     "babel-loader": "^9.1.0",
@@ -82,8 +84,6 @@
     "eslint-plugin-react": "^7.12.3",
     "html-webpack-plugin": "^5.5.0",
     "i": "^0.3.7",
-    "jest-fetch-mock": "^3.0.3",
-    "jest-junit": "^13.0.0",
     "junit": "^1.4.9",
     "msw": "^0.48.3",
     "nyc": "^15.1.0",
@@ -97,19 +97,6 @@
     "style-loader": "^3.3.1",
     "testing-library": "^0.0.2",
     "webpack-cli": "^5.0.0"
-  },
-  "jest": {
-    "collectCoverageFrom": [
-      "src/**/{!(i18n),}.{js,jsx}",
-      "!<rootDir>/node_modules/",
-      "!<rootDir>/path/to/dir/",
-      "!src/index.jsx"
-    ],
-    "coverageReporters": [
-      "text",
-      "cobertura",
-      "html"
-    ]
   },
   "browserslist": [
     ">0.2%",
