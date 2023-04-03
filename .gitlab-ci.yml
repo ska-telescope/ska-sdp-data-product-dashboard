@@ -49,32 +49,8 @@ code_analysis:
     paths:
       - build/
 
-# run the test coverage reports
-test_and_coverage:
-  stage: test
-  tags:
-    - k8srunner
-  cache:
-    paths:
-      - node_modules/
-    policy: pull
-  before_script:
-    - mkdir -p build/reports
-  script:
-    - npm config set registry https://registry.npmjs.org/
-    - yarn install
-    - yarn test
-    - yarn test:coverage
-    - mv junit.xml build/reports/unit-tests.xml
-    - mv build/coverage/cobertura-coverage.xml build/reports/code-coverage.xml
-
-  coverage: /All\sfiles.*?\s+(\d+.\d+)/
-  artifacts:
-    paths:
-      - build/
-
 # run the cypress test coverage reports
-cypress_test_and_coverage:
+test_and_coverage:
   image: cypress/browsers:node16.14.2-slim-chrome100-ff99-edge
   stage: test
   tags:
