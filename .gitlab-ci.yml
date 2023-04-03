@@ -55,6 +55,10 @@ test_and_coverage:
   stage: test
   tags:
     - k8srunner
+  cache:
+    paths:
+      - node_modules/
+    policy: pull
   before_script:
     - mkdir -p build/reports
     - yarn install --frozen-lockfile
