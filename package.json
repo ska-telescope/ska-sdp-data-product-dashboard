@@ -23,7 +23,9 @@
     "start": "NODE_ENV=test webpack serve --mode development --open",
     "test": "yarn cypress:open",
     "test:component:ci": "yarn cypress:run:component",
-    "test:headless": "yarn cypress:run"
+    "test:headless": "yarn cypress:run",
+    "test:coverage:report:ci": "npx nyc report --report-dir=build/coverage --reporter=html --reporter=cobertura",
+    "test:coverage:summary": "npx nyc report --reporter=text-summary"
   },
   "dependencies": {
     "@babel/plugin-transform-runtime": "^7.19.6",

@@ -60,6 +60,12 @@ test_and_coverage:
     - yarn install --frozen-lockfile
   script:
     - yarn cypress:headless:chrome
+    - yarn test:coverage:report:ci
+    - mv build/coverage/cobertura-coverage.xml build/reports/code-coverage.xml
+  coverage: /All\sfiles.*?\s+(\d+.\d+)/
+  artifacts:
+    paths:
+      - build/
 
 # list the current top level dependencies for the project
 list_dependencies:
