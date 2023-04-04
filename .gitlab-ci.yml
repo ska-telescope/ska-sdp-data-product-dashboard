@@ -23,7 +23,7 @@ install_dependencies:
     - rm -rf node_modules
   script:
     - npm config set registry https://registry.npmjs.org/
-    - yarn install
+    - yarn install --immutable
   cache:
     paths:
       - node_modules/
@@ -42,7 +42,7 @@ code_analysis:
     - mkdir -p build/reports
   script:
     - npm config set registry https://registry.npmjs.org/
-    - yarn install
+    - yarn install --immutable
     - yarn code-analysis
     - mv linting.xml build/reports/linting.xml
   artifacts:
@@ -61,7 +61,7 @@ test_and_coverage:
     policy: pull
   before_script:
     - mkdir -p build/reports
-    - yarn install --frozen-lockfile
+    - yarn install --immutable
   script:
     - yarn cypress:headless:chrome
     - yarn test:coverage:report:ci
@@ -83,7 +83,7 @@ list_dependencies:
     policy: pull
   script:
     - npm config set registry https://registry.npmjs.org/
-    - yarn install
+    - yarn install --immutable
     - yarn list --depth=0 --json >> npm_deps.json
     - yarn list --depth=0  >> npm_deps.txt
     - mkdir .public
@@ -104,7 +104,7 @@ build:
     policy: pull
   script:
     - npm config set registry https://registry.npmjs.org/
-    - yarn install
+    - yarn install --immutable
     - yarn build
 
 # export the report
