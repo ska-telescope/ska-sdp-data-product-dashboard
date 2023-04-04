@@ -61,6 +61,7 @@ test_and_coverage:
     policy: pull
   before_script:
     - mkdir -p build/reports
+    - mkdir -p build/coverage
     - yarn install --immutable
   script:
     - yarn cypress:headless:chrome
