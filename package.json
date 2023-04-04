@@ -25,7 +25,7 @@
     "test:component:ci": "yarn cypress:run:component",
     "test:headless": "yarn cypress:run",
     "test:coverage:report": "npx nyc report --report-dir=build/coverage --reporter=html",
-    "test:coverage:report:ci": "npx nyc report --report-dir=build/coverage --reporter=cobertura",
+    "test:coverage:report:ci": "npx nyc report --report-dir=build/coverage --temp-dir=build/coverage --reporter=cobertura",
     "test:coverage:summary": "npx nyc report --reporter=text-summary"
   },
   "dependencies": {
