@@ -122,7 +122,8 @@ module.exports = (env, argv) => { return {
     }),
     new webpack.EnvironmentPlugin({
       REACT_APP_SKA_SDP_DATAPRODUCT_DASHBOARD_URL:'http://localhost',
-      REACT_APP_SKA_SDP_DATAPRODUCT_API_URL: 'http://localhost:8000'
+      REACT_APP_SKA_SDP_DATAPRODUCT_API_URL: 'http://localhost:8000',
+      REACT_APP_DASHBOARD_URL_SUBDIRECTORY: '',
     }),
     new CopyWebpackPlugin({
         patterns: [

@@ -4,6 +4,8 @@ import LanguageDetector from 'i18next-browser-languagedetector';
 import Backend from 'i18next-http-backend';
 import moment from 'moment';
 
+const urlSubDirectory = process.env.REACT_APP_DASHBOARD_URL_SUBDIRECTORY;
+
 i18n
   .use(Backend)
   .use(LanguageDetector)
@@ -11,7 +13,7 @@ i18n
   .init({
     backend: {
       // http backend options
-      loadPath: '/locales/{{lng}}/{{ns}}.json',
+      loadPath: urlSubDirectory+'/locales/{{lng}}/{{ns}}.json',
     },
     fallbackLng: 'en',
     lng: 'en',
