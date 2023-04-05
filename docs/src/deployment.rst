@@ -1,9 +1,6 @@
 Deployment Guide
 =============
 
-This Dashboard is used to list SDP data products (files) that is hosted at a persistent storage or other orchestrated location and make them available to download.
-
-
 Kubernetes Deployment
 ~~~~~~~~~~~
 
