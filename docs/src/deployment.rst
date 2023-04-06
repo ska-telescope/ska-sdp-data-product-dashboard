@@ -1,5 +1,8 @@
-Helm
+Deployment Guide
 =============
+
+Kubernetes Deployment
+~~~~~~~~~~~
 
 This is the documentation for the SDP Data Product Dashboard Helm Chart.
 

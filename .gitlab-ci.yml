@@ -23,7 +23,7 @@ install_dependencies:
     - rm -rf node_modules
   script:
     - npm config set registry https://registry.npmjs.org/
-    - yarn install
+    - yarn install --immutable
   cache:
     paths:
       - node_modules/
@@ -42,15 +42,16 @@ code_analysis:
     - mkdir -p build/reports
   script:
     - npm config set registry https://registry.npmjs.org/
-    - yarn install
+    - yarn install --immutable
     - yarn code-analysis
     - mv linting.xml build/reports/linting.xml
   artifacts:
     paths:
       - build/
 
-# run the test coverage reports
+# run the cypress test coverage reports
 test_and_coverage:
+  image: cypress/browsers:node16.14.2-slim-chrome100-ff99-edge
   stage: test
   tags:
     - k8srunner
@@ -60,30 +61,16 @@ test_and_coverage:
     policy: pull
   before_script:
     - mkdir -p build/reports
+    - mkdir -p build/coverage
+    - yarn install --immutable
   script:
-    - npm config set registry https://registry.npmjs.org/
-    - yarn install
-    - yarn test
-    - yarn test:coverage
-    - mv junit.xml build/reports/unit-tests.xml
+    - yarn cypress:headless:chrome
+    - yarn test:coverage:report:ci
     - mv build/coverage/cobertura-coverage.xml build/reports/code-coverage.xml
-
   coverage: /All\sfiles.*?\s+(\d+.\d+)/
   artifacts:
     paths:
       - build/
-
-# run the cypress test coverage reports
-cypress_test_and_coverage:
-  image: cypress/browsers:node16.14.2-slim-chrome100-ff99-edge
-  stage: test
-  tags:
-    - k8srunner
-  before_script:
-    - mkdir -p build/reports
-    - yarn install --frozen-lockfile
-  script:
-    - yarn cypress:headless:chrome
 
 # list the current top level dependencies for the project
 list_dependencies:
@@ -97,7 +84,7 @@ list_dependencies:
     policy: pull
   script:
     - npm config set registry https://registry.npmjs.org/
-    - yarn install
+    - yarn install --immutable
     - yarn list --depth=0 --json >> npm_deps.json
     - yarn list --depth=0  >> npm_deps.txt
     - mkdir .public
@@ -118,7 +105,7 @@ build:
     policy: pull
   script:
     - npm config set registry https://registry.npmjs.org/
-    - yarn install
+    - yarn install --immutable
     - yarn build
 
 # export the report
@@ -130,7 +117,6 @@ pages:
     - test_and_coverage
     - list_dependencies
     - code_quality
-    - cypress_test_and_coverage
   script:
     - mv public/* .
     - cp -r build/* public

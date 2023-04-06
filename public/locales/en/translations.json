@@ -2,7 +2,7 @@
   "language": "English",
   "date_format_one": "{{-date, YYYY/MM/DD}}",
   "date_format_two": "{{date, DD-MM-YYYY}}",
-  "date_input_format": "dd/mm/yyyy", 
+  "date_input_format": "dd/mm/yyyy",
   "intlNumber": "{{val, number}}",
 
   "isLoading": "...loading",
@@ -13,10 +13,10 @@
     "settings": "Settings"
   },
   "column": {
-    "ex_block" : "Execution block ID",
-    "dateCreated" : "Date created", 
-    "id" : "ID",
-    "interface" : "Interface"
+    "ex_block": "Execution block ID",
+    "dateCreated": "Date created",
+    "id": "ID",
+    "interface": "Interface"
   },
   "error": {
     "API_NO_DATA": "SDP Data API not available",
@@ -33,6 +33,6 @@
   },
   "prompt": {
     "filterOnMetaData": "Filter data products based on metadata:",
-    "selectFile" : "Selected File:"
+    "selectFile": "Selected File:"
   }
 }
