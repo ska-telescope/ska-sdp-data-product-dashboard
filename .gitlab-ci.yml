@@ -64,13 +64,15 @@ test_and_coverage:
     - mkdir -p build/coverage
     - yarn install --immutable
   script:
-    - yarn cypress:headless:chrome
-    - yarn test:coverage:report:ci
+    - yarn test:ci
     - mv build/coverage/cobertura-coverage.xml build/reports/code-coverage.xml
-  coverage: /All\sfiles.*?\s+(\d+.\d+)/
+    - yarn test:coverage:summary
+  coverage: /Lines*?\s+(\d+.\d+)/
   artifacts:
-    paths:
-      - build/
+    reports:
+      coverage_report:
+        coverage_format: cobertura
+        path: build/coverage/cobertura-coverage.xml
 
 # list the current top level dependencies for the project
 list_dependencies:

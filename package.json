@@ -22,10 +22,7 @@
     "lint:prettier": "prettier --check \"**/*\"",
     "start": "NODE_ENV=test webpack serve --mode development --open",
     "test": "yarn cypress:open",
-    "test:component:ci": "yarn cypress:run:component",
-    "test:headless": "yarn cypress:run",
-    "test:coverage:report": "npx nyc report --report-dir=build/coverage --reporter=html",
-    "test:coverage:report:ci": "npx nyc report --report-dir=build/coverage --temp-dir=build/coverage --reporter=cobertura",
+    "test:ci": "yarn cypress:headless:chrome",
     "test:coverage:summary": "npx nyc report --reporter=text-summary"
   },
   "dependencies": {
