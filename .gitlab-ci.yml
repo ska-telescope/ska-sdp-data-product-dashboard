@@ -73,7 +73,7 @@ test_and_coverage:
     reports:
       coverage_report:
         coverage_format: cobertura
-        path: build/coverage/cobertura-coverage.xml
+        path: build/reports/code-coverage.xml
 
 # list the current top level dependencies for the project
 list_dependencies:
