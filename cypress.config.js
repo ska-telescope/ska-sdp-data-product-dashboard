@@ -15,7 +15,9 @@ module.exports = defineConfig({
   e2e: {
     setupNodeEvents(on, config) {
       // implement node event listeners here
-      return require('./cypress/plugins/index.js')(on, config)
+      require('./cypress/plugins/index.js')(on, config)
+      on('file:preprocessor', require('@cypress/code-coverage/use-babelrc'))
+      return config
     },
   },
 });
