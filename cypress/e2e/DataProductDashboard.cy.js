@@ -1,5 +1,4 @@
 import Constants from '../../src/constants/constants';
-import { unzip } from "zlib";
 context('Select and download data product', () => {
 
   beforeEach(() => {
