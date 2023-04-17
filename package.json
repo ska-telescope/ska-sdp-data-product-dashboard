@@ -9,8 +9,6 @@
   "scripts": {
     "build": "webpack --mode production",
     "code-analysis": "./node_modules/.bin/eslint \"src/**\" --ignore-path .eslintignore -f junit -o linting.xml",
-    "cypress:component:headless": "cypress run --component --headless",
-    "cypress:headless:chrome": "cypress run --component --browser chrome",
     "cypress:open": "cypress open",
     "cypress:run": "cypress run",
     "cypress:run:component": "cypress run --component",
@@ -22,10 +20,11 @@
     "lint:prettier": "prettier --check \"**/*\"",
     "start": "NODE_ENV=test webpack serve --mode development --open",
     "test": "yarn cypress:open",
-    "test:component:ci": "yarn cypress:run:component",
+    "test:component:headless": "cypress run --component --headless --browser chrome",
+    "test:e2e:headless": "cypress run --e2e --headless --browser chrome",
     "test:headless": "yarn cypress:run",
-    "test:coverage:report": "npx nyc report --report-dir=build/coverage --reporter=html",
-    "test:coverage:report:ci": "npx nyc report --report-dir=build/coverage --temp-dir=build/coverage --reporter=cobertura",
+    "test:coverage:report": "npx nyc report --report-dir=build/reports --reporter=html",
+    "test:coverage:report:ci": "npx nyc report --report-dir=build/reports --reporter=cobertura",
     "test:coverage:summary": "npx nyc report --reporter=text-summary"
   },
   "dependencies": {
