@@ -68,6 +68,9 @@ test_and_coverage:
     - yarn test:coverage:report:ci
     - cp build/reports/cobertura-coverage.xml build/reports/code-coverage.xml
     - yarn test:coverage:summary
+  artifacts:
+    paths:
+      - build/
 
 # list the current top level dependencies for the project
 list_dependencies:
