@@ -1,5 +1,3 @@
-import '@cypress/code-coverage/support'
-
 // ***********************************************************
 // This example support/e2e.js is processed and
 // loaded automatically before your test files.
@@ -16,6 +14,7 @@ import '@cypress/code-coverage/support'
 // ***********************************************************
 
 // Import commands.js using ES2015 syntax:
+import '@cypress/code-coverage/support'
 import './commands'
 
 // Alternatively you can use CommonJS syntax:

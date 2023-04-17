@@ -61,13 +61,13 @@ test_and_coverage:
     policy: pull
   before_script:
     - mkdir -p build/reports
-    - mkdir -p build/coverage
     - yarn install --immutable
   script:
-    - yarn cypress:headless:chrome
+    - yarn start &
+    - yarn test:e2e:headless
     - yarn test:coverage:report:ci
-    - mv build/coverage/cobertura-coverage.xml build/reports/code-coverage.xml
-  coverage: /All\sfiles.*?\s+(\d+.\d+)/
+    - cp build/reports/cobertura-coverage.xml build/reports/code-coverage.xml
+    - yarn test:coverage:summary
   artifacts:
     paths:
       - build/
