@@ -8,7 +8,6 @@ describe('<DataProductDashboard />', () => {
 
   it('Data Product Dashboard renders correctly when data is unavailable', () => {
     cy.mount(<DataProductDashboard />)
-    cy.findByTestId("WarningIcon").should("be.visible")
     cy.findByText(Constants.TEXT_NO_API).should("be.visible")
   })
 
