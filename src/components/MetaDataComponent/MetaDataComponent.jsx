@@ -17,8 +17,15 @@ function sectionDisplay(title, data) {
 }
 
 function generateSections(metaData) {
-  return Object.keys(metaData.metaData).map((sectionTitle) =>
-    metaData?.metaData[sectionTitle] && sectionDisplay(sectionTitle, metaData?.metaData[sectionTitle])
+  const sections = metaData?.metaData;
+
+  // abort if metaData does not contain sections as expected
+  if (typeof sections === "undefined"){
+    return [];
+  }
+
+  return Object.keys(sections).map((sectionTitle) =>
+    sections[sectionTitle] && sectionDisplay(sectionTitle, sections[sectionTitle])
   );
 }
 

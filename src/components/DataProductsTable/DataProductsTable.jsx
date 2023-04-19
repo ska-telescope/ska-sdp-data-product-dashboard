@@ -50,6 +50,7 @@ const DataProductsTable = (jsonDataProducts, handleSelectedNode) => {
       }
 
       // add new column to extendedColumns
+      // TODO: headerName should be translated
       extendedColumns.push({
         field: key,
         headerName: key,
