@@ -13,6 +13,19 @@
     "settings": "Settings"
   },
   "column": {
+    "config": {
+      "cmdline": "Command Line",
+      "commit": "Commit",
+      "image": "Image",
+      "processing_block": "Processing Block",
+      "processing_script": "Processing Script",
+      "version": "Version"
+    },
+    "context": {
+      "intent": "Intent",
+      "notes": "Notes",
+      "observer": "Observer"
+    },
     "execution_block": "Execution Block ID",
     "date_created": "Date Created",
     "id": "ID",
