@@ -1,7 +1,7 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import { Box, Card, Typography } from '@mui/material';
-import WarningIcon from '@mui/icons-material/Warning';
+import { Box, Grid } from '@mui/material';
+import { InfoCard } from '@ska-telescope/ska-gui-components';
 import { DataGrid } from "@mui/x-data-grid";
 
 const DataProductsTable = (jsonDataProducts, handleSelectedNode) => {
@@ -19,13 +19,9 @@ const DataProductsTable = (jsonDataProducts, handleSelectedNode) => {
   if (typeof jsonDataProducts === "undefined" || typeof jsonDataProducts === "string"){
     return (
       <Box m={1} sx={{ height: '43vh', width: "100%" }}>
-        <Card variant="outlined" >
-          <Typography sx={{ fontSize: 25, display: "flex", justifyContent: "center" }} color="error" gutterBottom>
-            <WarningIcon sx={{ fontSize: "35px" }}  />
-            {" "}
-            {t("error.API_NO_DATA")}
-          </Typography>
-        </Card>
+        <Grid container alignItems="center" justifyContent="center">
+          <InfoCard fontSize={25} level={1} message={t("error.API_NO_DATA")} />
+        </Grid>
       </Box>
     );
   }
