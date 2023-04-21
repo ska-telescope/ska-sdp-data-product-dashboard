@@ -9,8 +9,8 @@ const DataProductsTable = (jsonDataProducts, handleSelectedNode) => {
 
   const columns = [
     { field: "id", headerName: t("column.id"), width: 50 },
-    { field: "execution_block", headerName: t("column.ex_block"), width: 200 },
-    { field: "date_created", headerName: t("column.dateCreated"), width: 100 }
+    { field: "execution_block", headerName: t("column.execution_block"), width: 200 },
+    { field: "date_created", headerName: t("column.date_created"), width: 100 }
   ];
 
   const ignore_columns_names = ["dataproduct_file", "metadata_file"];
@@ -52,7 +52,7 @@ const DataProductsTable = (jsonDataProducts, handleSelectedNode) => {
       // TODO: headerName should be translated
       extendedColumns.push({
         field: key,
-        headerName: key,
+        headerName: t("column." + key),
         width: 200
       });
     }
