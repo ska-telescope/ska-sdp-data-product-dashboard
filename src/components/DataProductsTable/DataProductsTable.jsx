@@ -10,8 +10,7 @@ const DataProductsTable = (jsonDataProducts, handleSelectedNode) => {
   const columns = [
     { field: "id", headerName: t("column.id"), width: 50 },
     { field: "execution_block", headerName: t("column.ex_block"), width: 200 },
-    { field: "date_created", headerName: t("column.dateCreated"), width: 100 },
-    { field: "interface", headerName: t("column.interface"), width: 400 }
+    { field: "date_created", headerName: t("column.dateCreated"), width: 100 }
   ];
 
   const ignore_columns_names = ["dataproduct_file", "metadata_file"];
