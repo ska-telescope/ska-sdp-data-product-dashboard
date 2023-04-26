@@ -13,10 +13,42 @@
     "settings": "Settings"
   },
   "column": {
-    "ex_block": "Execution block ID",
-    "dateCreated": "Date created",
+    "config": {
+      "cmdline": "Command Line",
+      "commit": "Commit",
+      "image": "Image",
+      "processing_block": "Processing Block",
+      "processing_script": "Processing Script",
+      "version": "Version"
+    },
+    "context": {
+      "intent": "Intent",
+      "notes": "Notes",
+      "observer": "Observer"
+    },
+    "execution_block": "Execution Block ID",
+    "date_created": "Date Created",
     "id": "ID",
-    "interface": "Interface"
+    "interface": "Interface",
+    "obscore": {
+      "access_estsize": "Estimated Size (kB)",
+      "access_format": "File Format",
+      "access_url": "Download URL",
+      "calib_level": "Calibration Level",
+      "dataproduct_type": "Data Product Type",
+      "facility_name": "Facility Name",
+      "instrument_name": "Instrument Name",
+      "obs_collection": "Observation Collection",
+      "obs_id": "Observation ID",
+      "o_ucd": "Observation UCD",
+      "pol_states": "Polarization States",
+      "pol_xel": "No. of Elements along Polarization Axis",
+      "s_dec": "Dec (deg)",
+      "s_ra": "RA (deg)",
+      "t_exptime": "Total Exposure Time (s)",
+      "t_max": "Stop Time (MJD)",
+      "t_min": "Start Time (MJD)"
+    }
   },
   "error": {
     "API_NO_DATA": "SDP Data API not available",
