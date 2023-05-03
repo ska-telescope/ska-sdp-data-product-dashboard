@@ -43,7 +43,7 @@ const DataProductDashboard = () => {
   }
   UpdateAPIStatus()
 
-  async function getDataproductList(startDateStr, endDateStr, metadataKeyStr, metadataValueStr){
+  async function getDataProductList(startDateStr, endDateStr, metadataKeyStr, metadataValueStr){
     if (canSearch){
       const results = await SearchForDataProduct(startDateStr, endDateStr, metadataKeyStr, metadataValueStr);
       return results
@@ -64,7 +64,7 @@ const DataProductDashboard = () => {
     const endDateStr = endDate ? endDate : DEF_END_DATE;
     const metadataKeyStr = metadataKey ? metadataKey : DEF_WILDCARD;
     const metadataValueStr = metadataValue ? metadataValue : DEF_WILDCARD;
-    const results = await getDataproductList(startDateStr, endDateStr, metadataKeyStr, metadataValueStr);
+    const results = await getDataProductList(startDateStr, endDateStr, metadataKeyStr, metadataValueStr);
     setJsonDataProducts(results);
   }
 
