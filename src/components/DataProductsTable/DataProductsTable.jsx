@@ -33,33 +33,34 @@ const DataProductsTable = (jsonDataProducts, handleSelectedNode) => {
   // if jsonDataProducts contains additional attributes, assume those attributes were part
   // of the user's query, and display them
   if (jsonDataProducts.length > 0){
-    for (const key of Object.keys(jsonDataProducts[0])){
-      // skip keys in ignore_column_names
-      if (ignore_columns_names.includes(key)){
-        continue;
+    for (const dataproduct in jsonDataProducts){
+      for (const key of Object.keys(jsonDataProducts[dataproduct])){
+        // skip keys in ignore_column_names
+        if (ignore_columns_names.includes(key)){
+          continue;
+        }
+        // skip keys already in columns
+        else if (extendedColumns.map(a => a.field).includes(key)){
+          continue;
+        }
+        else {
+          // add new column to extendedColumns
+          extendedColumns.push({
+            field: key,
+            headerName: t("column." + key),
+            width: 200
+          });
+        }
       }
-
-      // skip keys already in columns
-      if (columns.map(a => a.field).includes(key)){
-        continue;
-      }
-
-      // add new column to extendedColumns
-      // TODO: headerName should be translated
-      extendedColumns.push({
-        field: key,
-        headerName: t("column." + key),
-        width: 200
-      });
     }
   }
 
   return (
-    <Box m={1} sx={{ height: '43vh', width: "100%" }}>
+    <Box m={1} sx={{ height: '100vh', width: "100%" }}>
       <DataGrid
         rows={jsonDataProducts}
         columns={extendedColumns}
-        pageSize={5}
+        pageSize={20}
         rowsPerPageOptions={[5]}
         checkboxSelection={false}
         onRowClick={handleSelectedNode}
