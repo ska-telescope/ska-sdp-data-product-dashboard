@@ -1,4 +1,4 @@
-const mockFilesTree = {
+const mockDataProductList = {
     "data": [
         {
             "id": 1,
@@ -51,4 +51,4 @@ const mockFilesTree = {
     "request": {}
 }
 
-export default mockFilesTree;
+export default mockDataProductList;
