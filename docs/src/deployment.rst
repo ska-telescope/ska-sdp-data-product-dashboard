@@ -88,7 +88,7 @@ NOTE: This integration has not been merged into the integration repository. To d
 .. code-block:: bash
 
     - name: ska-sdp-dataproduct-dashboard
-    version: 0.2.1
+    version: 0.3.0
     repository: https://artefact.skao.int/repository/helm-internal
 
 Load the KUBECONFIG file to access and test the deployment. Please contact Hodosan, Gabriella (@Gabi on Slack) if you haven't got a file yet. 
