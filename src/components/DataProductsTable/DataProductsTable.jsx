@@ -58,6 +58,7 @@ const DataProductsTable = (jsonDataProducts, handleSelectedNode) => {
   return (
     <Box m={1} sx={{ height: '100vh', width: "100%" }}>
       <DataGrid
+        aria-label="Data Product Grid"
         rows={jsonDataProducts}
         columns={extendedColumns}
         pageSize={20}

@@ -150,7 +150,7 @@ const DataProductDashboard = () => {
                   value={endDate}
                 />
                 <TextField
-                  id="outlined"
+                  id="keyValue"
                   label={t('label.key')}
                   style = {{width: 300}}
                   defaultValue={metadataKey}
@@ -159,7 +159,7 @@ const DataProductDashboard = () => {
                   }}
                 />
                 <TextField
-                  id="outlined"
+                  id="valueValue"
                   label={t('label.value')}
                   style = {{width: 500}}
                   defaultValue={metadataValue}
