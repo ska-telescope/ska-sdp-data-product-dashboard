@@ -73,6 +73,10 @@ context('Select and download data product', () => {
       cy.findByText("Filter data products based on metadata:").should("be.visible")
       cy.findByTestId("SearchIcon").click()
     })
+
+    it('Data products can be indexed', () => {
+      cy.findByTestId("RefreshIcon").click()
+    })
   })
 })
 
