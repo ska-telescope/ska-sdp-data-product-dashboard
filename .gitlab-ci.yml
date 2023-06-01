@@ -130,12 +130,7 @@ include:
   - template: Code-Quality.gitlab-ci.yml
     # Docs pages
   - project: 'ska-telescope/templates-repository'
-    file: 'gitlab-ci/includes/docs-pages.gitlab-ci.yml'
-  - project: 'ska-telescope/templates-repository'
     file: 'gitlab-ci/includes/docs.gitlab-ci.yml'
-    # k8s steps
-  - project: 'ska-telescope/templates-repository'
-    file: 'gitlab-ci/includes/k8s.gitlab-ci.yml'
     # OCI Images
   - project: 'ska-telescope/templates-repository'
     file: 'gitlab-ci/includes/oci-image.gitlab-ci.yml'
@@ -148,9 +143,6 @@ include:
     # helm chart
   - project: 'ska-telescope/templates-repository'
     file: 'gitlab-ci/includes/helm-chart.gitlab-ci.yml'
-    # publish helm chart
-  - project: 'ska-telescope/templates-repository'
-    file: 'gitlab-ci/includes/helm_publish.yml'
 
 code_quality:
   # https://docs.gitlab.com/ee/user/project/merge_requests/code_quality.html#generate-an-html-report
