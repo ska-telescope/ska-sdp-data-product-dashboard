@@ -1,6 +1,6 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import { CssBaseline, Grid, ThemeProvider, Typography } from "@mui/material";
+import { CssBaseline, Grid, Paper, ThemeProvider, Typography } from "@mui/material";
 import DataProductDashboard from '../DataProductDashboard/DataProductDashboard';
 import { Footer, Header, Spacer, SPACER_VERTICAL } from "@ska-telescope/ska-gui-components";
 import theme, { THEME_DARK, THEME_LIGHT } from '../../services/theme/theme';
@@ -23,9 +23,6 @@ function App() {
     <ThemeProvider theme={theme(themeMode)}>
       <CssBaseline enableColorScheme />
       <React.Suspense fallback={t("isLoading")}>
-        <div className="App">
-          <DataProductDashboard id="DataProductDashboardId" />
-        </div>
         <Header data-testid="skaHeader" themeToggle={themeToggle}>
           <Grid item />
           <Grid item>
@@ -33,12 +30,13 @@ function App() {
           </Grid>
           <Grid item />
         </Header>
-        <>
+        <Paper>
           <Spacer size={HEADER_HEIGHT} axis={SPACER_VERTICAL} />
-          <Container />
+          <Container data-testid="containerId" />
+          <DataProductDashboard id="DataProductDashboardId" />
           <Spacer size={FOOTER_HEIGHT} axis={SPACER_VERTICAL} />
+        </Paper>
           <Footer />
-        </>
       </React.Suspense>
     </ThemeProvider>
   );
