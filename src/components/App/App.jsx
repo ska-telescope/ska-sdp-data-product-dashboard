@@ -4,7 +4,6 @@ import { CssBaseline, Grid, Paper, ThemeProvider, Typography } from "@mui/materi
 import DataProductDashboard from '../DataProductDashboard/DataProductDashboard';
 import { Footer, Header, Spacer, SPACER_VERTICAL } from "@ska-telescope/ska-gui-components";
 import theme, { THEME_DARK, THEME_LIGHT } from '../../services/theme/theme';
-import { Container } from "@mui/system";
 
 function App() {
   const { t } = useTranslation();
@@ -32,8 +31,7 @@ function App() {
         </Header>
         <Paper>
           <Spacer size={HEADER_HEIGHT} axis={SPACER_VERTICAL} />
-          <Container data-testid="containerId" />
-          <DataProductDashboard id="DataProductDashboardId" />
+          <DataProductDashboard data-testid="DataProductDashboardId" />
           <Spacer size={FOOTER_HEIGHT} axis={SPACER_VERTICAL} />
         </Paper>
           <Footer />
