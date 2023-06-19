@@ -77,6 +77,14 @@ context('Select and download data product', () => {
     it('Data products can be indexed', () => {
       cy.findByTestId("RefreshIcon").click()
     })
+
+    it('Verify external link to skao site', () => {
+      cy.findByLabelText("skaWebsite").click()
+    })
+
+    it('Verify light/dark mode is available', () => {
+      cy.findByTestId("Brightness7Icon").click()
+    })
   })
 })
 

@@ -1,8 +1,8 @@
 import { createTheme } from '@mui/material';
 import { Theme } from '@ska-telescope/ska-gui-components';
 
-const theme = () => {
-  const mode = 'light';
-  return createTheme(Theme(mode));
-};
+export const THEME_LIGHT = 'light';
+export const THEME_DARK = 'dark';
+
+const theme = mode => createTheme(Theme(mode));
 export default theme;

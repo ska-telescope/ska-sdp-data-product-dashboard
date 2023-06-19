@@ -1,5 +1,5 @@
 default:
-  image: node:alpine
+  image: node:20.2.0-alpine3.18
 
 variables:
   GIT_SUBMODULE_STRATEGY: recursive
