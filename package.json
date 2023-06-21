@@ -27,6 +27,7 @@
     "test:coverage:report": "npx nyc report --report-dir=build/reports --reporter=html",
     "test:coverage:report:ci": "npx nyc report --report-dir=build/reports --reporter=cobertura",
     "test:coverage:summary": "npx nyc report --reporter=text-summary",
+    "test:cypress:ci": "cypress run --quiet  --component --headless --browser chrome --reporter junit --reporter-options mochaFile=./build/reports/unit-tests.xml",
     "test": "jest"
   },
   "dependencies": {
