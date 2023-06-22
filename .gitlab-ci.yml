@@ -132,7 +132,7 @@ pages:
   tags:
     - k8srunner
   dependencies:
-    - test
+    - test-components
     - test_coverage
     - list_dependencies
     - code_quality
