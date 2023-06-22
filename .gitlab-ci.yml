@@ -55,8 +55,6 @@ test_coverage:
   stage: test
   tags:
     - k8srunner
-  dependencies:
-    - test-components
   cache:
     paths:
       - node_modules/
@@ -75,9 +73,9 @@ test_coverage:
       - build/
 
 # run the cypress tests
-test-components:
+test-counts:
   image: cypress/browsers:node16.14.2-slim-chrome100-ff99-edge
-  stage: test
+  stage: scan
   tags:
     - k8srunner
   cache:
@@ -135,7 +133,7 @@ pages:
   tags:
     - k8srunner
   dependencies:
-    - test-components
+    - test-counts
     - test_coverage
     - list_dependencies
     - code_quality
