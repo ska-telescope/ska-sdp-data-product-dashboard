@@ -40,6 +40,9 @@ const DataProductDashboard = () => {
   const [metadataValue, updateMetadataValue] = React.useState(null);
   const [canSearch, updateCanSearch] = React.useState(false);
 
+  const [dataProductsData, setDataProductsData] = React.useState(null);
+
+
   async function UpdateAPIStatus() {
     const results = await GetAPIStatus()
     updateCanSearch(results.data.Search_enabled)
@@ -74,7 +77,7 @@ const DataProductDashboard = () => {
   React.useEffect(() => {
     setOldFilename(selectedFileNames.metaDataFile);
     if (DATA_LOCAL) {
-
+      setDataProductsData(MockData);
     }
     else {
     }
