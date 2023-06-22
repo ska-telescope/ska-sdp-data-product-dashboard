@@ -74,12 +74,15 @@ test_coverage:
   stage: test
   tags:
     - k8srunner
+  dependencies:
+    - test-components
   cache:
     paths:
       - node_modules/
     policy: pull
   before_script:
     - mkdir -p build/reports
+    - mkdir -p build/.nyc_output
     - yarn install --immutable
   script:
     - yarn start &
