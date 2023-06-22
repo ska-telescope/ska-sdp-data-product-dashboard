@@ -49,25 +49,6 @@ code_analysis:
     paths:
       - build/
 
-# run the cypress tests
-test-components:
-  image: cypress/browsers:node16.14.2-slim-chrome100-ff99-edge
-  stage: test
-  tags:
-    - k8srunner
-  cache:
-    paths:
-      - node_modules/
-    policy: pull
-  before_script:
-    - mkdir -p build/reports
-    - yarn install --immutable
-  script:
-    - yarn test:cypress:ci
-  artifacts:
-    paths:
-      - build/
-
 # run the cypress test coverage reports
 test_coverage:
   image: cypress/browsers:node16.14.2-slim-chrome100-ff99-edge
@@ -89,6 +70,25 @@ test_coverage:
     - yarn test:coverage:report:ci
     - cp build/reports/cobertura-coverage.xml build/reports/code-coverage.xml
     - yarn test:coverage:summary
+  artifacts:
+    paths:
+      - build/
+
+# run the cypress tests
+test-components:
+  image: cypress/browsers:node16.14.2-slim-chrome100-ff99-edge
+  stage: test
+  tags:
+    - k8srunner
+  cache:
+    paths:
+      - node_modules/
+    policy: pull
+  before_script:
+    - yarn install --immutable
+  script:
+    - yarn test:cypress:ci
+    - mv unit-tests.xml build/reports/unit-tests.xml
   artifacts:
     paths:
       - build/
