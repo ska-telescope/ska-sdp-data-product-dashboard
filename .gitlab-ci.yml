@@ -67,7 +67,7 @@ test_and_coverage:
     - yarn test:e2e:headless
     - yarn test:coverage:report:ci
     - cp build/reports/cobertura-coverage.xml build/reports/code-coverage.xml
-    - test:cypress:ci
+    - yarn test:cypress:ci
     - yarn test:coverage:summary
   artifacts:
     paths:
