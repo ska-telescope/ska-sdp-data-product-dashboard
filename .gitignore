@@ -36,5 +36,5 @@ yarn-error.log*
 /coverage
 junit.xml
 linting.xml
-
+unit-tests.xml
 PrivateRules.mak
