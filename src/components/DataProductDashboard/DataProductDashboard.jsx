@@ -26,7 +26,8 @@ const DATA_LOCAL = process.env.REACT_USE_LOCAL_DATA;
 
 const DataProductDashboard = () => {
   const { t } = useTranslation();
-  const [jsonDataProducts, setJsonDataProducts] = React.useState({data:[]});
+  const [jsonDataProducts, setDataProductsData] = React.useState({data:[]});
+  const [dataProducts, dataProductsData] = React.useState({data:[]});
   const [metaData, setMetaData] = React.useState(null);
   const [oldFilename, setOldFilename] = React.useState(null);
   const [selectedFileNames, setSelectedFileNames] = React.useState({
@@ -39,9 +40,6 @@ const DataProductDashboard = () => {
   const [metadataKey, updateMetadataKey] = React.useState(null);
   const [metadataValue, updateMetadataValue] = React.useState(null);
   const [canSearch, updateCanSearch] = React.useState(false);
-
-  const [dataProductsData, setDataProductsData] = React.useState(null);
-
 
   async function UpdateAPIStatus() {
     const results = await GetAPIStatus()
@@ -66,12 +64,12 @@ const DataProductDashboard = () => {
   }, []);
 
   async function updateSearchResults() {
-    const startDateStr = startDate ? startDate : DEF_START_DATE;
-    const endDateStr = endDate ? endDate : DEF_END_DATE;
-    const metadataKeyStr = metadataKey ? metadataKey : DEF_WILDCARD;
-    const metadataValueStr = metadataValue ? metadataValue : DEF_WILDCARD;
-    const results = await getDataProductList(startDateStr, endDateStr, metadataKeyStr, metadataValueStr);
-    setJsonDataProducts(results);
+    // const startDateStr = startDate ? startDate : DEF_START_DATE;
+    // const endDateStr = endDate ? endDate : DEF_END_DATE;
+    // const metadataKeyStr = metadataKey ? metadataKey : DEF_WILDCARD;
+    // const metadataValueStr = metadataValue ? metadataValue : DEF_WILDCARD;
+    // const results = await getDataProductList(startDateStr, endDateStr, metadataKeyStr, metadataValueStr);
+    // setJsonDataProducts(results);
   }
 
   React.useEffect(() => {
