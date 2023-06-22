@@ -65,9 +65,9 @@ test_and_coverage:
   script:
     - yarn start &
     - yarn test:e2e:headless
+    - yarn test:cypress:ci
     - yarn test:coverage:report:ci
     - cp build/reports/cobertura-coverage.xml build/reports/code-coverage.xml
-    - yarn test:cypress:ci
     - yarn test:coverage:summary
   artifacts:
     paths:
