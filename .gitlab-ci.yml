@@ -96,6 +96,25 @@ list_dependencies:
     paths:
       - .public
 
+test-counts:
+  image: cypress/browsers:node16.14.2-slim-chrome100-ff99-edge
+  stage: scan
+  tags:
+    - k8srunner
+  cache:
+    paths:
+      - node_modules/
+    policy: pull
+  before_script:
+    - mkdir -p build/tests
+    - yarn install --immutable
+  script:
+    - yarn test:cypress:ci
+    - yarn merge-reports
+  artifacts:
+    paths:
+      - build/
+
 # Build the application
 build:
   stage: build
@@ -116,6 +135,7 @@ pages:
   tags:
     - k8srunner
   dependencies:
+    - test-counts
     - test_and_coverage
     - list_dependencies
     - code_quality
