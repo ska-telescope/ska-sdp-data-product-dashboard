@@ -134,7 +134,8 @@ pages:
   tags:
     - k8srunner
   dependencies:
-    - test_and_coverage
+    - test
+    - test_coverage
     - list_dependencies
     - code_quality
   script:
