@@ -16,10 +16,13 @@ import SearchForDataProduct from '../../services/SearchForDataProduct/SearchForD
 import ListAllDataProducts from '../../services/ListAllDataProducts/ListAllDataProducts';
 import GetAPIStatus from '../../services/GetAPIStatus/GetAPIStatus';
 import MetaData from '../../services/MetaData/MetaData';
+import MockData from "../../services/Mocking/mockDataProductList";
 
 const DEF_START_DATE = "1970-01-01"; 
 const DEF_END_DATE = "2070-12-31";
 const DEF_WILDCARD = "*";
+
+const DATA_LOCAL = process.env.REACT_USE_LOCAL_DATA;
 
 const DataProductDashboard = () => {
   const { t } = useTranslation();
@@ -70,6 +73,11 @@ const DataProductDashboard = () => {
 
   React.useEffect(() => {
     setOldFilename(selectedFileNames.metaDataFile);
+    if (DATA_LOCAL) {
+
+    }
+    else {
+    }
   }, [selectedFileNames, metaData]);
 
   const rowClickHandler = (data) => {
