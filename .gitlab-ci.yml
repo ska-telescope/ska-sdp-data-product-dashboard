@@ -49,8 +49,8 @@ code_analysis:
     paths:
       - build/
 
-# run the cypress test coverage reports
-test_and_coverage:
+# run the cypress tests
+test-components:
   image: cypress/browsers:node16.14.2-slim-chrome100-ff99-edge
   stage: test
   tags:
@@ -63,11 +63,30 @@ test_and_coverage:
     - mkdir -p build/reports
     - yarn install --immutable
   script:
+    - yarn test:cypress:ci
+  artifacts:
+    paths:
+      - build/
+
+# run the cypress test coverage reports
+test_coverage:
+  image: cypress/browsers:node16.14.2-slim-chrome100-ff99-edge
+  stage: test
+  tags:
+    - k8srunner
+  dependencies:
+    - test-components
+  cache:
+    paths:
+      - node_modules/
+    policy: pull
+  before_script:
+    - mkdir -p build/reports
+    - mkdir -p build/.nyc_output
+    - yarn install --immutable
+  script:
     - yarn start &
-    - yarn test:e2e:headless
     - yarn test:coverage:report:ci
-    # UNlikely to work, but this is the file it's looking for. 
-    - cp build/reports/cobertura-coverage.xml build/reports/unit-tests.xml
     - cp build/reports/cobertura-coverage.xml build/reports/code-coverage.xml
     - yarn test:coverage:summary
   artifacts:
@@ -116,7 +135,8 @@ pages:
   tags:
     - k8srunner
   dependencies:
-    - test_and_coverage
+    - test-components
+    - test_coverage
     - list_dependencies
     - code_quality
   script:
