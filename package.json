@@ -20,14 +20,16 @@
     "lint:fix": "eslint 'src/**/*.{js,jsx,ts,tsx}' --fix",
     "lint:prettier": "prettier --check \"**/*\"",
     "start": "NODE_ENV=test webpack serve --mode development --open",
-    "cypress:test": "yarn cypress:open",
-    "merge-reports": "jrm build/reports/unit-tests.xml \"build/tests/*.xml\"",
+    "test": "yarn cypress:open",
     "test:component:headless": "cypress run --component --headless --browser chrome",
     "test:e2e:headless": "cypress run --e2e --headless --browser chrome",
     "test:headless": "yarn cypress:run",
     "test:coverage:report": "npx nyc report --report-dir=build/reports --reporter=html",
     "test:coverage:report:ci": "npx nyc report --report-dir=build/reports --reporter=cobertura",
     "test:coverage:summary": "npx nyc report --reporter=text-summary",
+
+    "cypress:test": "yarn cypress:open",
+    "merge-reports": "jrm build/reports/unit-tests.xml \"build/tests/*.xml\"",
     "test:cypress:ci": "cypress run --component --headless --browser chrome --reporter junit --reporter-options mochaFile=build/tests/unit-tests[hash].xml"
   },
   "dependencies": {
