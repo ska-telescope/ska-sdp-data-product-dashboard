@@ -28,8 +28,7 @@
     "test:coverage:report": "npx nyc report --report-dir=build/reports --reporter=html",
     "test:coverage:report:ci": "npx nyc report --report-dir=build/reports --reporter=cobertura",
     "test:coverage:summary": "npx nyc report --reporter=text-summary",
-    "test:cypress:ci": "cypress run --component --headless --browser chrome --reporter junit --reporter-options mochaFile=build/tests/unit-tests[hash].xml",
-    "test": "jest"
+    "test:cypress:ci": "cypress run --component --headless --browser chrome --reporter junit --reporter-options mochaFile=build/tests/unit-tests[hash].xml"
   },
   "dependencies": {
     "@babel/core": "^7.21.4",
