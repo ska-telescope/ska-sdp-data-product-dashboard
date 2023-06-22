@@ -83,10 +83,11 @@ test-counts:
       - node_modules/
     policy: pull
   before_script:
+    - mkdir -p build/tests
     - yarn install --immutable
   script:
     - yarn test:cypress:ci
-    - mv unit-tests.xml build/reports/unit-tests.xml
+    - yarn merge-reports
   artifacts:
     paths:
       - build/
