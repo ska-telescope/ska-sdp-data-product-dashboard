@@ -59,17 +59,17 @@ const DataProductDashboard = () => {
   }
 
   React.useEffect(() => {
-    updateSearchResults();
+   // updateSearchResults();
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   async function updateSearchResults() {
-    // const startDateStr = startDate ? startDate : DEF_START_DATE;
-    // const endDateStr = endDate ? endDate : DEF_END_DATE;
-    // const metadataKeyStr = metadataKey ? metadataKey : DEF_WILDCARD;
-    // const metadataValueStr = metadataValue ? metadataValue : DEF_WILDCARD;
-    // const results = await getDataProductList(startDateStr, endDateStr, metadataKeyStr, metadataValueStr);
-    // setJsonDataProducts(results);
+    const startDateStr = startDate ? startDate : DEF_START_DATE;
+    const endDateStr = endDate ? endDate : DEF_END_DATE;
+    const metadataKeyStr = metadataKey ? metadataKey : DEF_WILDCARD;
+    const metadataValueStr = metadataValue ? metadataValue : DEF_WILDCARD;
+    const results = await getDataProductList(startDateStr, endDateStr, metadataKeyStr, metadataValueStr);
+    setJsonDataProducts(results);
   }
 
   React.useEffect(() => {
