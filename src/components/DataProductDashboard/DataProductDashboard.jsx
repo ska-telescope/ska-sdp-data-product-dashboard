@@ -1,28 +1,29 @@
-import React from 'react';
-import axios from 'axios';
-import { useTranslation } from 'react-i18next';
+import React from "react";
+import axios from "axios";
+import { useTranslation } from "react-i18next";
 
-import { Box, Button, Card, CardActions, CardContent, Grid, Typography, TextField } from '@mui/material';
-import SearchIcon from '@mui/icons-material/Search';
-import RefreshIcon from '@mui/icons-material/Refresh';
-import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-import { DatePicker } from '@mui/x-date-pickers/DatePicker';
+import { Box, Button, Card, CardActions, CardContent, Grid, TextField, Typography } from "@mui/material";
+import SearchIcon from "@mui/icons-material/Search";
+import RefreshIcon from "@mui/icons-material/Refresh";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
+import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 
-import DataProductsTable from '../DataProductsTable/DataProductsTable';
-import DownloadCard from '../DownloadCard/DownloadCard';
-import MetaDataComponent from '../MetaDataComponent/MetaDataComponent';
-import SearchForDataProduct from '../../services/SearchForDataProduct/SearchForDataProduct';
-import ListAllDataProducts from '../../services/ListAllDataProducts/ListAllDataProducts';
-import GetAPIStatus from '../../services/GetAPIStatus/GetAPIStatus';
-import MetaData from '../../services/MetaData/MetaData';
+import DataProductsTable from "../DataProductsTable/DataProductsTable";
+import DownloadCard from "../DownloadCard/DownloadCard";
+import MetaDataComponent from "../MetaDataComponent/MetaDataComponent";
+import SearchForDataProduct from "../../services/SearchForDataProduct/SearchForDataProduct";
+import ListAllDataProducts from "../../services/ListAllDataProducts/ListAllDataProducts";
+import GetAPIStatus from "../../services/GetAPIStatus/GetAPIStatus";
+import MetaData from "../../services/MetaData/MetaData";
 import MockData from "../../services/Mocking/mockDataProductList";
+import Constants from "../../constants/constants";
 
 const DEF_START_DATE = "1970-01-01"; 
 const DEF_END_DATE = "2070-12-31";
 const DEF_WILDCARD = "*";
 
-const DATA_LOCAL = process.env.REACT_USE_LOCAL_DATA;
+const DATA_LOCAL = Constants.DATA_LOCAL;
 
 const DataProductDashboard = () => {
   const { t } = useTranslation();
@@ -48,37 +49,31 @@ const DataProductDashboard = () => {
 
   async function getDataProductList(startDateStr, endDateStr, metadataKeyStr, metadataValueStr){
     if (canSearch){
-      const results = await SearchForDataProduct(startDateStr, endDateStr, metadataKeyStr, metadataValueStr);
-      return results
+      return await SearchForDataProduct(startDateStr, endDateStr, metadataKeyStr, metadataValueStr)
     }
     else {
-      const results = await ListAllDataProducts();
-      return results
+      return await ListAllDataProducts()
     }
   }
 
   React.useEffect(() => {
-   // updateSearchResults();
+   updateSearchResults();
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   async function updateSearchResults() {
-    const startDateStr = startDate ? startDate : DEF_START_DATE;
-    const endDateStr = endDate ? endDate : DEF_END_DATE;
-    const metadataKeyStr = metadataKey ? metadataKey : DEF_WILDCARD;
-    const metadataValueStr = metadataValue ? metadataValue : DEF_WILDCARD;
-    const results = await getDataProductList(startDateStr, endDateStr, metadataKeyStr, metadataValueStr);
-    setDataProductsData(results);
-  }
-
-  React.useEffect(() => {
-    setOldFilename(selectedFileNames.metaDataFile);
     if (DATA_LOCAL) {
       setDataProductsData(MockData);
     }
     else {
+      const startDateStr = startDate ? startDate : DEF_START_DATE;
+      const endDateStr = endDate ? endDate : DEF_END_DATE;
+      const metadataKeyStr = metadataKey ? metadataKey : DEF_WILDCARD;
+      const metadataValueStr = metadataValue ? metadataValue : DEF_WILDCARD;
+      const results = await getDataProductList(startDateStr, endDateStr, metadataKeyStr, metadataValueStr);
+      setDataProductsData(results);
     }
-  }, [selectedFileNames, metaData]);
+  }
 
   const rowClickHandler = (data) => {
     setSelectedFileNames({

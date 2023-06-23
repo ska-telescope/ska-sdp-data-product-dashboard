@@ -12,5 +12,7 @@ module.exports = Object.freeze({
   CONTEXT: "context",
   CONFIG: "config",
   FILES: "files",
-  LOCAL_HOST: "http://localhost:8100/"
+  LOCAL_HOST: "http://localhost:8100/",
+  //ensure set to false for production
+  DATA_LOCAL : true
 });

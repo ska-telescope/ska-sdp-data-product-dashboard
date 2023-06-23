@@ -4,15 +4,18 @@ import DataProductDashboard from './DataProductDashboard';
 import axios from 'axios';
 import Constants from '../../constants/constants';
 
+let DATA_LOCAL = Constants.DATA_LOCAL;
+
 describe('<DataProductDashboard />', () => {
 
   it('Data Product Dashboard renders correctly when data is unavailable', () => {
+    DATA_LOCAL=false;
     cy.mount(<DataProductDashboard />)
     cy.findByText(Constants.TEXT_NO_API).should("be.visible")
   })
 
   it('Data Product Dashboard renders correctly when data is available', () => {
-
+    DATA_LOCAL=true;
     cy.stub(axios, 'get').returns(MockData).as('fetch')
     cy.mount(<DataProductDashboard />)
     cy.get('@fetch').should('have.been.called')
@@ -22,6 +25,7 @@ describe('<DataProductDashboard />', () => {
 
 
   it('Data is available for download on Data Product Dashboard', () => {
+    DATA_LOCAL=true;
     cy.stub(axios, 'get').returns(MockData).as('fetch')
     cy.mount(<DataProductDashboard />)
     cy.get('@fetch').should('have.been.called')
