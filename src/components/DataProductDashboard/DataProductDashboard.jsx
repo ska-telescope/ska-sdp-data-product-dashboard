@@ -26,8 +26,7 @@ const DATA_LOCAL = process.env.REACT_USE_LOCAL_DATA;
 
 const DataProductDashboard = () => {
   const { t } = useTranslation();
-  const [jsonDataProducts, setDataProductsData] = React.useState({data:[]});
-  const [dataProducts, dataProductsData] = React.useState({data:[]});
+  const [dataProducts, setDataProductsData] = React.useState({data:[]});
   const [metaData, setMetaData] = React.useState(null);
   const [oldFilename, setOldFilename] = React.useState(null);
   const [selectedFileNames, setSelectedFileNames] = React.useState({
@@ -69,7 +68,7 @@ const DataProductDashboard = () => {
     const metadataKeyStr = metadataKey ? metadataKey : DEF_WILDCARD;
     const metadataValueStr = metadataValue ? metadataValue : DEF_WILDCARD;
     const results = await getDataProductList(startDateStr, endDateStr, metadataKeyStr, metadataValueStr);
-    setJsonDataProducts(results);
+    setDataProductsData(results);
   }
 
   React.useEffect(() => {
@@ -202,7 +201,7 @@ const DataProductDashboard = () => {
       <Grid container spacing={1} direction="row" justifyContent="space-between">
         <Grid item xs={9}>
           {RenderSearchBox()}
-          {DataProductsTable(jsonDataProducts.data, rowClickHandler)}
+          {DataProductsTable(dataProducts.data, rowClickHandler)}
         </Grid>
         <Grid item xs={3}>
           <>
