@@ -23,7 +23,7 @@ const DEF_START_DATE = "1970-01-01";
 const DEF_END_DATE = "2070-12-31";
 const DEF_WILDCARD = "*";
 
-const DataProductDashboard = () => {
+const DataProductDashboard = (dataLocalValue) => {
   const { t } = useTranslation();
   const [dataProducts, setDataProductsData] = React.useState({data:[]});
   const [metaData, setMetaData] = React.useState(null);
@@ -38,6 +38,11 @@ const DataProductDashboard = () => {
   const [metadataKey, updateMetadataKey] = React.useState(null);
   const [metadataValue, updateMetadataValue] = React.useState(null);
   const [canSearch, updateCanSearch] = React.useState(false);
+
+  const isDataLocal = () => { 
+    console.log('TREVOR dataLocalValue', dataLocalValue, DATA_LOCAL); 
+    return dataLocalValue ? (dataLocalValue === 'TRUE' ? true : false ) : DATA_LOCAL;
+  }
 
   async function UpdateAPIStatus() {
     const results = await GetAPIStatus()
@@ -60,7 +65,7 @@ const DataProductDashboard = () => {
   }, []);
 
   async function updateSearchResults() {
-    if (DATA_LOCAL) {
+    if (isDataLocal()) {
       setDataProductsData(MockData);
     }
     else {
