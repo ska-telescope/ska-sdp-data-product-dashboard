@@ -17,7 +17,7 @@ import ListAllDataProducts from "../../services/ListAllDataProducts/ListAllDataP
 import GetAPIStatus from "../../services/GetAPIStatus/GetAPIStatus";
 import MetaData from "../../services/MetaData/MetaData";
 import MockData from "../../services/Mocking/mockDataProductList";
-import Constants from "../../constants/constants";
+import Constants from "../../../cypress/e2e/constants";
 
 const DEF_START_DATE = "1970-01-01"; 
 const DEF_END_DATE = "2070-12-31";

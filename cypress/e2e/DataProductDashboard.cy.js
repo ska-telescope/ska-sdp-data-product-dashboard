@@ -1,4 +1,3 @@
-import Constants from '../../src/constants/constants';
 import ExampleMetadata from '../data/ExampleMetadata.json';
 import ExampleDataProductList from '../data/ExampleDataProductList.json';
 import ExampleDataProductStatus from '../data/ExampleDataProductStatus.json';
@@ -6,17 +5,22 @@ import ExampleDataProductStatusUnavailable from '../data/ExampleDataProductStatu
 import ExampleDataProductStatusAvailableWithSearch from '../data/ExampleDataProductStatusAvailableWithSearch.json';
 context('Select and download data product', () => {
 
+  // Cloned FROM the constants file in the src directory. Linking to that directly is bad practice.
+  const DOWNLOAD_ICON = "DownloadIcon";
+  const LOCAL_HOST = "http://localhost:8100/";
+  const TEST_DATA_FILE_1 = "TestDataFile1.txt";
+
   function testDownloadProducts() {
     it("Select data product 1 and download file", () => {
       cy.findByTitle("1").click();
-      cy.findByTestId(Constants.DOWNLOAD_ICON).click();
-      cy.readFile("cypress/data/" + Constants.TEST_DATA_FILE_1).should("contain", "This is test file 1");
+      cy.findByTestId(DOWNLOAD_ICON).click();
+      cy.readFile("cypress/data/" + TEST_DATA_FILE_1).should("contain", "This is test file 1");
     });
 
     it("Select data product 2 and download file", () => {
       cy.findByTitle("2").click();
-      cy.findByTestId(Constants.DOWNLOAD_ICON).click();
-      cy.readFile("cypress/data/" + Constants.TEST_DATA_FILE_1).should("contain", "This is test file 1");
+      cy.findByTestId(DOWNLOAD_ICON).click();
+      cy.readFile("cypress/data/" + TEST_DATA_FILE_1).should("contain", "This is test file 1");
     });
   }
 
@@ -42,7 +46,7 @@ context('Select and download data product', () => {
 
   describe('data product service is available', () => {
     beforeEach(() => {
-      cy.visit(Constants.LOCAL_HOST)
+      cy.visit(LOCAL_HOST)
       cy.intercept('GET', 'http://localhost:8000/status', ExampleDataProductStatus)
       setUpForTests();
     })
@@ -51,7 +55,7 @@ context('Select and download data product', () => {
 
   describe('data product service is unavailable', () => {
     beforeEach(() => {
-      cy.visit(Constants.LOCAL_HOST)
+      cy.visit(LOCAL_HOST)
       cy.intercept('GET', 'http://localhost:8000/status', ExampleDataProductStatusUnavailable)
     })
 
@@ -62,7 +66,7 @@ context('Select and download data product', () => {
 
   describe('data product service is available with search functionality', () => {
     beforeEach(() => {
-      cy.visit(Constants.LOCAL_HOST)
+      cy.visit(LOCAL_HOST)
       cy.intercept('GET', 'http://localhost:8000/status', ExampleDataProductStatusAvailableWithSearch)
       setUpForTests();
     })

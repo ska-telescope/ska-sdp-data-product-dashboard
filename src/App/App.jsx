@@ -1,9 +1,9 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { CssBaseline, Grid, Paper, ThemeProvider, Typography } from "@mui/material";
-import DataProductDashboard from '../DataProductDashboard/DataProductDashboard';
+import DataProductDashboard from '../components/DataProductDashboard/DataProductDashboard';
 import { Footer, Header, Spacer, SPACER_VERTICAL } from "@ska-telescope/ska-gui-components";
-import theme, { THEME_DARK, THEME_LIGHT } from '../../services/theme/theme';
+import theme, { THEME_DARK, THEME_LIGHT } from '../services/theme/theme';
 
 function App() {
   const { t } = useTranslation();

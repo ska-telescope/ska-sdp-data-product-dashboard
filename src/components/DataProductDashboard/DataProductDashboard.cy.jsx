@@ -2,36 +2,32 @@ import React from 'react'
 import MockData from '../../services/Mocking/mockDataProductList';
 import DataProductDashboard from './DataProductDashboard';
 import axios from 'axios';
-import Constants from '../../constants/constants';
-
-let DATA_LOCAL = Constants.DATA_LOCAL;
+import { DOWNLOAD_ICON, PROD_1, PROD_2, TEST_DATA_FILE_1, TEXT_NO_API } from '../../utils/constants';
 
 describe('<DataProductDashboard />', () => {
 
   it('Data Product Dashboard renders correctly when data is unavailable', () => {
-    DATA_LOCAL=false;
+    // THIS IS NOT GOING TO WORK DATA_LOCAL=false;
     cy.mount(<DataProductDashboard />)
-    cy.findByText(Constants.TEXT_NO_API).should("be.visible")
+    cy.findByText(TEXT_NO_API).should("be.visible")
   })
 
   it('Data Product Dashboard renders correctly when data is available', () => {
-    DATA_LOCAL=true;
     cy.stub(axios, 'get').returns(MockData).as('fetch')
     cy.mount(<DataProductDashboard />)
     cy.get('@fetch').should('have.been.called')
-    cy.findByText(Constants.PROD_1).should("be.visible")
-    cy.findByText(Constants.PROD_2).should("be.visible")
+    cy.findByText(PROD_1).should("be.visible")
+    cy.findByText(PROD_2).should("be.visible")
   })
 
 
   it('Data is available for download on Data Product Dashboard', () => {
-    DATA_LOCAL=true;
     cy.stub(axios, 'get').returns(MockData).as('fetch')
     cy.mount(<DataProductDashboard />)
     cy.get('@fetch').should('have.been.called')
 
     cy.findByText("1").click()
-    cy.findByTestId(Constants.DOWNLOAD_ICON).click()
-    cy.readFile('cypress/data/' + Constants.TEST_DATA_FILE_1).should('contain', 'This is test file 1')
+    cy.findByTestId(DOWNLOAD_ICON).click()
+    cy.readFile('cypress/data/' + TEST_DATA_FILE_1).should('contain', 'This is test file 1')
   })
 })
