@@ -1,7 +1,7 @@
 import React, { Suspense } from 'react';
 import { createRoot } from 'react-dom/client';
 import './services/i18n/i18n';
-import App from './components/App/App';
+import App from './App/App';
 
 const root = createRoot(document.getElementById('root'))
 root.render(

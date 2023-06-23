@@ -17,19 +17,17 @@ import ListAllDataProducts from "../../services/ListAllDataProducts/ListAllDataP
 import GetAPIStatus from "../../services/GetAPIStatus/GetAPIStatus";
 import MetaData from "../../services/MetaData/MetaData";
 import MockData from "../../services/Mocking/mockDataProductList";
-import Constants from "../../../cypress/e2e/constants";
+import { DATA_LOCAL } from "../../utils/constants";
 
 const DEF_START_DATE = "1970-01-01"; 
 const DEF_END_DATE = "2070-12-31";
 const DEF_WILDCARD = "*";
 
-const DATA_LOCAL = Constants.DATA_LOCAL;
-
 const DataProductDashboard = () => {
   const { t } = useTranslation();
   const [dataProducts, setDataProductsData] = React.useState({data:[]});
   const [metaData, setMetaData] = React.useState(null);
-  const [oldFilename, setOldFilename] = React.useState(null);
+  const [oldFilename] = React.useState(null);
   const [selectedFileNames, setSelectedFileNames] = React.useState({
     fileName: '',
     relativeFileName: '',
