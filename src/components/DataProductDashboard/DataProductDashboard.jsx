@@ -17,13 +17,12 @@ import ListAllDataProducts from "../../services/ListAllDataProducts/ListAllDataP
 import GetAPIStatus from "../../services/GetAPIStatus/GetAPIStatus";
 import MetaData from "../../services/MetaData/MetaData";
 import MockData from "../../services/Mocking/mockDataProductList";
-import { DATA_LOCAL } from "../../utils/constants";
 
 const DEF_START_DATE = "1970-01-01"; 
 const DEF_END_DATE = "2070-12-31";
 const DEF_WILDCARD = "*";
 
-const DataProductDashboard = (dataLocalValue) => {
+const DataProductDashboard = (dataLocal) => {
   const { t } = useTranslation();
   const [dataProducts, setDataProductsData] = React.useState({data:[]});
   const [metaData, setMetaData] = React.useState(null);
@@ -38,11 +37,6 @@ const DataProductDashboard = (dataLocalValue) => {
   const [metadataKey, updateMetadataKey] = React.useState(null);
   const [metadataValue, updateMetadataValue] = React.useState(null);
   const [canSearch, updateCanSearch] = React.useState(false);
-
-  const isDataLocal = () => { 
-    console.log('TREVOR dataLocalValue', dataLocalValue, DATA_LOCAL); 
-    return dataLocalValue ? (dataLocalValue === 'TRUE' ? true : false ) : DATA_LOCAL;
-  }
 
   async function UpdateAPIStatus() {
     const results = await GetAPIStatus()
@@ -65,7 +59,7 @@ const DataProductDashboard = (dataLocalValue) => {
   }, []);
 
   async function updateSearchResults() {
-    if (isDataLocal()) {
+    if (dataLocal) {
       setDataProductsData(MockData);
     }
     else {
