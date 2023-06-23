@@ -32,7 +32,7 @@ function App() {
         </Header>
         <Paper>
           <Spacer size={HEADER_HEIGHT} axis={SPACER_VERTICAL} />
-          <DataProductDashboard data-testid="DataProductDashboardId" dataLocal={DATA_LOCAL} />
+          <DataProductDashboard data-testid="DataProductDashboardId" dataLocal={process.env.REACT_USE_LOCAL_DATA} />
           <Spacer size={FOOTER_HEIGHT} axis={SPACER_VERTICAL} />
         </Paper>
           <Footer />

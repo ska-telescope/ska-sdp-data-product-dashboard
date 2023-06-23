@@ -59,7 +59,7 @@ const DataProductDashboard = (dataLocal) => {
   }, []);
 
   async function updateSearchResults() {
-    if (dataLocal) {
+    if (dataLocal.dataLocal) {
       setDataProductsData(MockData);
     }
     else {
