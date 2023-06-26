@@ -8,12 +8,12 @@ const DownloadDataProduct = (selectedFileNames) => {
     method: 'POST',
     body: JSON.stringify(selectedFileNames),
     headers: {
-      Accept: 'application/json',
-      'Content-Type': 'application/json'
-    }
+      'Content-Type': 'application/json',
+      'Accept-Encoding': 'gzip',
+    },
   })
     .then(resp => resp.blob())
-    .then(blob => download(blob, `${selectedFileNames.fileName}`, 'text/plain'));
+    .then(blob => download(blob, `${selectedFileNames.fileName}.tar`, 'text/plain'));
 }
 
 export default DownloadDataProduct
