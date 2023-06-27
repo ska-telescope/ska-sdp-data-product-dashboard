@@ -31,7 +31,6 @@ function App() {
           <Spacer size={HEADER_HEIGHT} axis={SPACER_VERTICAL} />
           <DataProductDashboard data-testid="DataProductDashboardId" dataLocal={DATA_LOCAL} />
           <Spacer size={FOOTER_HEIGHT} axis={SPACER_VERTICAL} />
-          <DataProductDashboard data-testid="DataProductDashboardId" />
         </Paper>
           <Footer />
       </React.Suspense>
