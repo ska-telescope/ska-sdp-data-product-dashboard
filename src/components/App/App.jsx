@@ -4,12 +4,10 @@ import { CssBaseline, Grid, Paper, ThemeProvider, Typography } from "@mui/materi
 import DataProductDashboard from '../DataProductDashboard/DataProductDashboard';
 import { Footer, Header, Spacer, SPACER_VERTICAL } from "@ska-telescope/ska-gui-components";
 import theme, { THEME_DARK, THEME_LIGHT } from '../../services/theme/theme';
+import Constants from '../../constants/constants';
 
 function App() {
   const { t } = useTranslation();
-
-  const HEADER_HEIGHT = 70;
-  const FOOTER_HEIGHT = 70;
 
   // Theme related
   const [themeMode, setThemeMode] = React.useState(THEME_LIGHT);
@@ -30,9 +28,9 @@ function App() {
           <Grid item />
         </Header>
         <Paper>
-          <Spacer size={HEADER_HEIGHT} axis={SPACER_VERTICAL} />
+          <Spacer size={Constants.HEADER_HEIGHT} axis={SPACER_VERTICAL} />
           <DataProductDashboard data-testid="DataProductDashboardId" />
-          <Spacer size={FOOTER_HEIGHT} axis={SPACER_VERTICAL} />
+          <Spacer size={Constants.FOOTER_HEIGHT} axis={SPACER_VERTICAL} />
         </Paper>
           <Footer />
       </React.Suspense>

@@ -9,7 +9,7 @@ const DownloadCard = (selectedFileNames) => {
   
   return (
     <>
-    {selectedFileNames?.relativeFileName !== '' && 
+    {selectedFileNames?.relativePathName !== '' && 
       <Box m={1}>
         <Card variant="outlined" sx={{ minWidth: 275 }}>
           <CardContent>
