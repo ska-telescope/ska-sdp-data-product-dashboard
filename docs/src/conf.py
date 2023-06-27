@@ -97,14 +97,14 @@ html_theme = 'sphinx_rtd_theme'
 # html_theme_options = {}
 
 html_context = {
-    'logo': 'img/logo.png',
-    'theme_logo_only' : True,
-    'display_github': True, # Integrate GitHub
-    'github_user': 'flyingfrog81', # Username
-    'github_repo': 'developer.skatelescope.org', # Repo name
-    'github_version': 'master', # Version
-    'conf_py_path': '/src/', # Path in the checkout to the docs root
-
+    "favicon": "img/favicon_mono.ico",
+    "logo": "img/logo.png",
+    "theme_logo_only": True,
+    "display_gitlab": True,  # Integrate Gitlab
+    "gitlab_user": "ska-telescope",  # Username
+    "gitlab_repo": "sdp/ska-sdp-dataproduct-dashboard",  # Repo name
+    "gitlab_version": "master",  # Version
+    "conf_py_path": "/docs/",  # Path in the checkout to the docs root
 }
 
 # Add any paths that contain custom static files (such as style sheets) here,

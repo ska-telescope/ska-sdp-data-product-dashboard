@@ -29,7 +29,7 @@ const DataProductDashboard = (dataLocal) => {
   const [oldFilename] = React.useState(null);
   const [selectedFileNames, setSelectedFileNames] = React.useState({
     fileName: '',
-    relativeFileName: '',
+    relativePathName: '',
     metaDataFile: ''
   });
   const [startDate, updateStartDate] = React.useState(null);
@@ -75,7 +75,7 @@ const DataProductDashboard = (dataLocal) => {
   const rowClickHandler = (data) => {
     setSelectedFileNames({
       fileName: data.row.execution_block,
-      relativeFileName: data.row.dataproduct_file,
+      relativePathName: data.row.dataproduct_file,
       metaDataFile: data.row.metadata_file
     });
   };

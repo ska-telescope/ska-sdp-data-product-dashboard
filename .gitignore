@@ -33,8 +33,8 @@ yarn-error.log*
 
 /.vs
 /.vscode
-/coverage
 junit.xml
 linting.xml
 unit-tests.xml
 PrivateRules.mak
+.idea/

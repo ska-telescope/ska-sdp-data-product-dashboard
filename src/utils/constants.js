@@ -11,3 +11,5 @@ export const TEST_ARRAY = [
 export const TEST_DATA_FILE_1 = "TestDataFile1.txt";
 export const TEXT_NO_API = "error.API_NO_DATA";
 
+export const HEADER_HEIGHT = 70;
+export const FOOTER_HEIGHT = 70;
