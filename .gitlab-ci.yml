@@ -9,10 +9,13 @@ stages:
   - lint
   - build
   - test
+  - deploy
   - scan
   - pages
-  - deploy
+  - integration
+  - staging
   - publish
+
 
 #Install basic dependencies using yarn
 install_dependencies:
