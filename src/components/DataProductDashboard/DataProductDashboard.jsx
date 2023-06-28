@@ -17,6 +17,7 @@ import SearchForDataProduct from '../../services/SearchForDataProduct/SearchForD
 import ListAllDataProducts from '../../services/ListAllDataProducts/ListAllDataProducts';
 import GetAPIStatus from '../../services/GetAPIStatus/GetAPIStatus';
 import MetaData from '../../services/MetaData/MetaData';
+import Constants from '../../constants/constants';
 
 const DEF_START_DATE = "1970-01-01"; 
 const DEF_END_DATE = "2070-12-31";
@@ -187,7 +188,7 @@ const DataProductDashboard = () => {
 
   function RenderControlBox() {
     return (
-      <Box m={1} sx={{ height: `60px`, width: "100%", overflowY: "auto"  }}>
+      <Box m={1} sx={{ height: Constants.CONTROL_BOX_HEIGHT, width: "100%", overflowY: "auto"  }}>
         <Card variant="outlined" sx={{ minWidth: 275 }}>
           <CardActions>
             <Button variant="outlined" color="secondary" onClick={() => indexDataProduct()}>
