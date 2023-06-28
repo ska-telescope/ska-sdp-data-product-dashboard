@@ -61,8 +61,8 @@ const DataProductsTable = (jsonDataProducts, handleSelectedNode) => {
         aria-label="Data Product Grid"
         rows={jsonDataProducts}
         columns={extendedColumns}
-        pageSize={100}
-        rowsPerPageOptions={[100]}
+        pageSize={10}
+        rowsPerPageOptions={[10]}
         checkboxSelection={false}
         onRowClick={handleSelectedNode}
       />
