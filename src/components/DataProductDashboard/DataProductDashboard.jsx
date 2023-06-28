@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next';
 
 import { Box, Button, Card, CardActions, CardContent, Grid, Typography, TextField } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
+import CachedIcon from '@mui/icons-material/Cached';
 import RefreshIcon from '@mui/icons-material/Refresh';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
@@ -83,7 +84,7 @@ const DataProductDashboard = () => {
   async function indexDataProduct() {
     const apiUrl = process.env.REACT_APP_SKA_SDP_DATAPRODUCT_API_URL;
     try {
-      return await axios.get(`${apiUrl}/updatesearchindex`,  {
+      return await axios.get(`${apiUrl}/reindexdataproducts`,  {
         headers: {
           Accept: 'application/json',
           'Content-Type': 'application/json'
@@ -123,7 +124,7 @@ const DataProductDashboard = () => {
   function RenderSearchBox() {
     if (canSearch) {
       return (
-        <Box m={1} sx={{ width: "100%" }}>
+        <Box m={1} sx={{ height: `280px`, width: "100%", overflowY: "auto"  }}>
           <Card variant="outlined" sx={{ minWidth: 275 }}>
             <CardContent>
               <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
@@ -172,10 +173,6 @@ const DataProductDashboard = () => {
       
             </CardContent>
             <CardActions>
-              <Button variant="outlined" color="secondary" onClick={() => indexDataProduct()}>
-                <RefreshIcon />
-                {t('button.indexDP')}
-              </Button>      
               <Button variant="outlined" color="secondary" onClick={() => updateSearchResults()}>
                 <SearchIcon />
                 {t('button.search')}
@@ -187,16 +184,37 @@ const DataProductDashboard = () => {
       };
     }
   
+
+  function RenderControlBox() {
+    return (
+      <Box m={1} sx={{ height: `60px`, width: "100%", overflowY: "auto"  }}>
+        <Card variant="outlined" sx={{ minWidth: 275 }}>
+          <CardActions>
+            <Button variant="outlined" color="secondary" onClick={() => indexDataProduct()}>
+              <RefreshIcon />
+              {t('button.indexDP')}
+            </Button>      
+            <Button variant="outlined" color="secondary" onClick={() => updateSearchResults()}>
+              <CachedIcon />
+              {t('button.reload')}
+            </Button>
+          </CardActions>
+        </Card>
+      </Box>
+    );
+    }
+
   
   return (
     <>
       <Grid container spacing={1} direction="row" justifyContent="space-between">
         <Grid item xs={9}>
-          {RenderSearchBox()}
+          {RenderControlBox()}
           {DataProductsTable(jsonDataProducts.data, rowClickHandler)}
         </Grid>
         <Grid item xs={3}>
           <>
+            {RenderSearchBox()}
             {DownloadCard(selectedFileNames)}
             {RenderMetaData()}
           </>
