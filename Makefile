@@ -42,27 +42,17 @@ k8s-pre-install-chart:
 	if [[ "$(CI_RUNNER_TAGS)" == *"ska-k8srunner-dp"* ]] || [[ "$(CI_RUNNER_TAGS)" == *"ska-k8srunner-dp-gpu-a100"* ]] ; then \
 	kubectl -n $(KUBE_NAMESPACE) get pvc shared > /dev/null 2>&1 ; \
 	K_PVC=$$? ; \
-		if [ $$K_PVC -eq 0 ] ; then \
-			kubectl get pv dpshared-$(KUBE_NAMESPACE) > /dev/null 2>&1 ; \
-			K_PV=$$? ; \
-			if [ $$K_PV -ne 0 ] ; then \
-				kubectl get pv dpshared -o json | \
-				jq ".metadata = { \"name\": \"dpshared-${KUBE_NAMESPACE}\" }" | \
-				jq ".spec.csi.volumeHandle = \"dpshared-${KUBE_NAMESPACE}-cephfs-pv\"" | \
-				jq 'del(.spec.claimRef)' | \
-				jq 'del(.status)' | \
-				kubectl apply -f - ; \
-			fi; \
-		else \
-		export SHARED_CAPACITY=$(shell kubectl get pv/dpshared -o jsonpath="{.spec.capacity.storage}") ; \
-		echo "$${DP_PVC}" | envsubst | kubectl -n $(KUBE_NAMESPACE) apply -f - ;\
-		kubectl get pv dpshared -o json | \
-		jq ".metadata = { \"name\": \"dpshared-${KUBE_NAMESPACE}\" }" | \
-		jq ".spec.csi.volumeHandle = \"dpshared-${KUBE_NAMESPACE}-cephfs-pv\"" | \
-		jq 'del(.spec.claimRef)' | \
-		jq 'del(.status)' | \
-		kubectl apply -f - ; \
+		if [ $$K_PVC -ne 0 ] ; then \
+			export SHARED_CAPACITY=$(shell kubectl get pv/dpshared -o jsonpath="{.spec.capacity.storage}") ; \
+			echo "$${DP_PVC}" | envsubst | kubectl -n $(KUBE_NAMESPACE) apply -f - ;\
 		fi ;\
+	kubectl delete --ignore-not-found pv/dpshared-${KUBE_NAMESPACE} || true ;\
+	kubectl get pv dpshared -o json | \
+	jq ".metadata = { \"name\": \"dpshared-${KUBE_NAMESPACE}\" }" | \
+	jq ".spec.csi.volumeHandle = \"dpshared-${KUBE_NAMESPACE}-cephfs-pv\"" | \
+	jq 'del(.spec.claimRef)' | \
+	jq 'del(.status)' | \
+	kubectl apply -f - ; \
 	elif [[ "$(CI_RUNNER_TAGS)" == *"k8srunner"* ]] || [[ "$(CI_RUNNER_TAGS)" == *"k8srunner-gpu-v100"* ]] ; then \
 		echo "techops not implemented yet!" ;\
 	fi
