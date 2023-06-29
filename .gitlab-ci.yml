@@ -270,44 +270,6 @@ stop-staging-dp:
   needs:
     - deploy-staging-dp
 
-# Disable techops until the shared PV is sorted
-deploy-dev-environment:
-  rules:
-  - when: never
-test-dev-environment:
-  rules:
-  - when: never
-info-dev-environment:
-  rules:
-  - when: never
-stop-dev-environment:
-  rules:
-  - when: never
-deploy-integration:
-  rules:
-  - when: never
-info-integration:
-  rules:
-  - when: never
-stop-integration:
-  rules:
-  - when: never
-redeploy-integration:
-  rules:
-  - when: never
-deploy-staging:
-  rules:
-  - when: never
-info-staging:
-  rules:
-  - when: never
-stop-staging:
-  rules:
-  - when: never
-redeploy-staging:
-  rules:
-  - when: never
-
 code_quality:
   # https://docs.gitlab.com/ee/user/project/merge_requests/code_quality.html#generate-an-html-report
   artifacts:
