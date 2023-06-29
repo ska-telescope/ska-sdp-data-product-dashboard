@@ -181,15 +181,37 @@ include:
       echo "Backend API:"
       echo "  https://k8s.stfc.skao.int/$KUBE_NAMESPACE/dashboard/api/"
 
+deploy-dev-environment:
+  tags:
+    - ska-k8srunner-dp
+    - 
+test-dev-environment:
+  tags:
+    - ska-k8srunner-dp
+  
 info-dev-environment:
+  tags:
+    - ska-k8srunner-dp
   script:
     - *info_script
 
+stop-dev-environment:
+  tags:
+    - ska-k8srunner-dp
+  
 info-integration:
+  tags:
+    - ska-k8srunner-dp
   script:
     - *info_script
 
+deploy-staging:
+  tags:
+    - ska-k8srunner-dp
+  
 info-staging:
+  tags:
+    - ska-k8srunner-dp
   script:
     - *info_script
 

@@ -13,3 +13,5 @@
 production-deploy:
 	cp -R public /dist/
 	yarn webpack build --optimization-concatenate-modules --mode production --optimization-minimize --output-clean --output-path /dist/
+
+# K8S_CHART_PARAMS: dataProductPVC.create.enabled=true
