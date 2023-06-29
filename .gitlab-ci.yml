@@ -184,7 +184,7 @@ include:
 deploy-dev-environment:
   tags:
     - ska-k8srunner-dp
-    - 
+
 test-dev-environment:
   tags:
     - ska-k8srunner-dp
