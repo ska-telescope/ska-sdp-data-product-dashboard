@@ -186,7 +186,7 @@ const DataProductDashboard = () => {
     }
   
 
-  function RenderControlBox() {
+  function RenderDatatStoreBox() {
     return (
       <Box m={1} sx={{ height: Constants.CONTROL_BOX_HEIGHT, width: "100%", overflowY: "auto"  }}>
         <Card variant="outlined" sx={{ minWidth: 275 }}>
@@ -210,7 +210,7 @@ const DataProductDashboard = () => {
     <>
       <Grid container spacing={1} direction="row" justifyContent="space-between">
         <Grid item xs={9}>
-          {RenderControlBox()}
+          {RenderDatatStoreBox()}
           {DataProductsTable(jsonDataProducts.data, rowClickHandler)}
         </Grid>
         <Grid item xs={3}>
