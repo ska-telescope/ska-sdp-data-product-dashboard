@@ -39,6 +39,7 @@ endef
 export DP_PVC
 
 k8s-pre-install-chart:
+	apt-get update && apt-get install gettext -y
 	if [[ "$(CI_RUNNER_TAGS)" == *"ska-k8srunner-dp"* ]] || [[ "$(CI_RUNNER_TAGS)" == *"ska-k8srunner-dp-gpu-a100"* ]] ; then \
 	kubectl -n $(KUBE_NAMESPACE) get pvc shared > /dev/null 2>&1 ; \
 	K_PVC=$$? ; \
