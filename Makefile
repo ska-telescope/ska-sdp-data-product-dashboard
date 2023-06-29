@@ -39,7 +39,7 @@ endef
 export DP_PVC
 
 k8s-pre-install-chart:
-ifeq ($(strip $(CI_RUNNER_TAGS)),"ska-k8srunner-dp")
+	if [[ "$(CI_RUNNER_TAGS)" == *"ska-k8srunner-dp"* ]] || [[ "$(CI_RUNNER_TAGS)" == *"ska-k8srunner-dp-gpu-a100"* ]] ; then \
 	kubectl -n $(KUBE_NAMESPACE) get pvc shared > /dev/null 2>&1 ; \
 	K_PVC=$$? ; \
 		if [ $$K_PVC -eq 0 ] ; then \
@@ -62,5 +62,7 @@ ifeq ($(strip $(CI_RUNNER_TAGS)),"ska-k8srunner-dp")
 		jq 'del(.spec.claimRef)' | \
 		jq 'del(.status)' | \
 		kubectl apply -f - ; \
-		fi
-endif
+		fi ;\
+	elif [[ "$(CI_RUNNER_TAGS)" == *"k8srunner"* ]] || [[ "$(CI_RUNNER_TAGS)" == *"k8srunner-gpu-v100"* ]] ; then \
+		echo "techops not implemented yet!" ;\
+	fi
