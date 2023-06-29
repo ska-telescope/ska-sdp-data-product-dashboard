@@ -15,5 +15,5 @@ module.exports = Object.freeze({
   LOCAL_HOST: "http://localhost:8100/",
   HEADER_HEIGHT: 70,
   FOOTER_HEIGHT: 70,
-  CONTROL_BOX_HEIGHT: 60
+  DATA_STORE_BOX_HEIGHT: 60
 });

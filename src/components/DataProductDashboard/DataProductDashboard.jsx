@@ -188,7 +188,7 @@ const DataProductDashboard = () => {
 
   function RenderDatatStoreBox() {
     return (
-      <Box m={1} sx={{ height: Constants.CONTROL_BOX_HEIGHT, width: "100%", overflowY: "auto"  }}>
+      <Box m={1} sx={{ height: Constants.DATA_STORE_BOX_HEIGHT, width: "100%", overflowY: "auto"  }}>
         <Card variant="outlined" sx={{ minWidth: 275 }}>
           <CardActions>
             <Button variant="outlined" color="secondary" onClick={() => indexDataProduct()}>

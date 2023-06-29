@@ -56,7 +56,7 @@ const DataProductsTable = (jsonDataProducts, handleSelectedNode) => {
   }
 
   return (
-    <Box m={1} sx={{ height: `calc(100vh - ${Constants.HEADER_HEIGHT + Constants.FOOTER_HEIGHT + 20 + Constants.CONTROL_BOX_HEIGHT + 20 }px)`, width: "100%" }}>
+    <Box m={1} sx={{ height: `calc(100vh - ${Constants.HEADER_HEIGHT + Constants.FOOTER_HEIGHT + 20 + Constants.DATA_STORE_BOX_HEIGHT + 20 }px)`, width: "100%" }}>
       <DataGrid 
         aria-label="Data Product Grid"
         rows={jsonDataProducts}
