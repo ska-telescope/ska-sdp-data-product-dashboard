@@ -30,4 +30,19 @@ describe('<DataProductDashboard />', () => {
     cy.findByTestId(Constants.DOWNLOAD_ICON).click()
     cy.readFile('cypress/data/' + Constants.TEST_DATA_FILE_1).should('contain', 'This is test file 1')
   })
-})
+
+  it('Data products reindex endpoint is called', () => {
+    cy.stub(axios, 'get').returns("").as('fetch')
+    cy.mount(<DataProductDashboard />)
+    cy.findByTestId("RefreshIcon").click()
+    cy.get('@fetch').should('have.been.called')
+    })
+
+  it('Data products reload endpoint is called', () => {
+    cy.stub(axios, 'get').returns("").as('fetch')
+    cy.mount(<DataProductDashboard />)
+    cy.findByTestId("CachedIcon").click()
+    cy.get('@fetch').should('have.been.called')
+    })
+
+  })
