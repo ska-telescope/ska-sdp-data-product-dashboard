@@ -10,6 +10,7 @@
     "download": "Download",
     "indexDP": "Index Data Products",
     "search": "Search",
+    "reload": "Reload",
     "settings": "Settings"
   },
   "column": {
@@ -47,7 +48,8 @@
       "s_ra": "RA (deg)",
       "t_exptime": "Total Exposure Time (s)",
       "t_max": "Stop Time (MJD)",
-      "t_min": "Start Time (MJD)"
+      "t_min": "Start Time (MJD)",
+      "target_name": "Target name"
     }
   },
   "error": {

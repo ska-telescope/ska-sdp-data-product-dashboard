@@ -78,6 +78,10 @@ context('Select and download data product', () => {
       cy.findByTestId("RefreshIcon").click()
     })
 
+    it('Data products can be reloaded', () => {
+      cy.findByTestId("CachedIcon").click()
+    })
+
     it('Verify external link to skao site', () => {
       cy.findByLabelText("skaWebsite").click()
     })

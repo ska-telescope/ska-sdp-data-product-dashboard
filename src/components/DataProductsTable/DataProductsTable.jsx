@@ -9,7 +9,6 @@ const DataProductsTable = (jsonDataProducts, handleSelectedNode) => {
   const { t } = useTranslation();
 
   const columns = [
-    { field: "id", headerName: t("column.id"), width: 50 },
     { field: "execution_block", headerName: t("column.execution_block"), width: 200 },
     { field: "date_created", headerName: t("column.date_created"), width: 100 }
   ];
@@ -57,13 +56,13 @@ const DataProductsTable = (jsonDataProducts, handleSelectedNode) => {
   }
 
   return (
-    <Box m={1} sx={{ height: `calc(100vh - ${Constants.HEADER_HEIGHT + Constants.FOOTER_HEIGHT + 20}px)`, width: "100%" }}>
-      <DataGrid
+    <Box m={1} sx={{ height: `calc(100vh - ${Constants.HEADER_HEIGHT + Constants.FOOTER_HEIGHT + 20 + Constants.DATA_STORE_BOX_HEIGHT + 20 }px)`, width: "100%" }}>
+      <DataGrid 
         aria-label="Data Product Grid"
         rows={jsonDataProducts}
         columns={extendedColumns}
-        pageSize={20}
-        rowsPerPageOptions={[5]}
+        pageSize={10}
+        rowsPerPageOptions={[10]}
         checkboxSelection={false}
         onRowClick={handleSelectedNode}
       />
