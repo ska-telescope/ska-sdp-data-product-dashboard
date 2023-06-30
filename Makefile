@@ -36,6 +36,7 @@ spec:
 endef
 export DP_PVC
 
+k8s-pre-install-chart-car: k8s-pre-install-chart
 k8s-pre-install-chart:
 	make k8s-namespace ;\
 	kubectl -n ${KUBE_NAMESPACE} delete --now --ignore-not-found pvc/shared || true ;\
