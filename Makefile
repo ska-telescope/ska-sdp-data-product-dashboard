@@ -38,7 +38,9 @@ spec:
 endef
 export DP_PVC
 
-k8s-post-install-chart:
+k8s-pre-install-chart:
+	kubectl delete --now --force --ignore-not-found pv/dpshared-${KUBE_NAMESPACE} || true ;\
+	make k8s-namespace
 	apt-get update && apt-get install gettext -y
 	if [[ "$(CI_RUNNER_TAGS)" == *"ska-k8srunner-dp"* ]] || [[ "$(CI_RUNNER_TAGS)" == *"ska-k8srunner-dp-gpu-a100"* ]] ; then \
 	kubectl -n $(KUBE_NAMESPACE) get pvc shared > /dev/null 2>&1 ; \
@@ -47,7 +49,6 @@ k8s-post-install-chart:
 			export SHARED_CAPACITY=$(shell kubectl get pv/dpshared -o jsonpath="{.spec.capacity.storage}") ; \
 			echo "$${DP_PVC}" | envsubst | kubectl -n $(KUBE_NAMESPACE) apply -f - ;\
 		fi ;\
-	kubectl delete --ignore-not-found pv/dpshared-${KUBE_NAMESPACE} || true ;\
 	kubectl get pv dpshared -o json | \
 	jq ".metadata = { \"name\": \"dpshared-${KUBE_NAMESPACE}\" }" | \
 	jq ".spec.csi.volumeHandle = \"dpshared-${KUBE_NAMESPACE}-cephfs-pv\"" | \
