@@ -9,10 +9,16 @@ stages:
   - lint
   - build
   - test
+  - deploy
+  - deploy-dp
   - scan
   - pages
-  - deploy
+  - integration
+  - integration-dp
+  - staging
+  - staging-dp
   - publish
+
 
 #Install basic dependencies using yarn
 install_dependencies:
@@ -164,6 +170,105 @@ include:
     # helm chart
   - project: 'ska-telescope/templates-repository'
     file: 'gitlab-ci/includes/helm-chart.gitlab-ci.yml'
+    # deploy steps
+  - project: 'ska-telescope/templates-repository'
+    file: 'gitlab-ci/includes/deploy.gitlab-ci.yml'
+
+# The info script in the templates is for a generic tango environment. We overwrite it to give more useful SC information
+.info_script: &info_script
+    - |-
+      echo "Status of pods in $KUBE_NAMESPACE namespace:"
+      kubectl get pods -n $KUBE_NAMESPACE -o jsonpath="{range .items[*]}{'Pod: '}{.metadata.name}:{'\n'}{'\t'}{'Image: '}{.spec.containers[*].image}{'\n'}{'\t'}{'Status: '}{.status.phase}{'\n'}{end}{'\n'}"
+      echo "Addresses to connect to the deployment of the Dataproduct Dashboard: "
+      echo "  https://k8s.stfc.skao.int/$KUBE_NAMESPACE/dashboard/"
+      echo "Backend API:"
+      echo "  https://k8s.stfc.skao.int/$KUBE_NAMESPACE/dashboard/api/"
+
+deploy-dev-environment-dp:
+  stage: deploy-dp
+  extends: deploy-dev-environment
+  tags:
+    - ska-k8srunner-dp
+
+test-dev-environment-dp:
+  stage: deploy-dp
+  extends: test-dev-environment
+  tags:
+    - ska-k8srunner-dp
+  needs:
+    - deploy-dev-environment-dp
+  
+info-dev-environment-dp:
+  stage: deploy-dp
+  extends: info-dev-environment
+  tags:
+    - ska-k8srunner-dp
+  script:
+    - *info_script
+
+stop-dev-environment-dp:
+  stage: deploy-dp
+  extends: stop-dev-environment
+  tags:
+    - ska-k8srunner-dp
+  
+deploy-integration-dp:
+  stage: integration-dp
+  extends: deploy-integration
+  tags:
+    - ska-k8srunner-dp
+
+info-integration-dp:
+  stage: integration-dp
+  extends: info-integration
+  tags:
+    - ska-k8srunner-dp
+  script:
+    - *info_script
+
+redeploy-integration-dp:
+  stage: integration-dp
+  extends: redeploy-integration
+  tags:
+    - ska-k8srunner-dp
+ 
+stop-integration-dp:
+  stage: integration-dp
+  extends: stop-integration
+  tags:
+    - ska-k8srunner-dp
+  needs:
+    - deploy-integration-dp
+
+deploy-staging-dp:
+  stage: staging-dp
+  extends: deploy-staging
+  tags:
+    - ska-k8srunner-dp
+  needs:
+    - deploy-integration-dp
+  
+info-staging-dp:
+  stage: staging-dp
+  extends: info-staging
+  tags:
+    - ska-k8srunner-dp
+  script:
+    - *info_script
+
+redeploy-staging-dp:
+  stage: staging-dp
+  extends: redeploy-staging
+  tags:
+    - ska-k8srunner-dp
+
+stop-staging-dp:
+  stage: staging-dp
+  extends: stop-staging
+  tags:
+    - ska-k8srunner-dp
+  needs:
+    - deploy-staging-dp
 
 code_quality:
   # https://docs.gitlab.com/ee/user/project/merge_requests/code_quality.html#generate-an-html-report
