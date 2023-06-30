@@ -37,6 +37,7 @@ endef
 export DP_PVC
 
 k8s-pre-install-chart:
+	make k8s-namespace ;\
 	kubectl -n ${KUBE_NAMESPACE} delete --now --ignore-not-found pvc/shared || true ;\
 	kubectl delete --now --ignore-not-found pv/dpshared-${KUBE_NAMESPACE} || true ;\
 	apt-get update && apt-get install gettext -y
