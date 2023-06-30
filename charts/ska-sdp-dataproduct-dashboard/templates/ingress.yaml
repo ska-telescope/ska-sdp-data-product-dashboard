@@ -9,7 +9,7 @@ metadata:
 {{ include "api_general.labels" . | indent 4 }}
     nginx.ingress.kubernetes.io/rewrite-target: /$1
   labels:
-    app.kubernetes.io/name: ska-sdp-dataproduct-dashboard
+    app: ska-sdp-dataproduct-dashboard
 {{ include "api_general.labels" . | indent 4 }}
   name: ska-sdp-dataproduct-dashboard
   namespace: {{ .Release.Namespace }}
@@ -35,7 +35,7 @@ metadata:
 {{ include "api_general.labels" . | indent 4 }}
     nginx.ingress.kubernetes.io/rewrite-target: /$1
   labels:
-    app.kubernetes.io/name: ska-sdp-dataproduct-api
+    app: ska-sdp-dataproduct-api
 {{ include "api_general.labels" . | indent 4 }}
   name: ska-sdp-dataproduct-api
   namespace: {{ .Release.Namespace }}
