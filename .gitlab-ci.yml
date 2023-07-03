@@ -19,7 +19,6 @@ stages:
   - staging-dp
   - publish
 
-
 #Install basic dependencies using yarn
 install_dependencies:
   stage: dependencies
@@ -176,13 +175,13 @@ include:
 
 # The info script in the templates is for a generic tango environment. We overwrite it to give more useful SC information
 .info_script: &info_script
-    - |-
-      echo "Status of pods in $KUBE_NAMESPACE namespace:"
-      kubectl get pods -n $KUBE_NAMESPACE -o jsonpath="{range .items[*]}{'Pod: '}{.metadata.name}:{'\n'}{'\t'}{'Image: '}{.spec.containers[*].image}{'\n'}{'\t'}{'Status: '}{.status.phase}{'\n'}{end}{'\n'}"
-      echo "Addresses to connect to the deployment of the Dataproduct Dashboard: "
-      echo "  https://k8s.stfc.skao.int/$KUBE_NAMESPACE/dashboard/"
-      echo "Backend API:"
-      echo "  https://k8s.stfc.skao.int/$KUBE_NAMESPACE/dashboard/api/"
+  - |-
+    echo "Status of pods in $KUBE_NAMESPACE namespace:"
+    kubectl get pods -n $KUBE_NAMESPACE -o jsonpath="{range .items[*]}{'Pod: '}{.metadata.name}:{'\n'}{'\t'}{'Image: '}{.spec.containers[*].image}{'\n'}{'\t'}{'Status: '}{.status.phase}{'\n'}{end}{'\n'}"
+    echo "Addresses to connect to the deployment of the Dataproduct Dashboard: "
+    echo "  https://k8s.stfc.skao.int/$KUBE_NAMESPACE/dashboard/"
+    echo "Backend API:"
+    echo "  https://k8s.stfc.skao.int/$KUBE_NAMESPACE/dashboard/api/"
 
 deploy-dev-environment-dp:
   stage: deploy-dp
@@ -197,7 +196,7 @@ test-dev-environment-dp:
     - ska-k8srunner-dp
   needs:
     - deploy-dev-environment-dp
-  
+
 info-dev-environment-dp:
   stage: deploy-dp
   extends: info-dev-environment
@@ -211,7 +210,7 @@ stop-dev-environment-dp:
   extends: stop-dev-environment
   tags:
     - ska-k8srunner-dp
-  
+
 deploy-integration-dp:
   stage: integration-dp
   extends: deploy-integration
@@ -231,7 +230,7 @@ redeploy-integration-dp:
   extends: redeploy-integration
   tags:
     - ska-k8srunner-dp
- 
+
 stop-integration-dp:
   stage: integration-dp
   extends: stop-integration
@@ -247,7 +246,7 @@ deploy-staging-dp:
     - ska-k8srunner-dp
   needs:
     - deploy-integration-dp
-  
+
 info-staging-dp:
   stage: staging-dp
   extends: info-staging
