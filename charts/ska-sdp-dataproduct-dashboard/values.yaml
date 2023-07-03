@@ -1,7 +1,7 @@
 ---
 ingress:
   enabled: true
-  pathStart: "/dataproduct"
+  pathStart: ""
   namespaced: true  
 
 urls:
