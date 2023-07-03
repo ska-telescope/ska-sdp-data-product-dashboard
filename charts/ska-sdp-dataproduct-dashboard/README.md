@@ -1,11 +1,11 @@
-# SDP Data Product Dashboard Helm Chart
+# Data Product Dashboard Helm Chart
 
-This helm chart can spin up all requirments for the SDP Data Product Dashboard.
+This helm chart can spin up all requirments for the Data Product Dashboard.
 
 This can include the following:
 
-- SDP Data Product API
-- SDP Data Product Dashboard
+- Data Product API
+- Data Product Dashboard
 
 ## Values
 
