@@ -173,15 +173,14 @@ include:
   - project: 'ska-telescope/templates-repository'
     file: 'gitlab-ci/includes/deploy.gitlab-ci.yml'
 
-# The info script in the templates is for a generic tango environment. We overwrite it to give more useful SC information
 .info_script: &info_script
   - |-
     echo "Status of pods in $KUBE_NAMESPACE namespace:"
     kubectl get pods -n $KUBE_NAMESPACE -o jsonpath="{range .items[*]}{'Pod: '}{.metadata.name}:{'\n'}{'\t'}{'Image: '}{.spec.containers[*].image}{'\n'}{'\t'}{'Status: '}{.status.phase}{'\n'}{end}{'\n'}"
     echo "Addresses to connect to the deployment of the Dataproduct Dashboard: "
-    echo "  https://k8s.stfc.skao.int/$KUBE_NAMESPACE/dashboard/"
+    echo "  https://sdhp.stfc.skao.int/$KUBE_NAMESPACE/dashboard/"
     echo "Backend API:"
-    echo "  https://k8s.stfc.skao.int/$KUBE_NAMESPACE/dashboard/api/"
+    echo "  https://sdhp.stfc.skao.int/$KUBE_NAMESPACE/api/"
 
 deploy-dev-environment-dp:
   stage: deploy-dp
