@@ -51,8 +51,9 @@ context('Select and download data product', () => {
 
   describe('data product service is unavailable', () => {
     beforeEach(() => {
-      cy.visit(Constants.LOCAL_HOST)
+      cy.intercept("GET", "http://localhost:8000/dataproductlist", {});
       cy.intercept('GET', 'http://localhost:8000/status', ExampleDataProductStatusUnavailable)
+      cy.visit(Constants.LOCAL_HOST)
     })
 
     it('Verify SDP Data API not available alert is displayed', () => {
