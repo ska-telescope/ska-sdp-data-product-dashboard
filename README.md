@@ -1,8 +1,8 @@
-# SKA SDP Data Product Dashboard
+# SKA Data Product Dashboard
 
 ## Description
 
-This repository contains a SKAO modular federated component that is used to list SDP data products (files) and make them available to download.
+This repository contains a modular federated component that is used to list data products and make them available to download.
 
 ## Documentation
 

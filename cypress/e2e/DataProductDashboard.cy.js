@@ -56,8 +56,8 @@ context('Select and download data product', () => {
       cy.visit(Constants.LOCAL_HOST)
     })
 
-    it('Verify SDP Data API not available alert is displayed', () => {
-      cy.findByText("SDP Data API not available").should("be.visible")
+    it('Verify Data API not available alert is displayed', () => {
+      cy.findByText("Data API not available").should("be.visible")
     })
   })
 
