@@ -2,7 +2,7 @@ import React from 'react'
 import MockData from '../../services/Mocking/mockDataProductList';
 import DataProductDashboard from './DataProductDashboard';
 import axios from 'axios';
-import Constants from '../../constants/constants';
+import Constants from '../../utils/constants';
 
 describe('<DataProductDashboard />', () => {
 

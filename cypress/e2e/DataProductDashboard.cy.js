@@ -1,4 +1,4 @@
-import Constants from '../../src/constants/constants';
+import Constants from '../../src/utils/constants';
 import ExampleMetadata from '../data/ExampleMetadata.json';
 import ExampleDataProductList from '../data/ExampleDataProductList.json';
 import ExampleDataProductStatus from '../data/ExampleDataProductStatus.json';

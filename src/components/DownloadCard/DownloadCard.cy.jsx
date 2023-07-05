@@ -1,7 +1,7 @@
 import React from 'react'
 import mockData from '../../services/Mocking/mockMetaData';
 import DownloadCard from './DownloadCard';
-import Constants from '../../constants/constants';
+import Constants from '../../utils/constants';
 
 describe('<DownloadCard />', () => {
   it('DownloadCard renders', () => {
