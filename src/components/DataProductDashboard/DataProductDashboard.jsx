@@ -9,6 +9,7 @@ import RefreshIcon from '@mui/icons-material/Refresh';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
+import { InfoCard } from '@ska-telescope/ska-gui-components';
 
 import DataProductsTable from '../DataProductsTable/DataProductsTable';
 import DownloadCard from '../DownloadCard/DownloadCard';
@@ -17,14 +18,11 @@ import SearchForDataProduct from '../../services/SearchForDataProduct/SearchForD
 import ListAllDataProducts from '../../services/ListAllDataProducts/ListAllDataProducts';
 import GetAPIStatus from '../../services/GetAPIStatus/GetAPIStatus';
 import MetaData from '../../services/MetaData/MetaData';
-import Constants from '../../constants/constants';
-
-const DEF_START_DATE = "1970-01-01"; 
-const DEF_END_DATE = "2070-12-31";
-const DEF_WILDCARD = "*";
+import Constants from '../../utils/constants';
 
 const DataProductDashboard = () => {
-  const { t } = useTranslation();
+  const { t } = useTranslation('dpd');
+  const [updating, setUpdating] = React.useState(false);
   const [jsonDataProducts, setJsonDataProducts] = React.useState({data:[]});
   const [metaData, setMetaData] = React.useState(null);
   const [oldFilename, setOldFilename] = React.useState(null);
@@ -56,19 +54,30 @@ const DataProductDashboard = () => {
     }
   }
 
-  React.useEffect(() => {
-    updateSearchResults();
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
   async function updateSearchResults() {
+    const DEF_START_DATE = "1970-01-01"; 
+    const DEF_END_DATE = "2070-12-31";
+    const DEF_WILDCARD = "*";
+
     const startDateStr = startDate ? startDate : DEF_START_DATE;
     const endDateStr = endDate ? endDate : DEF_END_DATE;
     const metadataKeyStr = metadataKey ? metadataKey : DEF_WILDCARD;
     const metadataValueStr = metadataValue ? metadataValue : DEF_WILDCARD;
     const results = await getDataProductList(startDateStr, endDateStr, metadataKeyStr, metadataValueStr);
     setJsonDataProducts(results);
+    setUpdating(false);
   }
+
+  React.useEffect(() => {
+    setUpdating(true);
+  }, []);
+
+
+  React.useEffect(() => {
+    if (updating) {
+      updateSearchResults();
+    }    
+  }, [updating]);
 
   React.useEffect(() => {
     setOldFilename(selectedFileNames.metaDataFile);
@@ -174,7 +183,7 @@ const DataProductDashboard = () => {
       
             </CardContent>
             <CardActions>
-              <Button variant="outlined" color="secondary" onClick={() => updateSearchResults()}>
+              <Button disabled={updating} variant="outlined" color="secondary" onClick={() => setUpdating(true)}>
                 <SearchIcon />
                 {t('button.search')}
               </Button>
@@ -186,32 +195,32 @@ const DataProductDashboard = () => {
     }
   
 
-  function RenderDatatStoreBox() {
+  function RenderDataStoreBox() {
     return (
       <Box m={1} sx={{ height: Constants.DATA_STORE_BOX_HEIGHT, width: "100%", overflowY: "auto"  }}>
-        <Card variant="outlined" sx={{ minWidth: 275 }}>
-          <CardActions>
+        <Grid container spacing={1} direction="row" justifyContent="justify-left">
+          <Grid item>
             <Button variant="outlined" color="secondary" onClick={() => indexDataProduct()}>
               <RefreshIcon />
               {t('button.indexDP')}
-            </Button>      
-            <Button variant="outlined" color="secondary" onClick={() => updateSearchResults()}>
+            </Button> 
+          </Grid>
+          <Grid item>    
+            <Button disabled={updating} variant="outlined" color="secondary" onClick={() => setUpdating(true)}> 
               <CachedIcon />
               {t('button.reload')}
             </Button>
-          </CardActions>
-        </Card>
+          </Grid>
+        </Grid>
       </Box>
     );
-    }
-
+  }
   
   return (
-    <>
-      <Grid container spacing={1} direction="row" justifyContent="space-between">
+    <Grid container spacing={1} direction="row" justifyContent="space-between">
         <Grid item xs={9}>
-          {RenderDatatStoreBox()}
-          {DataProductsTable(jsonDataProducts.data, rowClickHandler)}
+          {RenderDataStoreBox()}
+          {DataProductsTable(jsonDataProducts.data, updating, rowClickHandler)}
         </Grid>
         <Grid item xs={3}>
           <>
@@ -220,8 +229,7 @@ const DataProductDashboard = () => {
             {RenderMetaData()}
           </>
         </Grid>
-      </Grid>
-    </>
+    </Grid>
   );
 };
 

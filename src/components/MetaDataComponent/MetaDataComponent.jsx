@@ -30,7 +30,7 @@ function generateSections(metaData) {
 }
 
 const MetaDataComponent = (metaData) => {  
-  const { t } = useTranslation();
+  const { t } = useTranslation('dpd');
   
   return (
     <Box m={1}>

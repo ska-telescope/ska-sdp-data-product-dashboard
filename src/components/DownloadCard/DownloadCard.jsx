@@ -5,7 +5,7 @@ import DownloadDataProduct from '../../services/DownloadDataProduct/DownloadData
 import { useTranslation } from 'react-i18next';
 
 const DownloadCard = (selectedFileNames) => {
-  const { t } = useTranslation();
+  const { t } = useTranslation('dpd');
   
   return (
     <>
