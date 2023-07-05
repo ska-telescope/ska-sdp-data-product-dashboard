@@ -1,9 +1,5 @@
 {
-  "language": "English",
-  "date_format_one": "{{-date, YYYY/MM/DD}}",
-  "date_format_two": "{{date, DD-MM-YYYY}}",
-  "date_input_format": "dd/mm/yyyy",
-  "intlNumber": "{{val, number}}",
+  "application": "Data Product Dashboard",
 
   "isLoading": "...loading",
   "button": {
@@ -58,6 +54,9 @@
     "API_NOT_AVAILABLE": "API unreachable, data not available",
     "API_UNKNOWN_ERROR": "API unreachable, Error undefined"
   },
+  "info": {
+    "fetching": "Retrieving information from API"
+  },
   "label": {
     "endDate": "End date",
     "key": "Key",
@@ -68,5 +67,11 @@
   "prompt": {
     "filterOnMetaData": "Filter data products based on metadata:",
     "selectFile": "Selected File:"
+  },
+  "toolTip": {
+    "button": {
+      "mode": "Colour mode toggle",
+      "skao": "SKAO WebSite"
+    }
   }
 }
