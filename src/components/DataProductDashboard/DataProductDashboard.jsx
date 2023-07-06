@@ -18,13 +18,13 @@ import ListAllDataProducts from "../../services/ListAllDataProducts/ListAllDataP
 import GetAPIStatus from "../../services/GetAPIStatus/GetAPIStatus";
 import MetaData from "../../services/MetaData/MetaData";
 import MockData from "../../services/Mocking/mockDataProductList";
-import { DATA_STORE_BOX_HEIGHT } from "../../utils/constants";
+import { DATA_LOCAL, DATA_STORE_BOX_HEIGHT } from "../../utils/constants";
 
 const DEF_START_DATE = "1970-01-01";
 const DEF_END_DATE = "2070-12-31";
 const DEF_WILDCARD = "*";
 
-const DataProductDashboard = (dataLocal) => {
+const DataProductDashboard = () => {
   const { t } = useTranslation('dpd');
   const [updating, setUpdating] = React.useState(false);
   const [dataProducts, setDataProductsData] = React.useState({data:[]});
@@ -45,7 +45,9 @@ const DataProductDashboard = (dataLocal) => {
     const results = await GetAPIStatus()
     updateCanSearch(results.data.Search_enabled)
   }
-  UpdateAPIStatus()
+  if (!DATA_LOCAL) {
+    UpdateAPIStatus()
+  }
 
   async function getDataProductList(startDateStr, endDateStr, metadataKeyStr, metadataValueStr){
     if (canSearch){
@@ -57,17 +59,9 @@ const DataProductDashboard = (dataLocal) => {
   }
 
   async function updateSearchResults() {
-    if (dataLocal.dataLocal) {
-      setDataProductsData(MockData);
-    }
-    else {
-      const startDateStr = startDate ? startDate : DEF_START_DATE;
-      const endDateStr = endDate ? endDate : DEF_END_DATE;
-      const metadataKeyStr = metadataKey ? metadataKey : DEF_WILDCARD;
-      const metadataValueStr = metadataValue ? metadataValue : DEF_WILDCARD;
-      const results = await getDataProductList(startDateStr, endDateStr, metadataKeyStr, metadataValueStr);
-      setDataProductsData(results);
-    }
+    const results = (DATA_LOCAL) ? MockData : await getDataProductList(startDate ? startDate : DEF_START_DATE, endDate ? endDate : DEF_END_DATE, metadataKey ? metadataKey : DEF_WILDCARD, metadataValue ? metadataValue : DEF_WILDCARD);
+    setDataProductsData(results);
+    setUpdating(false);
   }
 
   React.useEffect(() => {
@@ -79,6 +73,7 @@ const DataProductDashboard = (dataLocal) => {
     if (updating) {
       updateSearchResults();
     }    
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [updating]);
 
   const rowClickHandler = (data) => {
@@ -218,7 +213,7 @@ const DataProductDashboard = (dataLocal) => {
     <Grid container spacing={1} direction="row" justifyContent="space-between">
         <Grid item xs={9}>
           {RenderDataStoreBox()}
-          {DataProductsTable(dataProducts.data, rowClickHandler)}
+          {DataProductsTable(dataProducts.data, updating, rowClickHandler)}
         </Grid>
         <Grid item xs={3}>
           <>
