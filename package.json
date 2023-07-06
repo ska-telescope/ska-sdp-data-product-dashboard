@@ -10,7 +10,7 @@
     "build": "webpack --mode production",
     "code-analysis": "./node_modules/.bin/eslint \"src/**\" --ignore-path .eslintignore -f junit -o linting.xml",
     "cypress:open": "cypress open",
-    "cypress:run": "cypress run",
+    "cypress:run": "cypress run --config video=false",
     "cypress:run:component": "cypress run --component",
     "dev": "webpack serve --mode development --open",
     "fix": "npm-run-all --continue-on-error \"fix:*\"",
