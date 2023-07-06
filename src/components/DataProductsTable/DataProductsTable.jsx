@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next';
 import { Box, Grid } from '@mui/material';
 import { InfoCard } from '@ska-telescope/ska-gui-components';
 import { DataGrid } from "@mui/x-data-grid";
-import Constants from '../../utils/constants';
+import { HEADER_HEIGHT, FOOTER_HEIGHT, DATA_STORE_BOX_HEIGHT } from "../../utils/constants";
 
 const DataProductsTable = (jsonDataProducts, updating, handleSelectedNode) => {
   const { t } = useTranslation('dpd');
@@ -60,7 +60,7 @@ const DataProductsTable = (jsonDataProducts, updating, handleSelectedNode) => {
 
   function RenderData() {
     return (
-      <Box m={1} sx={{ height: `calc(100vh - ${Constants.HEADER_HEIGHT + Constants.FOOTER_HEIGHT + 20 + Constants.DATA_STORE_BOX_HEIGHT + 20 }px)`, width: "100%" }}>
+      <Box m={1} sx={{ height: `calc(100vh - ${HEADER_HEIGHT + FOOTER_HEIGHT + 20 + DATA_STORE_BOX_HEIGHT + 20 }px)`, width: "100%" }}>
         <DataGrid 
           aria-label="Data Product Grid"
           rows={jsonDataProducts}

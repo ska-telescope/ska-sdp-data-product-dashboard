@@ -1,31 +1,35 @@
-import React from 'react';
-import axios from 'axios';
-import { useTranslation } from 'react-i18next';
+import React from "react";
+import axios from "axios";
+import { useTranslation } from "react-i18next";
 
-import { Box, Button, Card, CardActions, CardContent, Grid, Typography, TextField } from '@mui/material';
-import SearchIcon from '@mui/icons-material/Search';
-import CachedIcon from '@mui/icons-material/Cached';
-import RefreshIcon from '@mui/icons-material/Refresh';
-import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-import { DatePicker } from '@mui/x-date-pickers/DatePicker';
-import { InfoCard } from '@ska-telescope/ska-gui-components';
+import { Box, Button, Card, CardActions, CardContent, Grid, TextField, Typography } from "@mui/material";
+import SearchIcon from "@mui/icons-material/Search";
+import CachedIcon from "@mui/icons-material/Cached";
+import RefreshIcon from "@mui/icons-material/Refresh";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
+import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 
-import DataProductsTable from '../DataProductsTable/DataProductsTable';
-import DownloadCard from '../DownloadCard/DownloadCard';
-import MetaDataComponent from '../MetaDataComponent/MetaDataComponent';
-import SearchForDataProduct from '../../services/SearchForDataProduct/SearchForDataProduct';
-import ListAllDataProducts from '../../services/ListAllDataProducts/ListAllDataProducts';
-import GetAPIStatus from '../../services/GetAPIStatus/GetAPIStatus';
-import MetaData from '../../services/MetaData/MetaData';
-import Constants from '../../utils/constants';
+import DataProductsTable from "../DataProductsTable/DataProductsTable";
+import DownloadCard from "../DownloadCard/DownloadCard";
+import MetaDataComponent from "../MetaDataComponent/MetaDataComponent";
+import SearchForDataProduct from "../../services/SearchForDataProduct/SearchForDataProduct";
+import ListAllDataProducts from "../../services/ListAllDataProducts/ListAllDataProducts";
+import GetAPIStatus from "../../services/GetAPIStatus/GetAPIStatus";
+import MetaData from "../../services/MetaData/MetaData";
+import MockData from "../../services/Mocking/mockDataProductList";
+import { DATA_STORE_BOX_HEIGHT } from "../../utils/constants";
 
-const DataProductDashboard = () => {
+const DEF_START_DATE = "1970-01-01";
+const DEF_END_DATE = "2070-12-31";
+const DEF_WILDCARD = "*";
+
+const DataProductDashboard = (dataLocal) => {
   const { t } = useTranslation('dpd');
   const [updating, setUpdating] = React.useState(false);
-  const [jsonDataProducts, setJsonDataProducts] = React.useState({data:[]});
+  const [dataProducts, setDataProductsData] = React.useState({data:[]});
   const [metaData, setMetaData] = React.useState(null);
-  const [oldFilename, setOldFilename] = React.useState(null);
+  const [oldFilename] = React.useState(null);
   const [selectedFileNames, setSelectedFileNames] = React.useState({
     fileName: '',
     relativePathName: '',
@@ -45,27 +49,25 @@ const DataProductDashboard = () => {
 
   async function getDataProductList(startDateStr, endDateStr, metadataKeyStr, metadataValueStr){
     if (canSearch){
-      const results = await SearchForDataProduct(startDateStr, endDateStr, metadataKeyStr, metadataValueStr);
-      return results
+      return await SearchForDataProduct(startDateStr, endDateStr, metadataKeyStr, metadataValueStr)
     }
     else {
-      const results = await ListAllDataProducts();
-      return results
+      return await ListAllDataProducts()
     }
   }
 
   async function updateSearchResults() {
-    const DEF_START_DATE = "1970-01-01"; 
-    const DEF_END_DATE = "2070-12-31";
-    const DEF_WILDCARD = "*";
-
-    const startDateStr = startDate ? startDate : DEF_START_DATE;
-    const endDateStr = endDate ? endDate : DEF_END_DATE;
-    const metadataKeyStr = metadataKey ? metadataKey : DEF_WILDCARD;
-    const metadataValueStr = metadataValue ? metadataValue : DEF_WILDCARD;
-    const results = await getDataProductList(startDateStr, endDateStr, metadataKeyStr, metadataValueStr);
-    setJsonDataProducts(results);
-    setUpdating(false);
+    if (dataLocal.dataLocal) {
+      setDataProductsData(MockData);
+    }
+    else {
+      const startDateStr = startDate ? startDate : DEF_START_DATE;
+      const endDateStr = endDate ? endDate : DEF_END_DATE;
+      const metadataKeyStr = metadataKey ? metadataKey : DEF_WILDCARD;
+      const metadataValueStr = metadataValue ? metadataValue : DEF_WILDCARD;
+      const results = await getDataProductList(startDateStr, endDateStr, metadataKeyStr, metadataValueStr);
+      setDataProductsData(results);
+    }
   }
 
   React.useEffect(() => {
@@ -78,10 +80,6 @@ const DataProductDashboard = () => {
       updateSearchResults();
     }    
   }, [updating]);
-
-  React.useEffect(() => {
-    setOldFilename(selectedFileNames.metaDataFile);
-  }, [selectedFileNames, metaData]);
 
   const rowClickHandler = (data) => {
     setSelectedFileNames({
@@ -197,7 +195,7 @@ const DataProductDashboard = () => {
 
   function RenderDataStoreBox() {
     return (
-      <Box m={1} sx={{ height: Constants.DATA_STORE_BOX_HEIGHT, width: "100%", overflowY: "auto"  }}>
+      <Box m={1} sx={{ height: DATA_STORE_BOX_HEIGHT, width: "100%", overflowY: "auto"  }}>
         <Grid container spacing={1} direction="row" justifyContent="justify-left">
           <Grid item>
             <Button variant="outlined" color="secondary" onClick={() => indexDataProduct()}>
@@ -220,7 +218,7 @@ const DataProductDashboard = () => {
     <Grid container spacing={1} direction="row" justifyContent="space-between">
         <Grid item xs={9}>
           {RenderDataStoreBox()}
-          {DataProductsTable(jsonDataProducts.data, updating, rowClickHandler)}
+          {DataProductsTable(dataProducts.data, rowClickHandler)}
         </Grid>
         <Grid item xs={3}>
           <>

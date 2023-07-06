@@ -33,7 +33,7 @@ yarn-error.log*
 
 /.vs
 /.vscode
-/coverage
+.idea/
 junit.xml
 linting.xml
 unit-tests.xml
