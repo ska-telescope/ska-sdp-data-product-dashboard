@@ -45,6 +45,7 @@
     "@mui/system": "^5.11.16",
     "@mui/x-data-grid": "^5.17.23",
     "@mui/x-date-pickers": "^5.0.17",
+    "@react-spring/web": "^9.7.3",
     "@rollup/plugin-typescript": "^11.0.0",
     "@ska-telescope/ska-gui-components": "^0.1.24",
     "axios": "^0.27.2",
