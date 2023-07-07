@@ -1,6 +1,7 @@
 import React from 'react';
 import axios from 'axios';
 import { useTranslation } from 'react-i18next';
+import { useEffect } from 'react';
 
 import { Box, Button, Card, CardActions, CardContent, Grid, Typography, TextField } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
@@ -9,7 +10,6 @@ import RefreshIcon from '@mui/icons-material/Refresh';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
-import { InfoCard } from '@ska-telescope/ska-gui-components';
 
 import DataProductsTable from '../DataProductsTable/DataProductsTable';
 import DownloadCard from '../DownloadCard/DownloadCard';
@@ -19,6 +19,7 @@ import ListAllDataProducts from '../../services/ListAllDataProducts/ListAllDataP
 import GetAPIStatus from '../../services/GetAPIStatus/GetAPIStatus';
 import MetaData from '../../services/MetaData/MetaData';
 import Constants from '../../utils/constants';
+const REACT_APP_API_REFRESH_RATE = process.env.REACT_APP_API_REFRESH_RATE;
 
 const DataProductDashboard = () => {
   const { t } = useTranslation('dpd');
@@ -36,12 +37,37 @@ const DataProductDashboard = () => {
   const [metadataKey, updateMetadataKey] = React.useState(null);
   const [metadataValue, updateMetadataValue] = React.useState(null);
   const [canSearch, updateCanSearch] = React.useState(false);
+  const [newDataAvailable, updateNewDataAvailable] = React.useState(null);
+  const [dataStoreLastModifiedTime, setDataStoreLastModifiedTime] = React.useState(null);
+  const [initFlag, setInitFlag] = React.useState(true);
 
-  async function UpdateAPIStatus() {
+  async function CheckFornewData() {
     const results = await GetAPIStatus()
     updateCanSearch(results.data.Search_enabled)
+    setDataStoreLastModifiedTime(results.data.Data_store_last_modified_time)
   }
-  UpdateAPIStatus()
+
+  async function PeriodicAPIStatusCheck() {
+    useEffect(() => {
+      const interval = setInterval(async () => {
+        CheckFornewData()
+      }, REACT_APP_API_REFRESH_RATE);
+      return () => clearInterval(interval);
+    }, []);
+  
+    return;
+  }
+
+  PeriodicAPIStatusCheck()
+
+  React.useEffect(() => {
+    if (!initFlag) {
+      updateNewDataAvailable(true)
+    }
+    if ( dataStoreLastModifiedTime !== null ) {
+      setInitFlag(false)
+    }
+  }, [dataStoreLastModifiedTime]);
 
   async function getDataProductList(startDateStr, endDateStr, metadataKeyStr, metadataValueStr){
     if (canSearch){
@@ -66,6 +92,7 @@ const DataProductDashboard = () => {
     const results = await getDataProductList(startDateStr, endDateStr, metadataKeyStr, metadataValueStr);
     setJsonDataProducts(results);
     setUpdating(false);
+    updateNewDataAvailable(false);
   }
 
   React.useEffect(() => {
@@ -105,6 +132,11 @@ const DataProductDashboard = () => {
     }
   }
 
+  async function OnClickIndexDataProduct() {
+    indexDataProduct()
+    CheckFornewData(true)
+  }
+  
   async function getMetaData() {
     const results = await MetaData(selectedFileNames?.metaDataFile);
     setMetaData(results.data);
@@ -200,13 +232,13 @@ const DataProductDashboard = () => {
       <Box m={1} sx={{ height: Constants.DATA_STORE_BOX_HEIGHT, width: "100%", overflowY: "auto"  }}>
         <Grid container spacing={1} direction="row" justifyContent="justify-left">
           <Grid item>
-            <Button variant="outlined" color="secondary" onClick={() => indexDataProduct()}>
+            <Button variant="outlined" color="secondary" onClick={() => OnClickIndexDataProduct() }>
               <RefreshIcon />
               {t('button.indexDP')}
             </Button> 
           </Grid>
           <Grid item>    
-            <Button disabled={updating} variant="outlined" color="secondary" onClick={() => setUpdating(true)}> 
+            <Button disabled={!newDataAvailable} variant="outlined" color="secondary" onClick={() => setUpdating(true)}> 
               <CachedIcon />
               {t('button.reload')}
             </Button>

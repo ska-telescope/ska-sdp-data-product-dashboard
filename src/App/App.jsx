@@ -5,8 +5,10 @@ import DataProductDashboard from '../components/DataProductDashboard/DataProduct
 import { Footer, Header, Spacer, SPACER_VERTICAL,  THEME_DARK, THEME_LIGHT } from "@ska-telescope/ska-gui-components";
 import theme from '../services/theme/theme';
 import Constants from '../utils/constants';
+import GetAPIStatus from '../services/GetAPIStatus/GetAPIStatus';
 
 function App() {
+  const [apiVersion, setAPIVersion] = React.useState("");
   const { t } = useTranslation('dpd');
 
   const skao = t('toolTip.button.skao');
@@ -19,6 +21,13 @@ function App() {
   const themeToggle = () => {
     setThemeMode(themeMode === THEME_LIGHT ? THEME_DARK : THEME_LIGHT);
   };
+
+  async function GetVersionNumber() {
+    const results = await GetAPIStatus()
+    setAPIVersion(results.data.Version)
+  }
+
+  GetVersionNumber()
 
   return (
     <ThemeProvider theme={theme(themeMode)}>
@@ -36,7 +45,14 @@ function App() {
           <DataProductDashboard data-testid="DataProductDashboardId" />
           <Spacer size={Constants.FOOTER_HEIGHT} axis={SPACER_VERTICAL} />
         </Paper>
-          <Footer />
+          <Footer>
+            <Grid item>
+            <Typography variant='body1'>{"Data Product Dashboard version: 0.0.0"}</Typography>
+            <Typography variant='body1'>{"Data Product API version: "+apiVersion}</Typography>
+            </Grid>
+            <Grid item />
+            <Grid item />
+          </Footer>
       </React.Suspense>
     </ThemeProvider>
   );

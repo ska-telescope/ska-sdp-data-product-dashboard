@@ -4,9 +4,9 @@
   "isLoading": "...loading",
   "button": {
     "download": "Download",
-    "indexDP": "Index Data Products",
+    "indexDP": "Re-Index Data Products",
     "search": "Search",
-    "reload": "Reload",
+    "reload": "New data available, reload",
     "settings": "Settings"
   },
   "column": {
