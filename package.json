@@ -43,7 +43,7 @@
     "@mui/lab": "^5.0.0-alpha.135",
     "@mui/material": "^5.11.8",
     "@mui/system": "^5.11.16",
-    "@mui/x-data-grid": "^6.9.2",
+    "@mui/x-data-grid": "^6.9.1",
     "@mui/x-date-pickers": "^5.0.17",
     "@react-spring/web": "^9.7.3",
     "@rollup/plugin-typescript": "^11.0.0",
