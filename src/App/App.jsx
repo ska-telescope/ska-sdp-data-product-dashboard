@@ -6,6 +6,8 @@ import { Footer, Header, Spacer, SPACER_VERTICAL,  THEME_DARK, THEME_LIGHT } fro
 import theme from '../services/theme/theme';
 import Constants from '../utils/constants';
 import GetAPIStatus from '../services/GetAPIStatus/GetAPIStatus';
+const REACT_APP_VERSION = process.env.REACT_APP_VERSION;
+
 
 function App() {
   const [apiVersion, setAPIVersion] = React.useState("");
@@ -47,7 +49,7 @@ function App() {
         </Paper>
           <Footer>
             <Grid item>
-            <Typography variant='body1'>{"Data Product Dashboard version: 0.0.0"}</Typography>
+            <Typography variant='body1'>{"Data Product Dashboard version: "+REACT_APP_VERSION}</Typography>
             <Typography variant='body1'>{"Data Product API version: "+apiVersion}</Typography>
             </Grid>
             <Grid item />

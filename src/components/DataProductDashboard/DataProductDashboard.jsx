@@ -44,7 +44,7 @@ const DataProductDashboard = () => {
   async function CheckFornewData() {
     const results = await GetAPIStatus()
     updateCanSearch(results.data.Search_enabled)
-    setDataStoreLastModifiedTime(results.data.Data_store_last_modified_time)
+    setDataStoreLastModifiedTime(results.data.Date_modified)
   }
 
   async function PeriodicAPIStatusCheck() {

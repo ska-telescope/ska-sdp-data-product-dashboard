@@ -125,6 +125,7 @@ module.exports = (env, argv) => { return {
       REACT_APP_SKA_SDP_DATAPRODUCT_API_URL: 'http://localhost:8000',
       REACT_APP_DASHBOARD_URL_SUBDIRECTORY: '',
       REACT_APP_API_REFRESH_RATE: 3000,
+      REACT_APP_VERSION: '0.3.0',
     }),
     new CopyWebpackPlugin({
         patterns: [
