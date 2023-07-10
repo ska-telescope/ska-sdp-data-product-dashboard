@@ -19,7 +19,7 @@ import GetAPIStatus from "../../services/GetAPIStatus/GetAPIStatus";
 import MetaData from "../../services/MetaData/MetaData";
 import { MockDPL } from "../../services/Mocking/mockDataProductList";
 import { MockMeta } from "../../services/Mocking/mockMetaData";
-import { DATA_LOCAL, DATA_STORE_BOX_HEIGHT } from "../../utils/constants";
+import { DATA_LOCAL } from "../../utils/constants";
 
 const DEF_START_DATE = "1970-01-01";
 const DEF_END_DATE = "2070-12-31";
@@ -78,7 +78,7 @@ const DataProductDashboard = () => {
   }, [updating]);
 
   React.useEffect(() => {
-    if (DATA_LOCAL) {
+    if (DATA_LOCAL && selectedFileNames?.metaDataFile?.length ) {
       setMetaData(MockMeta);
     } else {
       const metaDataFile = selectedFileNames?.metaDataFile;
@@ -184,7 +184,7 @@ const DataProductDashboard = () => {
 
   function RenderDataStoreBox() {
     return (
-      <Box m={1} sx={{ height: DATA_STORE_BOX_HEIGHT, width: "100%", overflowY: "auto"  }}>
+      <Box m={1}>
         <Grid container spacing={1} direction="row" justifyContent="justify-left">
           <Grid item>
             <Button variant="outlined" color="secondary" onClick={() => indexDataProduct()}>
@@ -204,19 +204,21 @@ const DataProductDashboard = () => {
   }
   
   return (
-    <Grid container spacing={1} direction="row" justifyContent="space-between">
-        <Grid item xs={9}>
-          {RenderDataStoreBox()}
-          {DataProductsTable(dataProducts.data, updating, rowClickHandler)}
-        </Grid>
-        <Grid item xs={3}>
-          <>
-            {RenderSearchBox()}
-            {DownloadCard(selectedFileNames)}
-            {metaData && <MetaDataComponent metaData={metaData} />}
-          </>
-        </Grid>
-    </Grid>
+    <>
+      {RenderDataStoreBox()}
+      <Grid container spacing={1} direction="row" justifyContent="space-between">
+          <Grid item xs={9}>
+            {DataProductsTable(dataProducts.data, updating, rowClickHandler)}
+          </Grid>
+          <Grid item xs={3}>
+            <>
+              {RenderSearchBox()}
+              {DownloadCard(selectedFileNames)}
+              {metaData && <MetaDataComponent metaData={metaData} />}
+            </>
+          </Grid>
+      </Grid>
+    </>
   );
 };
 
