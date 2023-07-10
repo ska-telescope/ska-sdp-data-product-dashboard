@@ -1,6 +1,10 @@
 import React from 'react';
-import { useTranslation } from 'react-i18next';
-import { Box, Card, CardContent, Divider, Typography } from '@mui/material';
+// import { useTranslation } from 'react-i18next';
+import { Box, Card, CardContent } from '@mui/material';
+import { JSONView } from '@ska-telescope/ska-gui-components';
+import { DATA_STORE_BOX_HEIGHT, FOOTER_HEIGHT, HEADER_HEIGHT } from '../../utils/constants';
+
+/* TODO : Confirm that DataGrid component is OK, and this function can be removed 
 
 function sectionDisplay(title, data) {  
   const isString = typeof data === 'string';
@@ -16,6 +20,8 @@ function sectionDisplay(title, data) {
   );
 }
 
+/* TODO : Confirm that DataGrid component is OK, and this function can be removed 
+
 function generateSections(metaData) {
   const sections = metaData?.metaData;
 
@@ -28,16 +34,16 @@ function generateSections(metaData) {
     sections[sectionTitle] && sectionDisplay(sectionTitle, sections[sectionTitle])
   );
 }
+*/
 
 const MetaDataComponent = (metaData) => {  
-  const { t } = useTranslation('dpd');
-  
+//  const { t } = useTranslation('dpd');
+
   return (
     <Box m={1}>
-      <Card variant="outlined" sx={{ minWidth: 275 }}>
+      <Card variant="outlined" sx={{ minHeight: "100%", minWidth: 275 }}>
         <CardContent>
-          <Typography variant="h4" component="div">{t('label.metaData')}</Typography>
-          {generateSections(metaData)}
+          <JSONView data={metaData} height="500" />
         </CardContent>
       </Card>
     </Box>

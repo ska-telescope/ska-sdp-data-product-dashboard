@@ -47,7 +47,7 @@
     "@mui/x-date-pickers": "^5.0.17",
     "@react-spring/web": "^9.7.3",
     "@rollup/plugin-typescript": "^11.0.0",
-    "@ska-telescope/ska-gui-components": "^0.1.26",
+    "@ska-telescope/ska-gui-components": "^0.1.27",
     "axios": "^0.27.2",
     "babel-loader": "^9.1.0",
     "bundle-loader": "^0.5.6",

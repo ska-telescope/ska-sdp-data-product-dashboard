@@ -1,9 +1,9 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { Box, Grid } from '@mui/material';
-import { InfoCard } from '@ska-telescope/ska-gui-components';
-import { DataGrid } from "@mui/x-data-grid";
-import { HEADER_HEIGHT, FOOTER_HEIGHT, DATA_STORE_BOX_HEIGHT } from "../../utils/constants";
+import { DataGrid, InfoCard } from '@ska-telescope/ska-gui-components';
+// import { DataGrid } from "@mui/x-data-grid";
+import { DATA_STORE_BOX_HEIGHT, FOOTER_HEIGHT, HEADER_HEIGHT } from '../../utils/constants';
 
 const DataProductsTable = (jsonDataProducts, updating, handleSelectedNode) => {
   const { t } = useTranslation('dpd');
@@ -60,15 +60,13 @@ const DataProductsTable = (jsonDataProducts, updating, handleSelectedNode) => {
 
   function RenderData() {
     return (
-      <Box m={1} sx={{ height: `calc(100vh - ${HEADER_HEIGHT + FOOTER_HEIGHT + DATA_STORE_BOX_HEIGHT + 20 }px)`, width: "100%" }}>
+      <Box m={1}>
         <DataGrid 
-          aria-label="Data Product Grid"
-          rows={jsonDataProducts}
           columns={extendedColumns}
-          pageSize={10}
-          rowsPerPageOptions={[10]}
-          checkboxSelection={false}
+          height={ `calc(100vh - ${HEADER_HEIGHT + FOOTER_HEIGHT + DATA_STORE_BOX_HEIGHT + 20 }px)`}
           onRowClick={handleSelectedNode}
+          rows={jsonDataProducts}
+          width="100%"
         />
       </Box>
     );
