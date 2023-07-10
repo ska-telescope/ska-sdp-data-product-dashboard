@@ -14,7 +14,7 @@ const DownloadCard = (selectedFileNames) => {
         <Card variant="outlined" sx={{ minWidth: 275 }}>
           <CardContent>
             <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
-              {t('prompt.selectFile')}
+              {t('label.selectFile')}
             </Typography>
             <Typography variant="h5" component="div">
               {selectedFileNames.fileName} 

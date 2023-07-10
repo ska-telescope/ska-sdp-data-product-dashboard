@@ -1,5 +1,5 @@
 import React from 'react'
-import MockData from '../../services/Mocking/mockDataProductList';
+import { MockDPL } from '../../services/Mocking/mockDataProductList';
 import DataProductDashboard from './DataProductDashboard';
 import axios from 'axios';
 import { DOWNLOAD_ICON, PROD_1, PROD_2, TEST_DATA_FILE_1, TEXT_NO_API } from '../../utils/constants';
@@ -12,7 +12,7 @@ describe('<DataProductDashboard />', () => {
   })
 
   it('Data Product Dashboard renders correctly when data is available', () => {
-    cy.stub(axios, 'get').returns(MockData).as('fetch')
+    cy.stub(axios, 'get').returns(MockDPL).as('fetch')
     cy.mount(<DataProductDashboard data-testid="DataProductDashboardId" dataLocalValue='TRUE' />)
     cy.get('@fetch').should('have.been.called')
     cy.findByText(PROD_1).should("be.visible")
@@ -21,7 +21,7 @@ describe('<DataProductDashboard />', () => {
 
 
   it('Data is available for download on Data Product Dashboard', () => {
-    cy.stub(axios, 'get').returns(MockData).as('fetch')
+    cy.stub(axios, 'get').returns(MockDPL).as('fetch')
     cy.mount(<DataProductDashboard data-testid="DataProductDashboardId" dataLocalValue='TRUE' />)
     cy.get('@fetch').should('have.been.called')
     cy.findByText("1").click()

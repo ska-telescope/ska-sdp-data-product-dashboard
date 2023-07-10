@@ -5,7 +5,7 @@ export const DOWNLOAD_BUTTON_LABEL = "BUTTON.DOWNLOAD";
 export const DOWNLOAD_ICON = "DownloadIcon";
 export const PROD_1 = "eb-m001-20191031-12345";
 export const PROD_2 = "eb-m002-20221212-12345";
-export const SELECTED_FILE_TITLE = "prompt.selectFile";
+export const SELECTED_FILE_TITLE = "label.selectFile";
 export const TEST_ARRAY = [
   "label.metaData", "interface", "execution_block", "context", "config", "files"
 ]

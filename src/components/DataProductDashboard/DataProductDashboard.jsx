@@ -17,7 +17,8 @@ import SearchForDataProduct from "../../services/SearchForDataProduct/SearchForD
 import ListAllDataProducts from "../../services/ListAllDataProducts/ListAllDataProducts";
 import GetAPIStatus from "../../services/GetAPIStatus/GetAPIStatus";
 import MetaData from "../../services/MetaData/MetaData";
-import MockData from "../../services/Mocking/mockDataProductList";
+import { MockDPL } from "../../services/Mocking/mockDataProductList";
+import { MockMeta } from "../../services/Mocking/mockMetaData";
 import { DATA_LOCAL, DATA_STORE_BOX_HEIGHT } from "../../utils/constants";
 
 const DEF_START_DATE = "1970-01-01";
@@ -59,7 +60,7 @@ const DataProductDashboard = () => {
   }
 
   async function updateSearchResults() {
-    const results = (DATA_LOCAL) ? MockData : await getDataProductList(startDate ? startDate : DEF_START_DATE, endDate ? endDate : DEF_END_DATE, metadataKey ? metadataKey : DEF_WILDCARD, metadataValue ? metadataValue : DEF_WILDCARD);
+    const results = (DATA_LOCAL) ? MockDPL : await getDataProductList(startDate ? startDate : DEF_START_DATE, endDate ? endDate : DEF_END_DATE, metadataKey ? metadataKey : DEF_WILDCARD, metadataValue ? metadataValue : DEF_WILDCARD);
     setDataProductsData(results);
     setUpdating(false);
   }
@@ -75,6 +76,25 @@ const DataProductDashboard = () => {
     }    
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [updating]);
+
+  React.useEffect(() => {
+    if (DATA_LOCAL) {
+      setMetaData(MockMeta);
+    } else {
+      const metaDataFile = selectedFileNames?.metaDataFile;
+
+      async function getMetaData() {
+        const results = await MetaData(selectedFileNames?.metaDataFile);
+        setMetaData(results.data);
+      }
+
+      if (metaDataFile && metaDataFile.length) {
+        if (oldFilename !== metaDataFile) {
+          getMetaData();
+        }
+      }
+    }
+  }, [oldFilename, selectedFileNames]);
 
   const rowClickHandler = (data) => {
     setSelectedFileNames({
@@ -97,33 +117,7 @@ const DataProductDashboard = () => {
       return t('error.API_NOT_AVAILABLE');
     }
   }
-
-  async function getMetaData() {
-    const results = await MetaData(selectedFileNames?.metaDataFile);
-    setMetaData(results.data);
-  }
-
-   function RenderMetaData() {
-    if ( displayData() && metaData ) {
-      return (
-        <MetaDataComponent metaData={metaData} />
-      );
-    }
-  }
-
-  const displayData = () => {
-    let result = false;
-    const metaDataFile = selectedFileNames?.metaDataFile;
-
-    if (metaDataFile && metaDataFile.length) {
-      result = true;
-      if (oldFilename !== metaDataFile) {
-        getMetaData();
-      }
-    }
-    return result;
-  }
-
+  
   function RenderSearchBox() {
     if (canSearch) {
       return (
@@ -131,7 +125,7 @@ const DataProductDashboard = () => {
           <Card variant="outlined" sx={{ minWidth: 275 }}>
             <CardContent>
               <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
-                {t('prompt.filterOnMetaData')}
+                {t('label.filterOnMetaData')}
               </Typography>
               <LocalizationProvider dateAdapter={AdapterDayjs} >
               <Grid container direction="row" justifyContent="space-between">
@@ -219,7 +213,7 @@ const DataProductDashboard = () => {
           <>
             {RenderSearchBox()}
             {DownloadCard(selectedFileNames)}
-            {RenderMetaData()}
+            {metaData && <MetaDataComponent metaData={metaData} />}
           </>
         </Grid>
     </Grid>

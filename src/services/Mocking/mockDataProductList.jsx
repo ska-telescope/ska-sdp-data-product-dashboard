@@ -1,4 +1,4 @@
-const mockDataProductList = {
+export const MockDPL = {
     "data": [
         {
             "id": 1,
@@ -50,5 +50,3 @@ const mockDataProductList = {
     },
     "request": {}
 }
-
-export default mockDataProductList;
