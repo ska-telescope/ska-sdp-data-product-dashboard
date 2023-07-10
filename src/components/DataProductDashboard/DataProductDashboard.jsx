@@ -50,32 +50,31 @@ const DataProductDashboard = () => {
     UpdateAPIStatus()
   }
 
-  async function getDataProductList(startDateStr, endDateStr, metadataKeyStr, metadataValueStr){
-    if (canSearch){
-      return await SearchForDataProduct(startDateStr, endDateStr, metadataKeyStr, metadataValueStr)
-    }
-    else {
-      return await ListAllDataProducts()
-    }
-  }
-
-  async function updateSearchResults() {
-    const results = (DATA_LOCAL) ? MockDPL : await getDataProductList(startDate ? startDate : DEF_START_DATE, endDate ? endDate : DEF_END_DATE, metadataKey ? metadataKey : DEF_WILDCARD, metadataValue ? metadataValue : DEF_WILDCARD);
-    setDataProductsData(results);
-    setUpdating(false);
-  }
-
   React.useEffect(() => {
     setUpdating(true);
   }, []);
 
 
   React.useEffect(() => {
+    async function getDataProductList(startDateStr, endDateStr, metadataKeyStr, metadataValueStr){
+      if (canSearch){
+        return await SearchForDataProduct(startDateStr, endDateStr, metadataKeyStr, metadataValueStr)
+      }
+      else {
+        return await ListAllDataProducts()
+      }
+    }
+
+    async function updateSearchResults() {
+      const results = (DATA_LOCAL) ? MockDPL : await getDataProductList(startDate ? startDate : DEF_START_DATE, endDate ? endDate : DEF_END_DATE, metadataKey ? metadataKey : DEF_WILDCARD, metadataValue ? metadataValue : DEF_WILDCARD);
+      setDataProductsData(results);
+      setUpdating(false);
+    }
+    
     if (updating) {
       updateSearchResults();
     }    
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [updating]);
+  }, [canSearch, endDate, metadataKey, metadataValue, startDate, updating]);
 
   React.useEffect(() => {
     if (DATA_LOCAL && selectedFileNames?.metaDataFile?.length ) {
