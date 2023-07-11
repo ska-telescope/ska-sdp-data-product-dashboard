@@ -1,7 +1,7 @@
 import React from 'react';
 // import { useTranslation } from 'react-i18next';
 import { Box, Card, CardContent } from '@mui/material';
-import { JSONView } from '@ska-telescope/ska-gui-components';
+import { DataTree } from '@ska-telescope/ska-gui-components';
 import { DATA_STORE_BOX_HEIGHT, FOOTER_HEIGHT, HEADER_HEIGHT } from '../../utils/constants';
 
 /* TODO : Confirm that DataGrid component is OK, and this function can be removed 
@@ -43,7 +43,7 @@ const MetaDataComponent = (metaData) => {
     <Box m={1}>
       <Card variant="outlined" sx={{ minHeight: "100%", minWidth: 275 }}>
         <CardContent>
-          <JSONView data={metaData} height="500" />
+          <DataTree data={metaData} height="500" />
         </CardContent>
       </Card>
     </Box>

@@ -3082,7 +3082,7 @@
     prop-types "^15.8.1"
     react-is "^18.2.0"
 
-"@mui/x-data-grid@^6.9.1", "@mui/x-data-grid@^6.9.2":
+"@mui/x-data-grid@^6.9.2":
   version "6.9.2"
   resolved "https://registry.yarnpkg.com/@mui/x-data-grid/-/x-data-grid-6.9.2.tgz#530497b7592bc8242d591fbdedea771eb130d1c3"
   integrity sha512-hrjVq3FrbUpioi2GYSWJtU4NR3V4bPwLbXngw07+I21TGOWV1TKeTslkPI+FGVYU3gMjGSSJRFN8gehPlh5Evw==
@@ -3317,16 +3317,17 @@
   dependencies:
     "@sinonjs/commons" "^1.7.0"
 
-"@ska-telescope/ska-gui-components@^0.1.27":
-  version "0.1.27"
-  resolved "https://artefact.skao.int/repository/npm-internal/@ska-telescope/ska-gui-components/-/ska-gui-components-0.1.27.tgz#9ec3913cdf2ec984238d5b03072cdb4ebf92b021"
-  integrity sha512-VL//jBm1ceWCUe7U2M8mPjLcmrM16MR+y4hsqxNFR7N4KjunVGViu8Bh5Rl3NvKRNEeU8WlBCoPRAptSRHnchw==
+"@ska-telescope/ska-gui-components@^0.1.28":
+  version "0.1.28"
+  resolved "https://artefact.skao.int/repository/npm-internal/@ska-telescope/ska-gui-components/-/ska-gui-components-0.1.28.tgz#344454b6be123d908c38946ee43e036be1990dac"
+  integrity sha512-J9MfQuW23GM1Ve9POFSyfvZaBwg45f2mZKVWWlE159rj79KZlh0CmvrjAPO/FhlSiqrm/BiwwGF+nOmRTAINVg==
   dependencies:
     "@mui/lab" "^5.0.0-alpha.135"
     "@mui/system" "^5.13.7"
     "@mui/x-data-grid" "^6.9.2"
     "@react-spring/web" "^9.7.3"
     "@ska-telescope/ska-javascript-components" "^0.1.21"
+    junit-report-merger "^6.0.2"
 
 "@ska-telescope/ska-javascript-components@^0.1.21":
   version "0.1.21"
