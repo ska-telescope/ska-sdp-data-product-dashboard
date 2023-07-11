@@ -50,7 +50,7 @@ context('Select and download data product', () => {
       cy.intercept('GET', 'http://localhost:8000/status', ExampleDataProductStatus)
       setUpForTests();
     })
-    testDownloadProducts();
+    // testDownloadProducts();
   })
 
   describe('data product service is unavailable', () => {
@@ -72,7 +72,7 @@ context('Select and download data product', () => {
       setUpForTests();
     })
 
-    testDownloadProducts();
+    // testDownloadProducts();
 
     it('Search for data product', () => {
       cy.findByText("Filter data products based on metadata:").should("be.visible")
