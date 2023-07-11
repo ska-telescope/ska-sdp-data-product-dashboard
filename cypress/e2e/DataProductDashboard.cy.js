@@ -9,20 +9,21 @@ const DOWNLOAD_ICON = "DownloadIcon";
 const LOCAL_HOST = "http://localhost:8100/";
 const TEST_DATA_FILE_1 = "TestDataFile1.txt";
 context('Select and download data product', () => {
+  //TODO: refactor to solve failure
 
-  function testDownloadProducts() {
-    it("Select data product 1 and download file", () => {
-      cy.get('div').contains('1').click() // Yield el in .nav containing 'About'
-      cy.findByTestId(DOWNLOAD_ICON).click();
-      cy.readFile("cypress/data/" + TEST_DATA_FILE_1).should("contain", "This is test file 1");
-    });
-
-    it("Select data product 2 and download file", () => {
-      cy.get('div').contains('2').click() // Yield el in .nav containing 'About'
-     cy.findByTestId(DOWNLOAD_ICON).click();
-     cy.readFile("cypress/data/" + TEST_DATA_FILE_1).should("contain", "This is test file 1");
-    });
-  } 
+  // function testDownloadProducts() {
+  //   it("Select data product 1 and download file", () => {
+  //     cy.get('div').contains('1').click() // Yield el in .nav containing 'About'
+  //     cy.findByTestId(DOWNLOAD_ICON).click();
+  //     cy.readFile("cypress/data/" + TEST_DATA_FILE_1).should("contain", "This is test file 1");
+  //   });
+  //
+  //   it("Select data product 2 and download file", () => {
+  //     cy.get('div').contains('2').click() // Yield el in .nav containing 'About'
+  //    cy.findByTestId(DOWNLOAD_ICON).click();
+  //    cy.readFile("cypress/data/" + TEST_DATA_FILE_1).should("contain", "This is test file 1");
+  //   });
+  // }
 
   function setUpForTests() {
     cy.intercept("GET", "http://localhost:8000/dataproductlist", ExampleDataProductList);
@@ -50,6 +51,8 @@ context('Select and download data product', () => {
       cy.intercept('GET', 'http://localhost:8000/status', ExampleDataProductStatus)
       setUpForTests();
     })
+    //TODO: refactor to solve failure
+
     // testDownloadProducts();
   })
 
@@ -71,6 +74,7 @@ context('Select and download data product', () => {
       cy.intercept('GET', 'http://localhost:8000/status', ExampleDataProductStatusAvailableWithSearch)
       setUpForTests();
     })
+    //TODO: refactor to solve failure
 
     // testDownloadProducts();
 
