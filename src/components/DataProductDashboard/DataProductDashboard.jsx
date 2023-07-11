@@ -48,6 +48,8 @@ const DataProductDashboard = () => {
   }
   if (!DATA_LOCAL) {
     UpdateAPIStatus()
+  } else {
+    updateCanSearch(true)
   }
 
   React.useEffect(() => {
