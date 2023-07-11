@@ -2,7 +2,6 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { Box, Grid } from '@mui/material';
 import { DataGrid, InfoCard } from '@ska-telescope/ska-gui-components';
-// import { DataGrid } from "@mui/x-data-grid";
 import { DATA_STORE_BOX_HEIGHT, FOOTER_HEIGHT, HEADER_HEIGHT } from '../../utils/constants';
 
 const DataProductsTable = (jsonDataProducts, updating, handleSelectedNode) => {
@@ -61,7 +60,8 @@ const DataProductsTable = (jsonDataProducts, updating, handleSelectedNode) => {
   function RenderData() {
     return (
       <Box m={1}>
-        <DataGrid 
+        <DataGrid
+          data-testid={jsonDataProducts}
           columns={extendedColumns}
           height={ `calc(100vh - ${HEADER_HEIGHT + FOOTER_HEIGHT + DATA_STORE_BOX_HEIGHT + 20 }px)`}
           onRowClick={handleSelectedNode}
