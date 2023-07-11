@@ -42,17 +42,18 @@ const DataProductDashboard = () => {
   const [metadataValue, updateMetadataValue] = React.useState(null);
   const [canSearch, updateCanSearch] = React.useState(false);
 
-  async function UpdateAPIStatus() {
-    const results = await GetAPIStatus()
-    updateCanSearch(results.data.Search_enabled)
-  }
-  if (!DATA_LOCAL) {
-    UpdateAPIStatus()
-  } else {
-    updateCanSearch(true)
-  }
-
   React.useEffect(() => {
+    async function UpdateAPIStatus() {
+      const results = await GetAPIStatus()
+      updateCanSearch(results.data.Search_enabled)
+    }
+
+    if (!DATA_LOCAL) {
+      UpdateAPIStatus()
+    } else {
+      updateCanSearch(true)
+    }
+
     setUpdating(true);
   }, []);
 
