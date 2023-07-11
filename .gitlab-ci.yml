@@ -7,7 +7,7 @@ variables:
 stages:
   - dependencies
   - lint
-  # - build
+  - build
   - test
   - deploy
   - deploy-dp
@@ -131,7 +131,6 @@ build:
   script:
     - npm config set registry https://registry.npmjs.org/
     - yarn install --immutable
-    - yarn skao:update
     - yarn build
 
 # export the report
