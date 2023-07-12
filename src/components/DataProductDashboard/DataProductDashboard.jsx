@@ -40,19 +40,22 @@ const DataProductDashboard = () => {
   const [dataStoreLastModifiedTime, setDataStoreLastModifiedTime] = React.useState(null);
   const [initFlag, setInitFlag] = React.useState(true);
 
+  async function CheckFornewData() {
+    const results = await GetAPIStatus()
+    updateCanSearch(results.data.Search_enabled)
+    setDataStoreLastModifiedTime(results.data.Date_modified)
+  }
+
   async function PeriodicAPIStatusCheck() {
     React.useEffect(() => {
-      async function fetchData() {
-        const results = await GetAPIStatus();
-        updateCanSearch(results.data.Search_enabled);
-        setDataStoreLastModifiedTime(results.data.Date_modified);
-      }
-      fetchData();
-      const interval = setInterval(fetchData, REACT_APP_API_REFRESH_RATE);
+      const interval = setInterval(async () => {
+        CheckFornewData()
+      }, REACT_APP_API_REFRESH_RATE);
       return () => clearInterval(interval);
     }, []);
+    return;
   }
-  
+
   PeriodicAPIStatusCheck();
 
   React.useEffect(() => {
