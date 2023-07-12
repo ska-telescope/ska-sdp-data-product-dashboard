@@ -1,7 +1,6 @@
 import React from 'react';
 import axios from 'axios';
 import { useTranslation } from 'react-i18next';
-import { useEffect } from 'react';
 
 import { Box, Button, Card, CardActions, CardContent, Grid, Typography, TextField } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
@@ -41,24 +40,20 @@ const DataProductDashboard = () => {
   const [dataStoreLastModifiedTime, setDataStoreLastModifiedTime] = React.useState(null);
   const [initFlag, setInitFlag] = React.useState(true);
 
-  async function CheckFornewData() {
-    const results = await GetAPIStatus()
-    updateCanSearch(results.data.Search_enabled)
-    setDataStoreLastModifiedTime(results.data.Date_modified)
-  }
-
   async function PeriodicAPIStatusCheck() {
-    useEffect(() => {
-      const interval = setInterval(async () => {
-        CheckFornewData()
-      }, REACT_APP_API_REFRESH_RATE);
+    React.useEffect(() => {
+      async function fetchData() {
+        const results = await GetAPIStatus();
+        updateCanSearch(results.data.Search_enabled);
+        setDataStoreLastModifiedTime(results.data.Date_modified);
+      }
+      fetchData();
+      const interval = setInterval(fetchData, REACT_APP_API_REFRESH_RATE);
       return () => clearInterval(interval);
     }, []);
-  
-    return;
   }
-
-  PeriodicAPIStatusCheck()
+  
+  PeriodicAPIStatusCheck();
 
   React.useEffect(() => {
     if (!initFlag) {
