@@ -59,14 +59,12 @@
   },
   "label": {
     "endDate": "End date",
+    "filterOnMetaData": "Filter data products based on metadata:",
     "key": "Key",
     "metaData": "Meta Data",
+    "selectFile": "Selected File",
     "startDate": "Start date",
     "value": "Value"
-  },
-  "prompt": {
-    "filterOnMetaData": "Filter data products based on metadata:",
-    "selectFile": "Selected File:"
   },
   "toolTip": {
     "button": {
