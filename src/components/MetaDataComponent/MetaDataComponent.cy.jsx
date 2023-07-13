@@ -4,7 +4,7 @@ import MetaDataComponent from './MetaDataComponent';
 import { TEST_ARRAY } from '../../utils/constants';
 
 describe('<MetaData />', () => {
-  //TODO: Refactor to solve failure
+  //TODO: Refactor to solve failure - to be addressed in nal-662
 
   // it('MetaData renders', () => {
   //   cy.mount(<MetaDataComponent metaData={mockData} />)

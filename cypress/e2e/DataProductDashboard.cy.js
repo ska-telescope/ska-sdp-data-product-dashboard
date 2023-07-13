@@ -9,7 +9,7 @@ const DOWNLOAD_ICON = "DownloadIcon";
 const LOCAL_HOST = "http://localhost:8100/";
 const TEST_DATA_FILE_1 = "TestDataFile1.txt";
 context('Select and download data product', () => {
-  //TODO: refactor to solve failure
+  //TODO: refactor to solve failure - to be addressed in nal-662
 
   // function testDownloadProducts() {
   //   it("Select data product 1 and download file", () => {
@@ -51,7 +51,7 @@ context('Select and download data product', () => {
       cy.intercept('GET', 'http://localhost:8000/status', ExampleDataProductStatus)
       setUpForTests();
     })
-    //TODO: refactor to solve failure
+    //TODO: refactor to solve failure - to be addressed in nal-662
 
     // testDownloadProducts();
   })
@@ -74,7 +74,7 @@ context('Select and download data product', () => {
       cy.intercept('GET', 'http://localhost:8000/status', ExampleDataProductStatusAvailableWithSearch)
       setUpForTests();
     })
-    //TODO: refactor to solve failure
+    //TODO: refactor to solve failure - to be addressed in nal-662
 
     // testDownloadProducts();
 
