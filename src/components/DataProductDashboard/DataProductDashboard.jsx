@@ -1,31 +1,36 @@
-import React from 'react';
-import axios from 'axios';
-import { useTranslation } from 'react-i18next';
+import React from "react";
+import axios from "axios";
+import { useTranslation } from "react-i18next";
 
-import { Box, Button, Card, CardActions, CardContent, Grid, Typography, TextField } from '@mui/material';
-import SearchIcon from '@mui/icons-material/Search';
-import CachedIcon from '@mui/icons-material/Cached';
-import RefreshIcon from '@mui/icons-material/Refresh';
-import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-import { DatePicker } from '@mui/x-date-pickers/DatePicker';
-import { InfoCard } from '@ska-telescope/ska-gui-components';
+import { Box, Button, Card, CardActions, CardContent, Grid, TextField, Typography } from "@mui/material";
+import SearchIcon from "@mui/icons-material/Search";
+import CachedIcon from "@mui/icons-material/Cached";
+import RefreshIcon from "@mui/icons-material/Refresh";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
+import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 
-import DataProductsTable from '../DataProductsTable/DataProductsTable';
-import DownloadCard from '../DownloadCard/DownloadCard';
-import MetaDataComponent from '../MetaDataComponent/MetaDataComponent';
-import SearchForDataProduct from '../../services/SearchForDataProduct/SearchForDataProduct';
-import ListAllDataProducts from '../../services/ListAllDataProducts/ListAllDataProducts';
-import GetAPIStatus from '../../services/GetAPIStatus/GetAPIStatus';
-import MetaData from '../../services/MetaData/MetaData';
-import Constants from '../../utils/constants';
+import DataProductsTable from "../DataProductsTable/DataProductsTable";
+import DownloadCard from "../DownloadCard/DownloadCard";
+import MetaDataComponent from "../MetaDataComponent/MetaDataComponent";
+import SearchForDataProduct from "../../services/SearchForDataProduct/SearchForDataProduct";
+import ListAllDataProducts from "../../services/ListAllDataProducts/ListAllDataProducts";
+import GetAPIStatus from "../../services/GetAPIStatus/GetAPIStatus";
+import MetaData from "../../services/MetaData/MetaData";
+import { MockDPL } from "../../services/Mocking/mockDataProductList";
+import { MockMeta } from "../../services/Mocking/mockMetaData";
+import { DATA_LOCAL } from "../../utils/constants";
+
+const DEF_START_DATE = "1970-01-01";
+const DEF_END_DATE = "2070-12-31";
+const DEF_WILDCARD = "*";
 
 const DataProductDashboard = () => {
   const { t } = useTranslation('dpd');
   const [updating, setUpdating] = React.useState(false);
-  const [jsonDataProducts, setJsonDataProducts] = React.useState({data:[]});
+  const [dataProducts, setDataProductsData] = React.useState({data:[]});
   const [metaData, setMetaData] = React.useState(null);
-  const [oldFilename, setOldFilename] = React.useState(null);
+  const [oldFilename] = React.useState(null);
   const [selectedFileNames, setSelectedFileNames] = React.useState({
     fileName: '',
     relativePathName: '',
@@ -37,51 +42,61 @@ const DataProductDashboard = () => {
   const [metadataValue, updateMetadataValue] = React.useState(null);
   const [canSearch, updateCanSearch] = React.useState(false);
 
-  async function UpdateAPIStatus() {
-    const results = await GetAPIStatus()
-    updateCanSearch(results.data.Search_enabled)
-  }
-  UpdateAPIStatus()
-
-  async function getDataProductList(startDateStr, endDateStr, metadataKeyStr, metadataValueStr){
-    if (canSearch){
-      const results = await SearchForDataProduct(startDateStr, endDateStr, metadataKeyStr, metadataValueStr);
-      return results
-    }
-    else {
-      const results = await ListAllDataProducts();
-      return results
-    }
-  }
-
-  async function updateSearchResults() {
-    const DEF_START_DATE = "1970-01-01"; 
-    const DEF_END_DATE = "2070-12-31";
-    const DEF_WILDCARD = "*";
-
-    const startDateStr = startDate ? startDate : DEF_START_DATE;
-    const endDateStr = endDate ? endDate : DEF_END_DATE;
-    const metadataKeyStr = metadataKey ? metadataKey : DEF_WILDCARD;
-    const metadataValueStr = metadataValue ? metadataValue : DEF_WILDCARD;
-    const results = await getDataProductList(startDateStr, endDateStr, metadataKeyStr, metadataValueStr);
-    setJsonDataProducts(results);
-    setUpdating(false);
-  }
-
   React.useEffect(() => {
+    async function UpdateAPIStatus() {
+      const results = await GetAPIStatus()
+      updateCanSearch(results.data.Search_enabled)
+    }
+
+    if (!DATA_LOCAL) {
+      UpdateAPIStatus()
+    } else {
+      updateCanSearch(true)
+    }
+
     setUpdating(true);
   }, []);
 
 
   React.useEffect(() => {
+    async function getDataProductList(startDateStr, endDateStr, metadataKeyStr, metadataValueStr){
+      if (canSearch){
+        return await SearchForDataProduct(startDateStr, endDateStr, metadataKeyStr, metadataValueStr)
+      }
+      else {
+        return await ListAllDataProducts()
+      }
+    }
+
+    async function updateSearchResults() {
+      const results = (DATA_LOCAL) ? MockDPL : await getDataProductList(startDate ? startDate : DEF_START_DATE, endDate ? endDate : DEF_END_DATE, metadataKey ? metadataKey : DEF_WILDCARD, metadataValue ? metadataValue : DEF_WILDCARD);
+      setDataProductsData(results);
+      setUpdating(false);
+    }
+    
     if (updating) {
       updateSearchResults();
     }    
-  }, [updating]);
+  }, [canSearch, endDate, metadataKey, metadataValue, startDate, updating]);
 
   React.useEffect(() => {
-    setOldFilename(selectedFileNames.metaDataFile);
-  }, [selectedFileNames, metaData]);
+    if (DATA_LOCAL && selectedFileNames?.metaDataFile?.length ) {
+      setMetaData(MockMeta);
+    } else {
+      const metaDataFile = selectedFileNames?.metaDataFile;
+
+      async function getMetaData() {
+        const results = await MetaData(selectedFileNames?.metaDataFile);
+        setMetaData(results.data);
+      }
+
+      if (metaDataFile && metaDataFile.length) {
+        if (oldFilename !== metaDataFile) {
+          getMetaData();
+        }
+      }
+    }
+  }, [oldFilename, selectedFileNames]);
 
   const rowClickHandler = (data) => {
     setSelectedFileNames({
@@ -104,33 +119,7 @@ const DataProductDashboard = () => {
       return t('error.API_NOT_AVAILABLE');
     }
   }
-
-  async function getMetaData() {
-    const results = await MetaData(selectedFileNames?.metaDataFile);
-    setMetaData(results.data);
-  }
-
-   function RenderMetaData() {
-    if ( displayData() && metaData ) {
-      return (
-        <MetaDataComponent metaData={metaData} />
-      );
-    }
-  }
-
-  const displayData = () => {
-    let result = false;
-    const metaDataFile = selectedFileNames?.metaDataFile;
-
-    if (metaDataFile && metaDataFile.length) {
-      result = true;
-      if (oldFilename !== metaDataFile) {
-        getMetaData();
-      }
-    }
-    return result;
-  }
-
+  
   function RenderSearchBox() {
     if (canSearch) {
       return (
@@ -138,7 +127,7 @@ const DataProductDashboard = () => {
           <Card variant="outlined" sx={{ minWidth: 275 }}>
             <CardContent>
               <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
-                {t('prompt.filterOnMetaData')}
+                {t('label.filterOnMetaData')}
               </Typography>
               <LocalizationProvider dateAdapter={AdapterDayjs} >
               <Grid container direction="row" justifyContent="space-between">
@@ -197,7 +186,7 @@ const DataProductDashboard = () => {
 
   function RenderDataStoreBox() {
     return (
-      <Box m={1} sx={{ height: Constants.DATA_STORE_BOX_HEIGHT, width: "100%", overflowY: "auto"  }}>
+      <Box m={1}>
         <Grid container spacing={1} direction="row" justifyContent="justify-left">
           <Grid item>
             <Button variant="outlined" color="secondary" onClick={() => indexDataProduct()}>
@@ -217,19 +206,21 @@ const DataProductDashboard = () => {
   }
   
   return (
-    <Grid container spacing={1} direction="row" justifyContent="space-between">
-        <Grid item xs={9}>
-          {RenderDataStoreBox()}
-          {DataProductsTable(jsonDataProducts.data, updating, rowClickHandler)}
-        </Grid>
-        <Grid item xs={3}>
-          <>
-            {RenderSearchBox()}
-            {DownloadCard(selectedFileNames)}
-            {RenderMetaData()}
-          </>
-        </Grid>
-    </Grid>
+    <>
+      {RenderDataStoreBox()}
+      <Grid container spacing={1} direction="row" justifyContent="space-between">
+          <Grid item xs={9}>
+            {DataProductsTable(dataProducts.data, updating, rowClickHandler)}
+          </Grid>
+          <Grid item xs={3}>
+            <>
+              {RenderSearchBox()}
+              {DownloadCard(selectedFileNames)}
+              {metaData && <MetaDataComponent metaData={metaData} />}
+            </>
+          </Grid>
+      </Grid>
+    </>
   );
 };
 
