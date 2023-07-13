@@ -64,7 +64,8 @@
     "metaData": "Meta Data",
     "selectFile": "Selected File",
     "startDate": "Start date",
-    "value": "Value"
+    "value": "Value",
+    "date_input_format": "dd/mm/yyyy"
   },
   "toolTip": {
     "button": {

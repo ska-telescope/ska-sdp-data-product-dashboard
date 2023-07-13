@@ -54,8 +54,17 @@ const DataProductDashboard = () => {
 
   async function PeriodicAPIStatusCheck() {
     React.useEffect(() => {
-      const interval = setInterval(async () => {
+      if (!DATA_LOCAL) {
         CheckFornewData()
+      } else {
+        updateCanSearch(true)
+      }
+      const interval = setInterval(async () => {
+        if (!DATA_LOCAL) {
+          CheckFornewData()
+        } else {
+          updateCanSearch(true)
+        }
       }, REACT_APP_API_REFRESH_RATE);
       return () => clearInterval(interval);
     }, []);
@@ -73,31 +82,6 @@ const DataProductDashboard = () => {
     }
   }, [dataStoreLastModifiedTime]);
 
-  async function getDataProductList(startDateStr, endDateStr, metadataKeyStr, metadataValueStr){
-    if (canSearch){
-      const results = await SearchForDataProduct(startDateStr, endDateStr, metadataKeyStr, metadataValueStr);
-      return results
-    }
-    else {
-      const results = await ListAllDataProducts();
-      return results
-    }
-  }
-
-  async function updateSearchResults() {
-    const DEF_START_DATE = "1970-01-01"; 
-    const DEF_END_DATE = "2070-12-31";
-    const DEF_WILDCARD = "*";
-
-    const startDateStr = startDate ? startDate : DEF_START_DATE;
-    const endDateStr = endDate ? endDate : DEF_END_DATE;
-    const metadataKeyStr = metadataKey ? metadataKey : DEF_WILDCARD;
-    const metadataValueStr = metadataValue ? metadataValue : DEF_WILDCARD;
-    const results = await getDataProductList(startDateStr, endDateStr, metadataKeyStr, metadataValueStr);
-    setDataProductsData(results);
-    setUpdating(false);
-    updateNewDataAvailable(false);
-  }
 
   React.useEffect(() => {
     setUpdating(true);
@@ -118,6 +102,7 @@ const DataProductDashboard = () => {
       const results = (DATA_LOCAL) ? MockDPL : await getDataProductList(startDate ? startDate : DEF_START_DATE, endDate ? endDate : DEF_END_DATE, metadataKey ? metadataKey : DEF_WILDCARD, metadataValue ? metadataValue : DEF_WILDCARD);
       setDataProductsData(results);
       setUpdating(false);
+      updateNewDataAvailable(false);
     }
     
     if (updating) {
@@ -171,32 +156,6 @@ const DataProductDashboard = () => {
     CheckFornewData(true)
   }
   
-  async function getMetaData() {
-    const results = await MetaData(selectedFileNames?.metaDataFile);
-    setMetaData(results.data);
-  }
-
-   function RenderMetaData() {
-    if ( displayData() && metaData ) {
-      return (
-        <MetaDataComponent metaData={metaData} />
-      );
-    }
-  }
-
-  const displayData = () => {
-    let result = false;
-    const metaDataFile = selectedFileNames?.metaDataFile;
-
-    if (metaDataFile && metaDataFile.length) {
-      result = true;
-      if (oldFilename !== metaDataFile) {
-        getMetaData();
-      }
-    }
-    return result;
-  }
-
   function RenderSearchBox() {
     if (canSearch) {
       return (
@@ -209,7 +168,7 @@ const DataProductDashboard = () => {
               <LocalizationProvider dateAdapter={AdapterDayjs} >
               <Grid container direction="row" justifyContent="space-between">
                 <DatePicker
-                  inputFormat={t('date_input_format')}
+                  inputFormat={t('label.date_input_format')}
                   label={t('label.startDate')}
                   onChange={(newValue) => {
                     updateStartDate(newValue);
@@ -218,7 +177,7 @@ const DataProductDashboard = () => {
                   value={startDate}
                 />
                 <DatePicker
-                  inputFormat={t('date_input_format')}
+                  inputFormat={t('label.date_input_format')}
                   label={t('label.endDate')}
                   onChange={(newValue) => {
                     updateEndDate(newValue);
