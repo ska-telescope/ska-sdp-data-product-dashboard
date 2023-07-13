@@ -59,6 +59,7 @@
       "obs_release_date": "Observation Release Date",
       "obs_title": "Observation Description",
       "o_calib_status": "Observation Calibration Status",
+      "o_stat_error": "Observation Error",
       "o_ucd": "Observation Unified Content Descriptor",
       "o_unit": "Observation Unit",
       "pol_states": "Polarization States",
