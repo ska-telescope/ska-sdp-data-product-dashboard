@@ -88,6 +88,8 @@ context('Select and download data product', () => {
     })
 
     it('Data products can be reloaded', () => {
+      cy.findByTestId("CachedIcon").invoke('css', 'pointer-events', 'auto')
+      cy.findByTestId("CachedIcon").invoke('prop', 'disabled', false)
       cy.findByTestId("CachedIcon").click()
     })
 

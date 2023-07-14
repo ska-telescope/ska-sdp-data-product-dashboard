@@ -25,6 +25,7 @@ dashboard:
   container: artefact.skao.int/ska-sdp-dataproduct-dashboard
   version: 0.3.0
   imagePullPolicy: IfNotPresent
+  apiRefreshRate: 10000
   resources:
     requests:
       cpu: 250m

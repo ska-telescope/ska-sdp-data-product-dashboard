@@ -77,6 +77,10 @@ spec:
               value: {{ include "api_url" . }}
             - name: REACT_APP_DASHBOARD_URL_SUBDIRECTORY
               value: {{ include "ingress_path_prepend" . }}/dashboard
+            - name: REACT_APP_API_REFRESH_RATE
+              value: {{ .Values.dashboard.apiRefreshRate }}
+            - name: REACT_APP_VERSION
+              value: "{{ .Values.dashboard.version }} "    
           volumeMounts:
             - name: dist
               mountPath: /dist

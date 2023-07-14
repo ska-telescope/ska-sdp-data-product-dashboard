@@ -4,6 +4,7 @@ const ModuleFederationPlugin = require('webpack/lib/container/ModuleFederationPl
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 
 const deps = require('./package.json').dependencies;
+const version = require('./package.json').version;
 
 module.exports = (env, argv) => { return {
   entry: "./src/index.jsx",
@@ -124,6 +125,8 @@ module.exports = (env, argv) => { return {
       REACT_APP_SKA_SDP_DATAPRODUCT_DASHBOARD_URL:'http://localhost',
       REACT_APP_SKA_SDP_DATAPRODUCT_API_URL: 'http://localhost:8000',
       REACT_APP_DASHBOARD_URL_SUBDIRECTORY: '',
+      REACT_APP_API_REFRESH_RATE: 10000,
+      REACT_APP_VERSION: version,
       REACT_USE_LOCAL_DATA: false,  // Ensure set to false for production
     }),
     new CopyWebpackPlugin({

@@ -63,5 +63,8 @@ spec:
             value: "{{ .Values.api.metadata_es_schema_file }}"
           - name: ES_HOST
             value: "{{ .Values.api.es_host }}"
+          - name: SKA_SDP_DATAPRODUCT_API_VERSION
+            value: "{{ .Values.api.version }}"
+            
 
 {{- end }}

@@ -39,6 +39,8 @@ describe('<DataProductDashboard />', () => {
   it('Data products reload endpoint is called', () => {
     cy.stub(axios, 'get').returns("").as('fetch')
     cy.mount(<DataProductDashboard data-testid="DataProductDashboardId" dataLocalValue='TRUE' />)
+    cy.findByTestId("CachedIcon").invoke('css', 'pointer-events', 'auto')
+    cy.findByTestId("CachedIcon").invoke('prop', 'disabled', false)
     cy.findByTestId("CachedIcon").click()
     cy.get('@fetch').should('have.been.called')
     })

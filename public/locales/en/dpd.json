@@ -4,9 +4,9 @@
   "isLoading": "...loading",
   "button": {
     "download": "Download",
-    "indexDP": "Index Data Products",
+    "indexDP": "Re-Index Data Products",
     "search": "Search",
-    "reload": "Reload",
+    "reload": "New data available, reload",
     "settings": "Settings"
   },
   "column": {
@@ -64,7 +64,8 @@
     "metaData": "Meta Data",
     "selectFile": "Selected File",
     "startDate": "Start date",
-    "value": "Value"
+    "value": "Value",
+    "date_input_format": "dd/mm/yyyy"
   },
   "toolTip": {
     "button": {

@@ -24,6 +24,7 @@ import { DATA_LOCAL } from "../../utils/constants";
 const DEF_START_DATE = "1970-01-01";
 const DEF_END_DATE = "2070-12-31";
 const DEF_WILDCARD = "*";
+const REACT_APP_API_REFRESH_RATE = process.env.REACT_APP_API_REFRESH_RATE;
 
 const DataProductDashboard = () => {
   const { t } = useTranslation('dpd');
@@ -41,19 +42,48 @@ const DataProductDashboard = () => {
   const [metadataKey, updateMetadataKey] = React.useState(null);
   const [metadataValue, updateMetadataValue] = React.useState(null);
   const [canSearch, updateCanSearch] = React.useState(false);
+  const [newDataAvailable, updateNewDataAvailable] = React.useState(null);
+  const [dataStoreLastModifiedTime, setDataStoreLastModifiedTime] = React.useState(null);
+  const [initFlag, setInitFlag] = React.useState(true);
+
+  async function CheckFornewData() {
+    const results = await GetAPIStatus()
+    updateCanSearch(results.data.Search_enabled)
+    setDataStoreLastModifiedTime(results.data.Date_modified)
+  }
+
+  async function PeriodicAPIStatusCheck() {
+    React.useEffect(() => {
+      if (!DATA_LOCAL) {
+        CheckFornewData()
+      } else {
+        updateCanSearch(true)
+      }
+      const interval = setInterval(async () => {
+        if (!DATA_LOCAL) {
+          CheckFornewData()
+        } else {
+          updateCanSearch(true)
+        }
+      }, REACT_APP_API_REFRESH_RATE);
+      return () => clearInterval(interval);
+    }, []);
+    return;
+  }
+
+  PeriodicAPIStatusCheck();
 
   React.useEffect(() => {
-    async function UpdateAPIStatus() {
-      const results = await GetAPIStatus()
-      updateCanSearch(results.data.Search_enabled)
+    if (!initFlag) {
+      updateNewDataAvailable(true)
     }
-
-    if (!DATA_LOCAL) {
-      UpdateAPIStatus()
-    } else {
-      updateCanSearch(true)
+    if ( dataStoreLastModifiedTime !== null ) {
+      setInitFlag(false)
     }
+  }, [dataStoreLastModifiedTime]);
 
+
+  React.useEffect(() => {
     setUpdating(true);
   }, []);
 
@@ -72,6 +102,7 @@ const DataProductDashboard = () => {
       const results = (DATA_LOCAL) ? MockDPL : await getDataProductList(startDate ? startDate : DEF_START_DATE, endDate ? endDate : DEF_END_DATE, metadataKey ? metadataKey : DEF_WILDCARD, metadataValue ? metadataValue : DEF_WILDCARD);
       setDataProductsData(results);
       setUpdating(false);
+      updateNewDataAvailable(false);
     }
     
     if (updating) {
@@ -119,6 +150,11 @@ const DataProductDashboard = () => {
       return t('error.API_NOT_AVAILABLE');
     }
   }
+
+  async function OnClickIndexDataProduct() {
+    indexDataProduct()
+    CheckFornewData(true)
+  }
   
   function RenderSearchBox() {
     if (canSearch) {
@@ -132,7 +168,7 @@ const DataProductDashboard = () => {
               <LocalizationProvider dateAdapter={AdapterDayjs} >
               <Grid container direction="row" justifyContent="space-between">
                 <DatePicker
-                  inputFormat={t('date_input_format')}
+                  inputFormat={t('label.date_input_format')}
                   label={t('label.startDate')}
                   onChange={(newValue) => {
                     updateStartDate(newValue);
@@ -141,7 +177,7 @@ const DataProductDashboard = () => {
                   value={startDate}
                 />
                 <DatePicker
-                  inputFormat={t('date_input_format')}
+                  inputFormat={t('label.date_input_format')}
                   label={t('label.endDate')}
                   onChange={(newValue) => {
                     updateEndDate(newValue);
@@ -189,13 +225,13 @@ const DataProductDashboard = () => {
       <Box m={1}>
         <Grid container spacing={1} direction="row" justifyContent="justify-left">
           <Grid item>
-            <Button variant="outlined" color="secondary" onClick={() => indexDataProduct()}>
+            <Button variant="outlined" color="secondary" onClick={() => OnClickIndexDataProduct() }>
               <RefreshIcon />
               {t('button.indexDP')}
             </Button> 
           </Grid>
           <Grid item>    
-            <Button disabled={updating} variant="outlined" color="secondary" onClick={() => setUpdating(true)}> 
+            <Button disabled={!newDataAvailable} variant="outlined" color="secondary" onClick={() => setUpdating(true)}> 
               <CachedIcon />
               {t('button.reload')}
             </Button>
