@@ -9,7 +9,7 @@ api:
 
 dashboard:
   container: docker.io/library/ska-sdp-dataproduct-dashboard
-  version: 0.4.0
+  version: 0.4.1
 
 elasticsearch:
   enabled: false
