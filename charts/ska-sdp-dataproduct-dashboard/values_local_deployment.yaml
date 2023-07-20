@@ -5,11 +5,11 @@ urls:
 api:
   container: docker.io/library/ska-sdp-dataproduct-api
   storagePath: "/mnt/"
-  version: 0.4.1
+  version: 0.4.2
 
 dashboard:
   container: docker.io/library/ska-sdp-dataproduct-dashboard
-  version: 0.4.2
+  version: 0.4.3
 
 elasticsearch:
   enabled: false
