@@ -2,7 +2,6 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { Box, Grid } from '@mui/material';
 import { DataGrid, InfoCard } from '@ska-telescope/ska-gui-components';
-import { DATA_STORE_BOX_HEIGHT } from '../../utils/constants';
 
 const DataProductsTable = (jsonDataProducts, updating, handleSelectedNode) => {
   const { t } = useTranslation('dpd');
