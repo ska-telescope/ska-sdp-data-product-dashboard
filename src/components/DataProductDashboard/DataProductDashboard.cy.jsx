@@ -2,7 +2,7 @@ import React from 'react'
 import { MockDPL } from '../../services/Mocking/mockDataProductList';
 import DataProductDashboard from './DataProductDashboard';
 import axios from 'axios';
-import { DOWNLOAD_ICON, PROD_1, PROD_2, TEST_DATA_FILE_1, TEXT_NO_API } from '../../utils/constants';
+import { DOWNLOAD_ID, PROD_1, PROD_2, TEST_DATA_FILE_1, TEXT_NO_API } from '../../utils/constants';
 
 describe('<DataProductDashboard />', () => {
 
@@ -25,7 +25,7 @@ describe('<DataProductDashboard />', () => {
     cy.mount(<DataProductDashboard data-testid="DataProductDashboardId" dataLocalValue='TRUE' />)
     cy.get('@fetch').should('have.been.called')
     cy.findByText("1").click()
-    cy.findByTestId(DOWNLOAD_ICON).click()
+    cy.findByTestId(DOWNLOAD_ID).click()
     cy.readFile('cypress/data/' + TEST_DATA_FILE_1).should('contain', 'This is test file 1')
   })
 

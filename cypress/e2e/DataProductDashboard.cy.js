@@ -13,13 +13,13 @@ context('Select and download data product', () => {
   // function testDownloadProducts() {
   //   it("Select data product 1 and download file", () => {
   //     cy.get('div').contains('1').click() // Yield el in .nav containing 'About'
-  //     cy.findByTestId(DOWNLOAD_ICON).click();
+  //     cy.findByTestId(DOWNLOAD_ID).click();
   //     cy.readFile("cypress/data/" + TEST_DATA_FILE_1).should("contain", "This is test file 1");
   //   });
   //
   //   it("Select data product 2 and download file", () => {
   //     cy.get('div').contains('2').click() // Yield el in .nav containing 'About'
-  //    cy.findByTestId(DOWNLOAD_ICON).click();
+  //    cy.findByTestId(DOWNLOAD_ID).click();
   //    cy.readFile("cypress/data/" + TEST_DATA_FILE_1).should("contain", "This is test file 1");
   //   });
   // }
