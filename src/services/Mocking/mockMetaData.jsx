@@ -1,4 +1,4 @@
-const mockData = {
+export const MockMeta = {
   interface: 'http://schema.skao.int/ska-data-product-meta/0.1',
   execution_block: 'eb-m001-20191031-12345',
   context: {
@@ -22,6 +22,5 @@ const mockData = {
     }
   ]
   };
-  
-  export default mockData;
+
   

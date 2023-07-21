@@ -185,12 +185,14 @@ include:
 deploy-dev-environment-dp:
   stage: deploy-dp
   extends: deploy-dev-environment
+  when: manual
   tags:
     - ska-k8srunner-dp
 
 test-dev-environment-dp:
   stage: deploy-dp
   extends: test-dev-environment
+  when: manual
   tags:
     - ska-k8srunner-dp
   needs:
@@ -213,6 +215,7 @@ stop-dev-environment-dp:
 deploy-integration-dp:
   stage: integration-dp
   extends: deploy-integration
+  when: manual
   tags:
     - ska-k8srunner-dp
 
@@ -241,6 +244,7 @@ stop-integration-dp:
 deploy-staging-dp:
   stage: staging-dp
   extends: deploy-staging
+  when: manual
   tags:
     - ska-k8srunner-dp
   needs:

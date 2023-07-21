@@ -1,96 +1,14 @@
 {
   "application": "Data Product Dashboard",
-
+  "dateFormatInput": "dd/mm/yyyy",
   "isLoading": "...loading",
+
   "button": {
     "download": "Download",
-    "indexDP": "Index Data Products",
+    "indexDP": "Re-Index Data Products",
     "search": "Search",
-    "reload": "Reload",
+    "reload": "New data available, reload",
     "settings": "Settings"
-  },
-  "column": {
-    "config": {
-      "cmdline": "Command Line",
-      "commit": "Commit",
-      "image": "Image",
-      "processing_block": "Processing Block",
-      "processing_script": "Processing Script",
-      "version": "Version"
-    },
-    "context": {
-      "intent": "Intent",
-      "notes": "Notes",
-      "observer": "Observer"
-    },
-    "execution_block": "Execution Block ID",
-    "date_created": "Date Created",
-    "id": "ID",
-    "interface": "Interface",
-    "obscore": {
-      "access_estsize": "Estimated Size (kB)",
-      "access_format": "File Format",
-      "access_url": "Download URL",
-      "ant_number": "No. of Antennas",
-      "bib_reference": "Bibliographic Reference",
-      "calib_level": "Calibration Level",
-      "dataproduct_type": "Data Product Type",
-      "dataproduct_subtype": "Data Product Subtype",
-      "data_rights": "Data Rights",
-      "em_calib_status": "Spectral Calibration Status",
-      "em_max": "Spectral Interval (Max)",
-      "em_min": "Spectral Interval (Min)",
-      "em_resolution": "Spectral Resolution",
-      "em_res_power": "Spectral Resolving Power (Avg)",
-      "em_res_power_max": "Spectral Resolving Power (Max)",
-      "em_res_power_min": "Spectral Resolving Power (Min)",
-      "em_ucd": "Spectral Axis Unified Content Descriptor",
-      "em_stat_error": "Spectral Axis Accuracy",
-      "em_unit": "Spectral Axis Unit",
-      "em_xel": "No. of Spectral Sampling Elements",
-      "facility_name": "Facility Name",
-      "instrument_name": "Instrument Name",
-      "obs_collection": "Observation Collection",
-      "obs_creation_date": "Observation Creation Date",
-      "obs_creator_did": "Observation Creator ID",
-      "obs_creator_name": "Observation Creator Name",
-      "obs_id": "Observation ID",
-      "obs_publisher_did": "Observation Publisher DID",
-      "obs_release_date": "Observation Release Date",
-      "obs_title": "Observation Description",
-      "o_calib_status": "Observation Calibration Status",
-      "o_stat_error": "Observation Error",
-      "o_ucd": "Observation Unified Content Descriptor",
-      "o_unit": "Observation Unit",
-      "pol_states": "Polarization States",
-      "pol_xel": "No. of Elements along Polarization Axis",
-      "proposal_id": "Proposal ID",
-      "publisher_id": "Publisher ID",
-      "s_calib_status": "Astrometric Calibration Status",
-      "s_dec": "Dec (deg)",
-      "s_fov": "Field of View",
-      "s_pixel_scale": "Spatial Sampling",
-      "s_ra": "RA (deg)",
-      "s_region": "Spatial Region",
-      "s_resolution": "Spatial Resolution",
-      "s_resolution_max": "Spatial Resolution (Max)",
-      "s_resolution_min": "Spatial Resolution (Min)",
-      "s_stat_error": "Astrometric Precision",
-      "s_ucd": "Spatial Unified Content Descriptor",
-      "s_unit": "Spatial Unit",
-      "s_xel1": "No. of Elements along Spatial Axis 1",
-      "s_xel2": "No. of Elements along Spatial Axis 2",
-      "t_calib_status": "Time Calibration Status",
-      "t_exptime": "Total Exposure Time (s)",
-      "t_max": "Stop Time (MJD)",
-      "t_min": "Start Time (MJD)",
-      "t_refpos": "Time Reference Position",
-      "t_resolution": "Time Resolution",
-      "t_stat_error": "Time Calibration Error",
-      "t_xel": "No. of Time Sampling Elements",
-      "target_class": "Target Class",
-      "target_name": "Target Name"
-    }
   },
   "error": {
     "API_NO_DATA": "Data API not available",
@@ -102,15 +20,22 @@
     "fetching": "Retrieving information from API"
   },
   "label": {
+    "apiVersion": "API Version",
+    "dateCreated": "Date Created",
     "endDate": "End date",
+    "executionBlock": "Execution Block ID",
+    "guiVersion": "GUI Version",
+    "id": "ID",
+    "interface": "Interface",
     "key": "Key",
     "metaData": "Meta Data",
+    "selectFile": "Selected File",
     "startDate": "Start date",
-    "value": "Value"
+    "value": "Value",
+    "version": "Version"
   },
   "prompt": {
-    "filterOnMetaData": "Filter data products based on metadata:",
-    "selectFile": "Selected File:"
+    "filter": "Filter data products based on metadata:"
   },
   "toolTip": {
     "button": {

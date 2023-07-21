@@ -1,16 +1,15 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { Box, Grid } from '@mui/material';
-import { InfoCard } from '@ska-telescope/ska-gui-components';
-import { DataGrid } from "@mui/x-data-grid";
-import Constants from '../../utils/constants';
+import { DataGrid, InfoCard } from '@ska-telescope/ska-gui-components';
+import { DATA_STORE_BOX_HEIGHT } from '../../utils/constants';
 
 const DataProductsTable = (jsonDataProducts, updating, handleSelectedNode) => {
   const { t } = useTranslation('dpd');
 
   const columns = [
-    { field: "execution_block", headerName: t("column.execution_block"), width: 200 },
-    { field: "date_created", headerName: t("column.date_created"), width: 100 }
+    { field: "execution_block", headerName: t("execution_block", { ns: 'ivoa' }), width: 200 },
+    { field: "date_created", headerName: t("date_created", { ns: 'ivoa' }), width: 100 }
   ];
 
   const ignore_columns_names = ["dataproduct_file", "metadata_file"];
@@ -40,7 +39,7 @@ const DataProductsTable = (jsonDataProducts, updating, handleSelectedNode) => {
           // add new column to extendedColumns
           extendedColumns.push({
             field: key,
-            headerName: t("column." + key),
+            headerName: t(key, { ns: 'ivoa' }),
             width: 200
           });
         }
@@ -60,15 +59,14 @@ const DataProductsTable = (jsonDataProducts, updating, handleSelectedNode) => {
 
   function RenderData() {
     return (
-      <Box m={1} sx={{ height: `calc(100vh - ${Constants.HEADER_HEIGHT + Constants.FOOTER_HEIGHT + 20 + Constants.DATA_STORE_BOX_HEIGHT + 20 }px)`, width: "100%" }}>
-        <DataGrid 
-          aria-label="Data Product Grid"
-          rows={jsonDataProducts}
+      <Box m={1}>
+        <DataGrid
+          data-testid={jsonDataProducts}
           columns={extendedColumns}
-          pageSize={10}
-          rowsPerPageOptions={[10]}
-          checkboxSelection={false}
+          minHeight='100%'
           onRowClick={handleSelectedNode}
+          rows={jsonDataProducts}
+          width="100%"
         />
       </Box>
     );

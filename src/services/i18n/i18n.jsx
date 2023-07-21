@@ -17,7 +17,7 @@ i18n
     },
     fallbackLng: 'en',
     lng: 'en',
-    ns: ['dpd'],
+    ns: ['dpd', 'ivoa'],
     defaultNS: 'dpd',
     initImmediate: false,
     useSuspense: true,
