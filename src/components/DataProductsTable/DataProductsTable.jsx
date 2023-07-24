@@ -2,6 +2,7 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { Box, Grid } from '@mui/material';
 import { DataGrid, InfoCard } from '@ska-telescope/ska-gui-components';
+import { tableHeight } from "../../utils/constants";
 
 const DataProductsTable = (jsonDataProducts, updating, handleSelectedNode) => {
   const { t } = useTranslation('dpd');
@@ -58,11 +59,11 @@ const DataProductsTable = (jsonDataProducts, updating, handleSelectedNode) => {
 
   function RenderData() {
     return (
-      <Box m={1}>
+      <Box m={1} sx={{ height: '100%' }}>
         <DataGrid
           data-testid={jsonDataProducts}
           columns={extendedColumns}
-          minHeight='100%'
+          height={tableHeight()}
           onRowClick={handleSelectedNode}
           rows={jsonDataProducts}
           width="100%"

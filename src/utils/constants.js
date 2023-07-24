@@ -14,6 +14,11 @@ export const TEXT_NO_API = "error.API_NO_DATA";
 
 export const SPACER_HEADER = 70;
 export const SPACER_FOOTER = 70;
+export const DATA_STORE_BOX_HEIGHT = 70;
+export const SPACER = 50;
+
+export const fullHeight = () => { return `calc(100vh - ${SPACER_HEADER + SPACER_FOOTER + SPACER}px)`};
+export const tableHeight = () => { return `calc(100vh - ${SPACER_HEADER + SPACER_FOOTER + DATA_STORE_BOX_HEIGHT + SPACER}px)`};
 
 // METADATA_TITLE: "label.metaData",
 //   INTERFACE: "interface",
@@ -22,4 +27,3 @@ export const SPACER_FOOTER = 70;
 //   CONFIG: "config",
 //   FILES: "files",
 
-export const DATA_STORE_BOX_HEIGHT = 60;

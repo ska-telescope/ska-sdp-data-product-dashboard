@@ -35,10 +35,10 @@ const DataProductDashboard = () => {
     relativePathName: '',
     metaDataFile: ''
   });
-  const [startDate, updateStartDate] = React.useState(null);
-  const [endDate, updateEndDate] = React.useState(null);
-  const [metadataKey, updateMetadataKey] = React.useState(null);
-  const [metadataValue, updateMetadataValue] = React.useState(null);
+  const [startDate, updateStartDate] = React.useState('');
+  const [endDate, updateEndDate] = React.useState('');
+  const [metadataKey, updateMetadataKey] = React.useState('');
+  const [metadataValue, updateMetadataValue] = React.useState('');
   const [canSearch, updateCanSearch] = React.useState(false);
   const [newDataAvailable, updateNewDataAvailable] = React.useState(null);
   const [dataStoreLastModifiedTime, setDataStoreLastModifiedTime] = React.useState(null);
@@ -243,9 +243,9 @@ const DataProductDashboard = () => {
   }
   
   return (
-    <>
+    <Box sx={{ height: '100%' }}>
       {RenderDataStoreBox()}
-      <Grid container spacing={1} direction="row" justifyContent="space-between"  >
+      <Grid sx={{ height: '100%'}} container spacing={1} direction="row" justifyContent="space-between"  >
           <Grid item xs={9}>
             {DataProductsTable(dataProducts.data, updating, rowClickHandler)}
           </Grid>
@@ -256,7 +256,7 @@ const DataProductDashboard = () => {
             </>
           </Grid>
       </Grid>
-    </>
+    </Box>
   );
 };
 

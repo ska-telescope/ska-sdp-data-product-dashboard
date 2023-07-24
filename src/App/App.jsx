@@ -1,9 +1,9 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import { CssBaseline, Grid, Paper, ThemeProvider, Typography } from "@mui/material";
+import { Box, CssBaseline, Grid, Paper, ThemeProvider, Typography } from "@mui/material";
 import DataProductDashboard from '../components/DataProductDashboard/DataProductDashboard';
-import { Footer, Header, Spacer, SPACER_VERTICAL,  THEME_DARK, THEME_LIGHT } from "@ska-telescope/ska-gui-components";
-import { DATA_LOCAL, SPACER_FOOTER, SPACER_HEADER } from "../utils/constants";
+import { Footer, Header, Spacer, SPACER_VERTICAL, THEME_DARK, THEME_LIGHT } from "@ska-telescope/ska-gui-components";
+import { DATA_LOCAL, SPACER_FOOTER, SPACER_HEADER, fullHeight } from "../utils/constants";
 import theme from '../../src/services/theme/theme';
 import GetAPIStatus from '../services/GetAPIStatus/GetAPIStatus';
 const REACT_APP_VERSION = process.env.REACT_APP_VERSION;
@@ -66,14 +66,14 @@ function App() {
         <Paper
             elevation={0}
             sx={{
-              backgroundColor: 'primary.main',
-              width: '100vw',
-              minHeight: '100vh',
+              backgroundColor: 'primary.main'
             }}
           >
-            <Spacer size={SPACER_HEADER} axis={SPACER_VERTICAL} />
-            <DataProductDashboard data-testid="DataProductDashboardId"/>
-            <Spacer size={SPACER_FOOTER} axis={SPACER_VERTICAL} />
+            <Box m={1} sx={{ height: fullHeight() }}>
+              <Spacer size={SPACER_HEADER} axis={SPACER_VERTICAL} />
+              <DataProductDashboard data-testid="DataProductDashboardId"/>
+              <Spacer size={SPACER_FOOTER} axis={SPACER_VERTICAL} />
+            </Box>
           </Paper>
         {TheFooter()}
       </React.Suspense>

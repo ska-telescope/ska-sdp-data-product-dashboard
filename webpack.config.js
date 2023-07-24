@@ -127,7 +127,7 @@ module.exports = (env, argv) => { return {
       REACT_APP_DASHBOARD_URL_SUBDIRECTORY: '',
       REACT_APP_API_REFRESH_RATE: '10000',
       REACT_APP_VERSION: version,
-      REACT_USE_LOCAL_DATA: false,  // Ensure set to false for production
+      REACT_USE_LOCAL_DATA: true,  // Ensure set to false for production
     }),
     new CopyWebpackPlugin({
         patterns: [
