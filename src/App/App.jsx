@@ -25,8 +25,8 @@ function App() {
 
   async function GetVersionNumber() {
     if (!DATA_LOCAL) { 
-      const results = await GetAPIStatus()
-      setAPIVersion(results.data.Version)
+      const results = await GetAPIStatus();
+      setAPIVersion(results?.data?.Version ? results.data.Version : t('error.API_NOT_AVAILABLE'));
     }
   }
 
@@ -62,20 +62,21 @@ function App() {
     <ThemeProvider theme={theme(themeMode)}>
       <CssBaseline enableColorScheme />
       <React.Suspense fallback={t("isLoading")}>
-        {TheHeader()}
         <Paper
             elevation={0}
             sx={{
-              backgroundColor: 'primary.main'
+              backgroundColor: 'primary.main',
+              height: '95vh'
             }}
           >
+            {TheHeader()}
             <Box m={1} sx={{ height: fullHeight() }}>
               <Spacer size={SPACER_HEADER} axis={SPACER_VERTICAL} />
               <DataProductDashboard data-testid="DataProductDashboardId"/>
               <Spacer size={SPACER_FOOTER} axis={SPACER_VERTICAL} />
             </Box>
+            {TheFooter()}
           </Paper>
-        {TheFooter()}
       </React.Suspense>
     </ThemeProvider>
   );
