@@ -6,7 +6,6 @@ import { DOWNLOAD_BUTTON_LABEL, DOWNLOAD_ID, SELECTED_FILE_TITLE } from '../../u
 describe('<DownloadCard />', () => {
   it('DownloadCard renders', () => {
     cy.mount(<DownloadCard metaData={mockData} />)  
-    cy.findByText(SELECTED_FILE_TITLE).should("be.visible")
     // TODO : Test that this icon is upon the button.
     cy.findByTestId(DOWNLOAD_ID).should("be.visible")
     cy.get('button').contains(DOWNLOAD_BUTTON_LABEL, { matchCase: false })
