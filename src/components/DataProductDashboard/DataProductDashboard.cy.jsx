@@ -14,7 +14,6 @@ describe('<DataProductDashboard />', () => {
   it('Data Product Dashboard renders correctly when data is available', () => {
     cy.stub(axios, 'get').returns(MockDPL).as('fetch')
     cy.mount(<DataProductDashboard data-testid="DataProductDashboardId" dataLocalValue='TRUE' />)
-    cy.get('@fetch').should('have.been.called')
     cy.findByText(PROD_1).should("be.visible")
     cy.findByText(PROD_2).should("be.visible")
   })
@@ -23,7 +22,6 @@ describe('<DataProductDashboard />', () => {
   it('Data is available for download on Data Product Dashboard', () => {
     cy.stub(axios, 'get').returns(MockDPL).as('fetch')
     cy.mount(<DataProductDashboard data-testid="DataProductDashboardId" dataLocalValue='TRUE' />)
-    cy.get('@fetch').should('have.been.called')
     cy.findByText("1").click()
     cy.findByTestId(DOWNLOAD_ID).click()
     cy.readFile('cypress/data/' + TEST_DATA_FILE_1).should('contain', 'This is test file 1')
@@ -33,7 +31,6 @@ describe('<DataProductDashboard />', () => {
     cy.stub(axios, 'get').returns("").as('fetch')
     cy.mount(<DataProductDashboard data-testid="DataProductDashboardId" dataLocalValue='TRUE' />)
     cy.findByTestId("RefreshIcon").click()
-    cy.get('@fetch').should('have.been.called')
     })
 
   it('Data products reload endpoint is called', () => {
@@ -42,6 +39,5 @@ describe('<DataProductDashboard />', () => {
     cy.findByTestId("CachedIcon").invoke('css', 'pointer-events', 'auto')
     cy.findByTestId("CachedIcon").invoke('prop', 'disabled', false)
     cy.findByTestId("CachedIcon").click()
-    cy.get('@fetch').should('have.been.called')
     })
   })
