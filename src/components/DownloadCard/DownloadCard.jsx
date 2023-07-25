@@ -12,7 +12,7 @@ const DownloadCard = (selectedFileNames) => {
     {selectedFileNames?.relativePathName !== '' && 
       <Box m={1}>
         <Card variant="outlined" sx={{ minWidth: 275 }}>
-          <CardContent>
+          <CardContent data-testid={"selectedFileDetails"}>
             <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
               {t('label.selectFile')}
             </Typography>

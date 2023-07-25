@@ -64,7 +64,7 @@ context('Select and download data product', () => {
     })
 
     it('Verify Data API not available alert is displayed', () => {
-      cy.findByText("Data API not available").should("be.visible")
+      cy.findByTestId("apiAvailability").contains("Data API not available").should("be.visible");
     })
   })
 
@@ -79,7 +79,7 @@ context('Select and download data product', () => {
     // testDownloadProducts();
 
     it('Search for data product', () => {
-      cy.findByText("Filter data products based on metadata:").should("be.visible")
+      cy.findByTestId("metaDataDescription").contains("Filter data products based on metadata:").should("be.visible");
       cy.findByTestId("SearchIcon").click()
     })
 
