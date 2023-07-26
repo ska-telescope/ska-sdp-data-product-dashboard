@@ -2,17 +2,15 @@ import React from "react";
 import axios from "axios";
 import { useTranslation } from "react-i18next";
 
-import { Box, Button, Card, CardActions, CardContent, Grid, TextField, Typography } from "@mui/material";
+import { Box, Card, CardContent, Grid, Typography } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
 import CachedIcon from "@mui/icons-material/Cached";
 import RefreshIcon from "@mui/icons-material/Refresh";
-import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
-import { DatePicker } from "@mui/x-date-pickers/DatePicker";
+
+import { Button, DateEntry, TextEntry } from "@ska-telescope/ska-gui-components";
 
 import DataProductsTable from "../DataProductsTable/DataProductsTable";
 import DownloadCard from "../DownloadCard/DownloadCard";
-import MetaDataComponent from "../MetaDataComponent/MetaDataComponent";
 import SearchForDataProduct from "../../services/SearchForDataProduct/SearchForDataProduct";
 import ListAllDataProducts from "../../services/ListAllDataProducts/ListAllDataProducts";
 import GetAPIStatus from "../../services/GetAPIStatus/GetAPIStatus";
@@ -37,31 +35,36 @@ const DataProductDashboard = () => {
     relativePathName: '',
     metaDataFile: ''
   });
-  const [startDate, updateStartDate] = React.useState(null);
-  const [endDate, updateEndDate] = React.useState(null);
-  const [metadataKey, updateMetadataKey] = React.useState(null);
-  const [metadataValue, updateMetadataValue] = React.useState(null);
+  const [startDate, updateStartDate] = React.useState('');
+  const [endDate, updateEndDate] = React.useState('');
+  const [metadataKey, updateMetadataKey] = React.useState('');
+  const [metadataValue, updateMetadataValue] = React.useState('');
   const [canSearch, updateCanSearch] = React.useState(false);
   const [newDataAvailable, updateNewDataAvailable] = React.useState(null);
   const [dataStoreLastModifiedTime, setDataStoreLastModifiedTime] = React.useState(null);
   const [initFlag, setInitFlag] = React.useState(true);
 
-  async function CheckFornewData() {
+  async function CheckForNewData() {
     const results = await GetAPIStatus()
-    updateCanSearch(results.data.Search_enabled)
-    setDataStoreLastModifiedTime(results.data.Date_modified)
+    if (results?.data) {
+      updateCanSearch(results.data.Search_enabled)
+      setDataStoreLastModifiedTime(results.data.Date_modified)
+    } else {
+      updateCanSearch(false)
+      setDataStoreLastModifiedTime(null)
+    }
   }
 
   async function PeriodicAPIStatusCheck() {
     React.useEffect(() => {
       if (!DATA_LOCAL) {
-        CheckFornewData()
+        CheckForNewData()
       } else {
         updateCanSearch(true)
       }
       const interval = setInterval(async () => {
         if (!DATA_LOCAL) {
-          CheckFornewData()
+          CheckForNewData()
         } else {
           updateCanSearch(true)
         }
@@ -80,7 +83,7 @@ const DataProductDashboard = () => {
     if ( dataStoreLastModifiedTime !== null ) {
       setInitFlag(false)
     }
-  }, [dataStoreLastModifiedTime]);
+  }, [initFlag, dataStoreLastModifiedTime]);
 
 
   React.useEffect(() => {
@@ -153,88 +156,91 @@ const DataProductDashboard = () => {
 
   async function OnClickIndexDataProduct() {
     indexDataProduct()
-    CheckFornewData(true)
+    CheckForNewData(true)
   }
   
   function RenderSearchBox() {
     if (canSearch) {
       return (
-        <Box m={1} sx={{ height: `280px`, width: "100%", overflowY: "auto"  }}>
-          <Card variant="outlined" sx={{ minWidth: 275 }}>
+        <Box m={1}>
+          <Card variant="outlined" >
             <CardContent>
               <Typography data-testid={"metaDataDescription"}  sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
-                {t('label.filterOnMetaData')}
+                {t('prompt.filter')}
               </Typography>
-              <LocalizationProvider dateAdapter={AdapterDayjs} >
-              <Grid container direction="row" justifyContent="space-between">
-                <DatePicker
-                  inputFormat={t('label.date_input_format')}
-                  label={t('label.startDate')}
-                  onChange={(newValue) => {
-                    updateStartDate(newValue);
-                  }}
-                  renderInput={(params) => <TextField {...params} sx={{width: 180}}/>}
-                  value={startDate}
-                />
-                <DatePicker
-                  inputFormat={t('label.date_input_format')}
-                  label={t('label.endDate')}
-                  onChange={(newValue) => {
-                    updateEndDate(newValue);
-                  }}
-                  renderInput={(params) => <TextField {...params} sx={{width: 180}}/>}
-                  value={endDate}
-                />
-                <TextField
-                  id="keyValue"
-                  label={t('label.key')}
-                  style = {{width: 300}}
-                  defaultValue={metadataKey}
-                  onChange={(newValue) => {
-                    updateMetadataKey(newValue.target.value);
-                  }}
-                />
-                <TextField
-                  id="valueValue"
-                  label={t('label.value')}
-                  style = {{width: 500}}
-                  defaultValue={metadataValue}
-                  onChange={(newValue) => {
-                    updateMetadataValue(newValue.target.value);
-                  }}
-                />   
+              <Grid container direction="row" spacing={1} justifyContent="space-between">
+                <Grid item xs={12} md={6}>
+                  <DateEntry 
+                    label={t('label.startDate')}
+                    setValue={(e) => updateStartDate(e)}
+                    value={startDate} 
+                  />
                 </Grid>
-              </LocalizationProvider>
-      
+                <Grid item xs={12} md={6}>
+                  <DateEntry 
+                    label={t('label.endDate')}
+                    setValue={(e) => updateEndDate(e)}
+                    value={endDate} 
+                  />
+                </Grid>
+                <Grid item xs={12}>
+                  <TextEntry
+                      label={t('label.key')}
+                      setValue={(e) => updateMetadataKey(e.target.value)}
+                      value={metadataKey}
+                    />
+                </Grid>
+                <Grid item xs={12}>
+                  <TextEntry
+                    label={t('label.value')}
+                    setValue={(e) => updateMetadataValue(e.target.value)}
+                    value={metadataValue}
+                  />
+                </Grid>
+              </Grid> 
+              <Grid item xs={4}>
+                <Button
+                  color="secondary"
+                  disabled={updating}
+                  icon={<SearchIcon />}
+                  label={t('button.search')}
+                  onClick={() => setUpdating(true)}
+                  toolTip=""
+                  variant="outlined"
+                />
+              </Grid>
             </CardContent>
-            <CardActions>
-              <Button disabled={updating} variant="outlined" color="secondary" onClick={() => setUpdating(true)}>
-                <SearchIcon />
-                {t('button.search')}
-              </Button>
-            </CardActions>
           </Card>
         </Box>
       );
       };
     }
   
-
   function RenderDataStoreBox() {
     return (
       <Box m={1}>
+        
         <Grid container spacing={1} direction="row" justifyContent="justify-left">
           <Grid item>
-            <Button variant="outlined" color="secondary" onClick={() => OnClickIndexDataProduct() }>
-              <RefreshIcon />
-              {t('button.indexDP')}
-            </Button> 
+            <Button
+              color="secondary"
+              icon={<RefreshIcon />}
+              label={t('button.indexDP')}
+              onClick={() => OnClickIndexDataProduct()}
+              toolTip=""
+              variant="outlined"
+            />
           </Grid>
           <Grid item>    
-            <Button disabled={!newDataAvailable} variant="outlined" color="secondary" onClick={() => setUpdating(true)}> 
-              <CachedIcon />
-              {t('button.reload')}
-            </Button>
+            <Button
+              color="secondary"
+              disabled={!newDataAvailable}
+              icon={<CachedIcon />}
+              label={t('button.reload')}
+              onClick={() => setUpdating(true)}
+              toolTip=""
+              variant="outlined"
+            />
           </Grid>
         </Grid>
       </Box>
@@ -242,21 +248,20 @@ const DataProductDashboard = () => {
   }
   
   return (
-    <>
+    <Box sx={{ height: '100%' }}>
       {RenderDataStoreBox()}
-      <Grid container spacing={1} direction="row" justifyContent="space-between">
+      <Grid sx={{ height: '100%'}} container spacing={1} direction="row" justifyContent="space-between"  >
           <Grid item xs={9}>
             {DataProductsTable(dataProducts.data, updating, rowClickHandler)}
           </Grid>
           <Grid item xs={3}>
             <>
               {RenderSearchBox()}
-              {DownloadCard(selectedFileNames)}
-              {metaData && <MetaDataComponent metaData={metaData} />}
+              {DownloadCard(selectedFileNames, metaData)}
             </>
           </Grid>
       </Grid>
-    </>
+    </Box>
   );
 };
 

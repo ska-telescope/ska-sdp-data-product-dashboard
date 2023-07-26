@@ -1,52 +1,14 @@
 {
   "application": "Data Product Dashboard",
-
+  "dateFormatInput": "dd/mm/yyyy",
   "isLoading": "...loading",
+
   "button": {
     "download": "Download",
     "indexDP": "Re-Index Data Products",
     "search": "Search",
     "reload": "New data available, reload",
     "settings": "Settings"
-  },
-  "column": {
-    "config": {
-      "cmdline": "Command Line",
-      "commit": "Commit",
-      "image": "Image",
-      "processing_block": "Processing Block",
-      "processing_script": "Processing Script",
-      "version": "Version"
-    },
-    "context": {
-      "intent": "Intent",
-      "notes": "Notes",
-      "observer": "Observer"
-    },
-    "execution_block": "Execution Block ID",
-    "date_created": "Date Created",
-    "id": "ID",
-    "interface": "Interface",
-    "obscore": {
-      "access_estsize": "Estimated Size (kB)",
-      "access_format": "File Format",
-      "access_url": "Download URL",
-      "calib_level": "Calibration Level",
-      "dataproduct_type": "Data Product Type",
-      "facility_name": "Facility Name",
-      "instrument_name": "Instrument Name",
-      "obs_collection": "Observation Collection",
-      "obs_id": "Observation ID",
-      "o_ucd": "Observation UCD",
-      "pol_states": "Polarization States",
-      "pol_xel": "No. of Elements along Polarization Axis",
-      "s_dec": "Dec (deg)",
-      "s_ra": "RA (deg)",
-      "t_exptime": "Total Exposure Time (s)",
-      "t_max": "Stop Time (MJD)",
-      "t_min": "Start Time (MJD)",
-      "target_name": "Target name"
-    }
   },
   "error": {
     "API_NO_DATA": "Data API not available",
@@ -58,14 +20,22 @@
     "fetching": "Retrieving information from API"
   },
   "label": {
+    "apiVersion": "API Version",
+    "dateCreated": "Date Created",
     "endDate": "End date",
-    "filterOnMetaData": "Filter data products based on metadata:",
+    "executionBlock": "Execution Block ID",
+    "guiVersion": "GUI Version",
+    "id": "ID",
+    "interface": "Interface",
     "key": "Key",
     "metaData": "Meta Data",
     "selectFile": "Selected File",
     "startDate": "Start date",
     "value": "Value",
-    "date_input_format": "dd/mm/yyyy"
+    "version": "Version"
+  },
+  "prompt": {
+    "filter": "Filter data products based on metadata:"
   },
   "toolTip": {
     "button": {

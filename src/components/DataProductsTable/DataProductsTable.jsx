@@ -2,14 +2,14 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { Box, Grid } from '@mui/material';
 import { DataGrid, InfoCard } from '@ska-telescope/ska-gui-components';
-import { DATA_STORE_BOX_HEIGHT, FOOTER_HEIGHT, HEADER_HEIGHT } from '../../utils/constants';
+import { tableHeight } from "../../utils/constants";
 
 const DataProductsTable = (jsonDataProducts, updating, handleSelectedNode) => {
   const { t } = useTranslation('dpd');
 
   const columns = [
-    { field: "execution_block", headerName: t("column.execution_block"), width: 200 },
-    { field: "date_created", headerName: t("column.date_created"), width: 100 }
+    { field: "execution_block", headerName: t("execution_block", { ns: 'ivoa' }), width: 200 },
+    { field: "date_created", headerName: t("date_created", { ns: 'ivoa' }), width: 100 }
   ];
 
   const ignore_columns_names = ["dataproduct_file", "metadata_file"];
@@ -39,7 +39,7 @@ const DataProductsTable = (jsonDataProducts, updating, handleSelectedNode) => {
           // add new column to extendedColumns
           extendedColumns.push({
             field: key,
-            headerName: t("column." + key),
+            headerName: t(key, { ns: 'ivoa' }),
             width: 200
           });
         }
@@ -63,7 +63,7 @@ const DataProductsTable = (jsonDataProducts, updating, handleSelectedNode) => {
         <DataGrid
           data-testid={jsonDataProducts}
           columns={extendedColumns}
-          height={ `calc(100vh - ${HEADER_HEIGHT + FOOTER_HEIGHT + DATA_STORE_BOX_HEIGHT + 20 }px)`}
+          height={tableHeight()}
           onRowClick={handleSelectedNode}
           rows={jsonDataProducts}
           width="100%"

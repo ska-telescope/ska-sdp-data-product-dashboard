@@ -10,7 +10,6 @@ const GetAPIStatus = async () => {
     }, 
   };
 
-
   try {
     const result = await axios.get(`${apiUrl}${URL_LIST}`, config);
     return (typeof result === "undefined") ? 'error.API_UNKNOWN_ERROR' :  result;

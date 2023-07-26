@@ -5,22 +5,21 @@ import ExampleDataProductStatusUnavailable from '../data/ExampleDataProductStatu
 import ExampleDataProductStatusAvailableWithSearch from '../data/ExampleDataProductStatusAvailableWithSearch.json';
 
 // Cloned FROM the constants file in the src directory. Linking to that directly is bad practice.
-const DOWNLOAD_ICON = "DownloadIcon";
 const LOCAL_HOST = "http://localhost:8100/";
-const TEST_DATA_FILE_1 = "TestDataFile1.txt";
+
 context('Select and download data product', () => {
   //TODO: refactor to solve failure - to be addressed in nal-662
 
   // function testDownloadProducts() {
   //   it("Select data product 1 and download file", () => {
   //     cy.get('div').contains('1').click() // Yield el in .nav containing 'About'
-  //     cy.findByTestId(DOWNLOAD_ICON).click();
+  //     cy.findByTestId(DOWNLOAD_ID).click();
   //     cy.readFile("cypress/data/" + TEST_DATA_FILE_1).should("contain", "This is test file 1");
   //   });
   //
   //   it("Select data product 2 and download file", () => {
   //     cy.get('div').contains('2').click() // Yield el in .nav containing 'About'
-  //    cy.findByTestId(DOWNLOAD_ICON).click();
+  //    cy.findByTestId(DOWNLOAD_ID).click();
   //    cy.readFile("cypress/data/" + TEST_DATA_FILE_1).should("contain", "This is test file 1");
   //   });
   // }
