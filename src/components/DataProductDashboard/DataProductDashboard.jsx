@@ -165,7 +165,7 @@ const DataProductDashboard = () => {
         <Box m={1}>
           <Card variant="outlined" >
             <CardContent>
-              <Typography variant="paragraph" color="text.secondary" gutterBottom>
+              <Typography data-testid={"metaDataDescription"}  sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
                 {t('prompt.filter')}
               </Typography>
               <Grid container direction="row" spacing={1} justifyContent="space-between">

@@ -8,21 +8,21 @@ describe('<DataProductDashboard />', () => {
 
   it('Data Product Dashboard renders correctly when data is unavailable', () => {
     cy.mount(<DataProductDashboard data-testid="DataProductDashboardId" dataLocalValue='FALSE' />)
-    cy.findByText(TEXT_NO_API).should("be.visible")
+    cy.findByTestId("apiAvailability").contains(TEXT_NO_API).should("be.visible");
   })
 
   it('Data Product Dashboard renders correctly when data is available', () => {
     cy.stub(axios, 'get').returns(MockDPL).as('fetch')
     cy.mount(<DataProductDashboard data-testid="DataProductDashboardId" dataLocalValue='TRUE' />)
-    cy.findByText(PROD_1).should("be.visible")
-    cy.findByText(PROD_2).should("be.visible")
+    cy.findByTestId("availableData").contains(PROD_1).should("be.visible");
+    cy.findByTestId("availableData").contains(PROD_2).should("be.visible");
   })
 
 
   it('Data is available for download on Data Product Dashboard', () => {
     cy.stub(axios, 'get').returns(MockDPL).as('fetch')
     cy.mount(<DataProductDashboard data-testid="DataProductDashboardId" dataLocalValue='TRUE' />)
-    cy.findByText("1").click()
+    cy.findByTestId("availableData").contains("1").should("be.visible").click();
     cy.findByTestId(DOWNLOAD_ID).click()
     cy.readFile('cypress/data/' + TEST_DATA_FILE_1).should('contain', 'This is test file 1')
   })
