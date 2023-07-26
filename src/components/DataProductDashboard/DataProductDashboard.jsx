@@ -162,7 +162,7 @@ const DataProductDashboard = () => {
         <Box m={1} sx={{ height: `280px`, width: "100%", overflowY: "auto"  }}>
           <Card variant="outlined" sx={{ minWidth: 275 }}>
             <CardContent>
-              <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
+              <Typography data-testid={"metaDataDescription"}  sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
                 {t('label.filterOnMetaData')}
               </Typography>
               <LocalizationProvider dateAdapter={AdapterDayjs} >

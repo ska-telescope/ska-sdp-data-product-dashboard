@@ -50,7 +50,7 @@ const DataProductsTable = (jsonDataProducts, updating, handleSelectedNode) => {
   function RenderInfo(value, msg) {
     return (
       <Box m={1} sx={{ height: '43vh', width: "100%" }}>
-        <Grid container alignItems="center" justifyContent="center">
+        <Grid data-testid={"apiAvailability"} container alignItems="center" justifyContent="center">
           <InfoCard fontSize={25} level={value} message={t(msg)} />
         </Grid>
       </Box>
@@ -59,7 +59,7 @@ const DataProductsTable = (jsonDataProducts, updating, handleSelectedNode) => {
 
   function RenderData() {
     return (
-      <Box m={1}>
+      <Box data-testid={"availableData"} m={1}>
         <DataGrid
           data-testid={jsonDataProducts}
           columns={extendedColumns}
