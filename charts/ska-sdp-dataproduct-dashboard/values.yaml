@@ -49,7 +49,7 @@ elasticsearch:
       enabled: true
 
 dataProductPVC:
-  name: shared
+  name: shared-mnl
   create:
     enabled: false
     size: 5Gi
