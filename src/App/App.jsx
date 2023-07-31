@@ -4,7 +4,7 @@ import { Box, CssBaseline, Grid, Paper, ThemeProvider, Typography } from "@mui/m
 import DataProductDashboard from '../components/DataProductDashboard/DataProductDashboard';
 import { Footer, Header, Spacer, SPACER_VERTICAL, THEME_DARK, THEME_LIGHT } from "@ska-telescope/ska-gui-components";
 import { DATA_LOCAL, SPACER_FOOTER, SPACER_HEADER, fullHeight } from "../utils/constants";
-import theme from '../../src/services/theme/theme';
+import theme from '../services/theme/theme';
 import GetAPIStatus from '../services/GetAPIStatus/GetAPIStatus';
 const REACT_APP_VERSION = process.env.REACT_APP_VERSION;
 
