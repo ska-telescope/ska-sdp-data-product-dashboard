@@ -2193,21 +2193,6 @@
     js-yaml "4.1.0"
     nyc "15.1.0"
 
-"@cypress/code-coverage@^3.11.0":
-  version "3.11.0"
-  resolved "https://registry.yarnpkg.com/@cypress/code-coverage/-/code-coverage-3.11.0.tgz#f695b53f5e2b89144ca418fd6608a63720e2880f"
-  integrity sha512-ihSO1s03gmLRE224oIjrbdG1ey63vw/UY+VSqQ5m/TKkAvyz6GIiniq6juk3AV/+0vQC1Eb4UWFu8ndtji4M1g==
-  dependencies:
-    "@cypress/webpack-preprocessor" "^5.11.0"
-    chalk "4.1.2"
-    dayjs "1.11.9"
-    debug "4.3.4"
-    execa "4.1.0"
-    globby "11.0.4"
-    istanbul-lib-coverage "3.0.0"
-    js-yaml "4.1.0"
-    nyc "15.1.0"
-
 "@cypress/request@^2.88.10":
   version "2.88.11"
   resolved "https://registry.npmjs.org/@cypress/request/-/request-2.88.11.tgz#5a4c7399bc2d7e7ed56e92ce5acb620c8b187047"
@@ -3438,23 +3423,22 @@
   dependencies:
     "@sinonjs/commons" "^1.7.0"
 
-"@ska-telescope/ska-gui-components@^0.1.36":
-  version "0.1.36"
-  resolved "https://artefact.skao.int/repository/npm-internal/@ska-telescope/ska-gui-components/-/ska-gui-components-0.1.36.tgz#adb8b4c89563cd72d3e4b43c637bfa3c1f48bed8"
-  integrity sha512-tJ0mJfxH7cD1aAz3x6bTnvid+g8aNP0MwTV1Xny2OY+9oLLPfQZGHrp7RD/Ii7d6oFrLndhcEe1g0TPx4+GfyA==
+"@ska-telescope/ska-gui-components@^0.1.38":
+  version "0.1.38"
+  resolved "https://artefact.skao.int/repository/npm-internal/@ska-telescope/ska-gui-components/-/ska-gui-components-0.1.38.tgz#9c6db64d34ecdf4aa84dbcd65c9c0383b14154b8"
+  integrity sha512-VuF+aKOTWsx2CBKjyQNu+zxZuPhThxKzA5k3eoiUepUpo2hWo/ePSbmqsArF/+3JBJ+Ta+AaAfr2Jrgpg3BKxw==
   dependencies:
-    "@cypress/code-coverage" "^3.11.0"
     "@mui/lab" "^5.0.0-alpha.135"
     "@mui/system" "^5.13.7"
     "@mui/x-data-grid" "^6.9.2"
     "@react-spring/web" "^9.7.3"
-    "@ska-telescope/ska-javascript-components" "^0.1.23"
+    "@ska-telescope/ska-javascript-components" "^0.1.25"
     junit-report-merger "^6.0.2"
 
-"@ska-telescope/ska-javascript-components@^0.1.23":
-  version "0.1.24"
-  resolved "https://artefact.skao.int/repository/npm-internal/@ska-telescope/ska-javascript-components/-/ska-javascript-components-0.1.24.tgz#ae8597e3ce40c99a114b2bee7047be0859806bb2"
-  integrity sha512-MauHjGCewAMHVN57xeo82hJ+aI4iNPVAWS34JuG5cdJjUoRw9Of7bLwzvJWVaiQN2g+PIMPJOUztB+HiFxQUCA==
+"@ska-telescope/ska-javascript-components@^0.1.25":
+  version "0.1.25"
+  resolved "https://artefact.skao.int/repository/npm-internal/@ska-telescope/ska-javascript-components/-/ska-javascript-components-0.1.25.tgz#cd29af26ad18471dbc0f0043c2bf8d7e3ae63133"
+  integrity sha512-Zdif7JP2KEV1Q+jEImB5hNQvnicZfANAUxGwkMZ4oyaWvFMPLIimmMr7RkS681jfGMq2y/eB86RW0KWiUhcmnw==
   dependencies:
     babel-istanbul "^0.12.2"
     babel-jest "^29.5.0"
@@ -6340,11 +6324,6 @@ dayjs@1.10.7:
   version "1.10.7"
   resolved "https://registry.npmjs.org/dayjs/-/dayjs-1.10.7.tgz#2cf5f91add28116748440866a0a1d26f3a6ce468"
   integrity sha512-P6twpd70BcPK34K26uJ1KT3wlhpuOAPoMwJzpsIWUxHZ7wpmbdZL/hQqBDfz7hGurYSa5PhzdhDHtt319hL3ig==
-
-dayjs@1.11.9:
-  version "1.11.9"
-  resolved "https://registry.yarnpkg.com/dayjs/-/dayjs-1.11.9.tgz#9ca491933fadd0a60a2c19f6c237c03517d71d1a"
-  integrity sha512-QvzAURSbQ0pKdIye2txOzNaHmxtUBXerpY0FJsFXUMKbIZeFm5ht1LS/jFsrncjnmtv8HsG0W2g6c0zUjZWmpA==
 
 dayjs@^1.10.4:
   version "1.11.7"

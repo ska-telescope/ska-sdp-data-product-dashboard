@@ -15,8 +15,8 @@ import SearchForDataProduct from "../../services/SearchForDataProduct/SearchForD
 import ListAllDataProducts from "../../services/ListAllDataProducts/ListAllDataProducts";
 import GetAPIStatus from "../../services/GetAPIStatus/GetAPIStatus";
 import MetaData from "../../services/MetaData/MetaData";
-import { MockDPL } from "../../services/Mocking/mockDataProductList";
-import { MockMeta } from "../../services/Mocking/mockMetaData";
+import MockDPL from "../../services/Mocking/mockDataProductList";
+import MockMeta from "../../services/Mocking/mockMetaData";
 import { DATA_LOCAL } from "../../utils/constants";
 
 const DEF_START_DATE = "1970-01-01";
