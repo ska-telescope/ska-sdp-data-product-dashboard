@@ -1,4 +1,4 @@
-export const MockDPL = {
+const MockDPL = {
     "data": [
         {
             "id": 1,
@@ -50,3 +50,5 @@ export const MockDPL = {
     },
     "request": {}
 }
+
+export default MockDPL;
