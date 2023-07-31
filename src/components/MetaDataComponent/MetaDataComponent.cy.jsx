@@ -4,7 +4,6 @@ import { THEME_DARK, THEME_LIGHT } from '@ska-telescope/ska-gui-components';
 import theme from '../../services/theme/theme';
 import mockData from '../../services/Mocking/mockMetaData';
 import MetaDataComponent from './MetaDataComponent';
-// import { TEST_ARRAY } from '../../utils/constants';
 
 const THEME = [THEME_DARK, THEME_LIGHT];
 
