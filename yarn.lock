@@ -3423,22 +3423,22 @@
   dependencies:
     "@sinonjs/commons" "^1.7.0"
 
-"@ska-telescope/ska-gui-components@^0.1.38":
-  version "0.1.38"
-  resolved "https://artefact.skao.int/repository/npm-internal/@ska-telescope/ska-gui-components/-/ska-gui-components-0.1.38.tgz#9c6db64d34ecdf4aa84dbcd65c9c0383b14154b8"
-  integrity sha512-VuF+aKOTWsx2CBKjyQNu+zxZuPhThxKzA5k3eoiUepUpo2hWo/ePSbmqsArF/+3JBJ+Ta+AaAfr2Jrgpg3BKxw==
+"@ska-telescope/ska-gui-components@^0.1.44":
+  version "0.1.44"
+  resolved "https://artefact.skao.int/repository/npm-internal/@ska-telescope/ska-gui-components/-/ska-gui-components-0.1.44.tgz#65dea48b2bd91587e1be4ee4f16fbfc5771ad79a"
+  integrity sha512-YDeNo53BjNxIHhO18twbjSuavRL4Xc4e+dyjs7rWS4sRx9cN8JdclK68nS5S3nu5eZEJGn51trjXy5U2UjZSkg==
   dependencies:
     "@mui/lab" "^5.0.0-alpha.135"
     "@mui/system" "^5.13.7"
     "@mui/x-data-grid" "^6.9.2"
     "@react-spring/web" "^9.7.3"
-    "@ska-telescope/ska-javascript-components" "^0.1.25"
+    "@ska-telescope/ska-javascript-components" "^0.1.31"
     junit-report-merger "^6.0.2"
 
-"@ska-telescope/ska-javascript-components@^0.1.25":
-  version "0.1.25"
-  resolved "https://artefact.skao.int/repository/npm-internal/@ska-telescope/ska-javascript-components/-/ska-javascript-components-0.1.25.tgz#cd29af26ad18471dbc0f0043c2bf8d7e3ae63133"
-  integrity sha512-Zdif7JP2KEV1Q+jEImB5hNQvnicZfANAUxGwkMZ4oyaWvFMPLIimmMr7RkS681jfGMq2y/eB86RW0KWiUhcmnw==
+"@ska-telescope/ska-javascript-components@^0.1.31":
+  version "0.1.31"
+  resolved "https://artefact.skao.int/repository/npm-internal/@ska-telescope/ska-javascript-components/-/ska-javascript-components-0.1.31.tgz#03832236c8a1eec42167a9ec7f84ad8c19d99059"
+  integrity sha512-3MIOJAYFp6QtA24xJICzpNfPxWlVXGEXM8eW1kVZjy6jYV/atPFMWL7Up0lkTfJbaDcbQ9Dv2dKL6PUj8Rk6tA==
   dependencies:
     babel-istanbul "^0.12.2"
     babel-jest "^29.5.0"
