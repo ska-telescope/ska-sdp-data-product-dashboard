@@ -2,7 +2,7 @@ export const DATA_LOCAL = process.env.REACT_USE_LOCAL_DATA;
 export const LOCAL_HOST = "http://localhost:8100/";
 
 export const DOWNLOAD_BUTTON_LABEL = "BUTTON.DOWNLOAD";
-export const DOWNLOAD_ID = "button.downloadButtonId";
+export const DOWNLOAD_ID = "downloadButton";
 export const PROD_1 = "eb-m001-20191031-12345";
 export const PROD_2 = "eb-m002-20221212-12345";
 export const SELECTED_FILE_TITLE = "label.selectFile";

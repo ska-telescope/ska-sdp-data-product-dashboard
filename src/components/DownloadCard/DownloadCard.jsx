@@ -26,6 +26,7 @@ const DownloadCard = (selectedFileNames, metaData) => {
                   icon={<DownloadIcon />}
                   label={t('button.download')}
                   onClick={() => DownloadDataProduct(selectedFileNames)}
+                  testId="downloadButton"
                   toolTip=""
                   variant="outlined"
                 />
