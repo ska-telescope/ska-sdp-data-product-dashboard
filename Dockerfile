@@ -1,5 +1,5 @@
 # pull the base image
-FROM node:18.12.1
+FROM node:18.17.0
 
 ENV PORT 8100
 
