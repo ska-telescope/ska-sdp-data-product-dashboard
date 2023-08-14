@@ -75,7 +75,7 @@ const DataProductsTable = (jsonDataProducts, updating, handleSelectedNode) => {
   return (
     <>
       {updating && RenderInfo(2, "info.fetching")}
-      {!updating && !haveData() && RenderInfo(1, "error.API_NO_DATA")}
+      {!updating && !haveData() && RenderInfo(2, "error.API_NO_DATA")}
       {!updating && haveData() && RenderData()}
     </>
   );
