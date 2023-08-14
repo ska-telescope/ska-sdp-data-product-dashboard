@@ -29,10 +29,10 @@ dashboard:
   resources:
     requests:
       cpu: 250m
-      memory: 1536Mi
+      memory: 2048Mi
     limits:
       cpu: 750m
-      memory: 2048Mi
+      memory: 3072Mi
       
 elasticsearch:
   enabled: false
