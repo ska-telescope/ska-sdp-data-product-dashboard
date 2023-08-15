@@ -4,12 +4,15 @@ import { THEME_DARK, THEME_LIGHT } from '@ska-telescope/ska-gui-components';
 import theme from '../../services/theme/theme';
 import { DOWNLOAD_ID, PROD_1, PROD_2, TEST_DATA_FILE_1, TEXT_NO_API } from '../../utils/constants';
 import DataProductDashboard from './DataProductDashboard';
+import MockStatusAPINotRunning from '../../services/Mocking/MockStatusAPINotRunning';
 
 const THEME = [THEME_DARK, THEME_LIGHT];
 
 describe('<DataProductDashboard />', () => {
   for (const theTheme of THEME) {
     it('Theme ' + theTheme + ': Renders correctly when data is unavailable', () => {
+      const stub = cy.stub().resolves(MockStatusAPINotRunning)
+      cy.window().then(win => win.GetAPIStatus = stub)
       cy.mount(
         <ThemeProvider theme={theme(theTheme)}>
           <CssBaseline />
