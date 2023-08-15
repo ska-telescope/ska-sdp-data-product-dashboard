@@ -4,7 +4,7 @@ import { THEME_DARK, THEME_LIGHT } from '@ska-telescope/ska-gui-components';
 import theme from '../../services/theme/theme';
 import { DOWNLOAD_ID, PROD_1, PROD_2, TEST_DATA_FILE_1, TEXT_NO_API } from '../../utils/constants';
 import DataProductDashboard from './DataProductDashboard';
-import MockStatusAPINotRunning from '../../services/Mocking/MockStatusAPINotRunning';
+import MockStatusAPINotRunning from '../../services/Mocking/mockStatusAPINotRunning';
 
 const THEME = [THEME_DARK, THEME_LIGHT];
 
