@@ -10,7 +10,7 @@ export const TEST_ARRAY = [
   "label.metaData", "interface", "execution_block", "context", "config", "files"
 ]
 export const TEST_DATA_FILE_1 = "TestDataFile1.txt";
-export const TEXT_NO_API = "error.API_NO_DATA";
+export const TEXT_NO_API = "error.API_NOT_AVAILABLE";
 
 export const SPACER_HEADER = 70;
 export const SPACER_FOOTER = 70;

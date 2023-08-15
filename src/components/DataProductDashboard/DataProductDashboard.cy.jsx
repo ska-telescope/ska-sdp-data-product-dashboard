@@ -1,9 +1,7 @@
 import React from 'react'
-import axios from 'axios';
 import { CssBaseline, ThemeProvider } from '@mui/material';
 import { THEME_DARK, THEME_LIGHT } from '@ska-telescope/ska-gui-components';
 import theme from '../../services/theme/theme';
-import MockDPL from '../../services/Mocking/mockDataProductList';
 import { DOWNLOAD_ID, PROD_1, PROD_2, TEST_DATA_FILE_1, TEXT_NO_API } from '../../utils/constants';
 import DataProductDashboard from './DataProductDashboard';
 
@@ -22,19 +20,18 @@ describe('<DataProductDashboard />', () => {
     })
   
     it('Theme ' + theTheme + ': Renders correctly when data is available', () => {
-      cy.stub(axios, 'get').returns(MockDPL).as('fetch')
       cy.mount(
         <ThemeProvider theme={theme(theTheme)}>
           <CssBaseline />
           <DataProductDashboard data-testid="DataProductDashboardId" dataLocalValue='TRUE' />
         </ThemeProvider>,
       );
+
       cy.findByTestId("availableData").contains(PROD_1).should("be.visible");
       cy.findByTestId("availableData").contains(PROD_2).should("be.visible");
     })    
   
     it('Theme ' + theTheme + ': Data is available for download on Data Product Dashboard', () => {
-      cy.stub(axios, 'get').returns(MockDPL).as('fetch')
       cy.mount(
         <ThemeProvider theme={theme(theTheme)}>
           <CssBaseline />
@@ -47,7 +44,6 @@ describe('<DataProductDashboard />', () => {
     })
   
     it('Theme ' + theTheme + ': Data products re-index endpoint is called', () => {
-      cy.stub(axios, 'get').returns("").as('fetch')
       cy.mount(
         <ThemeProvider theme={theme(theTheme)}>
           <CssBaseline />
@@ -58,7 +54,6 @@ describe('<DataProductDashboard />', () => {
     })
   
     it('Theme ' + theTheme + ': Data products reload endpoint is called', () => {
-      cy.stub(axios, 'get').returns("").as('fetch')
       cy.mount(
         <ThemeProvider theme={theme(theTheme)}>
           <CssBaseline />
