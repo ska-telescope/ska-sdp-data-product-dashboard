@@ -22,6 +22,8 @@ import './commands'
 
 import { mount } from 'cypress/react18'
 
+Cypress.env('REACT_USE_LOCAL_DATA', 'myValue');
+
 Cypress.Commands.add('mount', mount)
 
 // Example use:

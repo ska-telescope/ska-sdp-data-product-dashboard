@@ -13,7 +13,7 @@ describe('<DataProductDashboard />', () => {
       cy.mount(
         <ThemeProvider theme={theme(theTheme)}>
           <CssBaseline />
-          <DataProductDashboard data-testid="DataProductDashboardId" dataLocalValue='FALSE' />
+          <DataProductDashboard data-testid="DataProductDashboardId" />
         </ThemeProvider>,
       );
       cy.findByTestId("apiAvailability").contains(TEXT_NO_API).should("be.visible");
@@ -23,7 +23,7 @@ describe('<DataProductDashboard />', () => {
       cy.mount(
         <ThemeProvider theme={theme(theTheme)}>
           <CssBaseline />
-          <DataProductDashboard data-testid="DataProductDashboardId" dataLocalValue='TRUE' />
+          <DataProductDashboard data-testid="DataProductDashboardId" />
         </ThemeProvider>,
       );
 
@@ -35,7 +35,7 @@ describe('<DataProductDashboard />', () => {
       cy.mount(
         <ThemeProvider theme={theme(theTheme)}>
           <CssBaseline />
-          <DataProductDashboard data-testid="DataProductDashboardId" dataLocalValue='TRUE' />
+          <DataProductDashboard data-testid="DataProductDashboardId" />
         </ThemeProvider>,
       );
       cy.findByTestId("availableData").contains("1").should("be.visible").click();
@@ -47,7 +47,7 @@ describe('<DataProductDashboard />', () => {
       cy.mount(
         <ThemeProvider theme={theme(theTheme)}>
           <CssBaseline />
-          <DataProductDashboard data-testid="DataProductDashboardId" dataLocalValue='TRUE' />
+          <DataProductDashboard data-testid="DataProductDashboardId" />
         </ThemeProvider>,
       );
       cy.findByTestId("RefreshIcon").click()
@@ -57,7 +57,7 @@ describe('<DataProductDashboard />', () => {
       cy.mount(
         <ThemeProvider theme={theme(theTheme)}>
           <CssBaseline />
-          <DataProductDashboard data-testid="DataProductDashboardId" dataLocalValue='TRUE' />
+          <DataProductDashboard data-testid="DataProductDashboardId" />
         </ThemeProvider>,
       );
       cy.findByTestId("CachedIcon").invoke('css', 'pointer-events', 'auto')
