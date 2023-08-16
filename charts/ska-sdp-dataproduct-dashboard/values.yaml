@@ -28,10 +28,10 @@ dashboard:
   apiRefreshRate: 10000
   resources:
     requests:
-      cpu: 250m
+      cpu: 1000m
       memory: 2048Mi
     limits:
-      cpu: 750m
+      cpu: 2000m
       memory: 3072Mi
       
 elasticsearch:
