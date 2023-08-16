@@ -1,13 +1,13 @@
 ---
 apiVersion: v2
-appVersion: 0.4.3
+appVersion: 0.4.4
 description: A Helm chart to deploy the Data Product Dashboard
 home: https://gitlab.com/ska-telescope/sdp/ska-sdp-dataproduct-dashboard
 maintainers:
   - email: naledi@sarao.ac.za
     name: NALEDI
 name: ska-sdp-dataproduct-dashboard
-version: 0.4.3
+version: 0.4.4
 dependencies:
   - name: 'elasticsearch'
     version: '19.5.8'
