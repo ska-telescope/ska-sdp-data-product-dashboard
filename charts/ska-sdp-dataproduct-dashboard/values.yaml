@@ -28,11 +28,11 @@ dashboard:
   apiRefreshRate: 10000
   resources:
     requests:
-      cpu: 250m
-      memory: 1536Mi
-    limits:
-      cpu: 750m
+      cpu: 1000m
       memory: 2048Mi
+    limits:
+      cpu: 2000m
+      memory: 3072Mi
       
 elasticsearch:
   enabled: false
@@ -49,7 +49,7 @@ elasticsearch:
       enabled: true
 
 dataProductPVC:
-  name: shared
+  name: shared-mnl
   create:
     enabled: false
     size: 5Gi

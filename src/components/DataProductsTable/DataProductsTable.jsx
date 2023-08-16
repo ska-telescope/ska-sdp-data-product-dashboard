@@ -4,7 +4,7 @@ import { Box, Grid } from '@mui/material';
 import { DataGrid, InfoCard } from '@ska-telescope/ska-gui-components';
 import { tableHeight } from "../../utils/constants";
 
-const DataProductsTable = (jsonDataProducts, updating, handleSelectedNode) => {
+const DataProductsTable = (jsonDataProducts, updating, apiRunning, handleSelectedNode) => {
   const { t } = useTranslation('dpd');
 
   const columns = [
@@ -74,9 +74,10 @@ const DataProductsTable = (jsonDataProducts, updating, handleSelectedNode) => {
 
   return (
     <>
-      {updating && RenderInfo(2, "info.fetching")}
-      {!updating && !haveData() && RenderInfo(1, "error.API_NO_DATA")}
-      {!updating && haveData() && RenderData()}
+      {apiRunning && updating && RenderInfo(2, "info.fetching")}
+      {!apiRunning && RenderInfo(1, "error.API_NOT_AVAILABLE")}
+      {apiRunning && !updating && !haveData() && RenderInfo(1, "error.API_NO_DATA")}
+      {apiRunning && !updating && haveData() && RenderData()}
     </>
   );
 }
