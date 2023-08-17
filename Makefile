@@ -54,3 +54,5 @@ k8s-pre-install-chart:
 	elif [[ "$(CI_RUNNER_TAGS)" == *"k8srunner"* ]] || [[ "$(CI_RUNNER_TAGS)" == *"k8srunner-gpu-v100"* ]] ; then \
 		echo "techops not implemented yet!" ;\
 	fi
+
+k8s-post-install-chart: k8s-namespace-credentials
