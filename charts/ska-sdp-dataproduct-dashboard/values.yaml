@@ -12,7 +12,7 @@ urls:
 api:
   enabled: true
   container: artefact.skao.int/ska-sdp-dataproduct-api
-  version: 0.4.4
+  version: 0.4.3
   imagePullPolicy: IfNotPresent
   hostPort: "8100"
   storagePath: "/mnt/data/product/"
