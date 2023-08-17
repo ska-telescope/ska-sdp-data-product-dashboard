@@ -11,10 +11,12 @@
     "settings": "Settings"
   },
   "error": {
-    "API_NO_DATA": "Data API not available",
+    "API_NO_DATA": "No data products found on volume",
+    "NO_DATA_ERROR": "No data products, Error undefined",
     "API_NO_META_DATA": "API unreachable, Data Product MetaData is not currently available",
-    "API_NOT_AVAILABLE": "API unreachable, data not available",
-    "API_UNKNOWN_ERROR": "API unreachable, Error undefined"
+    "API_NOT_AVAILABLE": "Data product API unreachable",
+    "API_UNKNOWN_ERROR": "API unreachable, Error undefined",
+    "UNDEFINED_ERROR": "Error undefined"
   },
   "info": {
     "fetching": "Retrieving information from API"

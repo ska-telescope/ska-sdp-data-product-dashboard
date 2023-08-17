@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next';
 import { Box, CssBaseline, Grid, Paper, ThemeProvider, Typography } from "@mui/material";
 import DataProductDashboard from '../components/DataProductDashboard/DataProductDashboard';
 import { Footer, Header, Spacer, SPACER_VERTICAL, THEME_DARK, THEME_LIGHT } from "@ska-telescope/ska-gui-components";
-import { DATA_LOCAL, SPACER_FOOTER, SPACER_HEADER, fullHeight } from "../utils/constants";
+import { SPACER_FOOTER, SPACER_HEADER, fullHeight } from "../utils/constants";
 import theme from '../services/theme/theme';
 import GetAPIStatus from '../services/GetAPIStatus/GetAPIStatus';
 const REACT_APP_VERSION = process.env.REACT_APP_VERSION;
@@ -24,10 +24,8 @@ function App() {
   };
 
   async function GetVersionNumber() {
-    if (!DATA_LOCAL) { 
-      const results = await GetAPIStatus();
-      setAPIVersion(results?.data?.Version ? results.data.Version : t('error.API_NOT_AVAILABLE'));
-    }
+    const results = await GetAPIStatus();
+    setAPIVersion(results?.data?.Version ? results.data.Version : t('error.API_NOT_AVAILABLE'));
   }
 
   const TheHeader = () => {

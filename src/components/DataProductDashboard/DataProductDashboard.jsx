@@ -15,9 +15,6 @@ import SearchForDataProduct from "../../services/SearchForDataProduct/SearchForD
 import ListAllDataProducts from "../../services/ListAllDataProducts/ListAllDataProducts";
 import GetAPIStatus from "../../services/GetAPIStatus/GetAPIStatus";
 import MetaData from "../../services/MetaData/MetaData";
-import MockDPL from "../../services/Mocking/mockDataProductList";
-import MockMeta from "../../services/Mocking/mockMetaData";
-import { DATA_LOCAL } from "../../utils/constants";
 
 const DEF_START_DATE = "1970-01-01";
 const DEF_END_DATE = "2070-12-31";
@@ -40,6 +37,7 @@ const DataProductDashboard = () => {
   const [metadataKey, updateMetadataKey] = React.useState('');
   const [metadataValue, updateMetadataValue] = React.useState('');
   const [canSearch, updateCanSearch] = React.useState(false);
+  const [apiRunning, updateApiRunning] = React.useState(false);
   const [newDataAvailable, updateNewDataAvailable] = React.useState(null);
   const [dataStoreLastModifiedTime, setDataStoreLastModifiedTime] = React.useState(null);
   const [initFlag, setInitFlag] = React.useState(true);
@@ -47,6 +45,7 @@ const DataProductDashboard = () => {
   async function CheckForNewData() {
     const results = await GetAPIStatus()
     if (results?.data) {
+      updateApiRunning(results.data.API_running)
       updateCanSearch(results.data.Search_enabled)
       setDataStoreLastModifiedTime(results.data.Date_modified)
     } else {
@@ -57,17 +56,9 @@ const DataProductDashboard = () => {
 
   async function PeriodicAPIStatusCheck() {
     React.useEffect(() => {
-      if (!DATA_LOCAL) {
-        CheckForNewData()
-      } else {
-        updateCanSearch(true)
-      }
+      CheckForNewData()
       const interval = setInterval(async () => {
-        if (!DATA_LOCAL) {
-          CheckForNewData()
-        } else {
-          updateCanSearch(true)
-        }
+        CheckForNewData()
       }, REACT_APP_API_REFRESH_RATE);
       return () => clearInterval(interval);
     }, []);
@@ -102,7 +93,7 @@ const DataProductDashboard = () => {
     }
 
     async function updateSearchResults() {
-      const results = (DATA_LOCAL) ? MockDPL : await getDataProductList(startDate ? startDate : DEF_START_DATE, endDate ? endDate : DEF_END_DATE, metadataKey ? metadataKey : DEF_WILDCARD, metadataValue ? metadataValue : DEF_WILDCARD);
+      const results = await getDataProductList(startDate ? startDate : DEF_START_DATE, endDate ? endDate : DEF_END_DATE, metadataKey ? metadataKey : DEF_WILDCARD, metadataValue ? metadataValue : DEF_WILDCARD);
       setDataProductsData(results);
       setUpdating(false);
       updateNewDataAvailable(false);
@@ -114,20 +105,15 @@ const DataProductDashboard = () => {
   }, [canSearch, endDate, metadataKey, metadataValue, startDate, updating]);
 
   React.useEffect(() => {
-    if (DATA_LOCAL && selectedFileNames?.metaDataFile?.length ) {
-      setMetaData(MockMeta);
-    } else {
-      const metaDataFile = selectedFileNames?.metaDataFile;
+    const metaDataFile = selectedFileNames?.metaDataFile;
+    async function getMetaData() {
+      const results = await MetaData(selectedFileNames?.metaDataFile);
+      setMetaData(results.data);
+    }
 
-      async function getMetaData() {
-        const results = await MetaData(selectedFileNames?.metaDataFile);
-        setMetaData(results.data);
-      }
-
-      if (metaDataFile && metaDataFile.length) {
-        if (oldFilename !== metaDataFile) {
-          getMetaData();
-        }
+    if (metaDataFile && metaDataFile.length) {
+      if (oldFilename !== metaDataFile) {
+        getMetaData();
       }
     }
   }, [oldFilename, selectedFileNames]);
@@ -252,7 +238,7 @@ const DataProductDashboard = () => {
       {RenderDataStoreBox()}
       <Grid sx={{ height: '100%'}} container spacing={1} direction="row" justifyContent="space-between"  >
           <Grid item xs={9}>
-            {DataProductsTable(dataProducts.data, updating, rowClickHandler)}
+            {DataProductsTable(dataProducts.data, updating, apiRunning, rowClickHandler)}
           </Grid>
           <Grid item xs={3}>
             <>

@@ -63,7 +63,7 @@ context('Select and download data product', () => {
     })
 
     it('Verify Data API not available alert is displayed', () => {
-      cy.findByTestId("apiAvailability").contains("Data API not available").should("be.visible");
+      cy.findByTestId("apiAvailability").contains("Data product API unreachable").should("be.visible");
     })
   })
 

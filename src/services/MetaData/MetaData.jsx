@@ -1,4 +1,6 @@
 import axios from 'axios';
+import { DATA_LOCAL } from "../../utils/constants";
+import MockMeta from '../../services/Mocking/mockMetaData';
 
 async function MetaData(inData) {
 
@@ -33,6 +35,11 @@ async function MetaData(inData) {
       "fileName": fileName
     };
 
+    if (DATA_LOCAL){
+      console.log("DATA_LOCAL: Loading MockMeta")
+      return MockMeta;
+    }
+
     try {
       return await axios.post(`${apiUrl}/dataproductmetadata`,  params, {
         headers: {
@@ -44,6 +51,7 @@ async function MetaData(inData) {
       return 'error.API_NO_META_DATA';
     }
   }
+  console.log(fetchMetaData())
   return fetchMetaData();
 }
 
