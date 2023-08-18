@@ -1,8 +1,8 @@
 Deployment Guide
-=============
+================
 
 Kubernetes Deployment
-~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~
 
 This is the documentation for the Data Product Dashboard Helm Chart.
 
@@ -11,7 +11,7 @@ Usage
 
 The data product dashboard is intended to be deployed as a standalone deployment, running as a service accessible to other deployments through its API or to users through the dashboard URL. Typical deployments are done from within the GitLab pipelines, deploying into pre-configured environments to one of three namespaces (ci-dev, integration or staging)
 
-During development, developers can deploy the development branches into the ci-dev namespace from the Gitlab pipeline:
+During development, developers can deploy the development branches into the ci-dev namespace from the Gitlab pipeline. Here the installation use the local chart in the repository for deployment:
 
 .. figure:: /_static/img/ci-dev_deployment.png
    :width: 90%
@@ -19,7 +19,7 @@ During development, developers can deploy the development branches into the ci-d
    Deployment from pipeline on dev branch
 
 
-From the master branch, the application can be deployed into the integration or staging namespace of each environment.
+From the master branch, the application can be deployed into the integration or staging namespace of each environment. For these deployments released chart from `CAR <https://artefact.skao.int/>`_ is used.
 
 .. figure:: /_static/img/integration_staging_deployment.png
    :width: 90%
