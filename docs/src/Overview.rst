@@ -1,12 +1,12 @@
 Overview
-========
+~~~~~~~~
 
 The data product dashboard is used to list and download data products that are saved on a shared data volume within the environment where it is deployed.
 
 Usage
------
+=====
 
-The dashboard contains a table of all the data products in the shared data volume, as seen by the `Data Product API <https://developer.skao.int/projects/ska-sdp-dataproduct-api/en/latest/?badge=latest>`_. This table has built-in functionality for sorting and filtering. When a data product is selected, its metadata is displayed on the right as well as the download options for the selected product.
+The dashboard contains a table of all the data products in the shared data volume, as seen by the `Data Product API <https://developer.skao.int/projects/ska-sdp-dataproduct-api/en/latest/?badge=latest>`_. This table has built-in functionality for sorting and filtering. When a data product is selected, its metadata and download option is displayed on a panel on the right.
 
 .. figure:: /_static/img/dataproductdashboardWithoutSearch.png
    :width: 90%
