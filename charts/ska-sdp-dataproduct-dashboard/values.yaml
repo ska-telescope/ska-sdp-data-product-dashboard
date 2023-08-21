@@ -19,6 +19,13 @@ api:
   metadata_file_name: ska-data-product.yaml
   metadata_es_schema_file: /mnt/src/ska_sdp_dataproduct_api/elasticsearch/data_product_metadata_schema.json
   es_host: "http://ska-sdp-dataproduct-dashboard-elasticsearch-master-hl.test.svc:9200"
+  resources:
+    requests:
+      cpu: 200m
+      memory: 200Mi
+    limits:
+      cpu: 1000m
+      memory: 600Mi
 
 dashboard:
   enabled: true
