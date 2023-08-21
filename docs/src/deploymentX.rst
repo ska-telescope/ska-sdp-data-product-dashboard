@@ -1,8 +1,8 @@
 Deployment Guide
-================
+~~~~~~~~~~~~~~~~
 
 Kubernetes Deployment
-~~~~~~~~~~~~~~~~~~~~~
+=====================
 
 This is the documentation for the Data Product Dashboard Helm Chart.
 
@@ -31,7 +31,7 @@ The deployed Data Product Dashboard should then be accessible at: "https://sdhp.
 
 
 Steps to run the system locally in Minikube
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+===========================================
 
 The following steps will assume that you have the repo checked out, or have the chart
 locally.
