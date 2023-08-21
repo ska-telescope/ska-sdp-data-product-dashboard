@@ -12,12 +12,6 @@ release = '0.4.4'
 
 # -- General configuration ---------------------------------------------------
 
-import sphinx_rtd_theme
-
-def setup(app):
-    app.add_css_file('css/custom.css')
-    app.add_js_file('js/github.js')
-
 extensions = [
     'sphinx.ext.autodoc',
     'sphinx.ext.doctest',
@@ -44,14 +38,7 @@ pygments_style = 'sphinx'
 
 html_theme = 'ska_ser_sphinx_theme'
 
-html_context = {
-    'theme_logo_only' : True,
-    'display_github': True, # Integrate GitHub
-    'github_user': 'ska-telescope', # Username
-    'github_repo': 'sdp/ska-sdp-dataproduct-dashboard', # Repo name
-    'github_version': 'master', # Version
-    'conf_py_path': '/src/', # Path in the checkout to the docs root
-}
+html_context = {}
 
 html_static_path = ['_static']
 
@@ -59,11 +46,9 @@ html_static_path = ['_static']
 
 htmlhelp_basename = 'ska-sdp-dataproduct-dashboard'
 
-
 # -- Options for LaTeX output ------------------------------------------------
 
-latex_elements = {
-}
+latex_elements = {}
 
 latex_documents = [
     (master_doc, 'ska-sdp-dataproduct-dashboard.tex', 'ska-sdp-dataproduct-dashboard Documentation',
@@ -95,7 +80,7 @@ epub_exclude_files = ['search.html']
 
 # -- Options for intersphinx extension ---------------------------------------
 
-intersphinx_mapping = {'https://docs.python.org/': None}
+intersphinx_mapping = {}
 
 # -- Options for todo extension ----------------------------------------------
 
