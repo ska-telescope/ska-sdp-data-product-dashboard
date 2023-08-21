@@ -35,7 +35,7 @@ spec:
       storage: $${SHARED_CAPACITY}
   storageClassName: ""
   volumeMode: Filesystem
-  volumeName: dpshared-${KUBE_NAMESPACE}
+  volumeName: dpshared-${KUBE_NAMESPACE}-mnl
 endef
 export DP_PVC
 
