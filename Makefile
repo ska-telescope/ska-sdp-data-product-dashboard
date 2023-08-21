@@ -58,4 +58,4 @@ k8s-pre-install-chart:
 		echo "techops not implemented yet!" ;\
 	fi
 
-k8s-post-install-chart: k8s-namespace-credentials
+# k8s-post-install-chart: k8s-namespace-credentials
