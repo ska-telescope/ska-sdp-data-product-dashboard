@@ -45,6 +45,13 @@ spec:
       - name: ska-sdp-dataproduct-api
         image: "{{ .Values.api.container }}:{{ .Values.api.version }}"
         imagePullPolicy: {{ .Values.api.imagePullPolicy }}
+        resources:
+          limits:
+            cpu: {{ .Values.api.resources.limits.cpu }}
+            memory: {{ .Values.api.resources.limits.memory }}
+          requests:
+            cpu: {{ .Values.api.resources.requests.cpu }}
+            memory: {{ .Values.api.resources.requests.memory }}
         ports:
           - containerPort: 8000
         volumeMounts:
