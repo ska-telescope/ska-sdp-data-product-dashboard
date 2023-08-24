@@ -44,10 +44,6 @@ k8s-pre-install-chart:
 	make k8s-namespace ;\
 	kubectl -n ${KUBE_NAMESPACE} delete --now --ignore-not-found pvc/shared-mnl || true ;\
 	kubectl delete --now --ignore-not-found pv/dpshared-${KUBE_NAMESPACE}-mnl || true ;\
-	kubectl get pv dpshared ;\
-	kubectl get pv dpshared-dp-shared-mnl ;\
-	kubectl get pv ;\
-	kubectl get pvc -n ${KUBE_NAMESPACE} ;\
 	apt-get update && apt-get install gettext -y
 	if [[ "$(CI_RUNNER_TAGS)" == *"ska-k8srunner-dp"* ]] || [[ "$(CI_RUNNER_TAGS)" == *"ska-k8srunner-dp-gpu-a100"* ]] ; then \
 	export SHARED_CAPACITY=$(shell kubectl get pv/dpshared-dp-shared-mnl -o jsonpath="{.spec.capacity.storage}") ; \
