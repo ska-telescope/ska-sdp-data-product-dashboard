@@ -72,5 +72,6 @@
   "t_stat_error": "Time Calibration Error",
   "t_xel": "No. of Time Sampling Elements",
   "target_class": "Target Class",
-  "target_name": "Target Name"
+  "target_name": "Target Name",
+  "version": "Version"
 }
