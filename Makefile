@@ -35,7 +35,7 @@ spec:
       storage: $${SHARED_CAPACITY}
   storageClassName: ""
   volumeMode: Filesystem
-  volumeName: dpshared-${KUBE_NAMESPACE}
+  volumeName: dpshared-${KUBE_NAMESPACE}-mnl
 endef
 export DP_PVC
 
@@ -43,14 +43,14 @@ k8s-pre-install-chart-car: k8s-pre-install-chart
 k8s-pre-install-chart:
 	make k8s-namespace ;\
 	kubectl -n ${KUBE_NAMESPACE} delete --now --ignore-not-found pvc/shared-mnl || true ;\
-	kubectl delete --now --ignore-not-found pv/dpshared-${KUBE_NAMESPACE} || true ;\
+	kubectl delete --now --ignore-not-found pv/dpshared-${KUBE_NAMESPACE}-mnl || true ;\
 	apt-get update && apt-get install gettext -y
 	if [[ "$(CI_RUNNER_TAGS)" == *"ska-k8srunner-dp"* ]] || [[ "$(CI_RUNNER_TAGS)" == *"ska-k8srunner-dp-gpu-a100"* ]] ; then \
-	export SHARED_CAPACITY=$(shell kubectl get pv/dpshared -o jsonpath="{.spec.capacity.storage}") ; \
+	export SHARED_CAPACITY=$(shell kubectl get pv/dpshared-dp-shared-mnl -o jsonpath="{.spec.capacity.storage}") ; \
 	echo "$${DP_PVC}" | envsubst | kubectl -n $(KUBE_NAMESPACE) apply -f - ;\
-	kubectl get pv dpshared -o json | \
-	jq ".metadata = { \"name\": \"dpshared-${KUBE_NAMESPACE}\" }" | \
-	jq ".spec.csi.volumeHandle = \"dpshared-${KUBE_NAMESPACE}-cephfs-pv\"" | \
+	kubectl get pv dpshared-dp-shared-mnl -o json | \
+	jq ".metadata = { \"name\": \"dpshared-${KUBE_NAMESPACE}-mnl\" }" | \
+	jq ".spec.csi.volumeHandle = \"dpshared-${KUBE_NAMESPACE}-mnlfs-pv\"" | \
 	jq 'del(.spec.claimRef)' | \
 	jq 'del(.status)' | \
 	kubectl apply -f - ; \
