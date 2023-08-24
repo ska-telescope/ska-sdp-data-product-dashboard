@@ -37,9 +37,14 @@ const DataProductsTable = (jsonDataProducts, updating, apiRunning, handleSelecte
         }
         else {
           // add new column to extendedColumns
+          const headerText = (key) => {
+            const tmp = key.split('.');
+            return t(tmp[tmp.length - 1], { ns: 'ivoa' });
+          }
+
           extendedColumns.push({
             field: key,
-            headerName: t(key, { ns: 'ivoa' }),
+            headerName: headerText(key),
             width: 200
           });
         }
