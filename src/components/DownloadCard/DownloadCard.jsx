@@ -1,4 +1,4 @@
-import React from "react";
+import * as React from 'react'
 import { Box, Card, CardContent, Grid, Typography } from '@mui/material';
 import DownloadIcon from '@mui/icons-material/Download';
 import { Button, DataTree } from '@ska-telescope/ska-gui-components';
@@ -55,24 +55,18 @@ function DownloadCard(selectedFileNames, metaData) {
       <Box m={1}>
         <Card variant="outlined">
           <CardContent>
-          <Grid container direction="row" spacing={1} justifyContent="space-between">
-            <Grid item xs={12} md={8}>
-              <Typography variant="subtitle2" component="div">
-                {selectedFileNames.fileName} 
-              </Typography>
-            </Grid>
-            <Grid item xs={12} md={4}>
-              <Button
-                  color="secondary"
-                  icon={<DownloadIcon />}
-                  label={t('button.download')}
-                  onClick={handleClick}
-                  testId="downloadButton"
-                  toolTip=""
-                  variant="outlined"
-                />
-            </Grid>
-          </Grid>           
+            <Typography variant="subtitle2" component="div">
+              {selectedFileNames.fileName} 
+            </Typography>
+            <Button
+              color="secondary"
+              icon={<DownloadIcon />}
+              label={t('button.download')}
+              onClick={handleClick}
+              testId="downloadButton"
+              toolTip=""
+              variant="outlined"
+            />        
           {metaData && <DataTree data={metaData} height="500" />}
           </CardContent>
         </Card>
