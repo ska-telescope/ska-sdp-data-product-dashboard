@@ -72,7 +72,7 @@ spec:
             value: "{{ .Values.api.es_host }}"
           - name: SKA_SDP_DATAPRODUCT_API_VERSION
             value: "{{ .Values.api.version }}"
-          - name: INGRESS_PATH_PREPEND
+          - name: API_URL_SUBDIRECTORY
             value: {{ include "ingress_path_prepend" . }}/api
 
 {{- end }}
