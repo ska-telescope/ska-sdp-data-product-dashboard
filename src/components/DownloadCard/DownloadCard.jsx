@@ -2,13 +2,11 @@ import * as React from 'react';
 import { Box, Card, CardContent, Typography } from '@mui/material';
 import DownloadIcon from '@mui/icons-material/Download';
 import { Button, DataTree } from '@ska-telescope/ska-gui-components';
-// import DownloadDataProduct from '../../services/DownloadDataProduct/DownloadDataProduct';
 import { useTranslation } from 'react-i18next';
 import streamSaver from "streamsaver";
 
 
 function DownloadCard(selectedFileNames, metaData) {
-  // use state to track the download progress
   const URL_DOWNLOAD = '/download';
   const apiUrl = process.env.REACT_APP_SKA_SDP_DATAPRODUCT_API_URL;
   const { t } = useTranslation('dpd');
