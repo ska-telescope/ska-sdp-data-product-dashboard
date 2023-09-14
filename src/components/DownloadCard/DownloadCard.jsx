@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { Box, Card, CardContent, Grid, Typography } from '@mui/material';
+import { Box, Card, CardContent, Typography } from '@mui/material';
 import DownloadIcon from '@mui/icons-material/Download';
 import { Button, DataTree } from '@ska-telescope/ska-gui-components';
 // import DownloadDataProduct from '../../services/DownloadDataProduct/DownloadDataProduct';
