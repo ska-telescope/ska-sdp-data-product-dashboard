@@ -72,7 +72,8 @@ spec:
             value: "{{ .Values.api.es_host }}"
           - name: SKA_SDP_DATAPRODUCT_API_VERSION
             value: "{{ .Values.api.version }}"
+          - name: STREAM_CHUNK_SIZE
+            value: "{{ .Values.api.stream_chunk_size }}"
           - name: API_URL_SUBDIRECTORY
             value: {{ include "ingress_path_prepend" . }}/api
-
 {{- end }}

@@ -13,6 +13,14 @@ The dashboard contains a table of all the data products in the shared data volum
 
    Example Data Product Dashboard
 
+When the download option is selected, the data product will be streamed to disk as a .tar archive with the browser download manager.
+
+.. figure:: /_static/img/dataproductdashboardWithFileDownloaded.png
+   :width: 90%
+
+   Example of file downloaded with browser download manager.
+
+
 Above the table is a panel which contains functions related to the data store in use. These can include the following:
 
 - **Index Data Products**

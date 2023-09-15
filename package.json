@@ -61,6 +61,7 @@
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-i18next": "^12.2.0",
+    "streamsaver": "^2.0.6",
     "ts-jest": "^29.1.0",
     "typescript": "^5.1.6",
     "webpack": "^5.76.2",

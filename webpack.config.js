@@ -104,6 +104,7 @@ module.exports = (env, argv) => { return {
         '@mui/system': { singleton: true, requiredVersion: '^5.11.16', eager: true },
         '@emotion/styled': { singleton: true, requiredVersion: '^11.9.3', eager: true },
         'prop-types': { singleton: true, requiredVersion: '^15.8.1', eager: true },
+        'streamsaver': { singleton: true, requiredVersion: '^2.0.6', eager: true },
         '@ska-telescope/ska-gui-components': {
           requiredVersion: 'auto',
           eager: true

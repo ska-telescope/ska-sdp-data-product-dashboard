@@ -19,6 +19,7 @@ api:
   metadata_file_name: ska-data-product.yaml
   metadata_es_schema_file: /mnt/src/ska_sdp_dataproduct_api/elasticsearch/data_product_metadata_schema.json
   es_host: "http://ska-sdp-dataproduct-dashboard-elasticsearch-master-hl.test.svc:9200"
+  stream_chunk_size: 65536
   resources:
     requests:
       cpu: 200m
