@@ -15,11 +15,11 @@ import SearchForDataProduct from "../../services/SearchForDataProduct/SearchForD
 import ListAllDataProducts from "../../services/ListAllDataProducts/ListAllDataProducts";
 import GetAPIStatus from "../../services/GetAPIStatus/GetAPIStatus";
 import MetaData from "../../services/MetaData/MetaData";
+import { API_REFRESH_RATE, SKA_SDP_DATAPRODUCT_API_URL } from "../../utils/constants";
 
 const DEF_START_DATE = "1970-01-01";
 const DEF_END_DATE = "2070-12-31";
 const DEF_WILDCARD = "*";
-const REACT_APP_API_REFRESH_RATE = process.env.REACT_APP_API_REFRESH_RATE;
 
 const DataProductDashboard = () => {
   const { t } = useTranslation('dpd');
@@ -59,7 +59,7 @@ const DataProductDashboard = () => {
       CheckForNewData()
       const interval = setInterval(async () => {
         CheckForNewData()
-      }, REACT_APP_API_REFRESH_RATE);
+      }, API_REFRESH_RATE);
       return () => clearInterval(interval);
     }, []);
     return;
@@ -127,7 +127,7 @@ const DataProductDashboard = () => {
   };
 
   async function indexDataProduct() {
-    const apiUrl = process.env.REACT_APP_SKA_SDP_DATAPRODUCT_API_URL;
+    const apiUrl = SKA_SDP_DATAPRODUCT_API_URL;
     try {
       return await axios.get(`${apiUrl}/reindexdataproducts`,  {
         headers: {

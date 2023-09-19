@@ -1,6 +1,7 @@
 import axios from 'axios';
-import { DATA_LOCAL } from "../../utils/constants";
+import { USE_LOCAL_DATA } from "../../utils/constants";
 import MockMeta from '../../services/Mocking/mockMetaData';
+import { SKA_SDP_DATAPRODUCT_API_URL } from "../../utils/constants";
 
 async function MetaData(inData) {
 
@@ -29,14 +30,14 @@ async function MetaData(inData) {
   async function fetchMetaData() {
     const paramData = setParamData(inData);
     const fileName = inData ? setFileName(inData) : '';
-    const apiUrl = process.env.REACT_APP_SKA_SDP_DATAPRODUCT_API_URL;
+    const apiUrl = SKA_SDP_DATAPRODUCT_API_URL;
     const params = {
       "relativePathName": paramData,
       "fileName": fileName
     };
 
-    if (DATA_LOCAL){
-      console.log("DATA_LOCAL: Loading MockMeta")
+    if (USE_LOCAL_DATA){
+      console.log("USE_LOCAL_DATA: Loading MockMeta")
       return MockMeta;
     }
 

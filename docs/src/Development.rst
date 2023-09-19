@@ -91,11 +91,11 @@ The build script builds the app for production to the `dist` folder. The build i
 
 **Running the application inside a docker container on your host machine**
 
-To run the application using docker, build the docker file in the root directory and run the container exposing port 8100.
+When running the application within a container, the production image of the application is first built in the docker file and a Nginx image is then used to run the application. The following docker commands can be used to build and run it locally:
 
 .. code-block:: bash
 
   docker build -t ska-sdp-dataproduct-dashboard .
-  docker run -p 8100:8100 ska-sdp-dataproduct-dashboard
+  docker run -p 8100:80 ska-sdp-dataproduct-dashboard
 
-The project will then be accessible at the URL http://localhost:8100/
+The project will then be accessible at the URL http://localhost/

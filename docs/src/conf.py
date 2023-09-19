@@ -3,7 +3,7 @@
 
 project = 'ska-sdp-dataproduct-dashboard'
 copyright = '2023, SKAO'
-author = 'SKAO, (Andre Odendaal)'
+author = 'SKAO'
 
 # The short X.Y version
 version = '0.5.0'

@@ -1,9 +1,10 @@
 import axios from 'axios';
-import { DATA_LOCAL } from "../../utils/constants";
+import { USE_LOCAL_DATA } from "../../utils/constants";
 import MockStatus from '../../services/Mocking/mockStatus';
+import { SKA_SDP_DATAPRODUCT_API_URL } from "../../utils/constants";
 
 const GetAPIStatus = async () => {
-  const apiUrl = process.env.REACT_APP_SKA_SDP_DATAPRODUCT_API_URL;
+  const apiUrl = SKA_SDP_DATAPRODUCT_API_URL;
   const URL_LIST = '/status';
   const config = {
     headers: {
@@ -12,8 +13,8 @@ const GetAPIStatus = async () => {
     }, 
   };
 
-  if (DATA_LOCAL){
-    console.log("DATA_LOCAL: Loading MockStatus")
+  if (USE_LOCAL_DATA){
+    console.log("USE_LOCAL_DATA: Loading MockStatus")
     return MockStatus;
   }
 

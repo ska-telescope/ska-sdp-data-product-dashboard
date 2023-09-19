@@ -1,9 +1,10 @@
 import axios from 'axios';
-import { DATA_LOCAL } from "../../utils/constants";
+import { USE_LOCAL_DATA } from "../../utils/constants";
 import MockDPL from '../../services/Mocking/mockDataProductList';
+import { SKA_SDP_DATAPRODUCT_API_URL } from "../../utils/constants";
 
 const FetchDataProductList = async (startDate, endDate, metadata_key, metadata_value) => {
-  const apiUrl = process.env.REACT_APP_SKA_SDP_DATAPRODUCT_API_URL;
+  const apiUrl = SKA_SDP_DATAPRODUCT_API_URL;
   const URL_LIST = '/dataproductsearch';
   const bodyParameters = {
     "start_date": startDate,
@@ -17,8 +18,8 @@ const FetchDataProductList = async (startDate, endDate, metadata_key, metadata_v
     }, 
   };
 
-  if (DATA_LOCAL){
-    console.log("DATA_LOCAL: Loading MockDPL")
+  if (USE_LOCAL_DATA){
+    console.log("USE_LOCAL_DATA: Loading MockDPL")
     return MockDPL;
   }
 
