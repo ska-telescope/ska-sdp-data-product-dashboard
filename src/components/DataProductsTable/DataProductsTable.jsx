@@ -89,7 +89,7 @@ const DataProductsTable = (jsonDataProducts, updating, apiRunning, handleSelecte
               size="small"
               onClick={() => setOpen(!open)}
             >
-              {open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
+              {open ? "up" : "down"}
             </IconButton>
           </TableCell>
           <TableCell component="th" scope="row">
@@ -105,7 +105,7 @@ const DataProductsTable = (jsonDataProducts, updating, apiRunning, handleSelecte
             <Collapse in={open} timeout="auto" unmountOnExit>
               <Box sx={{ margin: 1 }}>
                 <Typography variant="h6" gutterBottom component="div">
-                  History
+                  Subproducts
                 </Typography>
                 <Table size="small" aria-label="purchases">
                   <TableHead>
@@ -165,8 +165,6 @@ const DataProductsTable = (jsonDataProducts, updating, apiRunning, handleSelecte
     createData('Cupcake', 305, 3.7, 67, 4.3, 2.5),
     createData('Gingerbread', 356, 16.0, 49, 3.9, 1.5),
   ];
-  console.log("created rows");
-  
 
   function RenderInfo(value, msg) {
     return (
@@ -178,18 +176,11 @@ const DataProductsTable = (jsonDataProducts, updating, apiRunning, handleSelecte
     );
   }
 
-  let open = false;
-
-  function setOpen(value) {
-    console.log("set open");
-    open = value;
-  }
-
   function RenderData() {
     return (
       <Box data-testid={"availableData"} m={1}>
-        <TableContainer component={Paper}>
-          <Table aria-label="collapsible table">
+        <TableContainer component={Paper} height={tableHeight()}>
+          <Table aria-label="collapsible table" >
             <TableHead>
               <TableRow>
                 <TableCell />
@@ -201,57 +192,9 @@ const DataProductsTable = (jsonDataProducts, updating, apiRunning, handleSelecte
               </TableRow>
             </TableHead>
             <TableBody>
-              <React.Fragment>
-                <TableRow sx={{ '& > *': { borderBottom: 'unset' } }}>
-                  <TableCell>
-                    <IconButton
-                      aria-label="expand row"
-                      size="small"
-                      onClick={() => setOpen(!open)}
-                    >
-                      {open ? "up" : "down"}
-                    </IconButton>
-                  </TableCell>
-                  <TableCell component="th" scope="row">
-                    cell1
-                  </TableCell>
-                  <TableCell align="right">cell2</TableCell>
-                  <TableCell align="right">cell3</TableCell>
-                  <TableCell align="right">cell4</TableCell>
-                  <TableCell align="right">cell5</TableCell>
-                </TableRow>
-                <TableRow>
-                  <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
-                    <Collapse in={open} timeout="auto" unmountOnExit>
-                      <Box sx={{ margin: 1 }}>
-                        <Typography variant="h6" gutterBottom component="div">
-                          History
-                        </Typography>
-                        <Table size="small" aria-label="purchases">
-                          <TableHead>
-                            <TableRow>
-                              <TableCell>Date</TableCell>
-                              <TableCell>Customer</TableCell>
-                              <TableCell align="right">Amount</TableCell>
-                              <TableCell align="right">Total price ($)</TableCell>
-                            </TableRow>
-                          </TableHead>
-                          <TableBody>
-                            <TableRow key="0983470">
-                              <TableCell component="th" scope="row">
-                                date
-                              </TableCell>
-                              <TableCell>customerId</TableCell>
-                              <TableCell align="right">amount</TableCell>
-                              <TableCell align="right">price</TableCell>
-                            </TableRow>
-                          </TableBody>
-                        </Table>
-                      </Box>
-                    </Collapse>
-                  </TableCell>
-                </TableRow>
-              </React.Fragment>
+              {rows.map((row) => (
+                <Row key={row.name} row={row} />
+              ))}
             </TableBody>
           </Table>
         </TableContainer>
@@ -287,4 +230,62 @@ export default DataProductsTable
       </Box>
     );
   }
+*/
+
+
+// working row!
+/*
+
+<React.Fragment>
+  <TableRow sx={{ '& > *': { borderBottom: 'unset' } }}>
+    <TableCell>
+      <IconButton
+        aria-label="expand row"
+        size="small"
+        onClick={() => setOpen(!open)}
+      >
+        {open ? "up" : "down"}
+      </IconButton>
+    </TableCell>
+    <TableCell component="th" scope="row">
+      cell1
+    </TableCell>
+    <TableCell align="right">cell2</TableCell>
+    <TableCell align="right">cell3</TableCell>
+    <TableCell align="right">cell4</TableCell>
+    <TableCell align="right">cell5</TableCell>
+  </TableRow>
+  <TableRow>
+    <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
+      <Collapse in={open} timeout="auto" unmountOnExit>
+        <Box sx={{ margin: 1 }}>
+          <Typography variant="h6" gutterBottom component="div">
+            History
+          </Typography>
+          <Table size="small" aria-label="purchases">
+            <TableHead>
+              <TableRow>
+                <TableCell>Date</TableCell>
+                <TableCell>Customer</TableCell>
+                <TableCell align="right">Amount</TableCell>
+                <TableCell align="right">Total price ($)</TableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              <TableRow key="0983470">
+                <TableCell component="th" scope="row">
+                  date
+                </TableCell>
+                <TableCell>customerId</TableCell>
+                <TableCell align="right">amount</TableCell>
+                <TableCell align="right">price</TableCell>
+              </TableRow>
+            </TableBody>
+          </Table>
+        </Box>
+      </Collapse>
+    </TableCell>
+  </TableRow>
+</React.Fragment>
+
 */
