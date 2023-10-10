@@ -1,7 +1,11 @@
 const { defineConfig } = require("cypress");
+require('dotenv').config()
 
 module.exports = defineConfig({
   video: false,
+  env: {
+    REACT_APP_USE_LOCAL_DATA: "true",
+  },
   component: {
     devServer: {
       framework: "react",
