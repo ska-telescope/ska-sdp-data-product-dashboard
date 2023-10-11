@@ -3,8 +3,9 @@ import { initReactI18next } from 'react-i18next';
 import LanguageDetector from 'i18next-browser-languagedetector';
 import Backend from 'i18next-http-backend';
 import moment from 'moment';
+import { DASHBOARD_URL_SUBDIRECTORY } from "../../utils/constants";
 
-const urlSubDirectory = process.env.REACT_APP_DASHBOARD_URL_SUBDIRECTORY;
+const urlSubDirectory = DASHBOARD_URL_SUBDIRECTORY;
 
 i18n
   .use(Backend)

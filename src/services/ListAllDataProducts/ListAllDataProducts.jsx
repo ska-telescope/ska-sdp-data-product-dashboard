@@ -1,9 +1,9 @@
 import axios from 'axios';
-import { DATA_LOCAL } from "../../utils/constants";
+import { USE_LOCAL_DATA, SKA_SDP_DATAPRODUCT_API_URL } from "../../utils/constants";
 import MockDPL from '../../services/Mocking/mockDataProductList';
 
 const ListAllDataProducts = async () => {
-  const apiUrl = process.env.REACT_APP_SKA_SDP_DATAPRODUCT_API_URL;
+  const apiUrl = SKA_SDP_DATAPRODUCT_API_URL;
   const URL_LIST = '/dataproductlist';
   const config = {
     headers: {
@@ -13,8 +13,8 @@ const ListAllDataProducts = async () => {
   };
 
   try {
-    if (DATA_LOCAL){
-      console.log("DATA_LOCAL: Loading MockDPL")
+    if (USE_LOCAL_DATA){
+      console.log("USE_LOCAL_DATA: Loading MockDPL")
       return MockDPL;
     }
 
