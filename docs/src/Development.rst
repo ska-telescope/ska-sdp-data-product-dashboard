@@ -96,6 +96,6 @@ When running the application within a container, the production image of the app
 .. code-block:: bash
 
   docker build -t ska-sdp-dataproduct-dashboard .
-  docker run -p 8100:80 ska-sdp-dataproduct-dashboard
+  docker run -p 80:80 ska-sdp-dataproduct-dashboard
 
 The project will then be accessible at the URL http://localhost/

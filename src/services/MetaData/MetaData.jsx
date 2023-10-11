@@ -1,7 +1,6 @@
 import axios from 'axios';
-import { USE_LOCAL_DATA } from "../../utils/constants";
+import { USE_LOCAL_DATA, SKA_SDP_DATAPRODUCT_API_URL } from "../../utils/constants";
 import MockMeta from '../../services/Mocking/mockMetaData';
-import { SKA_SDP_DATAPRODUCT_API_URL } from "../../utils/constants";
 
 async function MetaData(inData) {
 
