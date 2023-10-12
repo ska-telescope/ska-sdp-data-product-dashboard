@@ -5,7 +5,7 @@ import ExampleDataProductStatusUnavailable from '../data/ExampleDataProductStatu
 import ExampleDataProductStatusAvailableWithSearch from '../data/ExampleDataProductStatusAvailableWithSearch.json';
 
 // Cloned FROM the constants file in the src directory. Linking to that directly is bad practice.
-const LOCAL_HOST = "http://localhost:8100/";
+const LOCAL_HOST = "http://localhost/";
 
 context('Select and download data product', () => {
   //TODO: refactor to solve failure - to be addressed in nal-662
