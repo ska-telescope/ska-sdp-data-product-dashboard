@@ -1,20 +1,17 @@
 # pull the base image
-FROM node:18.17.0 as dev
+FROM node:18.17.0 as base
 
-ENV PORT 8100
+# # set the working direction
+WORKDIR /app
+COPY . .
 
-RUN mkdir -p /usr/src/app
-WORKDIR /usr/src/app
+# install app dependencies
+RUN yarn install && yarn cache clean
 
-COPY package.json /usr/src/app/
-COPY yarn.lock /usr/src/app/
-RUN yarn install --frozen-lockfile
-
-COPY . /usr/src/app
-
+# start app
 CMD ["yarn", "start"]
 
-FROM dev AS builder
+FROM base as builder
 
 RUN yarn webpack build \
     --mode production \

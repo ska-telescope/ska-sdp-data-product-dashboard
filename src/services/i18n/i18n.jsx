@@ -5,8 +5,6 @@ import Backend from 'i18next-http-backend';
 import moment from 'moment';
 import { DASHBOARD_URL_SUBDIRECTORY } from "../../utils/constants";
 
-const urlSubDirectory = DASHBOARD_URL_SUBDIRECTORY;
-
 i18n
   .use(Backend)
   .use(LanguageDetector)
@@ -14,7 +12,7 @@ i18n
   .init({
     backend: {
       // http backend options
-      loadPath: urlSubDirectory+'/locales/{{lng}}/{{ns}}.json',
+      loadPath: DASHBOARD_URL_SUBDIRECTORY+'/locales/{{lng}}/{{ns}}.json',
     },
     fallbackLng: 'en',
     lng: 'en',

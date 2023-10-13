@@ -29,8 +29,8 @@ Clone the repository and its submodules:
 
 .. code-block:: bash
 
-    git clone git@gitlab.com:ska-telescope/sdp/ska-sdp-dataproduct-dashboard.git
-    git submodule update --init --recursive
+    git clone --recursive git@gitlab.com:ska-telescope/sdp/ska-sdp-dataproduct-dashboard.git
+    make make
 
 Scripts for running, testing, and building the application are defined in the scripts section of the package.json file. These are run using YARN
 

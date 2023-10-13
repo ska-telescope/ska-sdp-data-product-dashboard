@@ -9,6 +9,7 @@ const version = require('./package.json').version;
 
 module.exports = (env, argv) => { return {
   entry: "./src/index.jsx",
+  
   output: {},
 
   performance: {
@@ -16,7 +17,6 @@ module.exports = (env, argv) => { return {
     maxEntrypointSize: 512000,
     maxAssetSize: 512000
   },
-
 
   resolve: {
     extensions: ['.tsx', '.ts', '.jsx', '.js', '.json']
