@@ -29,9 +29,8 @@ Clone the repository and its submodules:
 
 .. code-block:: bash
 
-    git clone git@gitlab.com:ska-telescope/sdp/ska-sdp-dataproduct-dashboard.git
+    git clone --recursive git@gitlab.com:ska-telescope/sdp/ska-sdp-dataproduct-dashboard.git
     make make
-    make submodule
 
 Scripts for running, testing, and building the application are defined in the scripts section of the package.json file. These are run using YARN
 
@@ -49,7 +48,7 @@ You should now be able to run the scripts defined in the package.json within the
 
 **Running the application in development mode**
 
-The app can be run with the node environment set to NODE_ENV=test (allowing Istanbul to instrument the code) and webpack serve with --mode development. You can access your application at http://localhost/. The app will recompile and restart if you make any edits to the source files. 
+The app can be run with the node environment set to NODE_ENV=test (allowing Istanbul to instrument the code) and webpack serve with --mode development. You can access your application at http://localhost:8100. The app will recompile and restart if you make any edits to the source files. 
 
 
 .. code-block:: bash
