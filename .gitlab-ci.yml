@@ -17,6 +17,7 @@ stages:
   - integration-dp
   - staging
   - staging-dp
+  - integration-psi-low
   - publish
 
 #Install basic dependencies using yarn
