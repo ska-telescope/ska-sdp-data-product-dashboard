@@ -272,6 +272,36 @@ stop-staging-dp:
   needs:
     - deploy-staging-dp
 
+# psi-low
+deploy-integration-psi-low:
+  stage: integration-psi-low
+  extends: deploy-integration
+  when: manual
+  tags:
+    - k8srunner-psi-low
+
+info-integration-psi-low:
+  stage: integration-psi-low
+  extends: info-integration
+  tags:
+    - k8srunner-psi-low
+  script:
+    - *info_script
+
+redeploy-integration-psi-low:
+  stage: integration-psi-low
+  extends: redeploy-integration
+  tags:
+    - k8srunner-psi-low
+
+stop-integration-psi-low:
+  stage: integration-psi-low
+  extends: stop-integration
+  tags:
+    - k8srunner-psi-low
+  needs:
+    - deploy-integration-psi-low
+
 code_quality:
   # https://docs.gitlab.com/ee/user/project/merge_requests/code_quality.html#generate-an-html-report
   artifacts:
