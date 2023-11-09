@@ -8,11 +8,11 @@ const DataProductsTable = (jsonDataProducts, updating, apiRunning, handleSelecte
   const { t } = useTranslation('dpd');
 
   const columns = [
-    { field: "execution_block", headerName: t("execution_block", { ns: 'ivoa' }), width: 200 },
+    //{ field: "execution_block", headerName: t("execution_block", { ns: 'ivoa' }), width: 200 },
     { field: "date_created", headerName: t("date_created", { ns: 'ivoa' }), width: 100 }
   ];
 
-  const ignore_columns_names = ["dataproduct_file", "metadata_file"];
+  const ignore_columns_names = ["dataproduct_file", "metadata_file", "files", "execution_block"];
 
   const haveData = () => {
     return (typeof jsonDataProducts === "object" && jsonDataProducts.length > 0 );
@@ -51,7 +51,7 @@ const DataProductsTable = (jsonDataProducts, updating, apiRunning, handleSelecte
       }
     }
   }
-  
+
   function Row(props) {
     const { row } = props;
     const [open, setOpen] = React.useState(false);
@@ -78,10 +78,9 @@ const DataProductsTable = (jsonDataProducts, updating, apiRunning, handleSelecte
           <TableCell component="th" scope="row">
             {row.execution_block}
           </TableCell>
-          <TableCell align="right">{row['config.processing_block']}</TableCell>
-          <TableCell align="right">{row['context.observer']}</TableCell>
-          <TableCell align="right">{row['context.intent']}</TableCell>
-          <TableCell align="right">{row['context.notes']}</TableCell>
+          {extendedColumns.map((extendedColumn, index) => (
+            <TableCell key={extendedColumn.field+index} align="right">{row[extendedColumn.field]}</TableCell>
+          ))}
         </TableRow>
         <TableRow>
           <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
@@ -125,7 +124,8 @@ const DataProductsTable = (jsonDataProducts, updating, apiRunning, handleSelecte
   }
 
   /* DEBUG */
-  console.log("jsonDataProducts", jsonDataProducts);
+  //console.log("jsonDataProducts", jsonDataProducts);
+  //console.log("extendedColumns", extendedColumns);
 
   function RenderInfo(value, msg) {
     return (
@@ -146,10 +146,9 @@ const DataProductsTable = (jsonDataProducts, updating, apiRunning, handleSelecte
               <TableRow>
                 <TableCell />
                 <TableCell>Execution Block</TableCell>
-                <TableCell align="right">Processing Block</TableCell>
-                <TableCell align="right">Observer</TableCell>
-                <TableCell align="right">Intent</TableCell>
-                <TableCell align="right">Notes</TableCell>
+                {extendedColumns.map((extendedColumn, index) => (
+                  <TableCell key={extendedColumn.field+index} align="right">{extendedColumn.headerName}</TableCell>
+                ))}
               </TableRow>
             </TableHead>
             <TableBody>
