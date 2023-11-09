@@ -1,6 +1,5 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import { PropTypes } from 'prop-types';
 import { Box, Collapse, Grid, IconButton, KeyboardArrowDownIcon, KeyboardArrowUpIcon, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography, Paper } from '@mui/material';
 import { InfoCard } from '@ska-telescope/ska-gui-components';
 import { tableHeight } from "../../utils/constants";
@@ -53,32 +52,16 @@ const DataProductsTable = (jsonDataProducts, updating, apiRunning, handleSelecte
     }
   }
   
-  function createData(name, calories, fat, carbs, protein, price) {
-    return {
-      name,
-      calories,
-      fat,
-      carbs,
-      protein,
-      price,
-      history: [
-        {
-          date: '2020-01-05',
-          customerId: '11091700',
-          amount: 3,
-        },
-        {
-          date: '2020-01-02',
-          customerId: 'Anonymous',
-          amount: 1,
-        },
-      ],
-    };
-  }
-  
   function Row(props) {
     const { row } = props;
     const [open, setOpen] = React.useState(false);
+
+    // TODO: get the up/down arrow working with:
+    // {open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
+    // instead of:
+    // {open ? "up" : "down"}
+
+    // TODO: use handleSelectedNode? to allow rows to be selected
 
     return (
       <React.Fragment>
@@ -93,12 +76,12 @@ const DataProductsTable = (jsonDataProducts, updating, apiRunning, handleSelecte
             </IconButton>
           </TableCell>
           <TableCell component="th" scope="row">
-            {row.name}
+            {row.execution_block}
           </TableCell>
-          <TableCell align="right">{row.calories}</TableCell>
-          <TableCell align="right">{row.fat}</TableCell>
-          <TableCell align="right">{row.carbs}</TableCell>
-          <TableCell align="right">{row.protein}</TableCell>
+          <TableCell align="right">{row['config.processing_block']}</TableCell>
+          <TableCell align="right">{row['context.observer']}</TableCell>
+          <TableCell align="right">{row['context.intent']}</TableCell>
+          <TableCell align="right">{row['context.notes']}</TableCell>
         </TableRow>
         <TableRow>
           <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
@@ -110,23 +93,25 @@ const DataProductsTable = (jsonDataProducts, updating, apiRunning, handleSelecte
                 <Table size="small" aria-label="purchases">
                   <TableHead>
                     <TableRow>
-                      <TableCell>Date</TableCell>
-                      <TableCell>Customer</TableCell>
-                      <TableCell align="right">Amount</TableCell>
-                      <TableCell align="right">Total price ($)</TableCell>
+                      <TableCell>CRC</TableCell>
+                      <TableCell>Description</TableCell>
+                      <TableCell>Path</TableCell>
+                      <TableCell align="right">Size</TableCell>
+                      <TableCell align="right">Status</TableCell>
+                      <TableCell align="right">Download</TableCell>
                     </TableRow>
                   </TableHead>
                   <TableBody>
-                    {row.history.map((historyRow) => (
-                      <TableRow key={historyRow.date}>
+                    {row.files.map((fileRow) => (
+                      <TableRow key={fileRow.crc}>
                         <TableCell component="th" scope="row">
-                          {historyRow.date}
+                          {fileRow.crc}
                         </TableCell>
-                        <TableCell>{historyRow.customerId}</TableCell>
-                        <TableCell align="right">{historyRow.amount}</TableCell>
-                        <TableCell align="right">
-                          {Math.round(historyRow.amount * row.price * 100) / 100}
-                        </TableCell>
+                        <TableCell>{fileRow.description}</TableCell>
+                        <TableCell>{fileRow.path}</TableCell>
+                        <TableCell align="right">{fileRow.size}</TableCell>
+                        <TableCell align="right">{fileRow.status}</TableCell>
+                        <TableCell align="right"><a href="">link</a></TableCell>
                       </TableRow>
                     ))}
                   </TableBody>
@@ -139,32 +124,26 @@ const DataProductsTable = (jsonDataProducts, updating, apiRunning, handleSelecte
     );
   }
 
-  Row.propTypes = {
-    row: PropTypes.shape({
-      calories: PropTypes.number.isRequired,
-      carbs: PropTypes.number.isRequired,
-      fat: PropTypes.number.isRequired,
-      history: PropTypes.arrayOf(
-        PropTypes.shape({
-          amount: PropTypes.number.isRequired,
-          customerId: PropTypes.string.isRequired,
-          date: PropTypes.string.isRequired,
-        }),
-      ).isRequired,
-      name: PropTypes.string.isRequired,
-      price: PropTypes.number.isRequired,
-      protein: PropTypes.number.isRequired,
-    }).isRequired,
-  };
+  /* DEBUG */
+  console.log("jsonDataProducts", jsonDataProducts);
 
+  const rows = [];
+  for (let i = 0 ; i < jsonDataProducts.length ; i++){
+    const json = jsonDataProducts[i];
 
-  const rows = [
-    createData('Frozen yoghurt', 159, 6.0, 24, 4.0, 3.99),
-    createData('Ice cream sandwich', 237, 9.0, 37, 4.3, 4.99),
-    createData('Eclair', 262, 16.0, 24, 6.0, 3.79),
-    createData('Cupcake', 305, 3.7, 67, 4.3, 2.5),
-    createData('Gingerbread', 356, 16.0, 49, 3.9, 1.5),
-  ];
+    // DEBUG: if no files list sent from the api, add a dummy placeholder
+    if (!json.hasOwnProperty('files')){
+      json.files = [{
+        crc: "2a890fbe",
+        description: "This is test file 3",
+        path: "ska-sub-system/scan_id_1/pb_id_1/TestDataFile1.txt",
+        size: 19,
+        status: "done"
+      }];
+    }
+
+    rows.push(json);
+  }
 
   function RenderInfo(value, msg) {
     return (
@@ -184,16 +163,16 @@ const DataProductsTable = (jsonDataProducts, updating, apiRunning, handleSelecte
             <TableHead>
               <TableRow>
                 <TableCell />
-                <TableCell>Dessert (100g serving)</TableCell>
-                <TableCell align="right">Calories</TableCell>
-                <TableCell align="right">Fat&nbsp;(g)</TableCell>
-                <TableCell align="right">Carbs&nbsp;(g)</TableCell>
-                <TableCell align="right">Protein&nbsp;(g)</TableCell>
+                <TableCell>Execution Block</TableCell>
+                <TableCell align="right">Processing Block</TableCell>
+                <TableCell align="right">Observer</TableCell>
+                <TableCell align="right">Intent</TableCell>
+                <TableCell align="right">Notes</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
               {rows.map((row) => (
-                <Row key={row.name} row={row} />
+                <Row key={row.execution_block} row={row} />
               ))}
             </TableBody>
           </Table>
@@ -213,79 +192,3 @@ const DataProductsTable = (jsonDataProducts, updating, apiRunning, handleSelecte
 }
 
 export default DataProductsTable
-
-
-/*
-  function RenderData() {
-    return (
-      <Box data-testid={"availableData"} m={1}>
-        <DataGrid
-          data-testid={jsonDataProducts}
-          columns={extendedColumns}
-          height={tableHeight()}
-          onRowClick={handleSelectedNode}
-          rows={jsonDataProducts}
-          width="100%"
-        />
-      </Box>
-    );
-  }
-*/
-
-
-// working row!
-/*
-
-<React.Fragment>
-  <TableRow sx={{ '& > *': { borderBottom: 'unset' } }}>
-    <TableCell>
-      <IconButton
-        aria-label="expand row"
-        size="small"
-        onClick={() => setOpen(!open)}
-      >
-        {open ? "up" : "down"}
-      </IconButton>
-    </TableCell>
-    <TableCell component="th" scope="row">
-      cell1
-    </TableCell>
-    <TableCell align="right">cell2</TableCell>
-    <TableCell align="right">cell3</TableCell>
-    <TableCell align="right">cell4</TableCell>
-    <TableCell align="right">cell5</TableCell>
-  </TableRow>
-  <TableRow>
-    <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
-      <Collapse in={open} timeout="auto" unmountOnExit>
-        <Box sx={{ margin: 1 }}>
-          <Typography variant="h6" gutterBottom component="div">
-            History
-          </Typography>
-          <Table size="small" aria-label="purchases">
-            <TableHead>
-              <TableRow>
-                <TableCell>Date</TableCell>
-                <TableCell>Customer</TableCell>
-                <TableCell align="right">Amount</TableCell>
-                <TableCell align="right">Total price ($)</TableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              <TableRow key="0983470">
-                <TableCell component="th" scope="row">
-                  date
-                </TableCell>
-                <TableCell>customerId</TableCell>
-                <TableCell align="right">amount</TableCell>
-                <TableCell align="right">price</TableCell>
-              </TableRow>
-            </TableBody>
-          </Table>
-        </Box>
-      </Collapse>
-    </TableCell>
-  </TableRow>
-</React.Fragment>
-
-*/
