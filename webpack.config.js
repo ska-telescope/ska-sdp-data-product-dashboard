@@ -8,9 +8,14 @@ const deps = require('./package.json').dependencies;
 const version = require('./package.json').version;
 
 module.exports = (env, argv) => { return {
-  entry: "./src/index.jsx",
+  entry:{  
+    shared: ['react', 'react-dom'],
+    app: "./src/index.jsx",
+  },
   
-  output: {},
+  output: {
+    publicPath: '/',
+  },
 
   performance: {
     hints: false,
@@ -61,7 +66,9 @@ module.exports = (env, argv) => { return {
     new ModuleFederationPlugin({
       name: 'sdpDataProductDashboard',
       filename: 'remoteEntry.js',
-      remotes: {},
+      remotes: {
+        skaLoginPage: 'skaLoginPage@http://localhost:4201/remoteEntry.js',
+      },
       exposes: {
         './Dashboard': './src/components/DataProductDashboard/DataProductDashboard.jsx'
       },
@@ -108,6 +115,11 @@ module.exports = (env, argv) => { return {
         'streamsaver': { singleton: true, requiredVersion: '^2.0.6', eager: true },
         '@ska-telescope/ska-gui-components': {
           requiredVersion: 'auto',
+          eager: true
+        },
+        '@ska-telescope/ska-gui-local-storage': {
+          requiredVersion: deps['@ska-telescope/ska-gui-local-storage'],
+          singleton: true,
           eager: true
         },
         axios: { singleton: true, requiredVersion: '^0.27.2', eager: true },

@@ -1,0 +1,26 @@
+{
+  "button": {
+    "cancel": "Cancel",
+    "confirm": "Confirm",
+    "login": "LOG IN",
+    "logout": "LOG OUT",
+    "signIn": "Sign in"
+  },
+  "error": {
+    "login": "Invalid login credentials passed to authentication service"
+  },
+  "label": {
+    "email": "Email Address",
+    "password": "Password",
+    "title": "Login",
+    "logout": "Are you sure you want to log out?"
+  },
+  "toolTip": {
+    "button": {
+      "login": "Click here to access user specific features",
+      "logout": "Log out of the application suite",
+      "signIn": "",
+      "user": "User additional functionality including Log out"
+    }
+  }
+}
