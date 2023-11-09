@@ -1,5 +1,9 @@
-export const DATA_LOCAL = process.env.REACT_USE_LOCAL_DATA;
-export const LOCAL_HOST = "http://localhost:8100/";
+import { env } from '../env'
+export const USE_LOCAL_DATA = env.REACT_APP_USE_LOCAL_DATA === "true";
+export const API_REFRESH_RATE = env.REACT_APP_API_REFRESH_RATE;
+export const SKA_SDP_DATAPRODUCT_DASHBOARD_URL = env.REACT_APP_SKA_SDP_DATAPRODUCT_DASHBOARD_URL;
+export const SKA_SDP_DATAPRODUCT_API_URL = env.REACT_APP_SKA_SDP_DATAPRODUCT_API_URL;
+export const DASHBOARD_URL_SUBDIRECTORY = env.REACT_APP_DASHBOARD_URL_SUBDIRECTORY;
 
 export const DOWNLOAD_BUTTON_LABEL = "BUTTON.DOWNLOAD";
 export const DOWNLOAD_ID = "downloadButton";
@@ -19,11 +23,3 @@ export const SPACER = 50;
 
 export const fullHeight = () => { return `calc(100vh - ${SPACER_HEADER + SPACER_FOOTER + SPACER}px)`};
 export const tableHeight = () => { return `calc(100vh - ${SPACER_HEADER + SPACER_FOOTER + DATA_STORE_BOX_HEIGHT + SPACER}px)`};
-
-// METADATA_TITLE: "label.metaData",
-//   INTERFACE: "interface",
-//   EX_BLOCK: "execution_block",
-//   CONTEXT: "context",
-//   CONFIG: "config",
-//   FILES: "files",
-

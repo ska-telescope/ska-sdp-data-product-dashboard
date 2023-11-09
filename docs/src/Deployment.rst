@@ -63,14 +63,13 @@ If needed, build images, tag and load them to Minikube.
 3. Create a new namespace (optional): ``kubectl create namespace [namespace]``
 4. Install the helm chart with the following values: 
 
-
-    helm install [namespace] . -n [namespace] --set helmdeploy.namespace=[namespace] --values values_local_deployment.yaml
+    helm install [deploy-name] charts/ska-sdp-dataproduct-dashboard -n [namespace] --values values_local_deployment.yaml
 
 On a system with limited resources / slow connection, run with the following additional flags:
 
 .. code-block:: bash
 
-    helm install [namespace] . -n [namespace] --set helmdeploy.namespace=[namespace] --values values_local_deployment.yaml --set diagnosticMode.enabled=true --timeout=60m
+    helm install [deploy-name] charts/ska-sdp-dataproduct-dashboard -n [namespace] --values values_local_deployment.yaml --set diagnosticMode.enabled=true --timeout=60m
 
 Once the above is complete you will have the following running:
 
@@ -82,12 +81,12 @@ To be able to access the API and the dashboard run the following:
 .. code-block:: bash
 
     kubectl -n [namespace] port-forward service/ska-sdp-dataproduct-api 8000:8000
-    kubectl -n [namespace] port-forward service/ska-sdp-dataproduct-dashboard 8100:8100
+    kubectl -n [namespace] port-forward service/ska-sdp-dataproduct-dashboard 80:80
 
 You should now be able to access the API and the Dashboard on the following URL's:
 
 * http://localhost:8000/filelist
-* http://localhost:8100/
+* http://localhost/
 
 
 To get data onto the PV:

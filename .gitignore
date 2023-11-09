@@ -28,6 +28,8 @@ yarn-error.log*
 
 /.nyc_output/*
 
+public/env.js
+
 # built docs
 /docs/build
 

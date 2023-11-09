@@ -25,6 +25,7 @@ context('Select and download data product', () => {
   // }
 
   function setUpForTests() {
+    Cypress.env('REACT_APP_USE_LOCAL_DATA', 'false');
     cy.intercept("GET", "http://localhost:8000/dataproductlist", ExampleDataProductList);
     cy.intercept("POST", "http://localhost:8000/dataproductmetadata", {
       statusCode: 200,
@@ -57,6 +58,7 @@ context('Select and download data product', () => {
 
   describe('data product service is unavailable', () => {
     beforeEach(() => {
+      Cypress.env('REACT_APP_USE_LOCAL_DATA', 'false');
       cy.intercept("GET", "http://localhost:8000/dataproductlist", {});
       cy.intercept('GET', 'http://localhost:8000/status', ExampleDataProductStatusUnavailable)
       cy.visit(LOCAL_HOST)

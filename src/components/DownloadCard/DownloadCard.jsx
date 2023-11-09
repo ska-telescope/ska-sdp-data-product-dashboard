@@ -4,11 +4,12 @@ import DownloadIcon from '@mui/icons-material/Download';
 import { Button, DataTree } from '@ska-telescope/ska-gui-components';
 import { useTranslation } from 'react-i18next';
 import streamSaver from "streamsaver";
+import { SKA_SDP_DATAPRODUCT_API_URL } from "../../utils/constants";
 
 
 function DownloadCard(selectedFileNames, metaData) {
   const URL_DOWNLOAD = '/download';
-  const apiUrl = process.env.REACT_APP_SKA_SDP_DATAPRODUCT_API_URL;
+  const apiUrl = SKA_SDP_DATAPRODUCT_API_URL;
   const { t } = useTranslation('dpd');
   const options = {
     method: "POST",

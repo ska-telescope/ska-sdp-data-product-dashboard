@@ -2,12 +2,14 @@ const webpack = require('webpack');
 const HtmlWebPackPlugin = require('html-webpack-plugin');
 const ModuleFederationPlugin = require('webpack/lib/container/ModuleFederationPlugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
+const Dotenv = require('dotenv-webpack');
 
 const deps = require('./package.json').dependencies;
 const version = require('./package.json').version;
 
 module.exports = (env, argv) => { return {
   entry: "./src/index.jsx",
+  
   output: {},
 
   performance: {
@@ -15,7 +17,6 @@ module.exports = (env, argv) => { return {
     maxEntrypointSize: 512000,
     maxAssetSize: 512000
   },
-
 
   resolve: {
     extensions: ['.tsx', '.ts', '.jsx', '.js', '.json']
@@ -123,17 +124,13 @@ module.exports = (env, argv) => { return {
       template: './public/index.html'
     }),
     new webpack.EnvironmentPlugin({
-      REACT_APP_SKA_SDP_DATAPRODUCT_DASHBOARD_URL:'http://localhost',
-      REACT_APP_SKA_SDP_DATAPRODUCT_API_URL: 'http://localhost:8000',
-      REACT_APP_DASHBOARD_URL_SUBDIRECTORY: '',
-      REACT_APP_API_REFRESH_RATE: '10000',
       REACT_APP_VERSION: version,
-      REACT_USE_LOCAL_DATA: false,
     }),
     new CopyWebpackPlugin({
         patterns: [
             {
               from: 'public',
+              to: 'dist',
               globOptions: {
                 dot: true,
                 gitignore: true,
@@ -141,6 +138,10 @@ module.exports = (env, argv) => { return {
               },
             }
         ]
-    })   
+    }),
+    new Dotenv({
+      path: '.env',
+    })
   ]
-};};
+  };
+};

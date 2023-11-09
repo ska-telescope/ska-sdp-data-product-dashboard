@@ -3,8 +3,7 @@ import { initReactI18next } from 'react-i18next';
 import LanguageDetector from 'i18next-browser-languagedetector';
 import Backend from 'i18next-http-backend';
 import moment from 'moment';
-
-const urlSubDirectory = process.env.REACT_APP_DASHBOARD_URL_SUBDIRECTORY;
+import { DASHBOARD_URL_SUBDIRECTORY } from "../../utils/constants";
 
 i18n
   .use(Backend)
@@ -13,7 +12,7 @@ i18n
   .init({
     backend: {
       // http backend options
-      loadPath: urlSubDirectory+'/locales/{{lng}}/{{ns}}.json',
+      loadPath: DASHBOARD_URL_SUBDIRECTORY+'/locales/{{lng}}/{{ns}}.json',
     },
     fallbackLng: 'en',
     lng: 'en',
