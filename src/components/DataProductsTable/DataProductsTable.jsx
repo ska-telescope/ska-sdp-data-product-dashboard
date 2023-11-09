@@ -103,7 +103,7 @@ const DataProductsTable = (jsonDataProducts, updating, apiRunning, handleSelecte
                   </TableHead>
                   <TableBody>
                     {row.files.map((fileRow) => (
-                      <TableRow key={fileRow.crc}>
+                      <TableRow key={fileRow.path}>
                         <TableCell component="th" scope="row">
                           {fileRow.crc}
                         </TableCell>
@@ -126,24 +126,6 @@ const DataProductsTable = (jsonDataProducts, updating, apiRunning, handleSelecte
 
   /* DEBUG */
   console.log("jsonDataProducts", jsonDataProducts);
-
-  const rows = [];
-  for (let i = 0 ; i < jsonDataProducts.length ; i++){
-    const json = jsonDataProducts[i];
-
-    // DEBUG: if no files list sent from the api, add a dummy placeholder
-    if (!json.hasOwnProperty('files')){
-      json.files = [{
-        crc: "2a890fbe",
-        description: "This is test file 3",
-        path: "ska-sub-system/scan_id_1/pb_id_1/TestDataFile1.txt",
-        size: 19,
-        status: "done"
-      }];
-    }
-
-    rows.push(json);
-  }
 
   function RenderInfo(value, msg) {
     return (
@@ -171,7 +153,7 @@ const DataProductsTable = (jsonDataProducts, updating, apiRunning, handleSelecte
               </TableRow>
             </TableHead>
             <TableBody>
-              {rows.map((row) => (
+              {jsonDataProducts.map((row) => (
                 <Row key={row.execution_block} row={row} />
               ))}
             </TableBody>
