@@ -118,11 +118,11 @@ const DataProductDashboard = () => {
     }
   }, [oldFilename, selectedFileNames]);
 
-  const rowClickHandler = (data) => {
+  const rowClickHandler = (event, row) => {
     setSelectedFileNames({
-      fileName: data.row.execution_block,
-      relativePathName: data.row.dataproduct_file,
-      metaDataFile: data.row.metadata_file
+      fileName: row.execution_block,
+      relativePathName: row.dataproduct_file,
+      metaDataFile: row.metadata_file
     });
   };
 

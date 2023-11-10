@@ -6,7 +6,7 @@ import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import { InfoCard } from '@ska-telescope/ska-gui-components';
 import { tableHeight } from "../../utils/constants";
 
-const DataProductsTable = (jsonDataProducts, updating, apiRunning, handleSelectedNode) => {
+const DataProductsTable = (jsonDataProducts, updating, apiRunning, rowClickHandler) => {
   const { t } = useTranslation('dpd');
 
   const columns = [
@@ -72,11 +72,11 @@ const DataProductsTable = (jsonDataProducts, updating, apiRunning, handleSelecte
               {open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
             </IconButton>
           </TableCell>
-          <TableCell component="th" scope="row">
+          <TableCell component="th" scope="row" onClick={(event) => rowClickHandler(event, row)}>
             {row.execution_block}
           </TableCell>
           {extendedColumns.map((extendedColumn, index) => (
-            <TableCell key={extendedColumn.field+index} align="right">{row[extendedColumn.field]}</TableCell>
+            <TableCell key={extendedColumn.field+index} align="right" onClick={(event) => {rowClickHandler(event, row)}}>{row[extendedColumn.field]}</TableCell>
           ))}
         </TableRow>
         <TableRow>
@@ -86,7 +86,7 @@ const DataProductsTable = (jsonDataProducts, updating, apiRunning, handleSelecte
                 <Typography variant="h6" gutterBottom component="div">
                   Subproducts
                 </Typography>
-                <Table size="small" aria-label="purchases">
+                <Table size="small" aria-label="subproducts">
                   <TableHead>
                     <TableRow>
                       <TableCell>CRC</TableCell>
