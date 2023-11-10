@@ -1,6 +1,8 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import { Box, Collapse, Grid, IconButton, KeyboardArrowDownIcon, KeyboardArrowUpIcon, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography, Paper } from '@mui/material';
+import { Box, Collapse, Grid, IconButton, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography, Paper } from '@mui/material';
+import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
+import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import { InfoCard } from '@ska-telescope/ska-gui-components';
 import { tableHeight } from "../../utils/constants";
 
@@ -56,11 +58,6 @@ const DataProductsTable = (jsonDataProducts, updating, apiRunning, handleSelecte
     const { row } = props;
     const [open, setOpen] = React.useState(false);
 
-    // TODO: get the up/down arrow working with:
-    // {open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
-    // instead of:
-    // {open ? "up" : "down"}
-
     // TODO: use handleSelectedNode? to allow rows to be selected
 
     return (
@@ -72,7 +69,7 @@ const DataProductsTable = (jsonDataProducts, updating, apiRunning, handleSelecte
               size="small"
               onClick={() => setOpen(!open)}
             >
-              {open ? "up" : "down"}
+              {open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
             </IconButton>
           </TableCell>
           <TableCell component="th" scope="row">
