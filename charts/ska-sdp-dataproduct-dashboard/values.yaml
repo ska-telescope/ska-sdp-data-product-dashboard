@@ -30,8 +30,8 @@ api:
 
 dashboard:
   enabled: true
-  container: artefact.skao.int/ska-sdp-dataproduct-dashboard
-  version: 0.5.0
+  container: registry.gitlab.com/ska-telescope/sdp/ska-sdp-dataproduct-dashboard
+  version: 0.5.1_dev8
   imagePullPolicy: IfNotPresent
   apiRefreshRate: 10000
   resources:

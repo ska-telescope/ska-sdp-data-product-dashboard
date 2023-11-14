@@ -6,12 +6,11 @@ kind: Ingress
 metadata:
   annotations:
     kubernetes.io/ingress.class: nginx
-{{ include "api_general.labels" . | indent 4 }}
+{{ include "ska-sdp-dataproduct-dashboard.labels" . | indent 4 }}
     nginx.ingress.kubernetes.io/rewrite-target: /$1
   labels:
-    app: ska-sdp-dataproduct-dashboard
-{{ include "api_general.labels" . | indent 4 }}
-  name: ska-sdp-dataproduct-dashboard
+{{ include "ska-sdp-dataproduct-dashboard.labels" . | indent 4 }}
+  name: {{ $.Chart.Name }}-dashboard-ingress
   namespace: {{ .Release.Namespace }}
 spec:
   rules:
@@ -19,9 +18,9 @@ spec:
       paths:
       - backend:
           service:
-            name: ska-sdp-dataproduct-dashboard
+            name: {{ $.Chart.Name }}-dashboard-service
             port:
-              number: 8100
+              number: 80
         path: "{{ include "ingress_path_prepend" . }}/dashboard/?(.*)"
         pathType: ImplementationSpecific
 {{- end }}
@@ -32,12 +31,11 @@ kind: Ingress
 metadata:
   annotations:
     kubernetes.io/ingress.class: nginx
-{{ include "api_general.labels" . | indent 4 }}
+{{ include "ska-sdp-dataproduct-dashboard.labels" . | indent 4 }}
     nginx.ingress.kubernetes.io/rewrite-target: /$1
   labels:
-    app: ska-sdp-dataproduct-api
-{{ include "api_general.labels" . | indent 4 }}
-  name: ska-sdp-dataproduct-api
+{{ include "ska-sdp-dataproduct-dashboard.labels" . | indent 4 }}
+  name: {{ $.Chart.Name }}-api-ingress
   namespace: {{ .Release.Namespace }}
 spec:
   rules:
@@ -45,7 +43,7 @@ spec:
       paths:
       - backend:
           service:
-            name: ska-sdp-dataproduct-api
+            name: {{ $.Chart.Name }}-api-service
             port:
               number: 8000
         path: "{{ include "ingress_path_prepend" . }}/api/?(.*)"

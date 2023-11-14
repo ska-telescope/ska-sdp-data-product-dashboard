@@ -41,7 +41,7 @@
     "@mui/x-data-grid": "^6.9.2",
     "@mui/x-date-pickers": "^5.0.17",
     "@react-spring/web": "^9.7.3",
-    "@ska-telescope/ska-gui-components": "^0.1.65",
+    "@ska-telescope/ska-gui-components": "^0.1.58",
     "@ska-telescope/ska-gui-local-storage": "^0.0.1",
     "axios": "^0.27.2",
     "babel-loader": "^9.1.0",
@@ -73,6 +73,7 @@
   },
   "devDependencies": {
     "@babel/core": "^7.22.9",
+    "@babel/plugin-proposal-private-property-in-object": "^7.21.11",
     "@babel/plugin-syntax-flow": "^7.22.5",
     "@babel/plugin-transform-private-property-in-object": "^7.22.11",
     "@babel/plugin-transform-react-jsx": "^7.22.5",

@@ -67,7 +67,8 @@ module.exports = (env, argv) => { return {
       name: 'sdpDataProductDashboard',
       filename: 'remoteEntry.js',
       remotes: {
-        skaLoginPage: 'skaLoginPage@http://localhost:4201/remoteEntry.js',
+        // skaLoginPage: 'skaLoginPage@http://localhost:4201/remoteEntry.js',
+        skaLoginPage: 'skaLoginPage@https://sdhp.stfc.skao.int/dp-naledi-andre/skalogin/remoteEntry.js',
       },
       exposes: {
         './Dashboard': './src/components/DataProductDashboard/DataProductDashboard.jsx'
