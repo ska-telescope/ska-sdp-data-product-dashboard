@@ -1,0 +1,36 @@
+{{- if $.Values.dashboard.enabled }}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ $.Chart.Name }}-dashboard-service
+  labels:
+{{ include "ska-sdp-dataproduct-dashboard.labels" . | indent 4 }}
+spec:
+  ports:
+    - port: 80
+      targetPort: 80
+      name: http
+  clusterIP: None
+  selector:
+    app: ska-sdp-dataproduct-dashboard
+{{ include "ska-sdp-dataproduct-dashboard.labels" . | indent 4 }}
+{{- end }}
+{{- if $.Values.api.enabled }}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ $.Chart.Name }}-api-service
+  labels:
+{{ include "ska-sdp-dataproduct-dashboard.labels" . | indent 4 }}
+spec:
+  ports:
+  - port: 8000
+    targetPort: 8000
+    protocol: TCP
+  clusterIP: None
+  selector:
+    app: ska-sdp-dataproduct-api
+{{ include "ska-sdp-dataproduct-dashboard.labels" . | indent 4 }}
+{{- end }}
