@@ -22,6 +22,13 @@ spec:
         - name: ska-sdp-dataproduct-dashboard
           image: "{{ .Values.dashboard.container }}:{{ .Values.dashboard.version }}"
           imagePullPolicy: {{ .Values.dashboard.imagePullPolicy }}
+          resources:
+            limits:
+              cpu: {{ .Values.dashboard.resources.limits.cpu }}
+              memory: {{ .Values.dashboard.resources.limits.memory }}
+            requests:
+              cpu: {{ .Values.dashboard.resources.requests.cpu }}
+              memory: {{ .Values.dashboard.resources.requests.memory }}
           ports:
             - name: http
               containerPort: 80
