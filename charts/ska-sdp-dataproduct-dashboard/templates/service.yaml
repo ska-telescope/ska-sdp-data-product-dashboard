@@ -5,7 +5,7 @@ kind: Service
 metadata:
   name: {{ $.Chart.Name }}-dashboard-service
   labels:
-{{ include "ska-sdp-dataproduct-dashboard.labels" . | indent 4 }}
+{{ include "ska-sdp-dataproduct-dashboard.dashboard.labels" . | indent 4 }}
 spec:
   ports:
     - port: 80
@@ -13,8 +13,7 @@ spec:
       name: http
   clusterIP: None
   selector:
-    app: ska-sdp-dataproduct-dashboard
-{{ include "ska-sdp-dataproduct-dashboard.labels" . | indent 4 }}
+{{ include "ska-sdp-dataproduct-dashboard.dashboard.labels" . | indent 4 }}
 {{- end }}
 {{- if $.Values.api.enabled }}
 ---
@@ -23,7 +22,7 @@ kind: Service
 metadata:
   name: {{ $.Chart.Name }}-api-service
   labels:
-{{ include "ska-sdp-dataproduct-dashboard.labels" . | indent 4 }}
+{{ include "ska-sdp-dataproduct-dashboard.api.labels" . | indent 4 }}
 spec:
   ports:
   - port: 8000
@@ -31,6 +30,20 @@ spec:
     protocol: TCP
   clusterIP: None
   selector:
-    app: ska-sdp-dataproduct-api
-{{ include "ska-sdp-dataproduct-dashboard.labels" . | indent 4 }}
+{{ include "ska-sdp-dataproduct-dashboard.api.labels" . | indent 4 }}
 {{- end }}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ $.Chart.Name }}-login-page-service
+  labels:
+{{ include "ska-sdp-dataproduct-dashboard.login.labels" . | indent 4 }}
+spec:
+  ports:
+    - port: 80
+      targetPort: 80
+      name: http
+  clusterIP: None
+  selector:
+{{ include "ska-sdp-dataproduct-dashboard.login.labels" . | indent 4 }}

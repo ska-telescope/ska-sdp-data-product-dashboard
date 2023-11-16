@@ -12,8 +12,8 @@ import { cypressUser, isCypress } from '../utils/cypress';
 
 const REACT_APP_VERSION = process.env.REACT_APP_VERSION;
 
-// const LoginDialog = React.lazy(() => import('skaLoginPage/LoginDialog'));
-// const LogoutDialog = React.lazy(() => import('skaLoginPage/LogoutDialog'));
+const LoginDialog = React.lazy(() => import('skaLoginPage/LoginDialog'));
+const LogoutDialog = React.lazy(() => import('skaLoginPage/LogoutDialog'));
 
 function App() {
   const [apiVersion, setAPIVersion] = React.useState("LOCAL");
@@ -79,26 +79,26 @@ function App() {
 
   GetVersionNumber()
 
-  // const TheLoginDialogs = () => {
-  //   return (
-  //     <Suspense fallback={<div>Loading login...</div>}>
-  //       <LoginDialog
-  //         openDialog={openLogin}
-  //         setOpenDialog={setOpenLogin}
-  //         LoginFunction={LoginFunction}
-  //         CancelFunction={LoginCancelFunction}
-  //         domain={DOMAIN}
-  //       />
-  //       <LogoutDialog
-  //         openDialog={openLogout}
-  //         setOpenDialog={setOpenLogout}
-  //         LogoutFunction={LogoutFunction}
-  //         CancelFunction={LogoutCancelFunction}
-  //         domain={DOMAIN}
-  //       />
-  //     </Suspense>
-  //   );
-  // }
+  const TheLoginDialogs = () => {
+    return (
+      <Suspense fallback={<div>Loading login...</div>}>
+        <LoginDialog
+          openDialog={openLogin}
+          setOpenDialog={setOpenLogin}
+          LoginFunction={LoginFunction}
+          CancelFunction={LoginCancelFunction}
+          domain={DOMAIN}
+        />
+        <LogoutDialog
+          openDialog={openLogout}
+          setOpenDialog={setOpenLogout}
+          LogoutFunction={LogoutFunction}
+          CancelFunction={LogoutCancelFunction}
+          domain={DOMAIN}
+        />
+      </Suspense>
+    );
+  }
 
   const TheLoginButton = () => {
     return (
@@ -187,7 +187,7 @@ function App() {
               <DataProductDashboard data-testid="DataProductDashboardId"/>
               <Spacer size={SPACER_FOOTER} axis={SPACER_VERTICAL} />
             </Box>
-            {/* {TheLoginDialogs()} */}
+            {TheLoginDialogs()}
             {TheFooter()}
           </Paper>
       </React.Suspense>

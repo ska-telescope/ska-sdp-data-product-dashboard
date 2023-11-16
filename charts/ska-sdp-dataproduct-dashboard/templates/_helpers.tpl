@@ -5,6 +5,20 @@ Selector labels
 app.kubernetes.io/name: {{ $.Chart.Name }}
 {{- end }}
 
+{{- define "ska-sdp-dataproduct-dashboard.dashboard.labels" -}}
+{{ include "ska-sdp-dataproduct-dashboard.labels" . }}
+app: {{ $.Chart.Name }}-dashboard
+{{- end }}
+
+{{- define "ska-sdp-dataproduct-dashboard.api.labels" -}}
+{{ include "ska-sdp-dataproduct-dashboard.labels" . }}
+app: {{ $.Chart.Name }}-api
+{{- end }}
+
+{{- define "ska-sdp-dataproduct-dashboard.login.labels" -}}
+{{ include "ska-sdp-dataproduct-dashboard.labels" . }}
+app: {{ $.Chart.Name }}-login-page
+{{- end }}
 
 {{- define "ingress_path_prepend" }}
     {{- if $.Values.ingress.namespaced }}

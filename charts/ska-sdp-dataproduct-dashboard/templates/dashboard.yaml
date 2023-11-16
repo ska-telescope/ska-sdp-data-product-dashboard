@@ -5,18 +5,16 @@ kind: Deployment
 metadata:
   name: ska-sdp-dataproduct-dashboard
   labels:
-    app: ska-sdp-dataproduct-dashboard
-{{ include "ska-sdp-dataproduct-dashboard.labels" . | indent 4 }}
+{{ include "ska-sdp-dataproduct-dashboard.dashboard.labels" . | indent 4 }}
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app.kubernetes.io/name: {{ $.Chart.Name }}
+{{ include "ska-sdp-dataproduct-dashboard.dashboard.labels" . | indent 6 }}
   template:
     metadata:
       labels:
-        app: ska-sdp-dataproduct-dashboard
-{{ include "ska-sdp-dataproduct-dashboard.labels" . | indent 8 }}
+{{ include "ska-sdp-dataproduct-dashboard.dashboard.labels" . | indent 8 }}
     spec:
       containers:
         - name: ska-sdp-dataproduct-dashboard

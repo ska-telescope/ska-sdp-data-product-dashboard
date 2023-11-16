@@ -8,14 +8,10 @@ const deps = require('./package.json').dependencies;
 const version = require('./package.json').version;
 
 module.exports = (env, argv) => { return {
-  entry:{  
-    shared: ['react', 'react-dom'],
-    app: "./src/index.jsx",
-  },
+  entry: "./src/index.jsx",
   
-  output: {
-    publicPath: '/',
-  },
+  output: {},
+
 
   performance: {
     hints: false,

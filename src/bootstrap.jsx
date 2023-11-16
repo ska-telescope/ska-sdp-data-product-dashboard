@@ -6,11 +6,9 @@ import App from './App/App';
 
 const root = createRoot(document.getElementById('root'))
 root.render(
-  <Suspense fallback="...is loading">
     <StoreProvider>
       <React.StrictMode>
         <App />
       </React.StrictMode>
     </StoreProvider>
-  </Suspense>
 );
