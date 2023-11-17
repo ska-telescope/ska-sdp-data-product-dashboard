@@ -2532,17 +2532,16 @@
   dependencies:
     "@sinonjs/commons" "^1.7.0"
 
-"@ska-telescope/ska-gui-components@^0.1.58":
-  version "0.1.65"
-  resolved "https://artefact.skao.int/repository/npm-internal/@ska-telescope/ska-gui-components/-/ska-gui-components-0.1.65.tgz#367236c006d6eed26366cef4c88f3ac83c61ed15"
-  integrity sha512-yqc7Zwd6Mi7d7x2upEQ9e1+y87ajRRldmdJwDhvwRb0Ya5c2cTnXW+mcSGM321vBCfiIZIM9940JTiRXHZzuDw==
+"@ska-telescope/ska-gui-components@0.1.58":
+  version "0.1.58"
+  resolved "https://artefact.skao.int/repository/npm-internal/@ska-telescope/ska-gui-components/-/ska-gui-components-0.1.58.tgz#1a6c7636d945ad6cc53a60d9589fe0495091b54d"
+  integrity sha512-5WDkja/+q1gs6S/afcdbwBGiB3eSwbdoi7xf1dldMMZThEdpyvq9UaSs+04Tcy6xJ4MqkMO/o+OK2hYdkspC3Q==
   dependencies:
     "@mui/lab" "^5.0.0-alpha.135"
     "@mui/system" "^5.13.7"
     "@mui/x-data-grid" "^6.9.2"
     "@react-spring/web" "^9.7.3"
-    "@ska-telescope/ska-gui-local-storage" "^0.0.1"
-    "@ska-telescope/ska-javascript-components" "^0.1.38"
+    "@ska-telescope/ska-javascript-components" "^0.1.32"
     "@types/uuid" "^9.0.4"
     junit-report-merger "^6.0.2"
 
@@ -2562,7 +2561,25 @@
     redux-localstorage-simple "^2.5.1"
     redux-saga "^1.2.3"
 
-"@ska-telescope/ska-javascript-components@^0.1.33", "@ska-telescope/ska-javascript-components@^0.1.38":
+"@ska-telescope/ska-javascript-components@^0.1.32":
+  version "0.1.40"
+  resolved "https://artefact.skao.int/repository/npm-internal/@ska-telescope/ska-javascript-components/-/ska-javascript-components-0.1.40.tgz#b4fb51150538c7bda0aa6fba252b5657c1a40137"
+  integrity sha512-IYn1En09REPVP7Q57Ygt69x3N1PFtdTjKx3kkgD8wq6wmJoDSI0/KALNbHtXb7HEKjDHhewdu6GNGLTE2dXTYA==
+  dependencies:
+    babel-jest "^29.5.0"
+    babel-plugin-import "^1.13.5"
+    babel-plugin-istanbul "^6.1.1"
+    babel-plugin-transform-class-properties "^6.24.1"
+    copy-webpack-plugin "^11.0.0"
+    istanbul-lib-coverage "^3.2.0"
+    minimatch "3.1.2"
+    postcss "8.4.31"
+    react "^18.2.0"
+    react-dom "^18.2.0"
+    react-refresh "^0.14.0"
+    react-scripts "^5.0.1"
+
+"@ska-telescope/ska-javascript-components@^0.1.33":
   version "0.1.38"
   resolved "https://artefact.skao.int/repository/npm-internal/@ska-telescope/ska-javascript-components/-/ska-javascript-components-0.1.38.tgz#a6599f4b4a790076f258fab88947369485ec236d"
   integrity sha512-Urt86xcaWgqRYZjzTdDTYo8aRQboDpmSbQDDcp0e2pdPLLkdiIlUZZwOOWM/KfJo2rRvF694H/py75mIJUoMqg==
@@ -9634,7 +9651,7 @@ minimatch@3.0.3:
   dependencies:
     brace-expansion "^1.0.0"
 
-minimatch@^3.0.4, minimatch@^3.0.5, minimatch@^3.1.1, minimatch@^3.1.2:
+minimatch@3.1.2, minimatch@^3.0.4, minimatch@^3.0.5, minimatch@^3.1.1, minimatch@^3.1.2:
   version "3.1.2"
   resolved "https://registry.npmjs.org/minimatch/-/minimatch-3.1.2.tgz#19cd194bfd3e428f049a70817c038d89ab4be35b"
   integrity sha512-J7p63hRiAjw1NDEww1W7i37+ByIrOWO5XQQAzZ3VOcL0PNybwpfmV/N05zFAzwQ9USyEcX6t3UO+K5aqBQOIHw==
@@ -10922,15 +10939,7 @@ postcss-value-parser@^4.0.0, postcss-value-parser@^4.1.0, postcss-value-parser@^
   resolved "https://registry.npmjs.org/postcss-value-parser/-/postcss-value-parser-4.2.0.tgz#723c09920836ba6d3e5af019f92bc0971c02e514"
   integrity sha512-1NNCs6uurfkVbeXG4S8JFT9t19m45ICnif8zWLd5oPSZ50QnwMfK+H3jv408d4jw/7Bttv5axS5IiHoLaVNHeQ==
 
-postcss@^7.0.35:
-  version "7.0.39"
-  resolved "https://registry.npmjs.org/postcss/-/postcss-7.0.39.tgz#9624375d965630e2e1f2c02a935c82a59cb48309"
-  integrity sha512-yioayjNbHn6z1/Bywyb2Y4s3yvDAeXGOyxqD+LnVOinq6Mdmd++SW2wUNVzavyyHxd6+DxzWGIuosg6P1Rj8uA==
-  dependencies:
-    picocolors "^0.2.1"
-    source-map "^0.6.1"
-
-postcss@^8.3.5, postcss@^8.4.21, postcss@^8.4.23, postcss@^8.4.4:
+postcss@8.4.31, postcss@^8.3.5, postcss@^8.4.21, postcss@^8.4.23, postcss@^8.4.4:
   version "8.4.31"
   resolved "https://registry.npmjs.org/postcss/-/postcss-8.4.31.tgz#92b451050a9f914da6755af352bdc0192508656d"
   integrity sha512-PS08Iboia9mts/2ygV3eLpY5ghnUcfLV/EXTOW1E2qYxJKGGBUtNjN76FYHnMs36RmARn41bC0AZmn+rR0OVpQ==
@@ -10938,6 +10947,14 @@ postcss@^8.3.5, postcss@^8.4.21, postcss@^8.4.23, postcss@^8.4.4:
     nanoid "^3.3.6"
     picocolors "^1.0.0"
     source-map-js "^1.0.2"
+
+postcss@^7.0.35:
+  version "7.0.39"
+  resolved "https://registry.npmjs.org/postcss/-/postcss-7.0.39.tgz#9624375d965630e2e1f2c02a935c82a59cb48309"
+  integrity sha512-yioayjNbHn6z1/Bywyb2Y4s3yvDAeXGOyxqD+LnVOinq6Mdmd++SW2wUNVzavyyHxd6+DxzWGIuosg6P1Rj8uA==
+  dependencies:
+    picocolors "^0.2.1"
+    source-map "^0.6.1"
 
 prelude-ls@^1.2.1:
   version "1.2.1"

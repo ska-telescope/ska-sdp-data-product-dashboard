@@ -31,8 +31,8 @@ api:
 
 dashboard:
   enabled: true
-  container: registry.gitlab.com/ska-telescope/sdp/ska-sdp-dataproduct-dashboard
-  version: 0.5.1_dev13
+  container: artefact.skao.int/ska-sdp-dataproduct-dashboard
+  version: 0.5.0
   imagePullPolicy: IfNotPresent
   apiRefreshRate: 10000
   resources:
@@ -59,8 +59,8 @@ elasticsearch:
 
 loginpage:
   enabled: true
-  container: registry.gitlab.com/ska-telescope/ska-login-page
-  version: 0.2.0_dev
+  container: artefact.skao.int/ska-login-page
+  version: 0.1.0
   imagePullPolicy: IfNotPresent
 
 dataProductPVC:
