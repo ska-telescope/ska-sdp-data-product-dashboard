@@ -118,13 +118,27 @@ const DataProductDashboard = () => {
     }
   }, [oldFilename, selectedFileNames]);
 
-  const rowClickHandler = (event, row) => {
+  const dataProductClickHandler = (event, dataProduct) => {
+    console.log("dataProductClickHandler", event, dataProduct);
+
     setSelectedFileNames({
-      fileName: row.execution_block,
-      relativePathName: row.dataproduct_file,
-      metaDataFile: row.metadata_file
+      fileName: dataProduct.execution_block,
+      relativePathName: dataProduct.dataproduct_file,
+      metaDataFile: dataProduct.metadata_file
     });
   };
+
+  const subProductClickHandler = (event, subProduct) => {
+    console.log("subProductClickHandler", event, subProduct);
+
+    // TODO: discuss approach here?
+    setSelectedFileNames({
+      fileName: subProduct.path,
+      relativePathName: subProduct.path,
+      metaDataFile: ""
+    });
+    setMetaData(subProduct);
+  }
 
   async function indexDataProduct() {
     const apiUrl = SKA_SDP_DATAPRODUCT_API_URL;
@@ -238,7 +252,7 @@ const DataProductDashboard = () => {
       {RenderDataStoreBox()}
       <Grid sx={{ height: '100%'}} container spacing={1} direction="row" justifyContent="space-between"  >
           <Grid item xs={9}>
-            {DataProductsTable(dataProducts.data, updating, apiRunning, rowClickHandler)}
+            {DataProductsTable(dataProducts.data, updating, apiRunning, dataProductClickHandler, subProductClickHandler)}
           </Grid>
           <Grid item xs={3}>
             <>

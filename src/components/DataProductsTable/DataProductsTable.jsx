@@ -6,7 +6,7 @@ import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import { InfoCard } from '@ska-telescope/ska-gui-components';
 import { tableHeight } from "../../utils/constants";
 
-const DataProductsTable = (jsonDataProducts, updating, apiRunning, rowClickHandler) => {
+const DataProductsTable = (jsonDataProducts, updating, apiRunning, dataProductClickHandler, subProductClickHandler) => {
   const { t } = useTranslation('dpd');
 
   const columns = [
@@ -72,11 +72,11 @@ const DataProductsTable = (jsonDataProducts, updating, apiRunning, rowClickHandl
               {open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
             </IconButton>
           </TableCell>
-          <TableCell component="th" scope="row" onClick={(event) => rowClickHandler(event, row)}>
+          <TableCell component="th" scope="row" onClick={(event) => dataProductClickHandler(event, row)}>
             {row.execution_block}
           </TableCell>
           {extendedColumns.map((extendedColumn, index) => (
-            <TableCell key={extendedColumn.field+index} align="right" onClick={(event) => {rowClickHandler(event, row)}}>{row[extendedColumn.field]}</TableCell>
+            <TableCell key={extendedColumn.field+index} align="right" onClick={(event) => {dataProductClickHandler(event, row)}}>{row[extendedColumn.field]}</TableCell>
           ))}
         </TableRow>
         <TableRow>
@@ -98,15 +98,15 @@ const DataProductsTable = (jsonDataProducts, updating, apiRunning, rowClickHandl
                     </TableRow>
                   </TableHead>
                   <TableBody>
-                    {row.files.map((fileRow) => (
-                      <TableRow key={fileRow.path}>
+                    {row.files.map((file) => (
+                      <TableRow key={file.path} onClick={(event) => {subProductClickHandler(event, file)}}>
                         <TableCell component="th" scope="row">
-                          {fileRow.crc}
+                          {file.crc}
                         </TableCell>
-                        <TableCell>{fileRow.description}</TableCell>
-                        <TableCell>{fileRow.path}</TableCell>
-                        <TableCell align="right">{fileRow.size}</TableCell>
-                        <TableCell align="right">{fileRow.status}</TableCell>
+                        <TableCell>{file.description}</TableCell>
+                        <TableCell>{file.path}</TableCell>
+                        <TableCell align="right">{file.size}</TableCell>
+                        <TableCell align="right">{file.status}</TableCell>
                         <TableCell align="right"><a href="">link</a></TableCell>
                       </TableRow>
                     ))}
