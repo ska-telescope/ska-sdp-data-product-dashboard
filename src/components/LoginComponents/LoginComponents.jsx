@@ -36,31 +36,20 @@ export const AuthProvider = ({ children }) => {
 };
 
 // Use the context
-export function useAuth () {
+export function AuthStates () {
   const context = React.useContext(AuthContext);
   if (context === undefined) {
-    throw new Error('useAuth must be used within an AuthProvider');
+    throw new Error('AuthStates must be used within an AuthProvider');
   }
   return context;
 };
 
 
 export function LoginDialogs () {
-  const { openLogin, setOpenLogin, openLogout, setOpenLogout } = useAuth();
+  const { openLogin, setOpenLogin, openLogout, setOpenLogout } = AuthStates();
   const { clearUser } = storageObject.useStore();
 
-  React.useEffect(() => {
-    console.debug("openLogin:")
-    console.debug(openLogin)
-  }, [openLogin]);
-
-  React.useEffect(() => {
-    console.debug("openLogout:")
-    console.debug(openLogout)
-  }, [openLogout]);
-
   const LoginFunction = () => {
-    console.debug('LoginFunction called');
     setOpenLogin(false)
   };
 
@@ -116,11 +105,14 @@ export function LoginDialogs () {
 
 export function LoginButton() {
   const { updateUser, user } = storageObject.useStore();
-  const { username, openLogin, setOpenLogin, setOpenLogout } = useAuth();
+  const { username, setUsername, setOpenLogin, setOpenLogout } = AuthStates();
   const { t } = useTranslation('dpd');
+  
+  React.useEffect(() => {
+    setUsername(!user ? '' : user.username);
+  }, [user]);
 
   const handleLogoutClick = () => {
-    console.debug('handleLogoutClick')
     setOpenLogout(true);
   };
 

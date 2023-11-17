@@ -14,14 +14,8 @@ const REACT_APP_VERSION = process.env.REACT_APP_VERSION;
 
 function App() {
   const [apiVersion, setAPIVersion] = React.useState("LOCAL");
-  const { themeMode, user } = storageObject.useStore();
+  const { themeMode } = storageObject.useStore();
   const { t } = useTranslation('dpd');
-
-  const [username, setusername] = React.useState(!user ? '' : user.username);
-  
-  React.useEffect(() => {
-    setusername(!user ? '' : user.username);
-  }, [user]);
 
   async function GetVersionNumber() {
     const results = await GetAPIStatus();
