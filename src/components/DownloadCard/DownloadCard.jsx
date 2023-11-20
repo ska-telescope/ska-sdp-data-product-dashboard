@@ -11,13 +11,38 @@ function DownloadCard(selectedFileNames, metaData) {
   const URL_DOWNLOAD = '/download';
   const apiUrl = SKA_SDP_DATAPRODUCT_API_URL;
   const { t } = useTranslation('dpd');
+
+  // generate the body
+  console.log("selectedFileNames", selectedFileNames);
+  let body = "";
+  switch(selectedFileNames.mode){
+    case "dataProduct":
+      body = JSON.stringify({
+        fileName: selectedFileNames.fileName,
+        relativePathName: selectedFileNames.relativePathName,
+        metaDataFile: selectedFileNames.metaDataFile,
+      });
+      break;
+    case "subProduct":
+      body = JSON.stringify({
+        fileName: selectedFileNames.subProduct.path,
+        relativePathName: selectedFileNames.subProduct.path,
+        metaDataFile: selectedFileNames.metaDataFile
+      })
+      break;
+    default:
+      console.warn("Unknown selectedFileNames mode");
+      body = "";
+      break;
+  }
+
   const options = {
     method: "POST",
     headers: {
       'Content-Type': 'application/json',
       'Accept-Encoding': 'gzip',
     },
-    body: JSON.stringify(selectedFileNames)
+    body: body
   };
 
   // handle the click event of the button

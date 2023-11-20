@@ -28,9 +28,11 @@ const DataProductDashboard = () => {
   const [metaData, setMetaData] = React.useState(null);
   const [oldFilename] = React.useState(null);
   const [selectedFileNames, setSelectedFileNames] = React.useState({
+    mode: '',
     fileName: '',
     relativePathName: '',
-    metaDataFile: ''
+    metaDataFile: '',
+    subProduct: ''
   });
   const [startDate, updateStartDate] = React.useState('');
   const [endDate, updateEndDate] = React.useState('');
@@ -107,8 +109,19 @@ const DataProductDashboard = () => {
   React.useEffect(() => {
     const metaDataFile = selectedFileNames?.metaDataFile;
     async function getMetaData() {
-      const results = await MetaData(selectedFileNames?.metaDataFile);
-      setMetaData(results.data);
+      switch (selectedFileNames.mode){
+        case "dataProduct":
+          const results = await MetaData(selectedFileNames?.metaDataFile);
+          setMetaData(results.data);
+          break;
+        case "subProduct":
+          setMetaData(selectedFileNames.subProduct);
+          break;
+        default:
+          console.warn("Unknown selectedFileNames mode");
+          setMetaData(null);
+          break;
+      }
     }
 
     if (metaDataFile && metaDataFile.length) {
@@ -122,22 +135,24 @@ const DataProductDashboard = () => {
     console.log("dataProductClickHandler", event, dataProduct);
     
     setSelectedFileNames({
+      mode: "dataProduct",
       fileName: dataProduct.execution_block,
       relativePathName: dataProduct.dataproduct_file,
-      metaDataFile: dataProduct.metadata_file
+      metaDataFile: dataProduct.metadata_file,
+      subProduct: ""
     });
   };
 
   const subProductClickHandler = (event, dataProduct, subProduct) => {
     console.log("subProductClickHandler", event, dataProduct, subProduct);
-    
-    // TODO: discuss approach here?
+
     setSelectedFileNames({
+      mode: "subProduct",
       fileName: dataProduct.execution_block,
       relativePathName: dataProduct.dataproduct_file,
-      metaDataFile: dataProduct.metadata_file
+      metaDataFile: dataProduct.metadata_file,
+      subProduct: subProduct
     });
-    setMetaData(subProduct);
   }
 
   const isRowOpen = (dataProduct) => {

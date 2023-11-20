@@ -94,7 +94,6 @@ const DataProductsTable = (jsonDataProducts, updating, apiRunning, dataProductCl
                       <TableCell>Path</TableCell>
                       <TableCell align="right">Size</TableCell>
                       <TableCell align="right">Status</TableCell>
-                      <TableCell align="right">Download</TableCell>
                     </TableRow>
                   </TableHead>
                   <TableBody>
@@ -107,7 +106,6 @@ const DataProductsTable = (jsonDataProducts, updating, apiRunning, dataProductCl
                         <TableCell>{file.path}</TableCell>
                         <TableCell align="right">{file.size}</TableCell>
                         <TableCell align="right">{file.status}</TableCell>
-                        <TableCell align="right"><a href="">link</a></TableCell>
                       </TableRow>
                     ))}
                   </TableBody>
