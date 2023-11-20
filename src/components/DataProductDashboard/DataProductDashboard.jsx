@@ -120,7 +120,7 @@ const DataProductDashboard = () => {
 
   const dataProductClickHandler = (event, dataProduct) => {
     console.log("dataProductClickHandler", event, dataProduct);
-
+    
     setSelectedFileNames({
       fileName: dataProduct.execution_block,
       relativePathName: dataProduct.dataproduct_file,
@@ -128,16 +128,20 @@ const DataProductDashboard = () => {
     });
   };
 
-  const subProductClickHandler = (event, subProduct) => {
-    console.log("subProductClickHandler", event, subProduct);
-
+  const subProductClickHandler = (event, dataProduct, subProduct) => {
+    console.log("subProductClickHandler", event, dataProduct, subProduct);
+    
     // TODO: discuss approach here?
     setSelectedFileNames({
-      fileName: subProduct.path,
-      relativePathName: subProduct.path,
-      metaDataFile: ""
+      fileName: dataProduct.execution_block,
+      relativePathName: dataProduct.dataproduct_file,
+      metaDataFile: dataProduct.metadata_file
     });
     setMetaData(subProduct);
+  }
+
+  const isRowOpen = (dataProduct) => {
+    return dataProduct.execution_block === selectedFileNames.fileName;
   }
 
   async function indexDataProduct() {
@@ -252,7 +256,7 @@ const DataProductDashboard = () => {
       {RenderDataStoreBox()}
       <Grid sx={{ height: '100%'}} container spacing={1} direction="row" justifyContent="space-between"  >
           <Grid item xs={9}>
-            {DataProductsTable(dataProducts.data, updating, apiRunning, dataProductClickHandler, subProductClickHandler)}
+            {DataProductsTable(dataProducts.data, updating, apiRunning, dataProductClickHandler, subProductClickHandler, isRowOpen)}
           </Grid>
           <Grid item xs={3}>
             <>

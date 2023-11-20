@@ -6,7 +6,7 @@ import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import { InfoCard } from '@ska-telescope/ska-gui-components';
 import { tableHeight } from "../../utils/constants";
 
-const DataProductsTable = (jsonDataProducts, updating, apiRunning, dataProductClickHandler, subProductClickHandler) => {
+const DataProductsTable = (jsonDataProducts, updating, apiRunning, dataProductClickHandler, subProductClickHandler, isRowOpen) => {
   const { t } = useTranslation('dpd');
 
   const columns = [
@@ -56,7 +56,7 @@ const DataProductsTable = (jsonDataProducts, updating, apiRunning, dataProductCl
 
   function Row(props) {
     const { row } = props;
-    const [open, setOpen] = React.useState(false);
+    const [open, setOpen] = React.useState(isRowOpen(row));
 
     // TODO: use handleSelectedNode? to allow rows to be selected
 
@@ -99,7 +99,7 @@ const DataProductsTable = (jsonDataProducts, updating, apiRunning, dataProductCl
                   </TableHead>
                   <TableBody>
                     {row.files.map((file) => (
-                      <TableRow key={file.path} onClick={(event) => {subProductClickHandler(event, file)}}>
+                      <TableRow key={file.path} onClick={(event) => {subProductClickHandler(event, row, file)}}>
                         <TableCell component="th" scope="row">
                           {file.crc}
                         </TableCell>
