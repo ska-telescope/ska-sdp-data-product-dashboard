@@ -105,13 +105,12 @@ export function LoginDialogs () {
 
 export function LoginButton() {
   const { updateUser, user } = storageObject.useStore();
-  const { username, setOpenLogin, setOpenLogout } = AuthStates();
+  const { username, setOpenLogin, setOpenLogout, setUsername } = AuthStates();
   const { t } = useTranslation('dpd');
   
   React.useEffect(() => {
-    const { setUsername } = AuthStates();
     setUsername(!user ? '' : user.username);
-  }, [user]);
+  }, [setUsername, user]);
 
   const handleLogoutClick = () => {
     setOpenLogout(true);
