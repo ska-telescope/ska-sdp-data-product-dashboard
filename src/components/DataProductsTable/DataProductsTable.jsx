@@ -6,7 +6,7 @@ import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import { InfoCard } from '@ska-telescope/ska-gui-components';
 import { tableHeight } from "../../utils/constants";
 
-const DataProductsTable = (jsonDataProducts, updating, apiRunning, dataProductClickHandler, subProductClickHandler, isRowOpen) => {
+const DataProductsTable = (jsonDataProducts, updating, apiRunning, dataProductClickHandler, subProductClickHandler, isDataProductSelected, isSubProductSelected) => {
   const { t } = useTranslation('dpd');
 
   const columns = [
@@ -56,11 +56,15 @@ const DataProductsTable = (jsonDataProducts, updating, apiRunning, dataProductCl
 
   function Row(props) {
     const { row } = props;
-    const [open, setOpen] = React.useState(isRowOpen(row));
+    const [open, setOpen] = React.useState(isDataProductSelected(row));
 
     return (
       <React.Fragment>
-        <TableRow sx={{ '& > *': { borderBottom: 'unset' } }}>
+        <TableRow
+          hover={true}
+          sx={{ '& > *': { borderBottom: 'unset' } }}
+          selected={isDataProductSelected(row)}
+        >
           <TableCell>
             <IconButton
               aria-label="expand row"
@@ -96,7 +100,12 @@ const DataProductsTable = (jsonDataProducts, updating, apiRunning, dataProductCl
                   </TableHead>
                   <TableBody>
                     {row.files.map((file) => (
-                      <TableRow key={file.path} onClick={(event) => {subProductClickHandler(event, row, file)}}>
+                      <TableRow
+                        hover={true}
+                        key={file.path}
+                        onClick={(event) => {subProductClickHandler(event, row, file)}}
+                        selected={isSubProductSelected(file)}
+                      >
                         <TableCell component="th" scope="row">
                           {file.crc}
                         </TableCell>

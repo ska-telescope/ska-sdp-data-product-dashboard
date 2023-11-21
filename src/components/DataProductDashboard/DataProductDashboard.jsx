@@ -151,8 +151,12 @@ const DataProductDashboard = () => {
     });
   }
 
-  const isRowOpen = (dataProduct) => {
+  const isDataProductSelected = (dataProduct) => {
     return dataProduct.execution_block === selectedFileNames.fileName;
+  }
+
+  const isSubProductSelected = (subProduct) => {
+    return subProduct.path === selectedFileNames.subProduct.path;
   }
 
   async function indexDataProduct() {
@@ -267,7 +271,7 @@ const DataProductDashboard = () => {
       {RenderDataStoreBox()}
       <Grid sx={{ height: '100%'}} container spacing={1} direction="row" justifyContent="space-between"  >
           <Grid item xs={9}>
-            {DataProductsTable(dataProducts.data, updating, apiRunning, dataProductClickHandler, subProductClickHandler, isRowOpen)}
+            {DataProductsTable(dataProducts.data, updating, apiRunning, dataProductClickHandler, subProductClickHandler, isDataProductSelected, isSubProductSelected)}
           </Grid>
           <Grid item xs={3}>
             <>
