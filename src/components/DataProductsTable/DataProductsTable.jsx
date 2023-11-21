@@ -58,8 +58,6 @@ const DataProductsTable = (jsonDataProducts, updating, apiRunning, dataProductCl
     const { row } = props;
     const [open, setOpen] = React.useState(isRowOpen(row));
 
-    // TODO: use handleSelectedNode? to allow rows to be selected
-
     return (
       <React.Fragment>
         <TableRow sx={{ '& > *': { borderBottom: 'unset' } }}>
@@ -117,10 +115,6 @@ const DataProductsTable = (jsonDataProducts, updating, apiRunning, dataProductCl
       </React.Fragment>
     );
   }
-
-  /* DEBUG */
-  //console.log("jsonDataProducts", jsonDataProducts);
-  //console.log("extendedColumns", extendedColumns);
 
   function RenderInfo(value, msg) {
     return (

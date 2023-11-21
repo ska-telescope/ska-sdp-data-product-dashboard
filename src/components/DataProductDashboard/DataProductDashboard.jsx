@@ -28,7 +28,7 @@ const DataProductDashboard = () => {
   const [metaData, setMetaData] = React.useState(null);
   const [oldFilename] = React.useState(null);
   const [selectedFileNames, setSelectedFileNames] = React.useState({
-    mode: '',
+    mode: '', // "dataProduct", or "subProduct"
     fileName: '',
     relativePathName: '',
     metaDataFile: '',
@@ -132,8 +132,6 @@ const DataProductDashboard = () => {
   }, [oldFilename, selectedFileNames]);
 
   const dataProductClickHandler = (event, dataProduct) => {
-    console.log("dataProductClickHandler", event, dataProduct);
-    
     setSelectedFileNames({
       mode: "dataProduct",
       fileName: dataProduct.execution_block,
@@ -144,8 +142,6 @@ const DataProductDashboard = () => {
   };
 
   const subProductClickHandler = (event, dataProduct, subProduct) => {
-    console.log("subProductClickHandler", event, dataProduct, subProduct);
-
     setSelectedFileNames({
       mode: "subProduct",
       fileName: dataProduct.execution_block,
