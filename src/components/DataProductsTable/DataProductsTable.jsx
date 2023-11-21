@@ -95,7 +95,7 @@ const DataProductsTable = (jsonDataProducts, updating, apiRunning, dataProductCl
                     </TableRow>
                   </TableHead>
                   <TableBody>
-                    {row.files ? row.files.map((file) => (
+                    {row.files.map((file) => (
                       <TableRow key={file.path} onClick={(event) => {subProductClickHandler(event, row, file)}}>
                         <TableCell component="th" scope="row">
                           {file.crc}
@@ -105,7 +105,7 @@ const DataProductsTable = (jsonDataProducts, updating, apiRunning, dataProductCl
                         <TableCell align="right">{file.size}</TableCell>
                         <TableCell align="right">{file.status}</TableCell>
                       </TableRow>
-                    )) : null}
+                    ))}
                   </TableBody>
                 </Table>
               </Box>

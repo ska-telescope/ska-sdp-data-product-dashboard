@@ -6,7 +6,8 @@ const MockDPL = {
             "execution_block": "eb-m001-20191031-12345",
             "date_created": "2019-10-31",
             "dataproduct_file": "product/eb-m001-20221212-12345",
-            "metadata_file": "product/eb-m001-20221212-12345/ska-data-product.yaml"
+            "metadata_file": "product/eb-m001-20221212-12345/ska-data-product.yaml",
+            "files": []
         },
         {
             "id": 2,
@@ -14,7 +15,8 @@ const MockDPL = {
             "execution_block": "eb-m002-20221212-12345",
             "date_created": "2022-12-12",
             "dataproduct_file": "product/eb-m002-20221212-12345",
-            "metadata_file": "product/eb-m002-20221212-12345/ska-data-product.yaml"
+            "metadata_file": "product/eb-m002-20221212-12345/ska-data-product.yaml",
+            "files": []
         }
     ],
     "status": 200,
