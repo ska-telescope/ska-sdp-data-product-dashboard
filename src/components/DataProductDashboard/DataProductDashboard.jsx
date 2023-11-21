@@ -181,14 +181,14 @@ const DataProductDashboard = () => {
                     <Grid item xs={12}>
                     <TextEntry
                         label={t('label.key')}
-                        setValue={(e) => updateMetadataKey(e.target.value)}
+                        setValue={(e) => updateMetadataKey(e)}
                         value={metadataKey}
                       />
                   </Grid>
                   <Grid item xs={12}>
                     <TextEntry
                       label={t('label.value')}
-                      setValue={(e) => updateMetadataValue(e.target.value)}
+                      setValue={(e) => updateMetadataValue(e)}
                       value={metadataValue}
                     />
                   </Grid>
