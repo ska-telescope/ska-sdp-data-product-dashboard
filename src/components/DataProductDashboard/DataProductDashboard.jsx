@@ -21,6 +21,8 @@ const DEF_START_DATE = "1970-01-01";
 const DEF_END_DATE = "2070-12-31";
 const DEF_WILDCARD = "*";
 
+let nextId = 2
+
 const DataProductDashboard = () => {
   const { t } = useTranslation('dpd');
   const [updating, setUpdating] = React.useState(false);
@@ -146,7 +148,12 @@ const DataProductDashboard = () => {
   }
   
   function RenderSearchBox() {
+
+    const [numKeyValues, setNumKeyValues] = React.useState([1]);
+    console.log(numKeyValues)
+
     if (canSearch) {
+
       return (
         <Box m={1}>
           <Card variant="outlined" >
@@ -169,20 +176,36 @@ const DataProductDashboard = () => {
                     value={endDate} 
                   />
                 </Grid>
-                <Grid item xs={12}>
-                  <TextEntry
-                      label={t('label.key')}
-                      setValue={(e) => updateMetadataKey(e.target.value)}
-                      value={metadataKey}
+                  {Array.from(numKeyValues).map(() => 
+                  <>
+                    <Grid item xs={12}>
+                    <TextEntry
+                        label={t('label.key')}
+                        setValue={(e) => updateMetadataKey(e.target.value)}
+                        value={metadataKey}
+                      />
+                  </Grid>
+                  <Grid item xs={12}>
+                    <TextEntry
+                      label={t('label.value')}
+                      setValue={(e) => updateMetadataValue(e.target.value)}
+                      value={metadataValue}
                     />
-                </Grid>
-                <Grid item xs={12}>
-                  <TextEntry
-                    label={t('label.value')}
-                    setValue={(e) => updateMetadataValue(e.target.value)}
-                    value={metadataValue}
-                  />
-                </Grid>
+                  </Grid>
+                  </>)
+    }
+                  <button onClick={() => {
+                    setNumKeyValues([
+                      ...Array.from(numKeyValues),
+                      nextId++ 
+                    ]);
+                  }}>Add</button>
+
+                  <button onClick={() => {
+                    setNumKeyValues(
+                      numKeyValues.slice(0,-1)
+                    ), nextId--;
+                  }}>Delete</button>
               </Grid> 
               <Grid item xs={4}>
                 <Button
