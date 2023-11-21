@@ -1,4 +1,4 @@
-import React, { Suspense } from 'react';
+import React from 'react';
 import { createRoot } from 'react-dom/client';
 import './services/i18n/i18n';
 import { StoreProvider } from '@ska-telescope/ska-gui-local-storage';

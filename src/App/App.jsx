@@ -1,6 +1,6 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import { Box, CssBaseline, Grid, Paper, ThemeProvider, Typography } from "@mui/material";
+import { Box, CssBaseline, Paper, ThemeProvider, Typography } from "@mui/material";
 import DataProductDashboard from '../components/DataProductDashboard/DataProductDashboard';
 import { Footer, Header, Spacer, SPACER_VERTICAL } from "@ska-telescope/ska-gui-components";
 import Loader from '@components/loader/Loader';
