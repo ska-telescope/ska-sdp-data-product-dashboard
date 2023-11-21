@@ -6,7 +6,7 @@ import { storageObject } from '@ska-telescope/ska-gui-local-storage';
 import { DOMAIN } from "../../utils/constants";
 import { cypressUser, isCypress } from '../../utils/cypress';
 import { useTranslation } from 'react-i18next';
-import axios from 'axios';
+// import axios from 'axios';
 
 const LoginDialog = React.lazy(() => import('skaLoginPage/LoginDialog'));
 const LogoutDialog = React.lazy(() => import('skaLoginPage/LogoutDialog'));
@@ -105,10 +105,11 @@ export function LoginDialogs () {
 
 export function LoginButton() {
   const { updateUser, user } = storageObject.useStore();
-  const { username, setUsername, setOpenLogin, setOpenLogout } = AuthStates();
+  const { username, setOpenLogin, setOpenLogout } = AuthStates();
   const { t } = useTranslation('dpd');
   
   React.useEffect(() => {
+    const { setUsername } = AuthStates();
     setUsername(!user ? '' : user.username);
   }, [user]);
 

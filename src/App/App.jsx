@@ -26,30 +26,16 @@ function App() {
 
   const TheHeader = () => {
     return (
-      <Header selectTelescope={false} data-testid="skaHeader" title={t('application')}>
-        <Grid
-          m={1}
-          container
-          alignItems="center"
-          direction="row"
-          justifyContent="space-between"
-        >
-        <Grid item />
-            { TheLoginButton() }
-        </Grid>
+      <Header selectTelescope={false} data-testid="skaHeader" title={t('application')}>        
+        { TheLoginButton() }
       </Header>
     );
   }
 
   const TheFooter = () => {
     return (
-      <Footer>
-        <Grid item>
-          <Typography variant='body1'>{t('label.guiVersion') + ' : ' + REACT_APP_VERSION}</Typography>
-          <Typography variant='body1'>{t('label.apiVersion') + ' : ' + apiVersion}</Typography>
-        </Grid>
-        <Grid item />
-        <Grid item />
+      <Footer version={REACT_APP_VERSION}>
+        <Typography variant='body1'>{t('label.apiVersion') + ' : ' + apiVersion}</Typography>
       </Footer>
     );
   }
