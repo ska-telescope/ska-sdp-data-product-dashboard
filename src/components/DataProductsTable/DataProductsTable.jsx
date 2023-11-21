@@ -90,12 +90,12 @@ const DataProductsTable = (jsonDataProducts, updating, apiRunning, dataProductCl
                       <TableCell>CRC</TableCell>
                       <TableCell>Description</TableCell>
                       <TableCell>Path</TableCell>
-                      <TableCell align="right">Size</TableCell>
+                      <TableCell align="right">Size (bytes)</TableCell>
                       <TableCell align="right">Status</TableCell>
                     </TableRow>
                   </TableHead>
                   <TableBody>
-                    {row.files.map((file) => (
+                    {row.files?.map((file) => (
                       <TableRow key={file.path} onClick={(event) => {subProductClickHandler(event, row, file)}}>
                         <TableCell component="th" scope="row">
                           {file.crc}
