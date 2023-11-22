@@ -162,12 +162,14 @@ const DataProductDashboard = () => {
       let data = [...formFields];
       data[index]["keyPair"] = event;
       setFormFields(data);
+      updateMetadataKey(data[0]["keyPair"]) // this line keeps the old functionality
     }
 
     const handleValuePairChange = (event, index) => {
       let data = [...formFields];
       data[index]["valuePair"] = event;
       setFormFields(data);
+      updateMetadataValue(data[0]["valuePair"]) // this line keeps the old functionality
     }
   
     const addFields = () => {
@@ -210,10 +212,8 @@ const DataProductDashboard = () => {
                   />
                 </Grid>
 
-                {/* <form onSubmit={submit}> */}
                         {formFields.map((form, index) => {
                           return (
-                            // <div key={index}>
                             <>
                               <Grid item xs={12}>
                               <TextEntry
@@ -244,11 +244,9 @@ const DataProductDashboard = () => {
                               variant="outlined"
                               />
                               </Grid>
-                              </>
-                            // </div>                            
+                              </>                        
                           )
                         })}
-                      {/* </form> */}
 
                       <Grid item xs={4}>
                       <Button 
