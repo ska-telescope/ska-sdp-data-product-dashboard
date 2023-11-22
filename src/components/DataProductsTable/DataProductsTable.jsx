@@ -1,13 +1,12 @@
-import React from 'react';
+import {React, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Box, Grid } from '@mui/material';
 import { DataGrid, InfoCard } from '@ska-telescope/ska-gui-components';
-import { tableHeight } from "../../utils/constants";
-
-import SKA_SDP_DATAPRODUCT_API_URL from "../../utils/constants";
+import { tableHeight, SKA_SDP_DATAPRODUCT_API_URL } from "../../utils/constants";
 
 const DataProductsTable = (jsonDataProducts, updating, apiRunning, handleSelectedNode) => {
   const { t } = useTranslation('dpd');
+  const [columnInfo, setData] = useState(null);
 
   // const columns = [
   //   { field: "execution_block", headerName: t("execution_block", { ns: 'ivoa' }), width: 200 },
@@ -16,10 +15,12 @@ const DataProductsTable = (jsonDataProducts, updating, apiRunning, handleSelecte
 
   const ignore_columns_names = ["dataproduct_file", "metadata_file"];
 
-  const columnInfo = fetch(`${SKA_SDP_DATAPRODUCT_API_URL}/layout`)
-                        .then(response => response.json())
-                        .then(json => setData(json))
-                        .catch(error => console.error(error));
+  fetch(`${SKA_SDP_DATAPRODUCT_API_URL}/layout`)
+    .then(response => response.json())
+    .then(json => setData(json))
+    .catch(error => console.error(error));
+
+  console.log(columnInfo);
 
   const haveData = () => {
     return (typeof jsonDataProducts === "object" && jsonDataProducts.length > 0 );
