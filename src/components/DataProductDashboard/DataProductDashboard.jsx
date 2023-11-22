@@ -32,7 +32,8 @@ const DataProductDashboard = () => {
     fileName: '',
     relativePathName: '',
     metaDataFile: '',
-    subProduct: ''
+    dataProduct: null,
+    subProduct: null
   });
   const [startDate, updateStartDate] = React.useState('');
   const [endDate, updateEndDate] = React.useState('');
@@ -131,32 +132,40 @@ const DataProductDashboard = () => {
     }
   }, [oldFilename, selectedFileNames]);
 
+  // Extracts the base filename from a path.
+  // For example, from: "eb-m004-20191031-12345/ska-sub-system/scan_id_1/pb_id_1/TestDataFile1.txt", it returns: "TestDataFile1.txt"
+  const getBaseNameFromPath = (path) => {
+    return path.replace(/^.*[\\/]/, '');
+  }
+
   const dataProductClickHandler = (event, dataProduct) => {
     setSelectedFileNames({
       mode: DataProductType.DataProduct,
       fileName: dataProduct.execution_block,
       relativePathName: dataProduct.dataproduct_file,
       metaDataFile: dataProduct.metadata_file,
-      subProduct: ""
+      dataProduct: dataProduct,
+      subProduct: null
     });
   };
 
   const subProductClickHandler = (event, dataProduct, subProduct) => {
     setSelectedFileNames({
       mode: DataProductType.SubProduct,
-      fileName: dataProduct.execution_block,
-      relativePathName: dataProduct.dataproduct_file,
+      fileName: getBaseNameFromPath(subProduct.path),
+      relativePathName: dataProduct.dataproduct_file + '/' + subProduct.path,
       metaDataFile: dataProduct.metadata_file,
+      dataProduct: dataProduct,
       subProduct: subProduct
     });
   }
 
   const isDataProductSelected = (dataProduct) => {
-    return dataProduct.execution_block === selectedFileNames.fileName;
+    return selectedFileNames.mode !== DataProductType.Unknown && dataProduct.execution_block === selectedFileNames.dataProduct.execution_block;
   }
 
   const isSubProductSelected = (subProduct) => {
-    return subProduct.path === selectedFileNames.subProduct.path;
+    return selectedFileNames.mode === DataProductType.SubProduct && subProduct.path === selectedFileNames.subProduct.path;
   }
 
   async function indexDataProduct() {

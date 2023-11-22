@@ -4,36 +4,13 @@ import DownloadIcon from '@mui/icons-material/Download';
 import { Button, DataTree } from '@ska-telescope/ska-gui-components';
 import { useTranslation } from 'react-i18next';
 import streamSaver from "streamsaver";
-import { SKA_SDP_DATAPRODUCT_API_URL, DataProductType } from "../../utils/constants";
+import { SKA_SDP_DATAPRODUCT_API_URL } from "../../utils/constants";
 
 
 function DownloadCard(selectedFileNames, metaData) {
   const URL_DOWNLOAD = '/download';
   const apiUrl = SKA_SDP_DATAPRODUCT_API_URL;
   const { t } = useTranslation('dpd');
-
-  const getBaseNameFromPath = (path) => {
-    return path.replace(/^.*[\\/]/, '');
-  }
-
-  // based on the mode, determine the:
-  // - relativePathName: the file requested from the server
-  // - fileName: the file name to use when writing the file locally
-  let relativePathName = "";
-  let fileName = "";
-  switch(selectedFileNames.mode){
-    case DataProductType.DataProduct:
-      relativePathName = selectedFileNames.relativePathName;
-      fileName = selectedFileNames.relativePathName + ".tar";
-      break;
-    case DataProductType.SubProduct:
-      relativePathName = selectedFileNames.relativePathName + '/' + selectedFileNames.subProduct.path;
-      fileName = getBaseNameFromPath(selectedFileNames.subProduct.path) + ".tar";
-      break;
-    default:
-      console.warn("Unknown selectedFileNames mode");
-      break;
-  }
 
   const options = {
     method: "POST",
@@ -43,7 +20,7 @@ function DownloadCard(selectedFileNames, metaData) {
     },
     body: JSON.stringify({
       fileName: selectedFileNames.fileName,
-      relativePathName: relativePathName,
+      relativePathName: selectedFileNames.relativePathName,
       metaDataFile: selectedFileNames.metaDataFile,
     })
   };
@@ -55,7 +32,7 @@ function DownloadCard(selectedFileNames, metaData) {
       const response = await fetch(`${apiUrl}${URL_DOWNLOAD}`, options);
 
       // create a write stream using streamSaver library
-      const fileStream = streamSaver.createWriteStream(fileName);
+      const fileStream = streamSaver.createWriteStream(selectedFileNames.fileName + ".tar");
       const readableStream = response.body;
 
       // pipe the stream
