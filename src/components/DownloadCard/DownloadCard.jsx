@@ -12,27 +12,23 @@ function DownloadCard(selectedFileNames, metaData) {
   const apiUrl = SKA_SDP_DATAPRODUCT_API_URL;
   const { t } = useTranslation('dpd');
 
-  // generate the body
-  console.log("selectedFileNames", selectedFileNames);
-  let body = "";
+  const getBaseNameFromPath = (path) => {
+    return path.replace(/^.*[\\/]/, '');
+  }
+
+  let relativePathName = "";
+  let fileName = "";
   switch(selectedFileNames.mode){
     case "dataProduct":
-      body = JSON.stringify({
-        fileName: selectedFileNames.fileName,
-        relativePathName: selectedFileNames.relativePathName,
-        metaDataFile: selectedFileNames.metaDataFile,
-      });
+      relativePathName = selectedFileNames.relativePathName;
+      fileName = selectedFileNames.relativePathName + ".tar";
       break;
     case "subProduct":
-      body = JSON.stringify({
-        fileName: selectedFileNames.subProduct.path,
-        relativePathName: selectedFileNames.subProduct.path,
-        metaDataFile: selectedFileNames.metaDataFile
-      })
+      relativePathName = selectedFileNames.relativePathName + '/' + selectedFileNames.subProduct.path;
+      fileName = getBaseNameFromPath(selectedFileNames.subProduct.path) + ".tar";
       break;
     default:
       console.warn("Unknown selectedFileNames mode");
-      body = "";
       break;
   }
 
@@ -42,16 +38,21 @@ function DownloadCard(selectedFileNames, metaData) {
       'Content-Type': 'application/json',
       'Accept-Encoding': 'gzip',
     },
-    body: body
+    body: JSON.stringify({
+      fileName: selectedFileNames.fileName,
+      relativePathName: relativePathName,
+      metaDataFile: selectedFileNames.metaDataFile,
+    })
   };
 
   // handle the click event of the button
   const handleClick = async () => {
     try {
       // make a request to the endpoint with the file object
-      const response = await fetch(`${apiUrl}${URL_DOWNLOAD}`,options);
+      const response = await fetch(`${apiUrl}${URL_DOWNLOAD}`, options);
+
       // create a write stream using streamSaver library
-      const fileStream = streamSaver.createWriteStream(selectedFileNames.relativePathName + ".tar");
+      const fileStream = streamSaver.createWriteStream(fileName);
       const readableStream = response.body;
 
       // pipe the stream
