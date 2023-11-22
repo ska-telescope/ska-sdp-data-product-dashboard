@@ -10,7 +10,6 @@ const DataProductsTable = (jsonDataProducts, updating, apiRunning, dataProductCl
   const { t } = useTranslation('dpd');
 
   const columns = [
-    //{ field: "execution_block", headerName: t("execution_block", { ns: 'ivoa' }), width: 200 },
     { field: "date_created", headerName: t("date_created", { ns: 'ivoa' }), width: 100 }
   ];
 
