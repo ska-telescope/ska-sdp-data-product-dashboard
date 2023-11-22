@@ -6,10 +6,10 @@ import { storageObject } from '@ska-telescope/ska-gui-local-storage';
 import { DOMAIN } from "../../utils/constants";
 import { cypressUser, isCypress } from '../../utils/cypress';
 import { useTranslation } from 'react-i18next';
-// import axios from 'axios';
-
-const LoginDialog = React.lazy(() => import('skaLoginPage/LoginDialog'));
-const LogoutDialog = React.lazy(() => import('skaLoginPage/LogoutDialog'));
+import LoginComponentError from '../../pages/LoginComponentError/LoginComponentError'
+import { importRemote } from '@module-federation/utilities';
+import { SKA_LOGIN_APP_URL } from "../../utils/constants";
+import axios from 'axios';
 
 // Create a context
 const AuthContext = React.createContext();
@@ -45,65 +45,91 @@ export function AuthStates () {
 };
 
 
-export function LoginDialogs () {
-  const { openLogin, setOpenLogin, openLogout, setOpenLogout } = AuthStates();
+export function AuthDialogs () {
+  const { openLogin, setOpenLogin, openLogout, setOpenLogout, available, setAvailable } = AuthStates();
   const { clearUser } = storageObject.useStore();
 
   const LoginFunction = () => {
-    setOpenLogin(false)
   };
 
   function LoginCancelFunction () {
-    setOpenLogin(false)
   }
 
   const LogoutFunction = () => {
     clearUser();
-    setOpenLogout(false);
   };
 
   function LogoutCancelFunction() {
-    setOpenLogout(false);
   }
+
+  React.useEffect(() => {
+    const checkAvailable = async () => {
+      try {
+        const result = await axios.get(SKA_LOGIN_APP_URL, { timeout: 4000 });
+        if (result.status !== 404) {
+          setAvailable(1);
+        }
+      } catch (error) {
+        setAvailable(2);
+      }
+    };
   
-  // React.useEffect(() => {
-  //   const checkAvailable = async () => {
-  //     try {
-  //       const result = await axios.get(URL, { timeout: 4000 });
-  //       if (result.status !== 404) {
-  //         setAvailable(1);
-  //       }
-  //     } catch (error) {
-  //       setAvailable(2);
-  //     }
-  //   };
+    checkAvailable();
+  }, [setAvailable]);
   
-  //   checkAvailable();
-  // }, []);
-
-
-
+   
+  const LoginDialog =
+    available !== 1
+      ? null
+      : React.lazy(() =>
+          importRemote({
+            url: async () => Promise.resolve(SKA_LOGIN_APP_URL),
+            remoteEntryFileName: 'remoteEntry.js',
+            scope: 'skaLoginPage',
+            module: 'LoginDialog'
+          })
+        );
+  
+  const LogoutDialog =
+  available !== 1
+    ? null
+    : React.lazy(() =>
+        importRemote({
+          url: async () => Promise.resolve(SKA_LOGIN_APP_URL),
+          remoteEntryFileName: 'remoteEntry.js',
+          scope: 'skaLoginPage',
+          module: 'LogoutDialog'
+        })
+      );
+ 
   return (
     <React.Suspense fallback={<Loader />}>
-      <LoginDialog
-        openDialog={openLogin}
-        setOpenDialog={setOpenLogin}
-        LoginFunction={LoginFunction}
-        CancelFunction={LoginCancelFunction}
-        domain={DOMAIN}
-      />
-      <LogoutDialog
-        openDialog={openLogout}
-        setOpenDialog={setOpenLogout}
-        LogoutFunction={LogoutFunction}
-        CancelFunction={LogoutCancelFunction}
-        domain={DOMAIN}
-      />
+      {available === 1 && 
+      LoginDialog && 
+      LogoutDialog && (
+      <>
+        <LoginDialog
+          openDialog={openLogin}
+          setOpenDialog={setOpenLogin}
+          LoginFunction={LoginFunction}
+          CancelFunction={LoginCancelFunction}
+          domain={DOMAIN}
+        />
+        <LogoutDialog
+          openDialog={openLogout}
+          setOpenDialog={setOpenLogout}
+          LogoutFunction={LogoutFunction}
+          CancelFunction={LogoutCancelFunction}
+          domain={DOMAIN}
+        />
+      </>
+      )}
+      {available === 2 && LoginComponentError()}
     </React.Suspense>
   );
 }
 
-export function LoginButton() {
+export function LoginButtonFunction() {
   const { updateUser, user } = storageObject.useStore();
   const { username, setOpenLogin, setOpenLogout, setUsername } = AuthStates();
   const { t } = useTranslation('dpd');
@@ -112,12 +138,11 @@ export function LoginButton() {
     setUsername(!user ? '' : user.username);
   }, [setUsername, user]);
 
-  const handleLogoutClick = () => {
+  const logoutClick = () => {
     setOpenLogout(true);
   };
 
   function loginClicked () {
-    setOpenLogin(true);
     isCypress() ? updateUser(cypressUser) : setOpenLogin(true);
   };
 
@@ -131,7 +156,7 @@ export function LoginButton() {
             aria-label={username}
             sx={{ '&:hover': { backgroundColor: 'primary.dark' }, ml: 1 }}
             color="inherit"
-            onClick={handleLogoutClick}
+            onClick={logoutClick}
             size="small"
           >
             <Typography variant="h6">{username}</Typography>
@@ -157,14 +182,14 @@ export function LoginButton() {
   );
 }
 
-export function TheLoginDialogs () {
+export function LoginDialogs () {
   return (
-      <LoginDialogs/>
+      <AuthDialogs/>
   );
 }
 
-export function TheLoginButton() {
+export function LoginButton() {
   return (
-      <LoginButton />
+      <LoginButtonFunction />
   );
 }

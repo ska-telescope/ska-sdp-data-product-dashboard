@@ -8,7 +8,7 @@ import { storageObject } from '@ska-telescope/ska-gui-local-storage';
 import { SPACER_FOOTER, SPACER_HEADER, fullHeight } from "../utils/constants";
 import theme from '../services/theme/theme';
 import GetAPIStatus from '../services/GetAPIStatus/GetAPIStatus';
-import { AuthProvider, TheLoginDialogs, TheLoginButton } from '@components/LoginComponents/LoginComponents'
+import { AuthProvider, LoginDialogs, LoginButton } from '@components/LoginComponents/LoginComponents'
 
 const REACT_APP_VERSION = process.env.REACT_APP_VERSION;
 
@@ -27,7 +27,7 @@ function App() {
   const TheHeader = () => {
     return (
       <Header selectTelescope={false} data-testid="skaHeader" title={t('application')}>        
-        { TheLoginButton() }
+        { LoginButton() }
       </Header>
     );
   }
@@ -58,7 +58,7 @@ function App() {
                 <DataProductDashboard data-testid="DataProductDashboardId"/>
                 <Spacer size={SPACER_FOOTER} axis={SPACER_VERTICAL} />
               </Box>
-              {TheLoginDialogs()}
+              {LoginDialogs()}
               {TheFooter()}
             </Paper>
         </React.Suspense>

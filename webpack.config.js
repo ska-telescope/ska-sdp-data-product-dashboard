@@ -27,7 +27,10 @@ module.exports = (env, argv) => { return {
       '@pages': path.resolve(__dirname, 'src/pages'),
       '@utils': path.resolve(__dirname, 'src/utils'),
     },
-    extensions: ['.tsx', '.ts', '.jsx', '.js', '.json']
+    extensions: ['.tsx', '.ts', '.jsx', '.js', '.json'],
+    fallback: {
+      path: require.resolve('path-browserify'),
+    }
   },
 
   devServer: {
@@ -69,10 +72,7 @@ module.exports = (env, argv) => { return {
     new ModuleFederationPlugin({
       name: 'sdpDataProductDashboard',
       filename: 'remoteEntry.js',
-      remotes: {
-        skaLoginPage: 'skaLoginPage@http://localhost:4201/remoteEntry.js',
-        // skaLoginPage: 'skaLoginPage@https://sdhp.stfc.skao.int/dp-naledi-andre/skalogin/remoteEntry.js',
-      },
+      remotes: {},
       exposes: {
         './Dashboard': './src/components/DataProductDashboard/DataProductDashboard.jsx'
       },
@@ -126,7 +126,7 @@ module.exports = (env, argv) => { return {
           singleton: true,
           eager: true
         },
-        axios: { singleton: true, requiredVersion: '^0.27.2', eager: true },
+        axios: { singleton: true, requiredVersion: '^1.5.1', eager: true },
         downloadjs: { singleton: true, requiredVersion: '^1.4.7', eager: true },
         moment: {
           eager: true,
