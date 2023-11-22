@@ -4,7 +4,7 @@ import DownloadIcon from '@mui/icons-material/Download';
 import { Button, DataTree } from '@ska-telescope/ska-gui-components';
 import { useTranslation } from 'react-i18next';
 import streamSaver from "streamsaver";
-import { SKA_SDP_DATAPRODUCT_API_URL } from "../../utils/constants";
+import { SKA_SDP_DATAPRODUCT_API_URL, DataProductType } from "../../utils/constants";
 
 
 function DownloadCard(selectedFileNames, metaData) {
@@ -16,14 +16,17 @@ function DownloadCard(selectedFileNames, metaData) {
     return path.replace(/^.*[\\/]/, '');
   }
 
+  // based on the mode, determine the:
+  // - relativePathName: the file requested from the server
+  // - fileName: the file name to use when writing the file locally
   let relativePathName = "";
   let fileName = "";
   switch(selectedFileNames.mode){
-    case "dataProduct":
+    case DataProductType.DataProduct:
       relativePathName = selectedFileNames.relativePathName;
       fileName = selectedFileNames.relativePathName + ".tar";
       break;
-    case "subProduct":
+    case DataProductType.SubProduct:
       relativePathName = selectedFileNames.relativePathName + '/' + selectedFileNames.subProduct.path;
       fileName = getBaseNameFromPath(selectedFileNames.subProduct.path) + ".tar";
       break;

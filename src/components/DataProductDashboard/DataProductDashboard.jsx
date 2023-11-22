@@ -15,7 +15,7 @@ import SearchForDataProduct from "../../services/SearchForDataProduct/SearchForD
 import ListAllDataProducts from "../../services/ListAllDataProducts/ListAllDataProducts";
 import GetAPIStatus from "../../services/GetAPIStatus/GetAPIStatus";
 import MetaData from "../../services/MetaData/MetaData";
-import { API_REFRESH_RATE, SKA_SDP_DATAPRODUCT_API_URL } from "../../utils/constants";
+import { API_REFRESH_RATE, SKA_SDP_DATAPRODUCT_API_URL, DataProductType } from "../../utils/constants";
 
 const DEF_START_DATE = "1970-01-01";
 const DEF_END_DATE = "2070-12-31";
@@ -28,7 +28,7 @@ const DataProductDashboard = () => {
   const [metaData, setMetaData] = React.useState(null);
   const [oldFilename] = React.useState(null);
   const [selectedFileNames, setSelectedFileNames] = React.useState({
-    mode: '', // "dataProduct", or "subProduct"
+    mode: DataProductType.Unknown,
     fileName: '',
     relativePathName: '',
     metaDataFile: '',
@@ -110,11 +110,11 @@ const DataProductDashboard = () => {
     const metaDataFile = selectedFileNames?.metaDataFile;
     async function getMetaData() {
       switch (selectedFileNames.mode){
-        case "dataProduct":
+        case DataProductType.DataProduct:
           const results = await MetaData(selectedFileNames?.metaDataFile);
           setMetaData(results.data);
           break;
-        case "subProduct":
+        case DataProductType.SubProduct:
           setMetaData(selectedFileNames.subProduct);
           break;
         default:
@@ -133,7 +133,7 @@ const DataProductDashboard = () => {
 
   const dataProductClickHandler = (event, dataProduct) => {
     setSelectedFileNames({
-      mode: "dataProduct",
+      mode: DataProductType.DataProduct,
       fileName: dataProduct.execution_block,
       relativePathName: dataProduct.dataproduct_file,
       metaDataFile: dataProduct.metadata_file,
@@ -143,7 +143,7 @@ const DataProductDashboard = () => {
 
   const subProductClickHandler = (event, dataProduct, subProduct) => {
     setSelectedFileNames({
-      mode: "subProduct",
+      mode: DataProductType.SubProduct,
       fileName: dataProduct.execution_block,
       relativePathName: dataProduct.dataproduct_file,
       metaDataFile: dataProduct.metadata_file,

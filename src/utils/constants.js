@@ -23,3 +23,9 @@ export const SPACER = 50;
 
 export const fullHeight = () => { return `calc(100vh - ${SPACER_HEADER + SPACER_FOOTER + SPACER}px)`};
 export const tableHeight = () => { return `calc(100vh - ${SPACER_HEADER + SPACER_FOOTER + DATA_STORE_BOX_HEIGHT + SPACER}px)`};
+
+export const DataProductType = {
+  DataProduct: "DataProduct",
+  SubProduct: "SubProduct",
+  Unknown: "Unknown"
+}
