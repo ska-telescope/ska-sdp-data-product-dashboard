@@ -3,7 +3,8 @@ ingress:
   enabled: true
   pathStart: ""
   loginpath: skalogin
-  namespaced: true  
+  namespaced: true
+  hostname: "https://sdhp.stfc.skao.int"
 
 urls:
   override: false

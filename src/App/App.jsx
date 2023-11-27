@@ -22,7 +22,10 @@ function App() {
     setAPIVersion(results?.data?.Version ? results.data.Version : t('error.API_NOT_AVAILABLE'));
   }
 
-  GetVersionNumber()
+  React.useEffect(() => {
+    GetVersionNumber()
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const TheHeader = () => {
     return (
