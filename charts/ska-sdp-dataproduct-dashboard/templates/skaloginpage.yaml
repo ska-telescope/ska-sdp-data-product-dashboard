@@ -24,7 +24,7 @@ spec:
               protocol: TCP
           env:
             - name: REACT_APP_DOMAIN
-              value: value: {{ .Values.ingress.hostname | quote }}              
+              value: {{ .Values.ingress.hostname | quote }}              
           volumeMounts:
             - name: config
               mountPath: /etc/nginx/conf.d/default.conf
