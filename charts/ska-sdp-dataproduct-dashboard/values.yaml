@@ -2,7 +2,9 @@
 ingress:
   enabled: true
   pathStart: ""
-  namespaced: true  
+  loginpath: skalogin
+  namespaced: true
+  hostname: "https://sdhp.stfc.skao.int"
 
 urls:
   override: false
@@ -55,6 +57,12 @@ elasticsearch:
     replicaCount: 2
     persistence:
       enabled: true
+
+loginpage:
+  enabled: true
+  container: artefact.skao.int/ska-login-page
+  version: 0.1.0
+  imagePullPolicy: IfNotPresent
 
 dataProductPVC:
   name: shared-mnl

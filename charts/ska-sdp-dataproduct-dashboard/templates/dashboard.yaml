@@ -1,63 +1,23 @@
 {{- if $.Values.dashboard.enabled }}
 ---
-apiVersion: v1
-kind: Service
-metadata:
-  name: ska-sdp-dataproduct-dashboard
-  labels:
-    app: ska-sdp-dataproduct-dashboard
-spec:
-  ports:
-    - port: 8100
-      targetPort: 8100
-      name: http
-  clusterIP: None
-  selector:
-    app: ska-sdp-dataproduct-dashboard
----
-kind: ConfigMap
-apiVersion: v1
-metadata:
-  name: nginx-config
-data:
-  default.conf: |-
-    server {
-        listen       8100;
-        listen  [::]:8100;
-        server_name  localhost;
-
-        location / {
-            root   /usr/share/nginx/html;
-            index  index.html index.htm;
-            try_files $uri $uri/ /index.html;
-        }
-
-        error_page   500 502 503 504  /50x.html;
-        location = /50x.html {
-            root   /usr/share/nginx/html;
-        }
-
-    }
----
 apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: ska-sdp-dataproduct-dashboard
   labels:
-    app: ska-sdp-dataproduct-dashboard
+{{ include "ska-sdp-dataproduct-dashboard.dashboard.labels" . | indent 4 }}
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: ska-sdp-dataproduct-dashboard
+{{ include "ska-sdp-dataproduct-dashboard.dashboard.labels" . | indent 6 }}
   template:
     metadata:
       labels:
-        app: ska-sdp-dataproduct-dashboard
-{{ include "api_general.labels" . | indent 8 }}
+{{ include "ska-sdp-dataproduct-dashboard.dashboard.labels" . | indent 8 }}
     spec:
-      initContainers:
-        - name: build
+      containers:
+        - name: ska-sdp-dataproduct-dashboard
           image: "{{ .Values.dashboard.container }}:{{ .Values.dashboard.version }}"
           imagePullPolicy: {{ .Values.dashboard.imagePullPolicy }}
           resources:
@@ -67,9 +27,14 @@ spec:
             requests:
               cpu: {{ .Values.dashboard.resources.requests.cpu }}
               memory: {{ .Values.dashboard.resources.requests.memory }}
-          command:
-            - make 
-            - production-deploy
+          ports:
+            - name: http
+              containerPort: 80
+              protocol: TCP
+          volumeMounts:
+            - name: config
+              mountPath: /etc/nginx/conf.d/default.conf
+              subPath: default.conf
           env:
             - name: REACT_APP_SKA_SDP_DATAPRODUCT_DASHBOARD_URL
               value: {{ include "dashboard_url" . }}
@@ -81,23 +46,6 @@ spec:
               value: "{{ .Values.dashboard.apiRefreshRate }}"
             - name: REACT_APP_VERSION
               value: "{{ .Values.dashboard.version }} "    
-          volumeMounts:
-            - name: dist
-              mountPath: /dist
-      containers:
-        - name: ska-sdp-dataproduct-dashboard
-          image: nginx:latest
-          imagePullPolicy: IfNotPresent
-          ports:
-            - name: http
-              containerPort: 8100
-              protocol: TCP
-          volumeMounts:
-            - name: dist
-              mountPath: /usr/share/nginx/html
-            - name: config
-              mountPath: /etc/nginx/conf.d/default.conf
-              subPath: default.conf
           livenessProbe:
             httpGet:
               path: /
@@ -107,9 +55,8 @@ spec:
               path: /
               port: http
       volumes:
-        - name: dist
-          emptyDir: {}
         - name: config
           configMap:
-            name: nginx-config
+            name: {{ $.Chart.Name }}-nginx-config
+
 {{- end }}
