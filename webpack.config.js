@@ -2,6 +2,7 @@ const webpack = require('webpack');
 const HtmlWebPackPlugin = require('html-webpack-plugin');
 const ModuleFederationPlugin = require('webpack/lib/container/ModuleFederationPlugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
+const path = require('path');
 const Dotenv = require('dotenv-webpack');
 
 const deps = require('./package.json').dependencies;
@@ -12,6 +13,7 @@ module.exports = (env, argv) => { return {
   
   output: {},
 
+
   performance: {
     hints: false,
     maxEntrypointSize: 512000,
@@ -19,7 +21,16 @@ module.exports = (env, argv) => { return {
   },
 
   resolve: {
-    extensions: ['.tsx', '.ts', '.jsx', '.js', '.json']
+    alias: {
+      '@components': path.resolve(__dirname, 'src/components'),
+      '@services': path.resolve(__dirname, 'src/services'),
+      '@pages': path.resolve(__dirname, 'src/pages'),
+      '@utils': path.resolve(__dirname, 'src/utils'),
+    },
+    extensions: ['.tsx', '.ts', '.jsx', '.js', '.json'],
+    fallback: {
+      path: require.resolve('path-browserify'),
+    }
   },
 
   devServer: {
@@ -110,7 +121,12 @@ module.exports = (env, argv) => { return {
           requiredVersion: 'auto',
           eager: true
         },
-        axios: { singleton: true, requiredVersion: '^0.27.2', eager: true },
+        '@ska-telescope/ska-gui-local-storage': {
+          requiredVersion: deps['@ska-telescope/ska-gui-local-storage'],
+          singleton: true,
+          eager: true
+        },
+        axios: { singleton: true, requiredVersion: '^1.5.1', eager: true },
         downloadjs: { singleton: true, requiredVersion: '^1.4.7', eager: true },
         moment: {
           eager: true,
