@@ -9,6 +9,8 @@ const DataProductsTable = (jsonDataProducts, updating, apiRunning, handleSelecte
   const { t } = useTranslation('dpd');
   const [columnInfo, setColumnInfo] = useState([]); 
 
+  const ignore_columns_names = ["dataproduct_file", "metadata_file"];
+
   async function fetchData() {
     const layout = await GetLayout();
     setColumnInfo(layout?.data);
@@ -26,8 +28,18 @@ const DataProductsTable = (jsonDataProducts, updating, apiRunning, handleSelecte
     const tmp = key?.split('.');
     return t(tmp[tmp?.length - 1], { ns: 'ivoa' });
   }
+  
+  // Function to compare dataproduct keys to layout column names
+
+  const formatKey = (key) => {
+    const tmp = key?.split('.');
+    return t(tmp[tmp?.length-1]);
+  }
+
+ 
   // Create the array of column names and html from /layout call
   const extendedColumns = [];
+
   if(columnInfo !== undefined){
     for (const column of columnInfo){
         extendedColumns.push({
@@ -35,6 +47,33 @@ const DataProductsTable = (jsonDataProducts, updating, apiRunning, handleSelecte
           headerName: headerText(column["name"]),
           width: column["width"]
         })
+    }
+  }
+
+
+  if (haveData() && jsonDataProducts.length > 0){
+    for (const dataproduct in jsonDataProducts){
+      for (const key of Object.keys(jsonDataProducts[dataproduct])){
+        // skip keys in ignore_column_names
+        if (ignore_columns_names.includes(key)){
+          continue;
+        }
+        // skip keys already in columns
+        else if (extendedColumns.map(a => a.field).includes(formatKey(key))){
+          const index = extendedColumns.findIndex(object => {
+            return object.field === formatKey(key);
+          });
+          extendedColumns[index]["field"] = key;
+        }
+        else {
+          // add new column to extendedColumns
+          extendedColumns.push({
+            field: key,
+            headerName: headerText(key),
+            width: 200
+          });
+        }
+      }
     }
   }
 
