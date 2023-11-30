@@ -1,17 +1,17 @@
 import React, { useState, useEffect } from 'react';
-import axios  from 'axios';
 import { useTranslation } from 'react-i18next';
 import { Box, Grid } from '@mui/material';
 import { DataGrid, InfoCard } from '@ska-telescope/ska-gui-components';
-import { tableHeight, SKA_SDP_DATAPRODUCT_API_URL } from "../../utils/constants";
+import GetLayout from "../../services/GetLayout/GetLayout";
+import { tableHeight } from "../../utils/constants";
 
 const DataProductsTable = (jsonDataProducts, updating, apiRunning, handleSelectedNode) => {
   const { t } = useTranslation('dpd');
   const [columnInfo, setColumnInfo] = useState([]); 
 
-  const fetchData = async () => {
-    const { data } = await axios.get(`${SKA_SDP_DATAPRODUCT_API_URL}/layout`);
-    setColumnInfo(data);
+  async function fetchData() {
+    const layout = await GetLayout();
+    setColumnInfo(layout?.data);
   };
 
   useEffect( () => { 
