@@ -39,6 +39,7 @@ const DataProductsTable = (jsonDataProducts, updating, apiRunning, handleSelecte
  
   // Create the array of column names and html from /layout call
   const extendedColumns = [];
+  const columnVisibilityModel = {};
 
   if(columnInfo !== undefined){
     for (const column of columnInfo){
@@ -59,9 +60,9 @@ const DataProductsTable = (jsonDataProducts, updating, apiRunning, handleSelecte
           continue;
         }
         // skip keys already in columns
-        else if (extendedColumns.map(a => a.field).includes(formatKey(key))){
+        else if (extendedColumns.map(a => a.headerName).includes(headerText(key))){
           const index = extendedColumns.findIndex(object => {
-            return object.field === formatKey(key);
+            return object.headerName === headerText(key);
           });
           extendedColumns[index]["field"] = key;
         }
@@ -72,10 +73,12 @@ const DataProductsTable = (jsonDataProducts, updating, apiRunning, handleSelecte
             headerName: headerText(key),
             width: 200
           });
+          columnVisibilityModel[key] = false;
         }
       }
     }
   }
+  const columns ={columnVisibilityModel};
 
   function RenderInfo(value, msg) {
     return (
@@ -97,6 +100,7 @@ const DataProductsTable = (jsonDataProducts, updating, apiRunning, handleSelecte
           onRowClick={handleSelectedNode}
           rows={jsonDataProducts}
           width="100%"
+          columnVisibilityModel={columnVisibilityModel}
         />
       </Box>
     );
