@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Box, Grid } from '@mui/material';
-import { DataGrid, InfoCard } from '@ska-telescope/ska-gui-components';
+import { InfoCard } from '@ska-telescope/ska-gui-components';
 import GetLayout from "../../services/GetLayout/GetLayout";
 import { tableHeight } from "../../utils/constants";
+import { DataGrid } from '@mui/x-data-grid';
 
 const DataProductsTable = (jsonDataProducts, updating, apiRunning, handleSelectedNode) => {
   const { t } = useTranslation('dpd');
@@ -28,14 +29,6 @@ const DataProductsTable = (jsonDataProducts, updating, apiRunning, handleSelecte
     const tmp = key?.split('.');
     return t(tmp[tmp?.length - 1], { ns: 'ivoa' });
   }
-  
-  // Function to compare dataproduct keys to layout column names
-
-  const formatKey = (key) => {
-    const tmp = key?.split('.');
-    return t(tmp[tmp?.length-1]);
-  }
-
  
   // Create the array of column names and html from /layout call
   const extendedColumns = [];
@@ -50,7 +43,6 @@ const DataProductsTable = (jsonDataProducts, updating, apiRunning, handleSelecte
         })
     }
   }
-
 
   if (haveData() && jsonDataProducts.length > 0){
     for (const dataproduct in jsonDataProducts){
@@ -78,7 +70,6 @@ const DataProductsTable = (jsonDataProducts, updating, apiRunning, handleSelecte
       }
     }
   }
-  const columns ={columnVisibilityModel};
 
   function RenderInfo(value, msg) {
     return (
@@ -89,18 +80,22 @@ const DataProductsTable = (jsonDataProducts, updating, apiRunning, handleSelecte
       </Box>
     );
   }
-
+  
   function RenderData() {
     return (
       <Box data-testid={"availableData"} m={1}>
         <DataGrid
           data-testid={jsonDataProducts}
+          initialState={{
+            columns: {
+              columnVisibilityModel
+            },
+          }}
           columns={extendedColumns}
           height={tableHeight()}
           onRowClick={handleSelectedNode}
           rows={jsonDataProducts}
           width="100%"
-          columnVisibilityModel={columnVisibilityModel}
         />
       </Box>
     );
