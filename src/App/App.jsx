@@ -37,8 +37,8 @@ function App() {
 
   const TheFooter = () => {
     return (
-      <Footer version={REACT_APP_VERSION}>
-        <Typography variant='body1'>{t('label.apiVersion') + ' : ' + apiVersion}</Typography>
+      <Footer version={REACT_APP_VERSION} versionTooltip={<Typography variant='body1'>{t('label.apiVersion') + ' : ' + apiVersion}</Typography>}>
+        <Typography variant='body1'></Typography>
       </Footer>
     );
   }

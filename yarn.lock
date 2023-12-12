@@ -1138,6 +1138,13 @@
   dependencies:
     regenerator-runtime "^0.14.0"
 
+"@babel/runtime@^7.23.4":
+  version "7.23.6"
+  resolved "https://registry.npmjs.org/@babel/runtime/-/runtime-7.23.6.tgz#c05e610dc228855dc92ef1b53d07389ed8ab521d"
+  integrity sha512-zHd0eUrf5GZoOWVCXp6koAKQTfZV07eit6bGPmJgnZdnSAvvZee6zniW2XMF7Cmc4ISOOnPy3QaSiIJGJkVEDQ==
+  dependencies:
+    regenerator-runtime "^0.14.0"
+
 "@babel/template@^7.22.15", "@babel/template@^7.3.3":
   version "7.22.15"
   resolved "https://registry.npmjs.org/@babel/template/-/template-7.22.15.tgz#09576efc3830f0430f4548ef971dde1350ef2f38"
@@ -2140,6 +2147,19 @@
     clsx "^2.0.0"
     prop-types "^15.8.1"
 
+"@mui/base@^5.0.0-beta.20":
+  version "5.0.0-beta.26"
+  resolved "https://registry.npmjs.org/@mui/base/-/base-5.0.0-beta.26.tgz#5fab6062238dc17dd840bf1a17ab759370452713"
+  integrity sha512-gPMRKC84VRw+tjqYoyBzyrBUqHQucMXdlBpYazHa5rCXrb91fYEQk5SqQ2U5kjxx9QxZxTBvWAmZ6DblIgaGhQ==
+  dependencies:
+    "@babel/runtime" "^7.23.4"
+    "@floating-ui/react-dom" "^2.0.4"
+    "@mui/types" "^7.2.10"
+    "@mui/utils" "^5.14.20"
+    "@popperjs/core" "^2.11.8"
+    clsx "^2.0.0"
+    prop-types "^15.8.1"
+
 "@mui/core-downloads-tracker@^5.14.18":
   version "5.14.18"
   resolved "https://registry.npmjs.org/@mui/core-downloads-tracker/-/core-downloads-tracker-5.14.18.tgz#f8b187dc89756fa5c0b7d15aea537a6f73f0c2d8"
@@ -2216,6 +2236,11 @@
     csstype "^3.1.2"
     prop-types "^15.8.1"
 
+"@mui/types@^7.2.10":
+  version "7.2.10"
+  resolved "https://registry.npmjs.org/@mui/types/-/types-7.2.10.tgz#13e3e9aa07ee6d593cfacd538e02e8e896d7a12f"
+  integrity sha512-wX1vbDC+lzF7FlhT6A3ffRZgEoKWPF8VqRoTu4lZwouFX2t90KyCMsgepMw5DxLak1BSp/KP86CmtZttikb/gQ==
+
 "@mui/types@^7.2.9":
   version "7.2.9"
   resolved "https://registry.npmjs.org/@mui/types/-/types-7.2.9.tgz#730ee83a37af292a5973962f78ce5c95f31213a7"
@@ -2228,6 +2253,16 @@
   dependencies:
     "@babel/runtime" "^7.23.2"
     "@types/prop-types" "^15.7.10"
+    prop-types "^15.8.1"
+    react-is "^18.2.0"
+
+"@mui/utils@^5.14.14", "@mui/utils@^5.14.20":
+  version "5.14.20"
+  resolved "https://registry.npmjs.org/@mui/utils/-/utils-5.14.20.tgz#6d57b8ef02633fbeef51de8f74a2388cde7da8b9"
+  integrity sha512-Y6yL5MoFmtQml20DZnaaK1znrCEwG6/vRSzW8PKOTrzhyqKIql0FazZRUR7sA5EPASgiyKZfq0FPwISRXm5NdA==
+  dependencies:
+    "@babel/runtime" "^7.23.4"
+    "@types/prop-types" "^15.7.11"
     prop-types "^15.8.1"
     react-is "^18.2.0"
 
@@ -2259,6 +2294,19 @@
     prop-types "^15.7.2"
     react-transition-group "^4.4.5"
     rifm "^0.12.1"
+
+"@mui/x-tree-view@^6.17.0":
+  version "6.17.0"
+  resolved "https://registry.npmjs.org/@mui/x-tree-view/-/x-tree-view-6.17.0.tgz#79122e4df90079f31a47d4c9df5d0bf21f2882c6"
+  integrity sha512-09dc2D+Rjg2z8KOaxbUXyPi0aw7fm2jurEtV8Xw48xJ00joLWd5QJm1/v4CarEvaiyhTQzHImNqdgeJW8ZQB6g==
+  dependencies:
+    "@babel/runtime" "^7.23.2"
+    "@mui/base" "^5.0.0-beta.20"
+    "@mui/utils" "^5.14.14"
+    "@types/react-transition-group" "^4.4.8"
+    clsx "^2.0.0"
+    prop-types "^15.8.1"
+    react-transition-group "^4.4.5"
 
 "@nicolo-ribaudo/eslint-scope-5-internals@5.1.1-v1":
   version "5.1.1-v1"
@@ -2525,17 +2573,18 @@
   dependencies:
     "@sinonjs/commons" "^1.7.0"
 
-"@ska-telescope/ska-gui-components@^0.1.67":
-  version "0.1.67"
-  resolved "https://artefact.skao.int/repository/npm-internal/@ska-telescope/ska-gui-components/-/ska-gui-components-0.1.67.tgz#ad80a87e1f005a5d2f96eb91ff16977389bd5860"
-  integrity sha512-IzShj1athdGmYBt4NtZzqhp1NbiHhXm4o84TlzLq0x1+/z0Hj4QjaXIGClh3QxDpSM+v4jNJfpPqelaWIthR8g==
+"@ska-telescope/ska-gui-components@^0.1.73":
+  version "0.1.73"
+  resolved "https://artefact.skao.int/repository/npm-internal/@ska-telescope/ska-gui-components/-/ska-gui-components-0.1.73.tgz#44e2fc45574405e33618995207d0235c83e510f5"
+  integrity sha512-E/Q8y3O0kmEL4e3J0RpqzaJfmW+SfuEExZWEsNGOGmrieHVwLSVLMCvv0T5ahjy32COFQT5sUgeaqc0lGu/bWQ==
   dependencies:
     "@mui/lab" "^5.0.0-alpha.135"
     "@mui/system" "^5.13.7"
     "@mui/x-data-grid" "^6.9.2"
+    "@mui/x-tree-view" "^6.17.0"
     "@react-spring/web" "^9.7.3"
-    "@ska-telescope/ska-gui-local-storage" "^0.0.3"
-    "@ska-telescope/ska-javascript-components" "^0.1.40"
+    "@ska-telescope/ska-gui-local-storage" "^0.0.4"
+    "@ska-telescope/ska-javascript-components" "^0.1.41"
     "@types/uuid" "^9.0.4"
     junit-report-merger "^6.0.2"
 
@@ -2555,14 +2604,14 @@
     redux-localstorage-simple "^2.5.1"
     redux-saga "^1.2.3"
 
-"@ska-telescope/ska-gui-local-storage@^0.0.3":
-  version "0.0.3"
-  resolved "https://artefact.skao.int/repository/npm-internal/@ska-telescope/ska-gui-local-storage/-/ska-gui-local-storage-0.0.3.tgz#a12d75942f26bb7f8247b719219783a059631c3e"
-  integrity sha512-aOQZG8sgpfByvdy3OWUzJQz+9uye/ZgHKQ5v5bp04dq0zMsBCA7HYMZkdwbdIXB01EI+p6RnJDXoOr68WKk23A==
+"@ska-telescope/ska-gui-local-storage@^0.0.4":
+  version "0.0.4"
+  resolved "https://artefact.skao.int/repository/npm-internal/@ska-telescope/ska-gui-local-storage/-/ska-gui-local-storage-0.0.4.tgz#1303f3b167fe2e44b12a0b77ae5b8854ff9fb0ec"
+  integrity sha512-Oht1vixP4bNmTYYUijp097WDmYn75nANo8xwEn0icIvCTglYodmLgDAz+bxVptE/v9tw88wwoJreoX2H0B/n1A==
   dependencies:
     "@react-spring/web" "^9.7.3"
     "@reduxjs/toolkit" "^1.9.7"
-    "@ska-telescope/ska-javascript-components" "^0.1.40"
+    "@ska-telescope/ska-javascript-components" "^0.1.41"
     "@types/uuid" "^9.0.4"
     junit-report-merger "^6.0.2"
     react-redux "^8.1.3"
@@ -2572,10 +2621,28 @@
     redux-saga "^1.2.3"
     trim "^1.0.1"
 
-"@ska-telescope/ska-javascript-components@^0.1.33", "@ska-telescope/ska-javascript-components@^0.1.40":
+"@ska-telescope/ska-javascript-components@^0.1.33":
   version "0.1.40"
   resolved "https://artefact.skao.int/repository/npm-internal/@ska-telescope/ska-javascript-components/-/ska-javascript-components-0.1.40.tgz#b4fb51150538c7bda0aa6fba252b5657c1a40137"
   integrity sha512-IYn1En09REPVP7Q57Ygt69x3N1PFtdTjKx3kkgD8wq6wmJoDSI0/KALNbHtXb7HEKjDHhewdu6GNGLTE2dXTYA==
+  dependencies:
+    babel-jest "^29.5.0"
+    babel-plugin-import "^1.13.5"
+    babel-plugin-istanbul "^6.1.1"
+    babel-plugin-transform-class-properties "^6.24.1"
+    copy-webpack-plugin "^11.0.0"
+    istanbul-lib-coverage "^3.2.0"
+    minimatch "3.1.2"
+    postcss "8.4.31"
+    react "^18.2.0"
+    react-dom "^18.2.0"
+    react-refresh "^0.14.0"
+    react-scripts "^5.0.1"
+
+"@ska-telescope/ska-javascript-components@^0.1.41":
+  version "0.1.41"
+  resolved "https://artefact.skao.int/repository/npm-internal/@ska-telescope/ska-javascript-components/-/ska-javascript-components-0.1.41.tgz#6449e20335e989aa50d0d7907d198a5e63175f8e"
+  integrity sha512-r/Gu5z0n7nI8w3AnC+G1yTJ+8U+kPp1g/7UHHc+KsvQNMAMX1uxFou3FV75LFANW5lwKAxK4/vlSh5JITYeezw==
   dependencies:
     babel-jest "^29.5.0"
     babel-plugin-import "^1.13.5"
@@ -3041,7 +3108,7 @@
   resolved "https://registry.npmjs.org/@types/prettier/-/prettier-2.7.3.tgz#3e51a17e291d01d17d3fc61422015a933af7a08f"
   integrity sha512-+68kP9yzs4LMp7VNh8gdzMSPZFL44MLGqiHWvttYJe+6qnuVr4Ek9wSBQoveqY/r+LwjCcU29kNVkidwim+kYA==
 
-"@types/prop-types@*", "@types/prop-types@^15.7.10":
+"@types/prop-types@*", "@types/prop-types@^15.7.10", "@types/prop-types@^15.7.11":
   version "15.7.11"
   resolved "https://registry.npmjs.org/@types/prop-types/-/prop-types-15.7.11.tgz#2596fb352ee96a1379c657734d4b913a613ad563"
   integrity sha512-ga8y9v9uyeiLdpKddhxYQkxNDrfvuPrlFb0N1qnZZByvcElJaXthF1UhvCh9TLWJBEHeNtdnbysW7Y6Uq8CVng==
