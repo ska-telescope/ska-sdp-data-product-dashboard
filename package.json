@@ -42,7 +42,7 @@
     "@mui/x-data-grid": "^6.9.2",
     "@mui/x-date-pickers": "^5.0.17",
     "@react-spring/web": "^9.7.3",
-    "@ska-telescope/ska-gui-components": "^0.1.67",
+    "@ska-telescope/ska-gui-components": "^0.1.73",
     "@ska-telescope/ska-gui-local-storage": "^0.0.1",
     "axios": "^1.5.1",
     "babel-loader": "^9.1.0",
