@@ -1,10 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Box, Grid } from '@mui/material';
-import { InfoCard } from '@ska-telescope/ska-gui-components';
+import { InfoCard, DataGrid } from '@ska-telescope/ska-gui-components';
 import GetLayout from "../../services/GetLayout/GetLayout";
 import { tableHeight } from "../../utils/constants";
-import { DataGrid } from '@mui/x-data-grid';
 
 const DataProductsTable = (jsonDataProducts, updating, apiRunning, handleSelectedNode) => {
   const { t } = useTranslation('dpd');
