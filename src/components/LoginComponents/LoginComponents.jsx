@@ -6,7 +6,6 @@ import { storageObject } from '@ska-telescope/ska-gui-local-storage';
 import { DOMAIN } from "../../utils/constants";
 import { cypressUser, isCypress } from '../../utils/cypress';
 import { useTranslation } from 'react-i18next';
-import LoginComponentError from '../../pages/LoginComponentError/LoginComponentError'
 import { importRemote } from '@module-federation/utilities';
 import { SKA_LOGIN_APP_URL } from "../../utils/constants";
 import axios from 'axios';
@@ -124,14 +123,13 @@ export function AuthDialogs () {
         />
       </>
       )}
-      {available === 2 && LoginComponentError()}
     </React.Suspense>
   );
 }
 
 export function LoginButtonFunction() {
   const { updateUser, user } = storageObject.useStore();
-  const { username, setOpenLogin, setOpenLogout, setUsername } = AuthStates();
+  const { username, setOpenLogin, setOpenLogout, setUsername, available } = AuthStates();
   const { t } = useTranslation('dpd');
   
   React.useEffect(() => {
@@ -148,7 +146,7 @@ export function LoginButtonFunction() {
 
   return (
     <>
-      {username && (
+      {available === 1 && username && (
         <Tooltip title={t('toolTip.button.user', { ns: 'login' })} arrow>
           <IconButton
             data-testid="userName"
@@ -163,7 +161,7 @@ export function LoginButtonFunction() {
           </IconButton>
         </Tooltip>
       )}
-      {!username && (
+      {available === 1 && !username && (
         <Tooltip title={t('toolTip.button.login', { ns: 'login' })} arrow>
           <Button
             data-testid="login"
@@ -178,6 +176,23 @@ export function LoginButtonFunction() {
           </Button>
         </Tooltip>
       )}
+
+      {available === 2 && (
+        <Tooltip title='Login capability is not available at this time' arrow>
+          <Button
+            data-testid="login"
+            role="button"
+            aria-label={t('button.login', { ns: 'login' })}
+            variant="outlined"
+            color="error"
+            onClick={loginClicked}
+            startIcon={<LoginIcon />}
+          >
+            Login unavailable
+          </Button>
+        </Tooltip>
+      )}
+
     </>
   );
 }
