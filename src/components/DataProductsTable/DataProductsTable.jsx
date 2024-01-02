@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Box, Grid } from '@mui/material';
-import { InfoCard, DataGrid } from '@ska-telescope/ska-gui-components';
+import { InfoCard, DataGrid, Progress } from '@ska-telescope/ska-gui-components';
 import GetLayout from "../../services/GetLayout/GetLayout";
 import { tableHeight } from "../../utils/constants";
 
@@ -73,8 +73,11 @@ const DataProductsTable = (jsonDataProducts, updating, apiRunning, handleSelecte
   function RenderInfo(value, msg) {
     return (
       <Box m={1} sx={{ height: '43vh', width: "100%" }}>
-        <Grid data-testid={"apiAvailability"} container alignItems="center" justifyContent="center">
-          <InfoCard fontSize={25} level={value} message={t(msg)} />
+        <Grid data-testid={"apiAvailability"} container alignItems="center" justifyContent="center"  direction="column">
+          {value === 2 && <Progress />}
+          <Box mt={2}>
+            <InfoCard fontSize={25} level={value} message={t(msg)} />
+          </Box>
         </Grid>
       </Box>
     );
