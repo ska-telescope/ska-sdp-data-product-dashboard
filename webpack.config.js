@@ -9,10 +9,8 @@ const deps = require('./package.json').dependencies;
 const version = require('./package.json').version;
 
 module.exports = (env, argv) => { return {
-  entry: "./src/index.jsx",
-  
+  entry: "./src/index.jsx",  
   output: {},
-
 
   performance: {
     hints: false,
