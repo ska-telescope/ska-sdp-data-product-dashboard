@@ -45,7 +45,7 @@ spec:
             - name: REACT_APP_API_REFRESH_RATE
               value: "{{ .Values.dashboard.apiRefreshRate }}"
             - name: REACT_APP_VERSION
-              value: "{{ .Values.dashboard.version }} "
+              value: "{{ .Values.dashboard.version }}"
             - name: REACT_APP_SKA_LOGIN_APP_URL
               value: {{ include "ingress_path_prepend" . }}/skalogin/
           livenessProbe:
