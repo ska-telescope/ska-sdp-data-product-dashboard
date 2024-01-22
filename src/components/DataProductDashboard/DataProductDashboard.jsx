@@ -21,7 +21,8 @@ import { API_REFRESH_RATE, SKA_SDP_DATAPRODUCT_API_URL } from "../../utils/const
 
 const DEF_START_DATE = "1970-01-01";
 const DEF_END_DATE = "2070-12-31";
-const DEF_WILDCARD = "*";
+const DEF_FORM_FIELDS = ["*:*"];
+
 
 
 const DataProductDashboard = () => {
@@ -37,8 +38,6 @@ const DataProductDashboard = () => {
   });
   const [startDate, updateStartDate] = React.useState('');
   const [endDate, updateEndDate] = React.useState('');
-  const [metadataKey, updateMetadataKey] = React.useState('');
-  const [metadataValue, updateMetadataValue] = React.useState('');
   const [canSearch, updateCanSearch] = React.useState(false);
   const [apiRunning, updateApiRunning] = React.useState(false);
   const [newDataAvailable, updateNewDataAvailable] = React.useState(null);
@@ -90,10 +89,10 @@ const DataProductDashboard = () => {
 
 
   React.useEffect(() => {
-    async function getDataProductList(startDateStr, endDateStr, metadataKeyStr, metadataValueStr){
+    async function getDataProductList(startDateStr, endDateStr, formFields){
       if (canSearch){
         console.log(startDateStr, endDateStr, formFields)
-        return await SearchForDataProduct(startDateStr, endDateStr, metadataKeyStr, metadataValueStr)
+        return await SearchForDataProduct(startDateStr, endDateStr, formFields)
       }
       else {
         return await ListAllDataProducts()
@@ -101,7 +100,7 @@ const DataProductDashboard = () => {
     }
 
     async function updateSearchResults() {
-      const results = await getDataProductList(startDate ? startDate : DEF_START_DATE, endDate ? endDate : DEF_END_DATE, metadataKey ? metadataKey : DEF_WILDCARD, metadataValue ? metadataValue : DEF_WILDCARD);
+      const results = await getDataProductList(startDate ? startDate : DEF_START_DATE, endDate ? endDate : DEF_END_DATE, formFields ? formFields : DEF_FORM_FIELDS);
       setDataProductsData(results);
       setUpdating(false);
       updateNewDataAvailable(false);
@@ -162,14 +161,12 @@ const DataProductDashboard = () => {
       let data = [...formFields];
       data[index]["keyPair"] = event;
       setFormFields(data);
-      updateMetadataKey(data[0]["keyPair"]) // this line keeps the old functionality
     }
 
     const handleValuePairChange = (event, index) => {
       let data = [...formFields];
       data[index]["valuePair"] = event;
       setFormFields(data);
-      updateMetadataValue(data[0]["valuePair"]) // this line keeps the old functionality
     }
   
     const addFields = () => {
