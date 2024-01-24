@@ -81,7 +81,7 @@ module.exports = (env, argv) => { return {
           singleton: true,
           requiredVersion: deps.react,
         },
-        "react-dom": {
+        'react-dom': {
           eager: true,
           singleton: true,
           requiredVersion: deps['react-dom'],
