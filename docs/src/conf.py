@@ -2,7 +2,7 @@
 # -- Project information -----------------------------------------------------
 
 project = 'ska-sdp-dataproduct-dashboard'
-copyright = '2023, SKAO'
+copyright = '2024, SKAO'
 author = 'SKAO'
 
 # The short X.Y version
