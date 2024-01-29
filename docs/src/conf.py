@@ -52,7 +52,7 @@ latex_elements = {}
 
 latex_documents = [
     (master_doc, 'ska-sdp-dataproduct-dashboard.tex', 'ska-sdp-dataproduct-dashboard Documentation',
-     'SKAO, (Andre Odendaal)', 'manual'),
+     'SKAO', 'manual'),
 ]
 
 # -- Options for manual page output ------------------------------------------
