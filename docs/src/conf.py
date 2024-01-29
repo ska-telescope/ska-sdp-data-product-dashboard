@@ -2,7 +2,7 @@
 # -- Project information -----------------------------------------------------
 
 project = 'ska-sdp-dataproduct-dashboard'
-copyright = '2023, SKAO'
+copyright = '2024, SKAO'
 author = 'SKAO'
 
 # The short X.Y version
@@ -52,7 +52,7 @@ latex_elements = {}
 
 latex_documents = [
     (master_doc, 'ska-sdp-dataproduct-dashboard.tex', 'ska-sdp-dataproduct-dashboard Documentation',
-     'SKAO, (Andre Odendaal)', 'manual'),
+     'SKAO', 'manual'),
 ]
 
 # -- Options for manual page output ------------------------------------------
