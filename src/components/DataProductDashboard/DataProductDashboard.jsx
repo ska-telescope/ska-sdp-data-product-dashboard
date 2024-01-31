@@ -109,7 +109,7 @@ const DataProductDashboard = () => {
     if (updating) {
       updateSearchResults();
     }    
-  }, [canSearch, endDate, metadataKey, metadataValue, startDate, updating]);
+  }, [canSearch, endDate, formFields, startDate, updating]);
 
   React.useEffect(() => {
     const metaDataFile = selectedFileNames?.metaDataFile;
