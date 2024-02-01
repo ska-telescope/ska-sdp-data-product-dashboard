@@ -39,6 +39,7 @@ const DataProductDashboard = () => {
   const [endDate, updateEndDate] = React.useState('');
   const [canSearch, updateCanSearch] = React.useState(false);
   const [apiRunning, updateApiRunning] = React.useState(false);
+  const [apiIndexing, updateApiIndexing] = React.useState(false);
   const [newDataAvailable, updateNewDataAvailable] = React.useState(null);
   const [dataStoreLastModifiedTime, setDataStoreLastModifiedTime] = React.useState(null);
   const [initFlag, setInitFlag] = React.useState(true);
@@ -52,6 +53,7 @@ const DataProductDashboard = () => {
     if (results?.data) {
       updateApiRunning(results.data.API_running)
       updateCanSearch(results.data.Search_enabled)
+      updateApiIndexing(results.data.Indexing)
       setDataStoreLastModifiedTime(results.data.Date_modified)
     } else {
       updateCanSearch(false)
@@ -152,6 +154,7 @@ const DataProductDashboard = () => {
   }
 
   async function OnClickIndexDataProduct() {
+    updateApiIndexing(true)
     indexDataProduct()
     CheckForNewData(true)
   }
@@ -292,10 +295,11 @@ const DataProductDashboard = () => {
           <Grid item>
             <Button
               color="secondary"
+              disabled={apiIndexing}
               icon={<RefreshIcon />}
               label={t('button.indexDP')}
               onClick={() => OnClickIndexDataProduct()}
-              toolTip=""
+              toolTip="Re-index all the data product files found on the storage volume. The resulting index is updated in the memory of the backend API."
               variant="outlined"
             />
           </Grid>
@@ -306,7 +310,7 @@ const DataProductDashboard = () => {
               icon={<CachedIcon />}
               label={t('button.reload')}
               onClick={() => setUpdating(true)}
-              toolTip=""
+              toolTip="Load the latest index from the backend API, update the index in the browser and reloads the data product table."
               variant="outlined"
             />
           </Grid>
