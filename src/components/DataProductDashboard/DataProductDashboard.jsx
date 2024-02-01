@@ -90,19 +90,8 @@ const DataProductDashboard = () => {
 
 
   React.useEffect(() => {
-<<<<<<< Updated upstream
-    async function getDataProductList(startDateStr, endDateStr, formFields){
-      if (canSearch){
-        console.log(startDateStr, endDateStr, formFields)
-        return await SearchForDataProduct(startDateStr, endDateStr, formFields)
-      }
-      else {
-        return await ListAllDataProducts()
-      }
-=======
     async function getDataProductList(startDateStr, endDateStr, metadataKeyStr, metadataValueStr){
         return await SearchForDataProduct(startDateStr, endDateStr, metadataKeyStr, metadataValueStr)
->>>>>>> Stashed changes
     }
 
     async function updateSearchResults() {
@@ -161,10 +150,6 @@ const DataProductDashboard = () => {
 
   
   function RenderSearchBox() {
-<<<<<<< Updated upstream
-
-    
-  
     const handleKeyPairChange = (event, index) => {
       let data = [...formFields];
       data[index]["keyPair"] = event;
@@ -191,11 +176,6 @@ const DataProductDashboard = () => {
       data.splice(index, 1)
       setFormFields(data)
     }
-
-    if (canSearch) {
-
-=======
->>>>>>> Stashed changes
       return (
         <Box m={1}>
           <Card variant="outlined" sx={{ maxHeight: '80vh', overflow: 'auto' }}>
