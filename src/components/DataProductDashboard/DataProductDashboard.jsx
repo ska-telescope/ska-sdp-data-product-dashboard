@@ -14,7 +14,6 @@ import { Button, DateEntry, TextEntry } from "@ska-telescope/ska-gui-components"
 import DataProductsTable from "../DataProductsTable/DataProductsTable";
 import DownloadCard from "../DownloadCard/DownloadCard";
 import SearchForDataProduct from "../../services/SearchForDataProduct/SearchForDataProduct";
-import ListAllDataProducts from "../../services/ListAllDataProducts/ListAllDataProducts";
 import GetAPIStatus from "../../services/GetAPIStatus/GetAPIStatus";
 import MetaData from "../../services/MetaData/MetaData";
 import { API_REFRESH_RATE, SKA_SDP_DATAPRODUCT_API_URL } from "../../utils/constants";
@@ -89,6 +88,7 @@ const DataProductDashboard = () => {
 
 
   React.useEffect(() => {
+<<<<<<< Updated upstream
     async function getDataProductList(startDateStr, endDateStr, formFields){
       if (canSearch){
         console.log(startDateStr, endDateStr, formFields)
@@ -97,6 +97,10 @@ const DataProductDashboard = () => {
       else {
         return await ListAllDataProducts()
       }
+=======
+    async function getDataProductList(startDateStr, endDateStr, metadataKeyStr, metadataValueStr){
+        return await SearchForDataProduct(startDateStr, endDateStr, metadataKeyStr, metadataValueStr)
+>>>>>>> Stashed changes
     }
 
     async function updateSearchResults() {
@@ -154,6 +158,7 @@ const DataProductDashboard = () => {
 
   
   function RenderSearchBox() {
+<<<<<<< Updated upstream
 
     
   
@@ -186,6 +191,8 @@ const DataProductDashboard = () => {
 
     if (canSearch) {
 
+=======
+>>>>>>> Stashed changes
       return (
         <Box m={1}>
           <Card variant="outlined" sx={{ maxHeight: '80vh', overflow: 'auto' }}>
@@ -275,7 +282,6 @@ const DataProductDashboard = () => {
           </Card>
         </Box>
       );
-      };
     }
   
   function RenderDataStoreBox() {
