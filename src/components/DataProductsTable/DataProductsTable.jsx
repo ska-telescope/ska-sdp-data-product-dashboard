@@ -85,7 +85,7 @@ const DataProductsTable = (jsonDataProducts, updating, apiRunning, handleSelecte
   
   function RenderData() {
     return (
-      <Box data-testid={"availableData"} m={1}>
+      <Box data-testid={"availableData"} m={1} sx={{ backgroundColor: 'secondary.contrastText' }}>
         <DataGrid
           data-testid={jsonDataProducts}
           initialState={{
