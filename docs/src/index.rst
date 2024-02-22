@@ -10,3 +10,4 @@ The `ska-sdp-dataproduct-dashboard` repository contains the code for the dashboa
    Overview
    Development
    Deployment
+   Changelog
