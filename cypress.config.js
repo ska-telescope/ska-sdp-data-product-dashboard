@@ -2,6 +2,8 @@ const { defineConfig } = require("cypress");
 require('dotenv').config()
 
 module.exports = defineConfig({
+  viewportWidth: 1440,
+  viewportHeight: 900,
   video: false,
   env: {
     REACT_APP_USE_LOCAL_DATA: "true",

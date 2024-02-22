@@ -37,7 +37,8 @@
     "version": "Version"
   },
   "prompt": {
-    "filter": "Filter data products based on metadata:"
+    "filter": "Filter data products based on metadata:",
+    "selectedProduct": "Selected Data Product:"
   },
   "toolTip": {
     "button": {
