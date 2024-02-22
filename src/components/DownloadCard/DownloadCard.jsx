@@ -54,11 +54,11 @@ function DownloadCard(selectedFileNames, metaData) {
       <Box m={1}>
         <Card variant="outlined">
           <CardContent>
-            <Typography variant="h6" component="div">
-              Selected Data Product:  
+            <Typography data-testid={"metaDataDescription"}  sx={{ fontSize: 16 }} color="text.secondary" gutterBottom>
+              {t('prompt.selectedProduct')}
             </Typography>
             <Typography variant="subtitle2" component="div">
-              {selectedFileNames.fileName} 
+              Execution Block ID: {selectedFileNames.fileName} 
             </Typography>
             <Button
               color="secondary"

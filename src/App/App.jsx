@@ -52,7 +52,7 @@ function App() {
               elevation={0}
               sx={{
                 backgroundColor: 'primary.main',
-                height: '95vh'
+                height: '100vh'
               }}
             >
               {TheHeader()}

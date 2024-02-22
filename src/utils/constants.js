@@ -19,7 +19,7 @@ export const TEST_DATA_FILE_1 = "TestDataFile1.txt";
 export const TEXT_NO_API = "error.API_NOT_AVAILABLE";
 
 export const SPACER_HEADER = 70;
-export const SPACER_FOOTER = 70;
+export const SPACER_FOOTER = 0;
 export const DATA_STORE_BOX_HEIGHT = 70;
 export const SPACER = 50;
 

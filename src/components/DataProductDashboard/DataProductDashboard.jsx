@@ -4,6 +4,8 @@ import { useTranslation } from "react-i18next";
 
 import { Box, Card, CardContent, Grid, Typography } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
+import LibraryAddOutlinedIcon from '@mui/icons-material/LibraryAddOutlined';
+import IndeterminateCheckBoxOutlinedIcon from '@mui/icons-material/IndeterminateCheckBoxOutlined';
 import CachedIcon from "@mui/icons-material/Cached";
 import RefreshIcon from "@mui/icons-material/Refresh";
 
@@ -12,14 +14,15 @@ import { Button, DateEntry, TextEntry } from "@ska-telescope/ska-gui-components"
 import DataProductsTable from "../DataProductsTable/DataProductsTable";
 import DownloadCard from "../DownloadCard/DownloadCard";
 import SearchForDataProduct from "../../services/SearchForDataProduct/SearchForDataProduct";
-import ListAllDataProducts from "../../services/ListAllDataProducts/ListAllDataProducts";
 import GetAPIStatus from "../../services/GetAPIStatus/GetAPIStatus";
 import MetaData from "../../services/MetaData/MetaData";
 import { API_REFRESH_RATE, SKA_SDP_DATAPRODUCT_API_URL } from "../../utils/constants";
 
 const DEF_START_DATE = "1970-01-01";
 const DEF_END_DATE = "2070-12-31";
-const DEF_WILDCARD = "*";
+const DEF_FORM_FIELDS = ["*:*"];
+
+
 
 const DataProductDashboard = () => {
   const { t } = useTranslation('dpd');
@@ -34,14 +37,16 @@ const DataProductDashboard = () => {
   });
   const [startDate, updateStartDate] = React.useState('');
   const [endDate, updateEndDate] = React.useState('');
-  const [metadataKey, updateMetadataKey] = React.useState('');
-  const [metadataValue, updateMetadataValue] = React.useState('');
   const [canSearch, updateCanSearch] = React.useState(false);
   const [apiRunning, updateApiRunning] = React.useState(false);
   const [apiIndexing, updateApiIndexing] = React.useState(false);
   const [newDataAvailable, updateNewDataAvailable] = React.useState(null);
   const [dataStoreLastModifiedTime, setDataStoreLastModifiedTime] = React.useState(null);
   const [initFlag, setInitFlag] = React.useState(true);
+
+  const [formFields, setFormFields] = React.useState([
+    { keyPair: '', valuePair: '' },
+  ])
 
   async function CheckForNewData() {
     const results = await GetAPIStatus()
@@ -86,16 +91,11 @@ const DataProductDashboard = () => {
 
   React.useEffect(() => {
     async function getDataProductList(startDateStr, endDateStr, metadataKeyStr, metadataValueStr){
-      if (canSearch){
         return await SearchForDataProduct(startDateStr, endDateStr, metadataKeyStr, metadataValueStr)
-      }
-      else {
-        return await ListAllDataProducts()
-      }
     }
 
     async function updateSearchResults() {
-      const results = await getDataProductList(startDate ? startDate : DEF_START_DATE, endDate ? endDate : DEF_END_DATE, metadataKey ? metadataKey : DEF_WILDCARD, metadataValue ? metadataValue : DEF_WILDCARD);
+      const results = await getDataProductList(startDate ? startDate : DEF_START_DATE, endDate ? endDate : DEF_END_DATE, formFields ? formFields : DEF_FORM_FIELDS);
       setDataProductsData(results);
       setUpdating(false);
       updateNewDataAvailable(false);
@@ -104,7 +104,7 @@ const DataProductDashboard = () => {
     if (updating) {
       updateSearchResults();
     }    
-  }, [canSearch, endDate, metadataKey, metadataValue, startDate, updating]);
+  }, [canSearch, endDate, formFields, startDate, updating]);
 
   React.useEffect(() => {
     const metaDataFile = selectedFileNames?.metaDataFile;
@@ -147,17 +147,43 @@ const DataProductDashboard = () => {
     indexDataProduct()
     CheckForNewData(true)
   }
+
   
   function RenderSearchBox() {
-    if (canSearch) {
+    const handleKeyPairChange = (event, index) => {
+      let data = [...formFields];
+      data[index]["keyPair"] = event;
+      setFormFields(data);
+    }
+
+    const handleValuePairChange = (event, index) => {
+      let data = [...formFields];
+      data[index]["valuePair"] = event;
+      setFormFields(data);
+    }
+  
+    const addFields = () => {
+      let object = {
+        keyPair: '',
+        valuePair: ''
+      }
+  
+      setFormFields([...formFields, object])
+    }
+  
+    const removeFields = (index) => {
+      let data = [...formFields];
+      data.splice(index, 1)
+      setFormFields(data)
+    }
       return (
         <Box m={1}>
-          <Card variant="outlined" >
+          <Card variant="outlined" sx={{ maxHeight: '80vh', overflow: 'auto' }}>
             <CardContent>
               <Typography data-testid={"metaDataDescription"}  sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
                 {t('prompt.filter')}
               </Typography>
-              <Grid container direction="row" spacing={1} justifyContent="space-between">
+              <Grid container direction="row" spacing={1} justifyContent="space-between" alignItems="center">
                 <Grid item xs={12} md={6}>
                   <DateEntry 
                     label={t('label.startDate')}
@@ -172,21 +198,58 @@ const DataProductDashboard = () => {
                     value={endDate} 
                   />
                 </Grid>
-                <Grid item xs={12}>
-                  <TextEntry
-                      label={t('label.key')}
-                      setValue={(e) => updateMetadataKey(e.target.value)}
-                      value={metadataKey}
-                    />
-                </Grid>
-                <Grid item xs={12}>
-                  <TextEntry
-                    label={t('label.value')}
-                    setValue={(e) => updateMetadataValue(e.target.value)}
-                    value={metadataValue}
-                  />
-                </Grid>
-              </Grid> 
+
+                        {formFields.map((form, index) => {
+                          return (
+                            <>
+                              <Grid item xs={12}>
+                              <TextEntry
+                                name='keyPair'
+                                label={t('label.key')}
+                                setValue={event => handleKeyPairChange(event, index)}
+                                value={form.keyPair}
+                              />
+                              </Grid>
+                              
+                              <Grid item xs={12}>
+                              <TextEntry
+                                name='valuePair'
+                                label={t('label.value')}
+                                setValue={event => handleValuePairChange(event, index)}
+                                value={form.valuePair}
+                              />
+                              </Grid>
+
+                              <Grid item xs={-4} >
+                              <Button 
+                              color="secondary"
+                              disabled={updating}
+                              icon={<IndeterminateCheckBoxOutlinedIcon />}
+                              label="Remove"
+                              onClick={() => removeFields(index)} 
+                              toolTip="Remove Key/Value pair"
+                              variant="outlined"
+                              />
+                              </Grid>
+                              </>                        
+                          )
+                        })}
+
+                      <Grid item xs={4}>
+                      <Button 
+                      color="secondary"
+                      disabled={updating}
+                      icon={<LibraryAddOutlinedIcon />}
+                      label="Add"
+                      onClick={addFields}
+                      toolTip="Add Key/Value pair"
+                      variant="outlined"
+                      />
+                      </Grid>
+              </Grid>
+
+              <br/>
+    
               <Grid item xs={4}>
                 <Button
                   color="secondary"
@@ -194,7 +257,7 @@ const DataProductDashboard = () => {
                   icon={<SearchIcon />}
                   label={t('button.search')}
                   onClick={() => setUpdating(true)}
-                  toolTip=""
+                  toolTip="Submit search"
                   variant="outlined"
                 />
               </Grid>
@@ -202,7 +265,6 @@ const DataProductDashboard = () => {
           </Card>
         </Box>
       );
-      };
     }
   
   function RenderDataStoreBox() {
