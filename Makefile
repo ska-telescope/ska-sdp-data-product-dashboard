@@ -5,9 +5,6 @@
 -include .make/helm.mk
 -include .make/k8s.mk
 
-docs-pre-build:
-	pip install -r docs/requirements.txt
-	
 # include your own private variables for custom deployment configuration
 -include PrivateRules.mak
 
