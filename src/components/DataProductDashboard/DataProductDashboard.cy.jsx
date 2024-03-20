@@ -41,7 +41,7 @@ describe('<DataProductDashboard />', () => {
           <DataProductDashboard data-testid="DataProductDashboardId" />
         </ThemeProvider>,
       );
-      cy.findByTestId("availableData").contains("1").should("be.visible").click();
+      cy.findByTestId("availableData").contains(PROD_1).should("be.visible").click();
       cy.findByTestId(DOWNLOAD_ID).click()
       cy.readFile('cypress/data/' + TEST_DATA_FILE_1).should('contain', 'This is test file 1')
     })

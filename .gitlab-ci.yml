@@ -3,6 +3,7 @@ default:
 
 variables:
   GIT_SUBMODULE_STRATEGY: recursive
+  CI_POETRY_VERSION: 1.8.2
 
 stages:
   - dependencies

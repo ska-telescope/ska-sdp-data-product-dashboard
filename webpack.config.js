@@ -2,14 +2,14 @@ const webpack = require('webpack');
 const HtmlWebPackPlugin = require('html-webpack-plugin');
 const ModuleFederationPlugin = require('webpack/lib/container/ModuleFederationPlugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
+const path = require('path');
 const Dotenv = require('dotenv-webpack');
 
 const deps = require('./package.json').dependencies;
 const version = require('./package.json').version;
 
 module.exports = (env, argv) => { return {
-  entry: "./src/index.jsx",
-  
+  entry: "./src/index.jsx",  
   output: {},
 
   performance: {
@@ -19,7 +19,16 @@ module.exports = (env, argv) => { return {
   },
 
   resolve: {
-    extensions: ['.tsx', '.ts', '.jsx', '.js', '.json']
+    alias: {
+      '@components': path.resolve(__dirname, 'src/components'),
+      '@services': path.resolve(__dirname, 'src/services'),
+      '@pages': path.resolve(__dirname, 'src/pages'),
+      '@utils': path.resolve(__dirname, 'src/utils'),
+    },
+    extensions: ['.tsx', '.ts', '.jsx', '.js', '.json'],
+    fallback: {
+      path: require.resolve('path-browserify'),
+    }
   },
 
   devServer: {
@@ -70,13 +79,19 @@ module.exports = (env, argv) => { return {
         react: {
           eager: true,
           singleton: true,
-          requiredVersion: deps['react']
+          requiredVersion: deps.react,
         },
         'react-dom': {
           eager: true,
           singleton: true,
-          requiredVersion: deps['react-dom']
+          requiredVersion: deps['react-dom'],
         },
+        'react-router-dom': {
+          eager: true,
+          singleton: true,
+          requiredVersion: deps['react-router-dom'],
+        },
+        // i18n
         i18next: {
           eager: true,
           singleton: true,
@@ -98,20 +113,71 @@ module.exports = (env, argv) => { return {
           requiredVersion: deps['i18next-http-backend']
         },
         // Material UI
-        '@mui/icons-material': { singleton: true, requiredVersion: '^5.8.4', eager: true },
-        '@mui/material': { singleton: true, requiredVersion: '^5.9.0', eager: true },
-        '@mui/x-data-grid': { singleton: true, requiredVersion: '^5.17.22', eager: true },
-        '@emotion/react': { singleton: true, requiredVersion: '^11.9.3', eager: true },
-        '@mui/system': { singleton: true, requiredVersion: '^5.11.16', eager: true },
-        '@emotion/styled': { singleton: true, requiredVersion: '^11.9.3', eager: true },
-        'prop-types': { singleton: true, requiredVersion: '^15.8.1', eager: true },
-        'streamsaver': { singleton: true, requiredVersion: '^2.0.6', eager: true },
+        '@mui/icons-material': {
+          eager: true,
+          singleton: true,
+          requiredVersion: deps['@mui/icons-material']
+        },
+        '@mui/material': {
+          eager: true,
+          singleton: true,
+          requiredVersion: deps['@mui/material']
+        },
+        '@mui/x-data-grid': {
+          eager: true,
+          singleton: true,
+          requiredVersion: deps['@mui/x-data-grid']
+        },
+        '@emotion/react': {
+          eager: true,
+          singleton: true,
+          requiredVersion: deps['@emotion/react']
+        },
+        '@mui/system': {
+          eager: true,
+          singleton: true,
+          requiredVersion: deps['@mui/system']
+        },
+        '@emotion/styled': {
+          eager: true,
+          singleton: true,
+          requiredVersion: deps['@emotion/styled']
+        },
+        'prop-types': {
+          eager: true,
+          singleton: true,
+          requiredVersion: deps['prop-types']
+        },
+        'streamsaver': {
+          eager: true,
+          singleton: true,
+          requiredVersion: deps['streamsaver']
+        },
         '@ska-telescope/ska-gui-components': {
           requiredVersion: 'auto',
           eager: true
         },
-        axios: { singleton: true, requiredVersion: '^0.27.2', eager: true },
-        downloadjs: { singleton: true, requiredVersion: '^1.4.7', eager: true },
+        // SKAO components
+        '@ska-telescope/ska-gui-components': {
+          eager: true,
+          singleton: true,
+          requiredVersion: deps['@ska-telescope/ska-gui-components'],
+        },
+        '@ska-telescope/ska-gui-local-storage': {
+          requiredVersion: deps['@ska-telescope/ska-gui-local-storage'],
+          singleton: true,
+          eager: true,
+        },
+        axios: {
+          eager: true,
+          singleton: true,
+          requiredVersion: deps.axios,
+        },
+        downloadjs: {
+          eager: true,
+          singleton: true,
+          requiredVersion: deps.downloadjs,
+        },
         moment: {
           eager: true,
           singleton: true,

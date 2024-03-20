@@ -1,39 +1,20 @@
 {{- if $.Values.api.enabled }}
 ---
-apiVersion: v1
-kind: Service
-metadata:
-  name: ska-sdp-dataproduct-api
-  labels:
-    app: ska-sdp-dataproduct-api
-{{ include "api_general.labels" . | indent 4 }}
-spec:
-  ports:
-  - port: 8000
-    targetPort: 8000
-    protocol: TCP
-  clusterIP: None
-  selector:
-    app: ska-sdp-dataproduct-api
-{{ include "api_general.labels" . | indent 4 }}
----
 apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: ska-sdp-dataproduct-api
   labels:
-    app: ska-sdp-dataproduct-api
-{{ include "api_general.labels" . | indent 4 }}
+{{ include "ska-sdp-dataproduct-dashboard.api.labels" . | indent 4 }}
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: ska-sdp-dataproduct-api
+{{ include "ska-sdp-dataproduct-dashboard.api.labels" . | indent 6 }}
   template:
     metadata:
       labels:
-        app: ska-sdp-dataproduct-api
-{{ include "api_general.labels" . | indent 8 }}
+{{ include "ska-sdp-dataproduct-dashboard.api.labels" . | indent 8 }}
     spec:
       volumes:
       - name: shared-storage

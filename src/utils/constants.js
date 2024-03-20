@@ -4,6 +4,8 @@ export const API_REFRESH_RATE = env.REACT_APP_API_REFRESH_RATE;
 export const SKA_SDP_DATAPRODUCT_DASHBOARD_URL = env.REACT_APP_SKA_SDP_DATAPRODUCT_DASHBOARD_URL;
 export const SKA_SDP_DATAPRODUCT_API_URL = env.REACT_APP_SKA_SDP_DATAPRODUCT_API_URL;
 export const DASHBOARD_URL_SUBDIRECTORY = env.REACT_APP_DASHBOARD_URL_SUBDIRECTORY;
+export const DOMAIN = env.REACT_APP_DOMAIN;
+export const SKA_LOGIN_APP_URL = env.REACT_APP_SKA_LOGIN_APP_URL;
 
 export const DOWNLOAD_BUTTON_LABEL = "BUTTON.DOWNLOAD";
 export const DOWNLOAD_ID = "downloadButton";
@@ -17,7 +19,7 @@ export const TEST_DATA_FILE_1 = "TestDataFile1.txt";
 export const TEXT_NO_API = "error.API_NOT_AVAILABLE";
 
 export const SPACER_HEADER = 70;
-export const SPACER_FOOTER = 70;
+export const SPACER_FOOTER = 0;
 export const DATA_STORE_BOX_HEIGHT = 70;
 export const SPACER = 50;
 

@@ -59,8 +59,11 @@ function DownloadCard(selectedFileNames, metaData) {
       <Box m={1}>
         <Card variant="outlined">
           <CardContent>
+            <Typography data-testid={"metaDataDescription"}  sx={{ fontSize: 16 }} color="text.secondary" gutterBottom>
+              {t('prompt.selectedProduct')}
+            </Typography>
             <Typography variant="subtitle2" component="div">
-              {selectedFileNames.fileName} 
+              Execution Block ID: {selectedFileNames.fileName} 
             </Typography>
             <Button
               color="secondary"
@@ -68,7 +71,7 @@ function DownloadCard(selectedFileNames, metaData) {
               label={t('button.download')}
               onClick={handleClick}
               testId="downloadButton"
-              toolTip=""
+              toolTip="Download the selected data product. This will stream the selected data product to a tar file in your default downloads directory."
               variant="outlined"
             />        
           {metaData && <DataTree data={metaData} height="500" />}
