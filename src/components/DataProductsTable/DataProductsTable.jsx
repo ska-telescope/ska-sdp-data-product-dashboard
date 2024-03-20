@@ -1,6 +1,6 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import { Box, Collapse, Grid, IconButton, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography, Paper } from '@mui/material';
+import { Box, Card, CardContent, Collapse, Grid, IconButton, Modal, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography, Paper } from '@mui/material';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import { InfoCard } from '@ska-telescope/ska-gui-components';
@@ -16,7 +16,7 @@ const DataProductsTable = (jsonDataProducts, updating, apiRunning, dataProductCl
   const ignore_columns_names = ["dataproduct_file", "metadata_file", "files", "execution_block"];
 
   const haveData = () => {
-    return (typeof jsonDataProducts === "object" && jsonDataProducts.length > 0 );
+    return (typeof jsonDataProducts === "object" && jsonDataProducts.length > 0);
   }
 
   // create a 'deep' copy of the columns array, to which we can add additional columns
@@ -25,15 +25,15 @@ const DataProductsTable = (jsonDataProducts, updating, apiRunning, dataProductCl
 
   // if jsonDataProducts contains additional attributes, assume those attributes were part
   // of the user's query, and display them
-  if (haveData() && jsonDataProducts.length > 0){
-    for (const dataproduct in jsonDataProducts){
-      for (const key of Object.keys(jsonDataProducts[dataproduct])){
+  if (haveData() && jsonDataProducts.length > 0) {
+    for (const dataproduct in jsonDataProducts) {
+      for (const key of Object.keys(jsonDataProducts[dataproduct])) {
         // skip keys in ignore_column_names
-        if (ignore_columns_names.includes(key)){
+        if (ignore_columns_names.includes(key)) {
           continue;
         }
         // skip keys already in columns
-        else if (extendedColumns.map(a => a.field).includes(key)){
+        else if (extendedColumns.map(a => a.field).includes(key)) {
           continue;
         }
         else {
@@ -58,7 +58,48 @@ const DataProductsTable = (jsonDataProducts, updating, apiRunning, dataProductCl
     const [open, setOpen] = React.useState(isDataProductSelected(row));
 
     return (
-      <React.Fragment>
+      <>
+        {(
+          <Modal open={open} onClose={() => setOpen(false)}>
+            <Card variant="outlined" className="removeBorder:focus">
+              <CardContent>
+                <Box sx={{ margin: 1 }}>
+                  <Typography variant="h6" gutterBottom component="div">
+                    Subproducts
+                  </Typography>
+                  <Table size="small" aria-label="subproducts">
+                    <TableHead>
+                      <TableRow>
+                        <TableCell>CRC</TableCell>
+                        <TableCell>Description</TableCell>
+                        <TableCell>Path</TableCell>
+                        <TableCell align="right">Size (bytes)</TableCell>
+                        <TableCell align="right">Status</TableCell>
+                      </TableRow>
+                    </TableHead>
+                    <TableBody>
+                      {row.files?.map((file) => (
+                        <TableRow
+                          hover={true}
+                          key={file.path}
+                          onClick={(event) => { subProductClickHandler(event, row, file) }}
+                          selected={isSubProductSelected(file)}
+                        >
+                          <TableCell component="th" scope="row">
+                            {file.crc}
+                          </TableCell>
+                          <TableCell>{file.description}</TableCell>
+                          <TableCell>{file.path}</TableCell>
+                          <TableCell align="right">{file.size}</TableCell>
+                          <TableCell align="right">{file.status}</TableCell>
+                        </TableRow>
+                      ))}
+                    </TableBody>
+                  </Table>
+                </Box>
+              </CardContent>
+            </Card>
+          </Modal>)}
         <TableRow
           hover={true}
           sx={{ '& > *': { borderBottom: 'unset' } }}
@@ -77,50 +118,10 @@ const DataProductsTable = (jsonDataProducts, updating, apiRunning, dataProductCl
             {row.execution_block}
           </TableCell>
           {extendedColumns.map((extendedColumn, index) => (
-            <TableCell key={extendedColumn.field+index} align="right" onClick={(event) => {dataProductClickHandler(event, row)}}>{row[extendedColumn.field]}</TableCell>
+            <TableCell key={extendedColumn.field + index} align="right" onClick={(event) => { dataProductClickHandler(event, row) }}>{row[extendedColumn.field]}</TableCell>
           ))}
         </TableRow>
-        <TableRow>
-          <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
-            <Collapse in={open} timeout="auto" unmountOnExit>
-              <Box sx={{ margin: 1 }}>
-                <Typography variant="h6" gutterBottom component="div">
-                  Subproducts
-                </Typography>
-                <Table size="small" aria-label="subproducts">
-                  <TableHead>
-                    <TableRow>
-                      <TableCell>CRC</TableCell>
-                      <TableCell>Description</TableCell>
-                      <TableCell>Path</TableCell>
-                      <TableCell align="right">Size (bytes)</TableCell>
-                      <TableCell align="right">Status</TableCell>
-                    </TableRow>
-                  </TableHead>
-                  <TableBody>
-                    {row.files.map((file) => (
-                      <TableRow
-                        hover={true}
-                        key={file.path}
-                        onClick={(event) => {subProductClickHandler(event, row, file)}}
-                        selected={isSubProductSelected(file)}
-                      >
-                        <TableCell component="th" scope="row">
-                          {file.crc}
-                        </TableCell>
-                        <TableCell>{file.description}</TableCell>
-                        <TableCell>{file.path}</TableCell>
-                        <TableCell align="right">{file.size}</TableCell>
-                        <TableCell align="right">{file.status}</TableCell>
-                      </TableRow>
-                    ))}
-                  </TableBody>
-                </Table>
-              </Box>
-            </Collapse>
-          </TableCell>
-        </TableRow>
-      </React.Fragment>
+      </>
     );
   }
 
@@ -144,7 +145,7 @@ const DataProductsTable = (jsonDataProducts, updating, apiRunning, dataProductCl
                 <TableCell />
                 <TableCell>Execution Block</TableCell>
                 {extendedColumns.map((extendedColumn, index) => (
-                  <TableCell key={extendedColumn.field+index} align="right">{extendedColumn.headerName}</TableCell>
+                  <TableCell key={extendedColumn.field + index} align="right">{extendedColumn.headerName}</TableCell>
                 ))}
               </TableRow>
             </TableHead>
