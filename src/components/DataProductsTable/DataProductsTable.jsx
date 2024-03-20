@@ -1,6 +1,6 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import { Box, Card, CardContent, Grid, IconButton, Modal, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography, Paper } from '@mui/material';
+import { Box, Card, CardContent, DataGrid, Grid, IconButton, Modal, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography, Paper } from '@mui/material';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import { InfoCard } from '@ska-telescope/ska-gui-components';
@@ -9,49 +9,59 @@ import { tableHeight } from "../../utils/constants";
 const DataProductsTable = (jsonDataProducts, updating, apiRunning, dataProductClickHandler, subProductClickHandler, isDataProductSelected, isSubProductSelected) => {
   const { t } = useTranslation('dpd');
 
-  const columns = [
-    { field: "date_created", headerName: t("date_created", { ns: 'ivoa' }), width: 100 }
-  ];
-
   const ignore_columns_names = ["dataproduct_file", "metadata_file", "files", "execution_block"];
 
   const haveData = () => {
     return (typeof jsonDataProducts === "object" && jsonDataProducts.length > 0);
   }
+  // Create Header name from column_name
+  const headerText = (key) => {
+    const tmp = key?.split('.');
+    return t(tmp[tmp?.length - 1], { ns: 'ivoa' });
+  }
 
-  // create a 'deep' copy of the columns array, to which we can add additional columns
-  // for data found in jsonDataProducts
-  const extendedColumns = structuredClone(columns);
+  // Create the array of column names and html from /layout call
+  const extendedColumns = [];
+  const columnVisibilityModel = {};
 
-  // if jsonDataProducts contains additional attributes, assume those attributes were part
-  // of the user's query, and display them
-  if (haveData() && jsonDataProducts.length > 0) {
-    for (const dataproduct in jsonDataProducts) {
-      for (const key of Object.keys(jsonDataProducts[dataproduct])) {
+  if(columnInfo !== undefined){
+    for (const column of columnInfo){
+        extendedColumns.push({
+          field: column["name"],
+          headerName: headerText(column["name"]),
+          width: column["width"]
+        })
+    }
+  }
+
+
+  if (haveData() && jsonDataProducts.length > 0){
+    for (const dataproduct in jsonDataProducts){
+      for (const key of Object.keys(jsonDataProducts[dataproduct])){
         // skip keys in ignore_column_names
-        if (ignore_columns_names.includes(key)) {
+        if (ignore_columns_names.includes(key)){
           continue;
         }
         // skip keys already in columns
-        else if (extendedColumns.map(a => a.field).includes(key)) {
-          continue;
+        else if (extendedColumns.map(a => a.headerName).includes(headerText(key))){
+          const index = extendedColumns.findIndex(object => {
+            return object.headerName === headerText(key);
+          });
+          extendedColumns[index]["field"] = key;
         }
         else {
           // add new column to extendedColumns
-          const headerText = (key) => {
-            const tmp = key.split('.');
-            return t(tmp[tmp.length - 1], { ns: 'ivoa' });
-          }
-
           extendedColumns.push({
             field: key,
             headerName: headerText(key),
             width: 200
           });
+          columnVisibilityModel[key] = false;
         }
       }
     }
   }
+
 
   function Row(props) {
     const { row } = props;
@@ -137,25 +147,20 @@ const DataProductsTable = (jsonDataProducts, updating, apiRunning, dataProductCl
 
   function RenderData() {
     return (
-      <Box data-testid={"availableData"} m={1}>
-        <TableContainer component={Paper} height={tableHeight()}>
-          <Table aria-label="collapsible table" >
-            <TableHead>
-              <TableRow>
-                <TableCell />
-                <TableCell>Execution Block</TableCell>
-                {extendedColumns.map((extendedColumn, index) => (
-                  <TableCell key={extendedColumn.field + index} align="right">{extendedColumn.headerName}</TableCell>
-                ))}
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {jsonDataProducts.map((row) => (
-                <Row key={row.execution_block} row={row} />
-              ))}
-            </TableBody>
-          </Table>
-        </TableContainer>
+      <Box data-testid={"availableData"} m={1} sx={{ backgroundColor: 'secondary.contrastText' }}>
+        <DataGrid
+          data-testid={jsonDataProducts}
+          initialState={{
+            columns: {
+              columnVisibilityModel
+            },
+          }}
+          columns={extendedColumns}
+          height={tableHeight()}
+          onRowClick={handleSelectedNode}
+          rows={jsonDataProducts}
+          width="100%"
+        />
       </Box>
     );
   }
