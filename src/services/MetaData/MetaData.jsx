@@ -51,7 +51,6 @@ async function MetaData(inData) {
       return 'error.API_NO_META_DATA';
     }
   }
-  console.log(fetchMetaData())
   return fetchMetaData();
 }
 

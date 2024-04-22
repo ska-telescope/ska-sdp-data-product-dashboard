@@ -26,8 +26,9 @@ const DataProductsTable = (jsonDataProducts, updating, apiRunning, handleSelecte
   // Create Header name from column_name
   const headerText = (key) => {
     const tmp = key?.split('.');
-    return t(tmp[tmp?.length - 1], { ns: 'ivoa' });
-  }
+    const lowerCaseKey = tmp[tmp?.length - 1]?.toLowerCase(); // Convert key to lowercase
+    return t(lowerCaseKey, { ns: 'ivoa' });
+  };
  
   // Create the array of column names and html from /layout call
   const extendedColumns = [];
