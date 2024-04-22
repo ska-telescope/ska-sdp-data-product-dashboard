@@ -21,7 +21,9 @@ In development
 
 **Fixed**
 
-* None
+* `NAL-1018 <https://jira.skatelescope.org/browse/NAL-1018>`_ 
+
+  - Fixed failure to load ivoa translations where the metadata contained capital letters.
 
 **Test Evidence**
 
