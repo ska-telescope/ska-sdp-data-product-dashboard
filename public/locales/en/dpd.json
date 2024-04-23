@@ -43,7 +43,11 @@
   "toolTip": {
     "button": {
       "mode": "Colour mode toggle",
-      "skao": "SKAO WebSite"
+      "skao": "SKAO WebSite",
+      "alert": "Alerts",
+      "chat": "Chat",
+      "docs": "Click here for Data Product Dashboard documentation",
+      "docsURL": "https://developer.skao.int/projects/ska-sdp-dataproduct-dashboard/en/latest/?badge=latest"
     }
   }
 }

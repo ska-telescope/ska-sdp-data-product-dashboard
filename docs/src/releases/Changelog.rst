@@ -5,11 +5,14 @@ Changelog
 Current Development
 -------------------
 
+* [Added]  `NAL-1012 <https://jira.skatelescope.org/browse/NAL-1012>`_
+
+  - Addition of link to the Data Product Dashboard documentation.
+
 * [Changed] `NAL-1012 <https://jira.skatelescope.org/browse/NAL-1012>`_
 
   - Updated documentation structure.
   - Updated the SKAO GUI components and updated all instances where it is used so that they comply with TS.
-
 
 * [Fixed] `NAL-1012 <https://jira.skatelescope.org/browse/NAL-1012>`_
 

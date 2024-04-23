@@ -26,8 +26,8 @@ function App() {
   const [apiVersion, setAPIVersion] = React.useState('LOCAL');
   const { help, helpToggle, themeMode, toggleTheme } = storageObject.useStore();
   const { t } = useTranslation('dpd');
-  const skao = t('toolTip.button.skao', { ns: 'transaction' });
-  const mode = t('toolTip.button.mode', { ns: 'transaction' });
+  const skao = t('toolTip.button.skao', { ns: 'dpd' });
+  const mode = t('toolTip.button.mode', { ns: 'dpd' });
   const toolTip = { skao: skao, mode: mode };
   const [showCopyright, setShowCopyright] = React.useState(false);
 
