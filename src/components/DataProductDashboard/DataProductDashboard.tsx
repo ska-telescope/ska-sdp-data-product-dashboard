@@ -1,0 +1,346 @@
+import React from 'react';
+import axios from 'axios';
+import { useTranslation } from 'react-i18next';
+
+import { Box, Card, CardContent, Grid, Typography } from '@mui/material';
+import SearchIcon from '@mui/icons-material/Search';
+import LibraryAddOutlinedIcon from '@mui/icons-material/LibraryAddOutlined';
+import IndeterminateCheckBoxOutlinedIcon from '@mui/icons-material/IndeterminateCheckBoxOutlined';
+import CachedIcon from '@mui/icons-material/Cached';
+import RefreshIcon from '@mui/icons-material/Refresh';
+
+import { Button, DateEntry, TextEntry, ButtonColorTypes } from '@ska-telescope/ska-gui-components';
+import { ButtonVariantTypes } from '@ska-telescope/ska-gui-components';
+
+import DataProductsTable from '../DataProductsTable/DataProductsTable';
+import DownloadCard from '../DownloadCard/DownloadCard';
+import SearchForDataProduct from '../../services/SearchForDataProduct/SearchForDataProduct';
+import GetAPIStatus from '../../services/GetAPIStatus/GetAPIStatus';
+import MetaData from '../../services/MetaData/MetaData';
+import { API_REFRESH_RATE, SKA_SDP_DATAPRODUCT_API_URL } from '@utils/constants';
+
+const DEF_START_DATE = '1970-01-01';
+const DEF_END_DATE = '2070-12-31';
+const DEF_FORM_FIELDS = ['*:*'];
+
+const DataProductDashboard = () => {
+  const { t } = useTranslation('dpd');
+  const [updating, setUpdating] = React.useState(false);
+  const [dataProducts, setDataProductsData] = React.useState([]);
+  const [metaData, setMetaData] = React.useState({ data: [] });
+  const [oldFilename] = React.useState(null);
+  const [selectedFileNames, setSelectedFileNames] = React.useState({
+    fileName: '',
+    relativePathName: '',
+    metaDataFile: ''
+  });
+  const [startDate, updateStartDate] = React.useState('');
+  const [endDate, updateEndDate] = React.useState('');
+  const [canSearch, updateCanSearch] = React.useState(false);
+  const [apiRunning, updateApiRunning] = React.useState(false);
+  const [apiIndexing, updateApiIndexing] = React.useState(false);
+  const [newDataAvailable, updateNewDataAvailable] = React.useState(false);
+  const [dataStoreLastModifiedTime, setDataStoreLastModifiedTime] = React.useState(null);
+  const [initFlag, setInitFlag] = React.useState(true);
+
+  const [formFields, setFormFields] = React.useState([{ keyPair: '', valuePair: '' }]);
+
+  async function CheckForNewData() {
+    const results = await GetAPIStatus();
+    if (results?.data) {
+      updateApiRunning(results.data.API_running);
+      updateCanSearch(results.data.Search_enabled);
+      updateApiIndexing(results.data.Indexing);
+      setDataStoreLastModifiedTime(results.data.Date_modified);
+    } else {
+      updateCanSearch(false);
+      setDataStoreLastModifiedTime(null);
+    }
+  }
+
+  async function PeriodicAPIStatusCheck() {
+    React.useEffect(() => {
+      CheckForNewData();
+      const interval = setInterval(async () => {
+        CheckForNewData();
+      }, API_REFRESH_RATE);
+      return () => clearInterval(interval);
+    }, []);
+    return;
+  }
+
+  PeriodicAPIStatusCheck();
+
+  React.useEffect(() => {
+    if (!initFlag) {
+      updateNewDataAvailable(true);
+    }
+    if (dataStoreLastModifiedTime !== null) {
+      setInitFlag(false);
+    }
+  }, [initFlag, dataStoreLastModifiedTime]);
+
+  React.useEffect(() => {
+    setUpdating(true);
+  }, []);
+
+  React.useEffect(() => {
+    async function updateSearchResults() {
+      const results = await SearchForDataProduct(
+        startDate ? startDate : DEF_START_DATE,
+        endDate ? endDate : DEF_END_DATE,
+        formFields ? formFields : DEF_FORM_FIELDS,
+        ''
+      );
+      setDataProductsData(results.data);
+      setUpdating(false);
+      updateNewDataAvailable(false);
+    }
+
+    if (updating) {
+      updateSearchResults();
+    }
+  }, [canSearch, endDate, formFields, startDate, updating]);
+
+  React.useEffect(() => {
+    const metaDataFile = selectedFileNames?.metaDataFile;
+    async function getMetaData() {
+      const results = await MetaData(selectedFileNames?.metaDataFile);
+      setMetaData(results);
+    }
+
+    if (metaDataFile && metaDataFile.length) {
+      if (oldFilename !== metaDataFile) {
+        getMetaData();
+      }
+    }
+  }, [oldFilename, selectedFileNames]);
+
+  const rowClickHandler = (data: {
+    row: { execution_block: any; dataproduct_file: any; metadata_file: any };
+  }) => {
+    setSelectedFileNames({
+      fileName: data.row.execution_block,
+      relativePathName: data.row.dataproduct_file,
+      metaDataFile: data.row.metadata_file
+    });
+  };
+
+  async function indexDataProduct() {
+    const apiUrl = SKA_SDP_DATAPRODUCT_API_URL;
+    try {
+      return await axios.get(`${apiUrl}/reindexdataproducts`, {
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json'
+        }
+      });
+    } catch (e) {
+      return t('error.API_NOT_AVAILABLE');
+    }
+  }
+
+  async function OnClickIndexDataProduct() {
+    updateApiIndexing(true);
+    indexDataProduct();
+    CheckForNewData();
+  }
+
+  function RenderSearchBox() {
+    const handleKeyPairChange = (event: string, index: number) => {
+      let data = [...formFields];
+      data[index]['keyPair'] = event;
+      setFormFields(data);
+    };
+
+    const handleValuePairChange = (event: string, index: number) => {
+      let data = [...formFields];
+      data[index]['valuePair'] = event;
+      setFormFields(data);
+    };
+
+    const addFields = () => {
+      let object = {
+        keyPair: '',
+        valuePair: ''
+      };
+
+      setFormFields([...formFields, object]);
+    };
+
+    const removeFields = (index: number) => {
+      let data = [...formFields];
+      data.splice(index, 1);
+      setFormFields(data);
+    };
+    return (
+      <Box m={1}>
+        <Card variant="outlined" sx={{ maxHeight: '80vh', overflow: 'auto' }}>
+          <CardContent>
+            <Typography
+              data-testid={'metaDataDescription'}
+              sx={{ fontSize: 14 }}
+              color="text.secondary"
+              gutterBottom
+            >
+              {t('prompt.filter')}
+            </Typography>
+            <Grid
+              container
+              direction="row"
+              spacing={1}
+              justifyContent="space-between"
+              alignItems="center"
+            >
+              <Grid item xs={12} md={6}>
+                <DateEntry
+                  testId="DateEntryStartdate"
+                  label={t('label.startDate')}
+                  setValue={(e: React.SetStateAction<string>) => updateStartDate(e)}
+                  value={startDate}
+                />
+              </Grid>
+              <Grid item xs={12} md={6}>
+                <DateEntry
+                  testId="DateEntryEndDate"
+                  label={t('label.endDate')}
+                  setValue={(e: React.SetStateAction<string>) => updateEndDate(e)}
+                  value={endDate}
+                />
+              </Grid>
+
+              {formFields.map((form, index) => {
+                return (
+                  <>
+                    <Grid item xs={12}>
+                      <TextEntry
+                        ariaTitle="keyPair"
+                        testId="DateEntryKeyPair"
+                        label={t('label.key')}
+                        setValue={(event: any) => handleKeyPairChange(event, index)}
+                        value={form.keyPair}
+                      />
+                    </Grid>
+
+                    <Grid item xs={12}>
+                      <TextEntry
+                        ariaTitle="valuePair"
+                        testId="DateEntryValuePair"
+                        label={t('label.value')}
+                        setValue={(event: any) => handleValuePairChange(event, index)}
+                        value={form.valuePair}
+                      />
+                    </Grid>
+
+                    <Grid item xs={-4}>
+                      <Button
+                        testId="RemoveKeyValuePairButton"
+                        color={ButtonColorTypes.Secondary}
+                        disabled={updating}
+                        icon={<IndeterminateCheckBoxOutlinedIcon />}
+                        label="Remove"
+                        onClick={() => removeFields(index)}
+                        toolTip="Remove Key/Value pair"
+                        variant={ButtonVariantTypes.Outlined}
+                      />
+                    </Grid>
+                  </>
+                );
+              })}
+
+              <Grid item xs={4}>
+                <Button
+                  testId="AddKeyValuePairButton"
+                  color={ButtonColorTypes.Secondary}
+                  disabled={updating}
+                  icon={<LibraryAddOutlinedIcon />}
+                  label="Add"
+                  onClick={addFields}
+                  toolTip="Add Key/Value pair"
+                  variant={ButtonVariantTypes.Outlined}
+                />
+              </Grid>
+            </Grid>
+
+            <br />
+
+            <Grid item xs={4}>
+              <Button
+                testId="SubmitSearchButton"
+                color={ButtonColorTypes.Secondary}
+                disabled={updating}
+                icon={<SearchIcon />}
+                label={t('button.search')}
+                onClick={() => setUpdating(true)}
+                toolTip="Submit search"
+                variant={ButtonVariantTypes.Outlined}
+              />
+            </Grid>
+          </CardContent>
+        </Card>
+      </Box>
+    );
+  }
+
+  function RenderDataStoreBox() {
+    return (
+      <Box m={1}>
+        <Grid container spacing={1} direction="row" justifyContent="justify-left">
+          <Grid item>
+            <Button
+              testId="IndexDataProductsButton"
+              color={ButtonColorTypes.Secondary}
+              disabled={apiIndexing}
+              icon={<RefreshIcon />}
+              label={t('button.indexDP')}
+              onClick={() => OnClickIndexDataProduct()}
+              toolTip="Re-index all the data product files found on the storage volume. The resulting index is updated in the memory of the backend API."
+              variant={ButtonVariantTypes.Outlined}
+            />
+          </Grid>
+          <Grid item>
+            <Button
+              testId="ReloadDataProductsButton"
+              color={ButtonColorTypes.Secondary}
+              disabled={!newDataAvailable}
+              icon={<CachedIcon />}
+              label={t('button.reload')}
+              onClick={() => setUpdating(true)}
+              toolTip="Load the latest index from the backend API, update the index in the browser and reloads the data product table."
+              variant={ButtonVariantTypes.Outlined}
+            />
+          </Grid>
+        </Grid>
+      </Box>
+    );
+  }
+
+  function RenderDataProductTable() {
+    return <>{DataProductsTable(dataProducts, updating, apiRunning, rowClickHandler)}</>;
+  }
+
+  return (
+    <Box sx={{ height: '100%' }}>
+      {RenderDataStoreBox()}
+      <Grid
+        sx={{ height: '100%' }}
+        container
+        spacing={1}
+        direction="row"
+        justifyContent="space-between"
+      >
+        <Grid item xs={9}>
+          {RenderDataProductTable()}
+        </Grid>
+        <Grid item xs={3}>
+          <>
+            {RenderSearchBox()}
+            {DownloadCard(selectedFileNames, metaData)}
+          </>
+        </Grid>
+      </Grid>
+    </Box>
+  );
+};
+
+export default DataProductDashboard;

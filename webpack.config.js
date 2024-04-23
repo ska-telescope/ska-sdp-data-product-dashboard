@@ -56,10 +56,9 @@ module.exports = (env, argv) => { return {
       },
       {
         test: /\.(ts|tsx|js|jsx)$/,
-        exclude: /node_modules/,
-        use: {
-          loader: 'babel-loader'
-        }
+        exclude: /(node_modules|bower_components)/,
+        loader: 'babel-loader',
+        options: { presets: ['@babel/env', '@babel/preset-react'] }
       }
     ]
   },
@@ -72,7 +71,7 @@ module.exports = (env, argv) => { return {
       filename: 'remoteEntry.js',
       remotes: {},
       exposes: {
-        './Dashboard': './src/components/DataProductDashboard/DataProductDashboard.jsx'
+        './Dashboard': './src/components/DataProductDashboard/DataProductDashboard.tsx'
       },
       shared: {
         ...deps,
@@ -90,6 +89,11 @@ module.exports = (env, argv) => { return {
           eager: true,
           singleton: true,
           requiredVersion: deps['react-router-dom'],
+        },
+        '@react-spring/web': {
+          eager: true,
+          singleton: true,
+          requiredVersion: deps['@react-spring/web'],
         },
         // i18n
         i18next: {

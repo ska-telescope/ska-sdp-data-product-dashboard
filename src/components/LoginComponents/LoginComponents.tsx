@@ -1,13 +1,13 @@
 import React from 'react';
-import { Button, Typography,  Tooltip, IconButton } from "@mui/material";
+import { Button, Typography, Tooltip, IconButton } from '@mui/material';
 import LoginIcon from '@mui/icons-material/Login';
 import Loader from '@components/loader/Loader';
 import { storageObject } from '@ska-telescope/ska-gui-local-storage';
-import { DOMAIN } from "../../utils/constants";
-import { cypressUser, isCypress } from '../../utils/cypress';
+import { DOMAIN } from '@utils/constants';
+import { cypressUser, isCypress } from '@utils/cypress';
 import { useTranslation } from 'react-i18next';
 import { importRemote } from '@module-federation/utilities';
-import { SKA_LOGIN_APP_URL } from "../../utils/constants";
+import { SKA_LOGIN_APP_URL } from '@utils/constants';
 import axios from 'axios';
 
 // Create a context
@@ -28,38 +28,35 @@ export const AuthProvider = ({ children }) => {
     username,
     setUsername,
     available,
-    setAvailable,
+    setAvailable
   };
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 };
 
 // Use the context
-export function AuthStates () {
+export function AuthStates() {
   const context = React.useContext(AuthContext);
   if (context === undefined) {
     throw new Error('AuthStates must be used within an AuthProvider');
   }
   return context;
-};
+}
 
-
-export function AuthDialogs () {
-  const { openLogin, setOpenLogin, openLogout, setOpenLogout, available, setAvailable } = AuthStates();
+export function AuthDialogs() {
+  const { openLogin, setOpenLogin, openLogout, setOpenLogout, available, setAvailable } =
+    AuthStates();
   const { clearUser } = storageObject.useStore();
 
-  const LoginFunction = () => {
-  };
+  const LoginFunction = () => {};
 
-  function LoginCancelFunction () {
-  }
+  function LoginCancelFunction() {}
 
   const LogoutFunction = () => {
     clearUser();
   };
 
-  function LogoutCancelFunction() {
-  }
+  function LogoutCancelFunction() {}
 
   React.useEffect(() => {
     const checkAvailable = async () => {
@@ -72,11 +69,10 @@ export function AuthDialogs () {
         setAvailable(2);
       }
     };
-  
+
     checkAvailable();
   }, [setAvailable]);
-  
-   
+
   const LoginDialog =
     available !== 1
       ? null
@@ -88,40 +84,38 @@ export function AuthDialogs () {
             module: 'LoginDialog'
           })
         );
-  
+
   const LogoutDialog =
-  available !== 1
-    ? null
-    : React.lazy(() =>
-        importRemote({
-          url: async () => Promise.resolve(SKA_LOGIN_APP_URL),
-          remoteEntryFileName: 'remoteEntry.js',
-          scope: 'skaLoginPage',
-          module: 'LogoutDialog'
-        })
-      );
- 
+    available !== 1
+      ? null
+      : React.lazy(() =>
+          importRemote({
+            url: async () => Promise.resolve(SKA_LOGIN_APP_URL),
+            remoteEntryFileName: 'remoteEntry.js',
+            scope: 'skaLoginPage',
+            module: 'LogoutDialog'
+          })
+        );
+
   return (
     <React.Suspense fallback={<Loader />}>
-      {available === 1 && 
-      LoginDialog && 
-      LogoutDialog && (
-      <>
-        <LoginDialog
-          openDialog={openLogin}
-          setOpenDialog={setOpenLogin}
-          LoginFunction={LoginFunction}
-          CancelFunction={LoginCancelFunction}
-          domain={DOMAIN}
-        />
-        <LogoutDialog
-          openDialog={openLogout}
-          setOpenDialog={setOpenLogout}
-          LogoutFunction={LogoutFunction}
-          CancelFunction={LogoutCancelFunction}
-          domain={DOMAIN}
-        />
-      </>
+      {available === 1 && LoginDialog && LogoutDialog && (
+        <>
+          <LoginDialog
+            openDialog={openLogin}
+            setOpenDialog={setOpenLogin}
+            LoginFunction={LoginFunction}
+            CancelFunction={LoginCancelFunction}
+            domain={DOMAIN}
+          />
+          <LogoutDialog
+            openDialog={openLogout}
+            setOpenDialog={setOpenLogout}
+            LogoutFunction={LogoutFunction}
+            CancelFunction={LogoutCancelFunction}
+            domain={DOMAIN}
+          />
+        </>
       )}
     </React.Suspense>
   );
@@ -131,7 +125,7 @@ export function LoginButtonFunction() {
   const { updateUser, user } = storageObject.useStore();
   const { username, setOpenLogin, setOpenLogout, setUsername, available } = AuthStates();
   const { t } = useTranslation('dpd');
-  
+
   React.useEffect(() => {
     setUsername(!user ? '' : user.username);
   }, [setUsername, user]);
@@ -140,9 +134,9 @@ export function LoginButtonFunction() {
     setOpenLogout(true);
   };
 
-  function loginClicked () {
+  function loginClicked() {
     isCypress() ? updateUser(cypressUser) : setOpenLogin(true);
-  };
+  }
 
   return (
     <>
@@ -178,7 +172,7 @@ export function LoginButtonFunction() {
       )}
 
       {available === 2 && (
-        <Tooltip title='Login capability is not available at this time' arrow>
+        <Tooltip title="Login capability is not available at this time" arrow>
           <Button
             data-testid="login"
             role="button"
@@ -192,19 +186,14 @@ export function LoginButtonFunction() {
           </Button>
         </Tooltip>
       )}
-
     </>
   );
 }
 
-export function LoginDialogs () {
-  return (
-      <AuthDialogs/>
-  );
+export function LoginDialogs() {
+  return <AuthDialogs />;
 }
 
-export function LoginButton() {
-  return (
-      <LoginButtonFunction />
-  );
+export function LoginButton(): React.JSX.Element {
+  return <LoginButtonFunction />;
 }
