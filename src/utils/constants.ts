@@ -1,5 +1,10 @@
 import { env } from '../env';
-export const USE_LOCAL_DATA = env.REACT_APP_USE_LOCAL_DATA === 'true';
+
+function parseBoolean(str: string): boolean {
+  return str ? str.toLowerCase() === 'true' : false;
+}
+
+export const USE_LOCAL_DATA = parseBoolean(env.REACT_APP_USE_LOCAL_DATA);
 export const API_REFRESH_RATE = env.REACT_APP_API_REFRESH_RATE;
 export const SKA_SDP_DATAPRODUCT_DASHBOARD_URL = env.REACT_APP_SKA_SDP_DATAPRODUCT_DASHBOARD_URL;
 export const SKA_SDP_DATAPRODUCT_API_URL = env.REACT_APP_SKA_SDP_DATAPRODUCT_API_URL;

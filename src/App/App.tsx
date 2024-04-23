@@ -84,7 +84,6 @@ function App() {
       <AuthProvider>
         <CssBaseline enableColorScheme />
         <CopyrightModal copyrightFunc={setShowCopyright} show={showCopyright} />
-
         <React.Suspense fallback={<Loader />}>
           <Paper
             elevation={0}
