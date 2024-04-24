@@ -14,11 +14,6 @@ import { storageObject } from '@ska-telescope/ska-gui-local-storage';
 import { SPACER_FOOTER, SPACER_HEADER, fullHeight } from '@utils/constants';
 import theme from '@services/theme/theme';
 import GetAPIStatus from '../services/GetAPIStatus/GetAPIStatus';
-import {
-  AuthProvider,
-  LoginDialogs,
-  LoginButton
-} from '@components/LoginComponents/LoginComponents';
 
 const REACT_APP_VERSION = process.env.REACT_APP_VERSION;
 
@@ -62,9 +57,7 @@ function App() {
         testId="skaHeader"
         toolTip={toolTip}
         storage={theStorage}
-      >
-        {LoginButton()}
-      </Header>
+      ></Header>
     );
   };
 
@@ -81,28 +74,25 @@ function App() {
 
   return (
     <ThemeProvider theme={theme(themeMode?.mode)}>
-      <AuthProvider>
-        <CssBaseline enableColorScheme />
-        <CopyrightModal copyrightFunc={setShowCopyright} show={showCopyright} />
-        <React.Suspense fallback={<Loader />}>
-          <Paper
-            elevation={0}
-            sx={{
-              backgroundColor: 'primary.main',
-              height: '100vh'
-            }}
-          >
-            {TheHeader()}
-            <Box m={1} sx={{ height: fullHeight() }}>
-              <Spacer size={SPACER_HEADER} axis={SPACER_VERTICAL} />
-              <DataProductDashboard data-testid="DataProductDashboardId" />
-              <Spacer size={SPACER_FOOTER} axis={SPACER_VERTICAL} />
-            </Box>
-            {LoginDialogs()}
-            {TheFooter()}
-          </Paper>
-        </React.Suspense>
-      </AuthProvider>
+      <CssBaseline enableColorScheme />
+      <CopyrightModal copyrightFunc={setShowCopyright} show={showCopyright} />
+      <React.Suspense fallback={<Loader />}>
+        <Paper
+          elevation={0}
+          sx={{
+            backgroundColor: 'primary.main',
+            height: '100vh'
+          }}
+        >
+          {TheHeader()}
+          <Box m={1} sx={{ height: fullHeight() }}>
+            <Spacer size={SPACER_HEADER} axis={SPACER_VERTICAL} />
+            <DataProductDashboard data-testid="DataProductDashboardId" />
+            <Spacer size={SPACER_FOOTER} axis={SPACER_VERTICAL} />
+          </Box>
+          {TheFooter()}
+        </Paper>
+      </React.Suspense>
     </ThemeProvider>
   );
 }
