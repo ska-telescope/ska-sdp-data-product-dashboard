@@ -30,7 +30,7 @@ const DataProductsTable = (
   async function fetchData() {
     try {
       const layout = await GetLayout();
-      if (layout) {
+      if (layout?.data && layout?.data.length > 0) {
         setColumnInfo(layout.data);
       } else {
         // Handle the case when layout is undefined

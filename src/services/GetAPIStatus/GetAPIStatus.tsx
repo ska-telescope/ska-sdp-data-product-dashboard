@@ -1,4 +1,5 @@
 import axios from 'axios';
+
 import { USE_LOCAL_DATA, SKA_SDP_DATAPRODUCT_API_URL } from '@utils/constants';
 import MockStatus from '@services/Mocking/mockStatus';
 
@@ -12,6 +13,15 @@ const GetAPIStatus = async () => {
     }
   };
 
+  const APIOfflineStatus = {
+    data: {
+      API_running: false,
+      Search_enabled: false,
+      Date_modified: '1970-01-01T00:00:00.000000',
+      Version: 'Data product API unreachable'
+    }
+  };
+
   if (USE_LOCAL_DATA) {
     return MockStatus;
   }
@@ -19,11 +29,13 @@ const GetAPIStatus = async () => {
   try {
     const result = await axios.get(`${apiUrl}${URL_LIST}`, config);
     if (!result || !result.data) {
-      throw new Error('API status response is empty or undefined');
+      console.error('API status response is empty or undefined');
+      return APIOfflineStatus;
     }
     return result;
   } catch (error) {
-    throw new Error('Error fetching status of the API');
+    console.error('Error fetching status of the API');
+    return APIOfflineStatus;
   }
 };
 

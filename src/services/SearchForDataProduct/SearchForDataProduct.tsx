@@ -2,7 +2,7 @@ import axios from 'axios';
 import { USE_LOCAL_DATA, SKA_SDP_DATAPRODUCT_API_URL } from '@utils/constants';
 import MockDPL from '@services/Mocking/mockDataProductList';
 
-const FetchDataProductList = async (
+const SearchForDataProduct = async (
   startDate: string,
   endDate: string,
   metadata_key: string | string[] | { keyPair: string; valuePair: string }[],
@@ -22,6 +22,10 @@ const FetchDataProductList = async (
     }
   };
 
+  const APIOfflineStatus = {
+    data: {}
+  };
+
   if (USE_LOCAL_DATA) {
     console.log('USE_LOCAL_DATA: Loading MockDPL');
     return MockDPL;
@@ -30,12 +34,14 @@ const FetchDataProductList = async (
   try {
     const result = await axios.post(`${apiUrl}${URL_LIST}`, bodyParameters, config);
     if (!result || !result.data) {
-      throw new Error('Data product list API response is empty or undefined');
+      console.error('Data product search API response is empty or undefined');
+      return APIOfflineStatus;
     }
     return result;
   } catch (error) {
-    throw new Error('Error fetching data product list from the API');
+    console.error('Error fetching data product search results from the API');
+    return APIOfflineStatus;
   }
 };
 
-export default FetchDataProductList;
+export default SearchForDataProduct;
