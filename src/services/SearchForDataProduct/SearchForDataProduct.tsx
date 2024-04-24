@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { USE_LOCAL_DATA, SKA_SDP_DATAPRODUCT_API_URL } from '@utils/constants';
-import MockDPL from '../Mocking/mockDataProductList';
+import MockDPL from '@services/Mocking/mockDataProductList';
 
 const FetchDataProductList = async (
   startDate: string,

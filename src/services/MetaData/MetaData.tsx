@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { USE_LOCAL_DATA, SKA_SDP_DATAPRODUCT_API_URL } from '@utils/constants';
-import MockMeta from '../Mocking/mockMetaData';
+import MockMeta from '@services/Mocking/mockMetaData';
 
 async function MetaData(inData: string) {
   const config = {

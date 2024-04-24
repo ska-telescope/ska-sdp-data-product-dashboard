@@ -2,7 +2,7 @@ import React from 'react';
 import { CssBaseline, ThemeProvider } from '@mui/material';
 import { THEME_DARK, THEME_LIGHT } from '@ska-telescope/ska-gui-components';
 import theme from '@services/theme/theme';
-import DataProductsTable from './DataProductsTable';
+import DataProductsTable from '@components/DataProductsTable/DataProductsTable';
 
 const THEME = [THEME_DARK, THEME_LIGHT];
 

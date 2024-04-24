@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { USE_LOCAL_DATA, SKA_SDP_DATAPRODUCT_API_URL } from '@utils/constants';
-import MockStatus from '../Mocking/mockStatus';
+import MockStatus from '@services/Mocking/mockStatus';
 
 const GetAPIStatus = async () => {
   const apiUrl = SKA_SDP_DATAPRODUCT_API_URL;

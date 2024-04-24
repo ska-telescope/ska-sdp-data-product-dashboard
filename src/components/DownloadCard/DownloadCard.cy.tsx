@@ -2,8 +2,8 @@ import React from 'react';
 import { CssBaseline, ThemeProvider } from '@mui/material';
 import { THEME_DARK, THEME_LIGHT } from '@ska-telescope/ska-gui-components';
 import theme from '@services/theme/theme';
-import mockData from '../../services/Mocking/mockMetaData';
-import DownloadCard from './DownloadCard';
+import mockData from '@services/Mocking/mockMetaData';
+import DownloadCard from '@components/DownloadCard/DownloadCard';
 import { DOWNLOAD_BUTTON_LABEL, DOWNLOAD_ID } from '@utils/constants';
 
 const THEME = [THEME_DARK, THEME_LIGHT];

@@ -1,7 +1,7 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { Box, CssBaseline, Paper, ThemeProvider } from '@mui/material';
-import DataProductDashboard from '../components/DataProductDashboard/DataProductDashboard';
+import DataProductDashboard from '@components/DataProductDashboard/DataProductDashboard';
 import {
   Footer,
   Header,
@@ -13,7 +13,7 @@ import Loader from '@components/loader/Loader';
 import { storageObject } from '@ska-telescope/ska-gui-local-storage';
 import { SPACER_FOOTER, SPACER_HEADER, fullHeight } from '@utils/constants';
 import theme from '@services/theme/theme';
-import GetAPIStatus from '../services/GetAPIStatus/GetAPIStatus';
+import GetAPIStatus from '@services/GetAPIStatus/GetAPIStatus';
 
 const REACT_APP_VERSION = process.env.REACT_APP_VERSION;
 

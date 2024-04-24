@@ -12,11 +12,11 @@ import RefreshIcon from '@mui/icons-material/Refresh';
 import { Button, DateEntry, TextEntry, ButtonColorTypes } from '@ska-telescope/ska-gui-components';
 import { ButtonVariantTypes } from '@ska-telescope/ska-gui-components';
 
-import DataProductsTable from '../DataProductsTable/DataProductsTable';
-import DownloadCard from '../DownloadCard/DownloadCard';
-import SearchForDataProduct from '../../services/SearchForDataProduct/SearchForDataProduct';
-import GetAPIStatus from '../../services/GetAPIStatus/GetAPIStatus';
-import MetaData from '../../services/MetaData/MetaData';
+import DataProductsTable from '@components/DataProductsTable/DataProductsTable';
+import DownloadCard from '@components/DownloadCard/DownloadCard';
+import SearchForDataProduct from '@services/SearchForDataProduct/SearchForDataProduct';
+import GetAPIStatus from '@services/GetAPIStatus/GetAPIStatus';
+import MetaData from '@services/MetaData/MetaData';
 import { API_REFRESH_RATE, SKA_SDP_DATAPRODUCT_API_URL } from '@utils/constants';
 
 const DEF_START_DATE = '1970-01-01';

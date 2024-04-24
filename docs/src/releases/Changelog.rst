@@ -14,6 +14,8 @@ Current Development
   - Updated documentation structure.
   - Updated the SKAO GUI components and updated all instances where it is used so that they comply with TS.
   - Updated node image in dockerfile and gitlab pipeline.
+  - Removed OAuth2 Proxy authentication.
+  - Package dependency updates
 
 * [Fixed] `NAL-1012 <https://jira.skatelescope.org/browse/NAL-1012>`_
 

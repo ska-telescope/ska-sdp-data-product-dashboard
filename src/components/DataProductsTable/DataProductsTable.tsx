@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Box, Grid } from '@mui/material';
 import { Alert, Progress, DataGrid, AlertColorTypes } from '@ska-telescope/ska-gui-components';
-import GetLayout from '../../services/GetLayout/GetLayout';
+import GetLayout from '@services/GetLayout/GetLayout';
 import { tableHeight } from '@utils/constants';
 
 // Derive the type for each object in `extendedColumns`
