@@ -9,7 +9,7 @@ import {
 } from '@ska-telescope/ska-gui-components';
 import { useTranslation } from 'react-i18next';
 import streamSaver from 'streamsaver';
-import { SKA_SDP_DATAPRODUCT_API_URL } from '@utils/constants';
+import { SKA_SDP_DATAPRODUCT_API_URL, shellSize, FILTERCARDHEIGHT } from '@utils/constants';
 import MetaData from '@services/MetaData/MetaData';
 
 function DownloadCard(selectedFileNames: {
@@ -30,6 +30,9 @@ function DownloadCard(selectedFileNames: {
   };
   const [metaData, setMetaData] = React.useState({ data: [] });
   const [oldFilename] = React.useState(null);
+  const [cardHeight, setCardHeight] = React.useState(
+    window.innerHeight - shellSize() - FILTERCARDHEIGHT
+  );
 
   React.useEffect(() => {
     const metaDataFile = selectedFileNames?.metaDataFile;
@@ -47,6 +50,20 @@ function DownloadCard(selectedFileNames: {
       }
     }
   }, [oldFilename, selectedFileNames]);
+
+  React.useEffect(() => {
+    function handleResize() {
+      setCardHeight(window.innerHeight - shellSize() - FILTERCARDHEIGHT);
+    }
+
+    // Add event listener for window resize
+    window.addEventListener('resize', handleResize);
+
+    // Clean up the event listener when component unmounts
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, []); // Empty dependency array ensures the effect runs only once
 
   const handleClick = async () => {
     try {
@@ -93,7 +110,7 @@ function DownloadCard(selectedFileNames: {
     <>
       {selectedFileNames?.relativePathName !== '' && (
         <Box m={1}>
-          <Card variant="outlined">
+          <Card variant="outlined" sx={{ maxHeight: cardHeight }}>
             <CardContent>
               <Typography
                 data-testid={'metaDataDescription'}
@@ -115,7 +132,14 @@ function DownloadCard(selectedFileNames: {
                 toolTip="Download the selected data product. This will stream the selected data product to a tar file in your default downloads directory."
                 variant={ButtonVariantTypes.Outlined}
               />
-              {metaData && <DataTree testId="MetadataDataTree" data={metaData} height={500} />}
+              {metaData && (
+                <DataTree
+                  testId="MetadataDataTree"
+                  data={metaData}
+                  height={cardHeight - 130}
+                  maxWidth={1000}
+                />
+              )}
             </CardContent>
           </Card>
         </Box>

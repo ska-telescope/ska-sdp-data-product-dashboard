@@ -16,7 +16,7 @@ import DataProductsTable from '@components/DataProductsTable/DataProductsTable';
 import DownloadCard from '@components/DownloadCard/DownloadCard';
 import SearchForDataProduct from '@services/SearchForDataProduct/SearchForDataProduct';
 import GetAPIStatus from '@services/GetAPIStatus/GetAPIStatus';
-import { API_REFRESH_RATE, SKA_SDP_DATAPRODUCT_API_URL } from '@utils/constants';
+import { API_REFRESH_RATE, SKA_SDP_DATAPRODUCT_API_URL, FILTERCARDHEIGHT } from '@utils/constants';
 
 const DEF_START_DATE = '1970-01-01';
 const DEF_END_DATE = '2070-12-31';
@@ -158,7 +158,7 @@ const DataProductDashboard = () => {
     };
     return (
       <Box m={1}>
-        <Card variant="outlined" sx={{ maxHeight: '80vh', overflow: 'auto' }}>
+        <Card variant="outlined" sx={{ maxHeight: FILTERCARDHEIGHT, overflow: 'auto' }}>
           <CardContent>
             <Typography
               data-testid={'metaDataDescription'}

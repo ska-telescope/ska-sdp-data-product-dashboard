@@ -16,6 +16,8 @@ Current Development
   - Updated node image in dockerfile and gitlab pipeline.
   - Removed OAuth2 Proxy authentication.
   - Package dependency updates
+  - Updated components to adjust to available page size.
+  - Updated data product table to allow adjustment of column widths.
 
 * [Fixed] `NAL-1012 <https://jira.skatelescope.org/browse/NAL-1012>`_
 

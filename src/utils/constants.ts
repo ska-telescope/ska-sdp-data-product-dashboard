@@ -36,10 +36,16 @@ export const SPACER = 50;
 export const fullHeight = () => {
   return `calc(100vh - ${SPACER_HEADER + SPACER_FOOTER + SPACER}px)`;
 };
-// export const tableHeight = () => { return `calc(100vh - ${SPACER_HEADER + SPACER_FOOTER + DATA_STORE_BOX_HEIGHT + SPACER}px)`};
-export const tableHeight = (): number => {
-  const totalHeight = 100; // 100vh
+export const tableHeight = (): any => {
+  const totalHeight = window.innerHeight;
   const calculatedHeight =
     totalHeight - (SPACER_HEADER + SPACER_FOOTER + DATA_STORE_BOX_HEIGHT + SPACER);
   return calculatedHeight;
 };
+
+export const shellSize = (): any => {
+  const calculatedHeight = SPACER_HEADER + SPACER_FOOTER + DATA_STORE_BOX_HEIGHT + SPACER;
+  return calculatedHeight;
+};
+
+export const FILTERCARDHEIGHT = 410;
