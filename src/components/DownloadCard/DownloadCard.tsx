@@ -10,11 +10,13 @@ import {
 import { useTranslation } from 'react-i18next';
 import streamSaver from 'streamsaver';
 import { SKA_SDP_DATAPRODUCT_API_URL } from '@utils/constants';
+import MetaData from '@services/MetaData/MetaData';
 
-function DownloadCard(
-  selectedFileNames: { fileName: any; relativePathName: any; metaDataFile?: string },
-  metaData: { data: never[] }
-) {
+function DownloadCard(selectedFileNames: {
+  fileName: any;
+  relativePathName: any;
+  metaDataFile?: string;
+}) {
   const URL_DOWNLOAD = '/download';
   const apiUrl = SKA_SDP_DATAPRODUCT_API_URL;
   const { t } = useTranslation('dpd');
@@ -26,6 +28,25 @@ function DownloadCard(
     },
     body: JSON.stringify(selectedFileNames)
   };
+  const [metaData, setMetaData] = React.useState({ data: [] });
+  const [oldFilename] = React.useState(null);
+
+  React.useEffect(() => {
+    const metaDataFile = selectedFileNames?.metaDataFile;
+
+    async function getMetaData() {
+      if (metaDataFile) {
+        const results = await MetaData(metaDataFile);
+        setMetaData(results);
+      }
+    }
+
+    if (metaDataFile && metaDataFile.length) {
+      if (oldFilename !== metaDataFile) {
+        getMetaData();
+      }
+    }
+  }, [oldFilename, selectedFileNames]);
 
   const handleClick = async () => {
     try {

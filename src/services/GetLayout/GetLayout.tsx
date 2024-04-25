@@ -12,10 +12,6 @@ const GetLayout = async () => {
     }
   };
 
-  const APIOfflineStatus = {
-    data: {}
-  };
-
   if (USE_LOCAL_DATA) {
     console.log('USE_LOCAL_DATA: Loading MockLayout');
     return MockLayout;
@@ -25,12 +21,12 @@ const GetLayout = async () => {
     const result = await axios.get(`${apiUrl}${URL_LIST}`, config);
     if (!result || !result.data) {
       console.error('API response is empty or undefined');
-      return APIOfflineStatus;
+      return MockLayout;
     }
     return result;
   } catch (error) {
     console.error('Error fetching layout from the API');
-    return APIOfflineStatus;
+    return MockLayout;
   }
 };
 

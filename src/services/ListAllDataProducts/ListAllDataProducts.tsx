@@ -36,7 +36,6 @@ const ListAllDataProducts = async () => {
       }
       console.log('Error with dataproductlist, config:', error.config);
     });
-    console.log(result);
     return typeof result === 'undefined' ? 'error.API_UNKNOWN_ERROR' : result;
   } catch (e) {
     return 'error.UNDEFINED_ERROR';

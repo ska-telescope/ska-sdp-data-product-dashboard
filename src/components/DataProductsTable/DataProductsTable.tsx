@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { Box, Grid } from '@mui/material';
 import { Alert, Progress, DataGrid, AlertColorTypes } from '@ska-telescope/ska-gui-components';
@@ -23,11 +23,10 @@ const DataProductsTable = (
   handleSelectedNode: (data: any) => void
 ) => {
   const { t } = useTranslation('dpd');
-  const [columnInfo, setColumnInfo] = useState([]);
-
+  const [columnInfo, setColumnInfo] = React.useState([]);
   const ignore_columns_names = ['dataproduct_file', 'metadata_file'];
 
-  async function fetchData() {
+  async function fetchTableLayout() {
     try {
       const layout = await GetLayout();
       if (layout?.data && layout?.data.length > 0) {
@@ -42,13 +41,10 @@ const DataProductsTable = (
     }
   }
 
-  useEffect(() => {
-    fetchData();
+  React.useEffect(() => {
+    fetchTableLayout();
   }, []);
 
-  const haveData = () => {
-    return typeof jsonDataProducts === 'object' && jsonDataProducts?.length > 0;
-  };
   // Create Header name from column_name
   const headerText = (key: string) => {
     const tmp = key?.split('.');
@@ -70,9 +66,12 @@ const DataProductsTable = (
     }
   }
 
-  if (haveData() && jsonDataProducts?.length > 0) {
+  const haveData = () => {
+    return typeof jsonDataProducts === 'object' && jsonDataProducts?.length > 0;
+  };
+
+  if (haveData()) {
     for (const dataproduct in jsonDataProducts) {
-      console.log('rendering dataproduct');
       for (const key of Object.keys(jsonDataProducts[dataproduct])) {
         // skip keys in ignore_column_names
         if (ignore_columns_names.includes(key)) {

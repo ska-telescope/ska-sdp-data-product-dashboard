@@ -16,7 +16,6 @@ import DataProductsTable from '@components/DataProductsTable/DataProductsTable';
 import DownloadCard from '@components/DownloadCard/DownloadCard';
 import SearchForDataProduct from '@services/SearchForDataProduct/SearchForDataProduct';
 import GetAPIStatus from '@services/GetAPIStatus/GetAPIStatus';
-import MetaData from '@services/MetaData/MetaData';
 import { API_REFRESH_RATE, SKA_SDP_DATAPRODUCT_API_URL } from '@utils/constants';
 
 const DEF_START_DATE = '1970-01-01';
@@ -27,8 +26,6 @@ const DataProductDashboard = () => {
   const { t } = useTranslation('dpd');
   const [updating, setUpdating] = React.useState(false);
   const [dataProducts, setDataProductsData] = React.useState([]);
-  const [metaData, setMetaData] = React.useState({ data: [] });
-  const [oldFilename] = React.useState(null);
   const [selectedFileNames, setSelectedFileNames] = React.useState({
     fileName: '',
     relativePathName: '',
@@ -102,27 +99,13 @@ const DataProductDashboard = () => {
     }
   }, [canSearch, endDate, formFields, startDate, updating]);
 
-  React.useEffect(() => {
-    const metaDataFile = selectedFileNames?.metaDataFile;
-    async function getMetaData() {
-      const results = await MetaData(selectedFileNames?.metaDataFile);
-      setMetaData(results);
-    }
-
-    if (metaDataFile && metaDataFile.length) {
-      if (oldFilename !== metaDataFile) {
-        getMetaData();
-      }
-    }
-  }, [oldFilename, selectedFileNames]);
-
-  const rowClickHandler = (data: {
-    row: { execution_block: any; dataproduct_file: any; metadata_file: any };
+  const handleRowClick = (params: {
+    row: { id: any; execution_block: any; dataproduct_file: any; metadata_file: any };
   }) => {
     setSelectedFileNames({
-      fileName: data.row.execution_block,
-      relativePathName: data.row.dataproduct_file,
-      metaDataFile: data.row.metadata_file
+      fileName: params.row.execution_block,
+      relativePathName: params.row.dataproduct_file,
+      metaDataFile: params.row.metadata_file
     });
   };
 
@@ -315,10 +298,6 @@ const DataProductDashboard = () => {
     );
   }
 
-  function RenderDataProductTable() {
-    return <>{DataProductsTable(dataProducts, updating, apiRunning, rowClickHandler)}</>;
-  }
-
   return (
     <Box sx={{ height: '100%' }}>
       {RenderDataStoreBox()}
@@ -330,12 +309,12 @@ const DataProductDashboard = () => {
         justifyContent="space-between"
       >
         <Grid item xs={9}>
-          {RenderDataProductTable()}
+          {DataProductsTable(dataProducts, updating, apiRunning, handleRowClick)}
         </Grid>
         <Grid item xs={3}>
           <>
             {RenderSearchBox()}
-            {DownloadCard(selectedFileNames, metaData)}
+            {DownloadCard(selectedFileNames)}
           </>
         </Grid>
       </Grid>
