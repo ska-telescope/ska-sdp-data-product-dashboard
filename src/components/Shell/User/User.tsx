@@ -11,7 +11,7 @@ export interface UserProps {
 export default function User({ open, toggleDrawer }: UserProps) {
   return (
     <div>
-      <Drawer anchor="right" open={open}  onClose={toggleDrawer(false)}>
+      <Drawer anchor="right" open={open} onClose={toggleDrawer(false)}>
         <Box m={1} sx={{ minWidth: '25vw' }}>
           <Stack sx={{ height: '95%' }} spacing={2}>
             <Grid container direction="row" justifyContent="space-evenly">

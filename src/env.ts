@@ -17,7 +17,6 @@ type EnvType = {
   REACT_APP_ALLOW_MOCK_AUTH: string;
   REACT_APP_PERMISSIONS_API_URI: string;
   REACT_APP_VERSION: string;
-
 };
 export const env: EnvType = {
   ...process.env,
