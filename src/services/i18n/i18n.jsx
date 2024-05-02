@@ -3,7 +3,6 @@ import { initReactI18next } from 'react-i18next';
 import LanguageDetector from 'i18next-browser-languagedetector';
 import Backend from 'i18next-http-backend';
 import moment from 'moment';
-import { DASHBOARD_URL_SUBDIRECTORY } from "@utils/constants";
 
 i18n
   .use(Backend)
@@ -12,11 +11,11 @@ i18n
   .init({
     backend: {
       // http backend options
-      loadPath: DASHBOARD_URL_SUBDIRECTORY+'/locales/{{lng}}/{{ns}}.json',
+      loadPath: './locales/{{lng}}/{{ns}}.json'
     },
     fallbackLng: 'en',
     lng: 'en',
-    ns: ['dpd', 'ivoa', 'login'],
+    ns: ['dpd', 'ivoa', 'login', 'authentication'],
     defaultNS: 'dpd',
     initImmediate: false,
     useSuspense: true,

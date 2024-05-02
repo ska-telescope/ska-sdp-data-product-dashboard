@@ -6,6 +6,189 @@ Kubernetes Deployment
 
 This is the documentation for the Data Product Dashboard Helm Chart.
 
+All Configuration Options
+-------------------------
+
+Currently the full list of configuration options are:
+
+Ingress:
+
+.. list-table::
+    :widths: 20, 20, 60
+    :header-rows: 1
+
+    * - Value
+      - Default
+      - Comment
+    * - ``ingress.enabled``
+      - ``true``
+      - Whether the Ingress should be enabled.
+    * - ``ingress.namespaced``
+      - ``true``
+      - Whether the namespace should be added to the ingress prefix.
+    * - ``ingress.hostname``
+      - ``true``
+      - The domain name where the application will be hosted. Used for MS Entra redirect URI.
+
+Data product API:
+
+.. list-table::
+    :widths: 20, 20, 60
+    :header-rows: 1
+
+    * - Value
+      - Default
+      - Comment
+    * - ``api.enabled``
+      - ``true``
+      - If the ska-sdp-dataproduct-api should be enabled.
+    * - ``api.container``
+      - ``artefact.skao.int/ska-sdp-dataproduct-api``
+      - The link to the artefact repository
+    * - ``api.version``
+      - ``0.7.0``
+      - The version of the ska-sdp-dataproduct-api to use.
+    * - ``api.imagePullPolicy``
+      - ``IfNotPresent``
+      - The pull policy of the ska-sdp-dataproduct-api.
+    * - ``api.ingress.path``
+      - ``"api"``
+      - What the prefix for the ska-sdp-dataproduct-api path should be.
+    * - ``api.storagePath``
+      - ``"/mnt/data/product/"``
+      - The path to the data on the PV.
+    * - ``api.metadata_file_name``
+      - ``ska-data-product.yaml``
+      - The name of the data products metadata file that is used to indicate that a folder is a data product.
+    * - ``api.metadata_es_schema_file``
+      - ``/mnt/src/ska_sdp_dataproduct_api/elasticsearch/data_product_metadata_schema.json``
+      - The metadata schema used to verify the metadata schema.
+    * - ``api.es_host``
+      - ``"http://ska-sdp-dataproduct-dashboard-elasticsearch-master-hl.test.svc:9200"``
+      - The Elasticsearch host.
+    * - ``api.stream_chunk_size``
+      - ``65536``
+      - Data downloaded are streamed in stream_chunk_size chunks.
+    * - ``api.resources.requests.cpu``
+      - ``500m``
+      - The requested minimum CPU usage of the api.
+    * - ``api.resources.requests.memory``
+      - ``1024Mi``
+      - The requested minimum memory usage of the api.
+    * - ``api.resources.limits.cpu``
+      - ``1000m``
+      - The maximum CPU usage of the api.
+    * - ``api.resources.limits.memory``
+      - ``2048Mi``
+      - The maximum memory usage of the api.
+   
+
+Data product Dashboard:
+
+.. list-table::
+    :widths: 20, 20, 60
+    :header-rows: 1
+
+    * - Value
+      - Default
+      - Comment
+    * - ``dashboard.enabled``
+      - ``true``
+      - If the ska-sdp-dataproduct-dashboard should be enabled.
+    * - ``dashboard.container``
+      - ``artefact.skao.int/ska-sdp-dataproduct-dashboard``
+      - The link to the artefact repository
+    * - ``dashboard.version``
+      - ``0.7.0``
+      - The version of the ska-sdp-dataproduct-dashboard to use.
+    * - ``dashboard.imagePullPolicy``
+      - ``IfNotPresent``
+      - The pull policy of the ska-sdp-dataproduct-dashboard.
+    * - ``dashboard.ingress.path``
+      - ``"dashboard"``
+      - What the prefix for the ska-sdp-dataproduct-dashboard path should be.
+    * - ``dashboard.config.allowMockAuth``
+      - ``false``
+      - Enable mocked authentication.
+    * - ``dashboard.vault.useVault``
+      - ``true``
+      - Enables the deployment to retrieve SPA registration details from the SKAO vault.
+    * - ``dashboard.vault.pathToSecretVault``
+      - ``kv/data/users/andre_odendaal/ska_login_page``
+      - Path to the secrets in the vault.
+    * - ``dashboard.vault.client_id``
+      - ``abcde``
+      - Placeholder env variable for MS Entra application registration client ID.
+    * - ``dashboard.vault.tenant_id``
+      - ``abcde``
+      - Placeholder env variable for MS Entra application registration tenant ID.
+    * - ``dashboard.apiRefreshRate``
+      - ``10000``
+      - The polling rate for new data from the API.      
+    * - ``dashboard.resources.requests.cpu``
+      - ``500m``
+      - The requested minimum CPU usage of the dashboard.
+    * - ``dashboard.resources.requests.memory``
+      - ``1024Mi``
+      - The requested minimum memory usage of the dashboard.
+    * - ``dashboard.resources.limits.cpu``
+      - ``1000m``
+      - The maximum CPU usage of the dashboard.
+    * - ``dashboard.resources.limits.memory``
+      - ``2048Mi``
+      - The maximum memory usage of the dashboard.
+
+Permissions API:
+
+.. list-table::
+    :widths: 20, 20, 60
+    :header-rows: 1
+
+    * - Value
+      - Default
+      - Comment
+    * - ``permissionsApi.enabled``
+      - ``false``
+      - If the ska-permissions-api should be enabled.
+    * - ``permissionsApi.container``
+      - ``artefact.skao.int/ska-permissions-api``
+      - The link to the artefact repository
+    * - ``permissionsApi.version``
+      - ``0.1.0``
+      - The version of the ska-permissions-api to use.
+    * - ``permissionsApi.imagePullPolicy``
+      - ``IfNotPresent``
+      - The pull policy of the ska-permissions-api.
+    * - ``permissionsApi.ingress.path``
+      - ``"permissionsApi"``
+      - What the prefix for the ska-permissions-api path should be.
+    * - ``permissionsApi.vault.useVault``
+      - ``true``
+      - Enables the deployment to retrieve WEB API registration details from the SKAO vault.
+    * - ``permissionsApi.vault.pathToSecretVault``
+      - ``kv/data/users/andre_odendaal/skao_mf_remote_module_permissions_api``
+      - Path to the secrets in the vault.
+    * - ``permissionsApi.vault.client_id``
+      - ``abcde``
+      - Placeholder env variable for MS Entra application registration client ID.
+    * - ``permissionsApi.vault.tenant_id``
+      - ``abcde``
+      - Placeholder env variable for MS Entra application registration tenant ID.
+    * - ``permissionsApi.resources.requests.cpu``
+      - ``500m``
+      - The requested minimum CPU usage of the api.
+    * - ``permissionsApi.resources.requests.memory``
+      - ``1024Mi``
+      - The requested minimum memory usage of the api.
+    * - ``permissionsApi.resources.limits.cpu``
+      - ``1000m``
+      - The maximum CPU usage of the api.
+    * - ``permissionsApi.resources.limits.memory``
+      - ``2048Mi``
+      - The maximum memory usage of the api.
+
+
+
 Usage
 -----
 

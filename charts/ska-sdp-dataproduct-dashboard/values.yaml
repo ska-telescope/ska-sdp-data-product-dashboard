@@ -1,22 +1,16 @@
 ---
 ingress:
   enabled: true
-  pathStart: ""
-  loginpath: skalogin
   namespaced: true
   hostname: "https://sdhp.stfc.skao.int"
-
-urls:
-  override: false
-  dashboardurl: "http://localhost"
-  apiUrl: "http://localhost:8000"
 
 api:
   enabled: true
   container: artefact.skao.int/ska-sdp-dataproduct-api
   version: 0.7.0
   imagePullPolicy: IfNotPresent
-  hostPort: "8100"
+  ingress:
+    path: api
   storagePath: "/mnt/data/product/"
   metadata_file_name: ska-data-product.yaml
   metadata_es_schema_file: /mnt/src/ska_sdp_dataproduct_api/elasticsearch/data_product_metadata_schema.json
@@ -35,6 +29,15 @@ dashboard:
   container: artefact.skao.int/ska-sdp-dataproduct-dashboard
   version: 0.7.0
   imagePullPolicy: IfNotPresent
+  ingress:
+    path: dashboard
+  config:
+    allowMockAuth: false
+  vault:
+    useVault: true
+    pathToSecretVault: kv/data/users/andre_odendaal/ska-sdp-dataproduct-dashboard
+    client_id: abcde
+    tenant_id: abcde
   apiRefreshRate: 10000
   resources:
     requests:
@@ -58,11 +61,26 @@ elasticsearch:
     persistence:
       enabled: true
 
-loginpage:
-  enabled: true
-  container: artefact.skao.int/ska-login-page
-  version: 0.2.0
-  imagePullPolicy: IfNotPresent
+permissionsApi:
+  enabled: false
+  image:
+    imagePullPolicy: IfNotPresent
+    container: artefact.skao.int/ska-permissions-api
+    version: 0.1.0
+  ingress:
+    path: skapermissionsapi
+  vault:
+    useVault: true
+    pathToSecretVault: kv/data/users/andre_odendaal/skao_mf_remote_module_permissions_api
+    client_id: abcde
+    tenant_id: abcde
+  resources:
+    requests:
+      cpu: 200m
+      memory: 200Mi
+    limits:
+      cpu: 1000m
+      memory: 600Mi
 
 dataProductPVC:
   name: shared-mnl

@@ -5,6 +5,10 @@ Changelog
 Current Development
 -------------------
 
+* [Added]  `NAL-1045 <https://jira.skatelescope.org/browse/NAL-1045>`_
+
+  - Addition of SKA Login with MS Entra.
+
 * [Added]  `NAL-1012 <https://jira.skatelescope.org/browse/NAL-1012>`_
 
   - Addition of link to the Data Product Dashboard documentation.

@@ -38,6 +38,8 @@
     "not op_mini all"
   ],
   "dependencies": {
+    "@azure/msal-browser": "^3.13.0",
+    "@azure/msal-react": "^2.0.15",
     "@babel/plugin-proposal-private-property-in-object": "^7.21.11",
     "@emotion/react": "^11.9.3",
     "@emotion/styled": "^11.9.3",
