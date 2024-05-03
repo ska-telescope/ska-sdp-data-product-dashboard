@@ -21,7 +21,7 @@ spec:
             name: {{ $.Chart.Name }}-dashboard-service
             port:
               number: 80
-        path: "{{ include "ingress_path_prepend" . }}/dashboard/?(.*)"
+        path: "{{ include "ska-sdp-dataproduct-dashboard.dashboard.ingress.path" . }}/(.*)"
         pathType: ImplementationSpecific
 {{- end }}
 {{- if $.Values.api.enabled }}
@@ -46,30 +46,31 @@ spec:
             name: {{ $.Chart.Name }}-api-service
             port:
               number: 8000
-        path: "{{ include "ingress_path_prepend" . }}/api/?(.*)"
+        path: "{{ include "ska-sdp-dataproduct-dashboard.api.ingress.path" . }}/(.*)"
         pathType: ImplementationSpecific
 {{- end }}
 ---
+{{- if $.Values.permissionsApi.enabled }}
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   annotations:
     kubernetes.io/ingress.class: nginx
-{{ include "ska-sdp-dataproduct-dashboard.login.labels" . | indent 4 }}
+{{ include "ska-sdp-dataproduct-dashboard.permissionsApi.labels" . | indent 4 }}
     nginx.ingress.kubernetes.io/rewrite-target: /$1
   labels:
-{{ include "ska-sdp-dataproduct-dashboard.login.labels" . | indent 4 }}
-  name: {{ $.Chart.Name }}-login-page
-  namespace: {{ .Release.Namespace }}
+{{ include "ska-sdp-dataproduct-dashboard.permissionsApi.labels" . | indent 4 }}
+  name: {{ $.Chart.Name }}-permissions-api
 spec:
   rules:
   - http:
       paths:
       - backend:
           service:
-            name: {{ $.Chart.Name }}-login-page-service
+            name: {{ $.Chart.Name }}-permissions-api
             port:
-              number: 80
-        path: "{{ include "ingress_path_prepend" . }}/{{ .Values.ingress.loginpath }}/?(.*)"
+              number: 8000
+        path: "{{ include "ska-sdp-dataproduct-dashboard.permissionsApi.ingress.path" . }}/(.*)"
         pathType: ImplementationSpecific
+{{- end }}
 {{- end }}

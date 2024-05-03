@@ -1,0 +1,36 @@
+{
+  "button": {
+    "cancel": "Cancel",
+    "confirm": "Confirm",
+    "signIn": "SIGN IN",
+    "signOut": "SIGN OUT",
+    "setUserRole": "Set user role",
+    "switchToMockAuth": "SWITCH TO MOCKED AUTH",
+    "switchToMSEntraAuth": "SWITCH TO MS ENTRA AUTH"
+  },
+  "error": {
+    "signIn": "Invalid credentials passed to authentication service"
+  },
+  "label": {
+    "email": "Email Address",
+    "password": "Password",
+    "title": "Sign In",
+    "signOut": "Are you sure you want to sign out?",
+    "usingMSEntra": "Using MS Entra authentication.",
+    "usingMockAuth": "Using mocked authentication.",
+    "msEntraUserSignedIn": "MS Entra user is signed-in.",
+    "msEntraUserNotSignedIn": "MS Entra user is not signed-in.",
+    "userDataNotAvailable": "User data not available.",
+    "id": "ID:",
+    "userName": "Username:",
+    "language": "Language:",
+    "tokenSaved": "Token saved"
+  },
+  "toolTip": {
+    "button": {
+      "signIn": "Click here to access user specific features",
+      "signOut": "Sign out of the application suite",
+      "user": "Additional user functionality including sign out"
+    }
+  }
+}

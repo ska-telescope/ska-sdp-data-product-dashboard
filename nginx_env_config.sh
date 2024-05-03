@@ -1,5 +1,6 @@
 #!/bin/env bash
 
+source /vault/secrets/config
 if [ ! -f /.env ]; then
     echo "No Setup Required, mising /.env"
     exit

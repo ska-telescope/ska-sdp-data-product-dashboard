@@ -15,37 +15,36 @@ app: {{ $.Chart.Name }}-dashboard
 app: {{ $.Chart.Name }}-api
 {{- end }}
 
-{{- define "ska-sdp-dataproduct-dashboard.login.labels" -}}
+{{- define "ska-sdp-dataproduct-dashboard.permissionsApi.labels" -}}
 {{ include "ska-sdp-dataproduct-dashboard.labels" . }}
-app: {{ $.Chart.Name }}-login-page
+app: {{ $.Chart.Name }}-permissions-api
 {{- end }}
 
-{{- define "ingress_path_prepend" }}
-    {{- if $.Values.ingress.namespaced }}
-        {{- printf "/%s%s" .Release.Namespace .Values.ingress.pathStart }}
-    {{- else }}
-        {{- printf "%s" $.Values.ingress.pathStart }}
-    {{- end }}
+{{/*
+set the ingress url path
+*/}}
+{{- define "ska-sdp-dataproduct-dashboard.dashboard.ingress.path" }}
+{{- if .Values.ingress.namespaced -}}
+/{{ .Release.Namespace }}/{{ .Values.dashboard.ingress.path }}
+{{- else -}}
+/{{ .Values.dashboard.ingress.path}}
+{{- end }}
 {{- end }}
 
-{{- define "api_chart" }}
-    {{- printf "%s-%s" .Chart.Name .Chart.Version | replace "+" "_" | trunc 63 | trimSuffix "-" }}
+{{- define "ska-sdp-dataproduct-dashboard.api.ingress.path" }}
+{{- if .Values.ingress.namespaced -}}
+/{{ .Release.Namespace }}/{{ .Values.api.ingress.path }}
+{{- else -}}
+/{{ .Values.api.ingress.path}}
+{{- end }}
 {{- end }}
 
-{{- define "dashboard_url" }}
-    {{- if $.Values.urls.override }}
-        {{- printf "%s" $.Values.urls.dashboardurl }}
-    {{- else }}
-        {{- printf "%s/dashboard" (include "ingress_path_prepend" .) }}
-    {{- end }}
+{{- define "ska-sdp-dataproduct-dashboard.permissionsApi.ingress.path" }}
+{{- if .Values.ingress.namespaced -}}
+/{{ .Release.Namespace }}/{{ .Values.permissionsApi.ingress.path }}
+{{- else -}}
+/{{ .Values.permissionsApi.ingress.path }}
 {{- end }}
-
-{{- define "api_url" }}
-    {{- if $.Values.urls.override }}
-        {{- printf "%s" $.Values.urls.apiUrl }}
-    {{- else }}
-        {{- printf "%s/api" (include "ingress_path_prepend" .) }}
-    {{- end }}
 {{- end }}
 
 {{- define "dataProductPVCName" }}

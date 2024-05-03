@@ -41,6 +41,23 @@
     jsonpointer "^5.0.0"
     leven "^3.1.0"
 
+"@azure/msal-browser@^3.13.0":
+  version "3.13.0"
+  resolved "https://registry.npmjs.org/@azure/msal-browser/-/msal-browser-3.13.0.tgz#dc52c5d4957c33209e8a343a8c31fcf662285024"
+  integrity sha512-fD906nmJei3yE7la6DZTdUtXKvpwzJURkfsiz9747Icv4pit77cegSm6prJTKLQ1fw4iiZzrrWwxnhMLrTf5gQ==
+  dependencies:
+    "@azure/msal-common" "14.9.0"
+
+"@azure/msal-common@14.9.0":
+  version "14.9.0"
+  resolved "https://registry.npmjs.org/@azure/msal-common/-/msal-common-14.9.0.tgz#ce1895b4eefccaa0e6aaa39db869611eaec4e37f"
+  integrity sha512-yzBPRlWPnTBeixxLNI3BBIgF5/bHpbhoRVuuDBnYjCyWRavaPUsKAHUDYLqpGkBLDciA6TCc6GOxN4/S3WiSxg==
+
+"@azure/msal-react@^2.0.15":
+  version "2.0.15"
+  resolved "https://registry.npmjs.org/@azure/msal-react/-/msal-react-2.0.15.tgz#63029391bee0d0c538a438cb3088f715b39f3ca1"
+  integrity sha512-WtZGPxA6rWqGhovmWPUXjUyKTp/TUa4Oekk6FSa9ldCayd1QzYT9XcoAEqA0EfT0Fx12KiNvJyDDKckBU6J/+Q==
+
 "@babel/code-frame@^7.0.0", "@babel/code-frame@^7.10.4", "@babel/code-frame@^7.12.13", "@babel/code-frame@^7.16.0", "@babel/code-frame@^7.23.5", "@babel/code-frame@^7.24.1", "@babel/code-frame@^7.24.2", "@babel/code-frame@^7.8.3":
   version "7.24.2"
   resolved "https://registry.npmjs.org/@babel/code-frame/-/code-frame-7.24.2.tgz#718b4b19841809a58b29b68cde80bc5e1aa6d9ae"

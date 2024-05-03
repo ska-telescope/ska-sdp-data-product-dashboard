@@ -1,5 +1,20 @@
 {{- if $.Values.api.enabled }}
 ---
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ $.Chart.Name }}-api-service
+  labels:
+{{ include "ska-sdp-dataproduct-dashboard.api.labels" . | indent 4 }}
+spec:
+  ports:
+  - port: 8000
+    targetPort: 8000
+    protocol: TCP
+  clusterIP: None
+  selector:
+{{ include "ska-sdp-dataproduct-dashboard.api.labels" . | indent 4 }}
+---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -42,7 +57,7 @@ spec:
         terminationMessagePolicy: "File"
         env:
           - name: REACT_APP_SKA_SDP_DATAPRODUCT_DASHBOARD_URL
-            value: {{ include "dashboard_url" . }}
+            value: {{ include "ska-sdp-dataproduct-dashboard.dashboard.ingress.path" . }}
           - name: PERSISTENT_STORAGE_PATH
             value: "{{ .Values.api.storagePath }}"
           - name: METADATE_FILE_NAME
@@ -55,6 +70,6 @@ spec:
             value: "{{ .Values.api.version }}"
           - name: STREAM_CHUNK_SIZE
             value: "{{ .Values.api.stream_chunk_size }}"
-          - name: API_URL_SUBDIRECTORY
-            value: {{ include "ingress_path_prepend" . }}/api
+          - name: API_ROOT_PATH
+            value: {{ include "ska-sdp-dataproduct-dashboard.api.ingress.path" . }}
 {{- end }}

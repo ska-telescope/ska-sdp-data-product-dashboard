@@ -4,13 +4,19 @@ function parseBoolean(str: string): boolean {
   return str ? str.toLowerCase() === 'true' : false;
 }
 
+export const VERSION = process.env.REACT_APP_VERSION;
+
+export const { NODE_ENV } = process.env;
+export const IS_DEV = NODE_ENV !== 'production';
 export const USE_LOCAL_DATA = parseBoolean(env.REACT_APP_USE_LOCAL_DATA);
 export const API_REFRESH_RATE = env.REACT_APP_API_REFRESH_RATE;
-export const SKA_SDP_DATAPRODUCT_DASHBOARD_URL = env.REACT_APP_SKA_SDP_DATAPRODUCT_DASHBOARD_URL;
 export const SKA_SDP_DATAPRODUCT_API_URL = env.REACT_APP_SKA_SDP_DATAPRODUCT_API_URL;
-export const DASHBOARD_URL_SUBDIRECTORY = env.REACT_APP_DASHBOARD_URL_SUBDIRECTORY;
 export const DOMAIN = env.REACT_APP_DOMAIN;
-export const SKA_LOGIN_APP_URL = env.REACT_APP_SKA_LOGIN_APP_URL;
+export const MSENTRA_CLIENT_ID = env.REACT_APP_MSENTRA_CLIENT_ID;
+export const MSENTRA_TENANT_ID = env.REACT_APP_MSENTRA_TENANT_ID;
+export const MSENTRA_REDIRECT_URI = env.REACT_APP_MSENTRA_REDIRECT_URI;
+export const ALLOW_MOCK_AUTH = parseBoolean(env.REACT_APP_ALLOW_MOCK_AUTH);
+export const PERMISSIONS_API_URI = env.REACT_APP_PERMISSIONS_API_URI;
 
 export const DOWNLOAD_BUTTON_LABEL = 'BUTTON.DOWNLOAD';
 export const DOWNLOAD_ID = 'downloadButton';
@@ -49,3 +55,14 @@ export const shellSize = (): any => {
 };
 
 export const FILTERCARDHEIGHT = 410;
+
+export const USERS = [
+  { label: 'AIV', value: 'aiv' },
+  { label: 'Developer', value: 'developer' },
+  { label: 'EMS', value: 'ems' },
+  { label: 'ITF', value: 'itf' },
+  { label: 'Maintainer', value: 'maintainer' },
+  { label: 'Operator', value: 'operator' },
+  { label: 'Primary Investigator', value: 'pi' },
+  { label: 'Co-Investigator', value: 'ci' }
+];
