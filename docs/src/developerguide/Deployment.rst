@@ -46,7 +46,7 @@ Data product API:
       - ``artefact.skao.int/ska-sdp-dataproduct-api``
       - The link to the artefact repository
     * - ``api.version``
-      - ``0.7.0``
+      - ``0.8.0``
       - The version of the ska-sdp-dataproduct-api to use.
     * - ``api.imagePullPolicy``
       - ``IfNotPresent``
@@ -99,7 +99,7 @@ Data product Dashboard:
       - ``artefact.skao.int/ska-sdp-dataproduct-dashboard``
       - The link to the artefact repository
     * - ``dashboard.version``
-      - ``0.7.0``
+      - ``0.8.0``
       - The version of the ska-sdp-dataproduct-dashboard to use.
     * - ``dashboard.imagePullPolicy``
       - ``IfNotPresent``
