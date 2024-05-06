@@ -5,6 +5,12 @@ Changelog
 Current Development
 -------------------
 
+Released
+========
+
+v0.8.0
+------
+
 * [Added]  `NAL-1045 <https://jira.skatelescope.org/browse/NAL-1045>`_
 
   - Addition of SKA Login with MS Entra.
@@ -30,10 +36,6 @@ Current Development
 * [Fixed] `NAL-1018 <https://jira.skatelescope.org/browse/NAL-1018>`_
 
   - Fixed failure to load ivoa translations where the metadata contained capital letters.
-
-
-Released
-========
 
 v0.7.0
 ------

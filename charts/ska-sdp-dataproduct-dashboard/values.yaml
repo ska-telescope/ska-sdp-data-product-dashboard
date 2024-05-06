@@ -7,7 +7,7 @@ ingress:
 api:
   enabled: true
   container: artefact.skao.int/ska-sdp-dataproduct-api
-  version: 0.7.0
+  version: 0.8.0
   imagePullPolicy: IfNotPresent
   ingress:
     path: api
@@ -27,14 +27,14 @@ api:
 dashboard:
   enabled: true
   container: artefact.skao.int/ska-sdp-dataproduct-dashboard
-  version: 0.7.0
+  version: 0.8.0
   imagePullPolicy: IfNotPresent
   ingress:
     path: dashboard
   config:
     allowMockAuth: false
   vault:
-    useVault: true
+    useVault: false
     pathToSecretVault: kv/data/users/andre_odendaal/ska-sdp-dataproduct-dashboard
     client_id: abcde
     tenant_id: abcde
@@ -70,7 +70,7 @@ permissionsApi:
   ingress:
     path: skapermissionsapi
   vault:
-    useVault: true
+    useVault: false
     pathToSecretVault: kv/data/users/andre_odendaal/skao_mf_remote_module_permissions_api
     client_id: abcde
     tenant_id: abcde
