@@ -1,7 +1,7 @@
 Documentation for the SKA Data Product Dashboard
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-The `ska-sdp-dataproduct-dashboard` repository contains the code for the dashboard that is used to access Data Products in a storage volume.
+The SKA Data Product Dashboard `ska-sdp-dataproduct-dashboard` is a web-based application that simplifies browsing and downloading data products stored within the persistent volume within a cluster. 
 
 .. toctree::
   :maxdepth: 1

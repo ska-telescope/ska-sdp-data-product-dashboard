@@ -5,6 +5,10 @@ Changelog
 Current Development
 -------------------
 
+* [Changed] `NAL-1105 <https://jira.skatelescope.org/browse/NAL-1105>`_
+
+  - Updated documentation to include details for the configuration and use of the required shared persistent volume.
+
 Released
 ========
 
