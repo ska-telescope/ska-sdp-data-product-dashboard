@@ -1,7 +1,7 @@
 Overview
 ~~~~~~~~
 
-The data product dashboard is used to list and download data products that are saved on a shared data volume within the environment where it is deployed.
+The data product dashboard is used to list and download data products that are saved on a shared data volume within the environment where it is deployed. This documentation will guide you through utilizing the dashboard's features to efficiently locate and retrieve the data you need for your research.
 
 Usage
 =====
