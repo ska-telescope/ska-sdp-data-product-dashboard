@@ -3,8 +3,6 @@ import { useTranslation } from 'react-i18next';
 import { Box, Grid } from '@mui/material';
 import { Alert, Progress, AlertColorTypes } from '@ska-telescope/ska-gui-components';
 import GetLayout from '@services/GetLayout/GetLayout';
-import { shellSize } from '@utils/constants';
-import { DataGrid, GridRowSelectionModel } from '@mui/x-data-grid';
 
 // Derive the type for each object in `extendedColumns`
 type ExtendedColumn = {
@@ -21,12 +19,11 @@ const DataProductsTable = (
   jsonDataProducts: never[],
   updating: boolean,
   apiRunning: boolean,
-  handleSelectedNode: (data: any) => void
+  dataproductDataGrid: React.JSX.Element
 ) => {
   const { t } = useTranslation('dpd');
   const [columnInfo, setColumnInfo] = React.useState([]);
   const ignore_columns_names = ['dataproduct_file', 'metadata_file'];
-  const [tableHeight, setTableHeight] = React.useState(window.innerHeight - shellSize());
 
   async function fetchTableLayout() {
     try {
@@ -47,19 +44,6 @@ const DataProductsTable = (
     fetchTableLayout();
   }, []);
 
-  React.useEffect(() => {
-    function handleResize() {
-      setTableHeight(window.innerHeight - shellSize());
-    }
-
-    // Add event listener for window resize
-    window.addEventListener('resize', handleResize);
-
-    // Clean up the event listener when component unmounts
-    return () => {
-      window.removeEventListener('resize', handleResize);
-    };
-  }, []); // Empty dependency array ensures the effect runs only once
 
   // Create Header name from column_name
   const headerText = (key: string) => {
@@ -133,31 +117,8 @@ const DataProductsTable = (
     );
   }
 
-  const [rowSelectionModel, setRowSelectionModel] = React.useState<GridRowSelectionModel>([]);
-
   function RenderData() {
-    return (
-      <Box data-testid={'availableData'} m={1} sx={{ backgroundColor: 'secondary.contrastText' }}>
-        <DataGrid
-          onRowSelectionModelChange={(newRowSelectionModel) => {
-            setRowSelectionModel(newRowSelectionModel);
-          }}
-          rowSelectionModel={rowSelectionModel}
-          // testId={'dataProductDataGrid'}
-          initialState={{
-            columns: {
-              columnVisibilityModel
-            }
-          }}
-          columns={extendedColumns}
-          onRowClick={handleSelectedNode}
-          {...jsonDataProducts}
-          rows={jsonDataProducts}
-          rowHeight={35}
-          style={{ height: tableHeight!, width: '100%' }}
-        />
-      </Box>
-    );
+    return <>{dataproductDataGrid}</>;
   }
 
   return (

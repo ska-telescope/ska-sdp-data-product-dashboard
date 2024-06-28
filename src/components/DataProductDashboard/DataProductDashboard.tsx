@@ -17,6 +17,7 @@ import DownloadCard from '@components/DownloadCard/DownloadCard';
 import SearchForDataProduct from '@services/SearchForDataProduct/SearchForDataProduct';
 import GetAPIStatus from '@services/GetAPIStatus/GetAPIStatus';
 import { API_REFRESH_RATE, SKA_SDP_DATAPRODUCT_API_URL, FILTERCARDHEIGHT } from '@utils/constants';
+import DataproductDataGrid from '@components/DataGrid/DataGrid';
 
 const DEF_START_DATE = '1970-01-01';
 const DEF_END_DATE = '2070-12-31';
@@ -60,7 +61,7 @@ const DataProductDashboard = () => {
       CheckForNewData();
       const interval = setInterval(async () => {
         CheckForNewData();
-      }, API_REFRESH_RATE);
+      }, parseInt(API_REFRESH_RATE));
       return () => clearInterval(interval);
     }, []);
     return;
@@ -309,7 +310,12 @@ const DataProductDashboard = () => {
         justifyContent="space-between"
       >
         <Grid item xs={9}>
-          {DataProductsTable(dataProducts, updating, apiRunning, handleRowClick)}
+          {DataProductsTable(
+            dataProducts,
+            updating,
+            apiRunning,
+            DataproductDataGrid(handleRowClick)
+          )}
         </Grid>
         <Grid item xs={3}>
           <>
