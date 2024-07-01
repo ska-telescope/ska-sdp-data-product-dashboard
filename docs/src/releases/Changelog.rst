@@ -5,6 +5,14 @@ Changelog
 Current Development
 -------------------
 
+* [Fixed] `NAL-1119 <https://jira.skatelescope.org/browse/NAL-1119>`_
+
+  - Removed the .env file from the Git repository and Docker file. To do this we moved all the 
+    environment variable declarations out of the .env file into a new file named 
+    'expected_env_names'. This is done to prevent confusion when deploying the docker image 
+    where environment variables is set by other means, as well as preventing accidental
+    commits of secrets to the Git repository.
+
 * [Changed] `NAL-1105 <https://jira.skatelescope.org/browse/NAL-1105>`_
 
   - Updated documentation to include details for the configuration and use of the required shared persistent volume.

@@ -41,6 +41,27 @@ To run the application locally on your host machine, install all the latest SKAO
   > yarn skao:update
   > yarn
 
+Using a .env File (For hosting the application on a developer machine)
+______________________________________________________________________
+
+.. note:: This file is excluded from version control using .gitignore to prevent exposing sensitive information. 
+  
+Create a file named .env at the root of your project directory. The following list of environment variables can be set according to your environment:
+
+.. code-block:: bash
+
+  SKIP_PREFLIGHT_CHECK='true'
+  REACT_APP_SKA_SDP_DATAPRODUCT_API_URL='http://localhost:8000'
+  REACT_APP_API_REFRESH_RATE='1000'
+  REACT_APP_USE_LOCAL_DATA='false'
+  REACT_APP_DOMAIN='https://sdhp.stfc.skao.int'
+  REACT_APP_ALLOW_MOCK_AUTH='true'
+  REACT_APP_MSENTRA_CLIENT_ID='The applciation ID'
+  REACT_APP_MSENTRA_TENANT_ID='The tenant ID'
+  REACT_APP_MSENTRA_REDIRECT_URI='http://localhost:8000'
+  REACT_APP_PERMISSIONS_API_URI='http://localhost:8000/v1/getuserrole'
+
+
 Running scripts
 ===============
 
