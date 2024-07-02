@@ -11,19 +11,13 @@ type ExtendedColumn = {
   width: number;
 };
 
-type ColumnVisibilityModel = {
-  [columnName: string]: boolean;
-};
-
 const DataProductsTable = (
-  jsonDataProducts: never[],
   updating: boolean,
   apiRunning: boolean,
   dataproductDataGrid: React.JSX.Element
 ) => {
   const { t } = useTranslation('dpd');
   const [columnInfo, setColumnInfo] = React.useState([]);
-  const ignore_columns_names = ['dataproduct_file', 'metadata_file'];
 
   async function fetchTableLayout() {
     try {
@@ -53,7 +47,6 @@ const DataProductsTable = (
 
   // Create the array of column names and html from /layout call
   const extendedColumns: ExtendedColumn[] = [];
-  const columnVisibilityModel: ColumnVisibilityModel = {};
 
   if (columnInfo !== undefined) {
     for (const column of columnInfo) {
@@ -62,36 +55,6 @@ const DataProductsTable = (
         headerName: headerText(column['name']),
         width: column['width']
       });
-    }
-  }
-
-  const haveData = () => {
-    return typeof jsonDataProducts === 'object' && jsonDataProducts?.length > 0;
-  };
-
-  if (haveData()) {
-    for (const dataproduct in jsonDataProducts) {
-      for (const key of Object.keys(jsonDataProducts[dataproduct])) {
-        // skip keys in ignore_column_names
-        if (ignore_columns_names.includes(key)) {
-          continue;
-        }
-        // skip keys already in columns
-        else if (extendedColumns.map((a) => a.headerName).includes(headerText(key))) {
-          const index = extendedColumns.findIndex((object) => {
-            return object.headerName === headerText(key);
-          });
-          extendedColumns[index]['field'] = key;
-        } else {
-          // add new column to extendedColumns
-          extendedColumns.push({
-            field: key,
-            headerName: headerText(key),
-            width: 200
-          });
-          columnVisibilityModel[key] = false;
-        }
-      }
     }
   }
 
@@ -124,8 +87,7 @@ const DataProductsTable = (
     <>
       {apiRunning && updating && RenderInfo(2, 'info.fetching')}
       {!apiRunning && RenderInfo(1, 'error.API_NOT_AVAILABLE')}
-      {apiRunning && !updating && !haveData() && RenderInfo(1, 'error.API_NO_DATA')}
-      {apiRunning && !updating && haveData() && RenderData()}
+      {apiRunning && !updating && RenderData()}
     </>
   );
 };

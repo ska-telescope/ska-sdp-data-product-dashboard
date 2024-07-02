@@ -14,7 +14,6 @@ import { ButtonVariantTypes } from '@ska-telescope/ska-gui-components';
 
 import DataProductsTable from '@components/DataProductsTable/DataProductsTable';
 import DownloadCard from '@components/DownloadCard/DownloadCard';
-import SearchForDataProduct from '@services/SearchForDataProduct/SearchForDataProduct';
 import GetAPIStatus from '@services/GetAPIStatus/GetAPIStatus';
 import { API_REFRESH_RATE, SKA_SDP_DATAPRODUCT_API_URL, FILTERCARDHEIGHT } from '@utils/constants';
 import DataproductDataGrid from '@components/DataGrid/DataGrid';
@@ -22,7 +21,6 @@ import DataproductDataGrid from '@components/DataGrid/DataGrid';
 const DataProductDashboard = () => {
   const { t } = useTranslation('dpd');
   const [updating, setUpdating] = React.useState(false);
-  const [dataProducts, setDataProductsData] = React.useState([]);
   const [selectedFileNames, setSelectedFileNames] = React.useState({
     fileName: '',
     relativePathName: '',
@@ -37,7 +35,6 @@ const DataProductDashboard = () => {
 
   const DEF_START_DATE = '1970-01-01';
   const DEF_END_DATE = '2070-12-31';
-  const DEF_FORM_FIELDS = [{ keyPair: '', valuePair: '' }];
   const [startDate, updateStartDate] = React.useState('');
   const [endDate, updateEndDate] = React.useState('');
   const [formFields, setFormFields] = React.useState([{ keyPair: '', valuePair: '' }]);
@@ -119,13 +116,6 @@ const DataProductDashboard = () => {
 
   React.useEffect(() => {
     async function updateSearchResults() {
-      const results = await SearchForDataProduct(
-        startDate ? startDate : DEF_START_DATE,
-        endDate ? endDate : DEF_END_DATE,
-        formFields ? formFields : DEF_FORM_FIELDS,
-        ''
-      );
-      setDataProductsData(results.data);
       setUpdating(false);
       updateNewDataAvailable(false);
     }
@@ -346,7 +336,6 @@ const DataProductDashboard = () => {
       >
         <Grid item xs={9}>
           {DataProductsTable(
-            dataProducts,
             updating,
             apiRunning,
             DataproductDataGrid(handleRowClick, searchPanelOptions)
