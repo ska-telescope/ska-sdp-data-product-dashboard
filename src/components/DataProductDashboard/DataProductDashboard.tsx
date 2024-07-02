@@ -19,10 +19,6 @@ import GetAPIStatus from '@services/GetAPIStatus/GetAPIStatus';
 import { API_REFRESH_RATE, SKA_SDP_DATAPRODUCT_API_URL, FILTERCARDHEIGHT } from '@utils/constants';
 import DataproductDataGrid from '@components/DataGrid/DataGrid';
 
-const DEF_START_DATE = '1970-01-01';
-const DEF_END_DATE = '2070-12-31';
-const DEF_FORM_FIELDS = ['*:*'];
-
 const DataProductDashboard = () => {
   const { t } = useTranslation('dpd');
   const [updating, setUpdating] = React.useState(false);
@@ -32,8 +28,6 @@ const DataProductDashboard = () => {
     relativePathName: '',
     metaDataFile: ''
   });
-  const [startDate, updateStartDate] = React.useState('');
-  const [endDate, updateEndDate] = React.useState('');
   const [canSearch, updateCanSearch] = React.useState(false);
   const [apiRunning, updateApiRunning] = React.useState(false);
   const [apiIndexing, updateApiIndexing] = React.useState(false);
@@ -41,7 +35,29 @@ const DataProductDashboard = () => {
   const [dataStoreLastModifiedTime, setDataStoreLastModifiedTime] = React.useState(null);
   const [initFlag, setInitFlag] = React.useState(true);
 
+  const DEF_START_DATE = '1970-01-01';
+  const DEF_END_DATE = '2070-12-31';
+  const DEF_FORM_FIELDS = ['*:*'];
+  const [startDate, updateStartDate] = React.useState('');
+  const [endDate, updateEndDate] = React.useState('');
   const [formFields, setFormFields] = React.useState([{ keyPair: '', valuePair: '' }]);
+
+  const [searchPanelOptions, setSearchPanelOptions] = React.useState({
+    items: [
+      {
+        field: 'date_created',
+        operator: 'greaterThan',
+        value: DEF_START_DATE
+      },
+      {
+        field: 'date_created',
+        operator: 'lessThan',
+        value: DEF_END_DATE
+      },
+      ...formFields
+    ],
+    logicOperator: 'and'
+  });
 
   async function CheckForNewData() {
     const results = await GetAPIStatus();
@@ -81,6 +97,25 @@ const DataProductDashboard = () => {
   React.useEffect(() => {
     setUpdating(true);
   }, []);
+
+  React.useEffect(() => {
+    setSearchPanelOptions({
+      items: [
+        {
+          field: 'date_created',
+          operator: 'greaterThan',
+          value: startDate
+        },
+        {
+          field: 'date_created',
+          operator: 'lessThan',
+          value: endDate
+        },
+        ...formFields
+      ],
+      logicOperator: 'and'
+    });
+  }, [startDate, endDate, formFields]);
 
   React.useEffect(() => {
     async function updateSearchResults() {
@@ -314,7 +349,7 @@ const DataProductDashboard = () => {
             dataProducts,
             updating,
             apiRunning,
-            DataproductDataGrid(handleRowClick)
+            DataproductDataGrid(handleRowClick, searchPanelOptions)
           )}
         </Grid>
         <Grid item xs={3}>

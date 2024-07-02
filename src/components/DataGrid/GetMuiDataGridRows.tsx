@@ -5,18 +5,18 @@ interface GetMuiDataGridRowsResponse {
 }
 
 const GetMuiDataGridRows = async (
-  queryOptions: Record<string, string | number> = {}
+  muiDataGridFilterModel: Record<string, string | number> = {}
 ): Promise<GetMuiDataGridRowsResponse> => {
   // Define the API endpoint URL
   const apiUrl: string = SKA_SDP_DATAPRODUCT_API_URL;
   const URL_LIST: string = '/filterdataproducts';
 
   try {
-    // Send POST request to backend with queryOptions
+    // Send POST request to backend with muiDataGridFilterModel
     const response = await fetch(`${apiUrl}${URL_LIST}`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(queryOptions)
+      body: JSON.stringify(muiDataGridFilterModel)
     });
 
     const DataGridRowsData = await response.json();

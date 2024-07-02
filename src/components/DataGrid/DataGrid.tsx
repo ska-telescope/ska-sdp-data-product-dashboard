@@ -5,11 +5,15 @@ import GetMuiDataGridConfig from './GetMuiDataGridConfig';
 import GetMuiDataGridRows from './GetMuiDataGridRows';
 import { shellSize } from '@utils/constants';
 
-export default function DataproductDataGrid(handleSelectedNode: (data: any) => void) {
+export default function DataproductDataGrid(
+  handleSelectedNode: (data: any) => void,
+  searchPanelOptions: {}
+) {
   const [muiConfigData, setMuiConfigData] = React.useState({
     columns: []
   });
-  const [queryOptions, setQueryOptions] = React.useState({});
+  const [muiDataGridFilterModel, setMuiDataGridFilterModel] = React.useState({});
+  const [dataFilterModel, setDataFilterModel] = React.useState({});
   const [rows, setRows] = React.useState([]);
   const [tableHeight, setTableHeight] = React.useState(window.innerHeight - shellSize());
 
@@ -29,8 +33,17 @@ export default function DataproductDataGrid(handleSelectedNode: (data: any) => v
 
   const onFilterChange = React.useCallback((filterModel: GridFilterModel) => {
     // Here you save the data you need from the filter model
-    setQueryOptions({ filterModel: { ...filterModel } });
+    setMuiDataGridFilterModel({
+      filterModel: { ...filterModel }
+    });
   }, []);
+
+  React.useEffect(() => {
+    setDataFilterModel({
+      ...muiDataGridFilterModel,
+      searchPanelOptions: { ...searchPanelOptions }
+    });
+  }, [searchPanelOptions, muiDataGridFilterModel]);
 
   const fetchData = React.useCallback(async () => {
     const response = await GetMuiDataGridConfig(); // Pass query options to GetMuiDataGridConfig
@@ -41,25 +54,16 @@ export default function DataproductDataGrid(handleSelectedNode: (data: any) => v
     fetchData();
   }, [fetchData]); // Dependency on fetchData to ensure it runs only once
 
-  // const { isLoading, rows } = useQuery(queryOptions);
-
-  const DEF_START_DATE = '1970-01-01';
-  const DEF_END_DATE = '2070-12-31';
-  const DEF_FORM_FIELDS = ['*:*'];
-  const [startDate, updateStartDate] = React.useState('');
-  const [endDate, updateEndDate] = React.useState('');
-  const [formFields, setFormFields] = React.useState([{ keyPair: '', valuePair: '' }]);
-
   const fetchRowData = React.useCallback(async () => {
-    const response = await GetMuiDataGridRows(queryOptions); // Pass query options to GetMuiDataGridConfig
+    const response = await GetMuiDataGridRows(dataFilterModel); // Pass query options to GetMuiDataGridConfig
     if (response.DataGridRowsData) {
       setRows(response.DataGridRowsData);
     }
-  }, [queryOptions]); // Refetch data on queryOptions change
+  }, [dataFilterModel]); // Refetch data on muiDataGridFilterModel change
 
   React.useEffect(() => {
     fetchRowData();
-  }, [fetchRowData]); // Dependency on fetchData to ensure it runs only once
+  }, [fetchRowData, dataFilterModel]); // Dependency on fetchRowData to ensure it runs only once
 
   const isLoading = false;
 
