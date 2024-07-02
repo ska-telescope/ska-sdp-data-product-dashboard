@@ -37,7 +37,7 @@ const DataProductDashboard = () => {
 
   const DEF_START_DATE = '1970-01-01';
   const DEF_END_DATE = '2070-12-31';
-  const DEF_FORM_FIELDS = ['*:*'];
+  const DEF_FORM_FIELDS = [{ keyPair: '', valuePair: '' }];
   const [startDate, updateStartDate] = React.useState('');
   const [endDate, updateEndDate] = React.useState('');
   const [formFields, setFormFields] = React.useState([{ keyPair: '', valuePair: '' }]);
@@ -54,7 +54,7 @@ const DataProductDashboard = () => {
         operator: 'lessThan',
         value: DEF_END_DATE
       },
-      ...formFields
+      { field: 'formFields', keyPairs: [...formFields] }
     ],
     logicOperator: 'and'
   });
@@ -111,7 +111,7 @@ const DataProductDashboard = () => {
           operator: 'lessThan',
           value: endDate
         },
-        ...formFields
+        { field: 'formFields', keyPairs: [...formFields] }
       ],
       logicOperator: 'and'
     });
