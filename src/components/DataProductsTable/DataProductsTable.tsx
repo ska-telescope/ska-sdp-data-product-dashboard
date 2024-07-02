@@ -44,7 +44,6 @@ const DataProductsTable = (
     fetchTableLayout();
   }, []);
 
-
   // Create Header name from column_name
   const headerText = (key: string) => {
     const tmp = key?.split('.');

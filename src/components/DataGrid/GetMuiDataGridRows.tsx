@@ -1,4 +1,5 @@
-import { SKA_SDP_DATAPRODUCT_API_URL } from '@utils/constants';
+import { USE_LOCAL_DATA, SKA_SDP_DATAPRODUCT_API_URL } from '@utils/constants';
+import mockDataGridRowsData from '@services/Mocking/mockDataGridRowsData';
 
 interface GetMuiDataGridRowsResponse {
   DataGridRowsData: [];
@@ -12,6 +13,12 @@ const GetMuiDataGridRows = async (
   const URL_LIST: string = '/filterdataproducts';
 
   try {
+    // Check if using local mock data
+    if (USE_LOCAL_DATA) {
+      console.log('USE_LOCAL_DATA: Loading mockDataGridRowsData');
+      return mockDataGridRowsData as GetMuiDataGridRowsResponse; // Type assertion for local data
+    }
+
     // Send POST request to backend with muiDataGridFilterModel
     const response = await fetch(`${apiUrl}${URL_LIST}`, {
       method: 'POST',

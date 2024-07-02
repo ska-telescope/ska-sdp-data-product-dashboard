@@ -1,5 +1,6 @@
 import axios from 'axios';
-import { SKA_SDP_DATAPRODUCT_API_URL } from '@utils/constants';
+import { USE_LOCAL_DATA, SKA_SDP_DATAPRODUCT_API_URL } from '@utils/constants';
+import mockMuiDataGridConfig from '@services/Mocking/mockMuiDataGridConfig';
 
 interface GetMuiDataGridConfigResponse {
   columns: [];
@@ -17,6 +18,12 @@ const GetMuiDataGridConfig = async (): Promise<GetMuiDataGridConfigResponse> => 
       'Content-Type': 'application/json'
     }
   };
+
+  // Check if using local mock data
+  if (USE_LOCAL_DATA) {
+    console.log('USE_LOCAL_DATA: Loading mockMuiDataGridConfig');
+    return mockMuiDataGridConfig as unknown as GetMuiDataGridConfigResponse; // Type assertion for local data
+  }
 
   // Make the API call using axios
   try {
