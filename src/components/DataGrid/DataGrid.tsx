@@ -29,10 +29,9 @@ export default function DataproductDataGrid(
     return () => {
       window.removeEventListener('resize', handleResize);
     };
-  }, []); // Empty dependency array ensures the effect runs only once
+  }, []);
 
   const onFilterChange = React.useCallback((filterModel: GridFilterModel) => {
-    // Here you save the data you need from the filter model
     setMuiDataGridFilterModel({
       filterModel: { ...filterModel }
     });
@@ -46,7 +45,7 @@ export default function DataproductDataGrid(
   }, [searchPanelOptions, muiDataGridFilterModel]);
 
   const fetchData = React.useCallback(async () => {
-    const response = await GetMuiDataGridConfig(); // Pass query options to GetMuiDataGridConfig
+    const response = await GetMuiDataGridConfig();
     setMuiConfigData(response);
   }, []);
 
@@ -55,7 +54,7 @@ export default function DataproductDataGrid(
   }, [fetchData]); // Dependency on fetchData to ensure it runs only once
 
   const fetchRowData = React.useCallback(async () => {
-    const response = await GetMuiDataGridRows(dataFilterModel); // Pass query options to GetMuiDataGridConfig
+    const response = await GetMuiDataGridRows(dataFilterModel);
     if (response.DataGridRowsData) {
       setRows(response.DataGridRowsData);
     }
@@ -63,7 +62,7 @@ export default function DataproductDataGrid(
 
   React.useEffect(() => {
     fetchRowData();
-  }, [fetchRowData, dataFilterModel]); // Dependency on fetchRowData to ensure it runs only once
+  }, [fetchRowData, dataFilterModel]);
 
   const isLoading = false;
 
