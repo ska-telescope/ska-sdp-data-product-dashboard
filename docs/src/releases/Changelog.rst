@@ -5,6 +5,13 @@ Changelog
 Current Development
 -------------------
 
+* **BREAKING** [Changed] `NAL-1093 <https://jira.skatelescope.org/browse/NAL-1093>`_ 
+
+  - This update refactors the data structure used by the DPD API to serve data to the MUI DataGrid component. It now aligns with the structure expected by the MUI DataGrid itself. This brings several improvements:
+
+    - Column Filters and Pagination: You can now leverage built-in MUI DataGrid features like column filters and pagination.
+    - Full API Configurability: The table can be fully configured from the API, allowing for more granular control over its behaviors.
+
 * [Fixed] `NAL-1119 <https://jira.skatelescope.org/browse/NAL-1119>`_
 
   - Removed the .env file from the Git repository and Docker file. To do this we moved all the 
