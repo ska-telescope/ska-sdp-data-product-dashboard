@@ -15,10 +15,9 @@ const GetAPIStatus = async () => {
 
   const APIOfflineStatus = {
     data: {
-      API_running: false,
-      Search_enabled: false,
-      Date_modified: '1970-01-01T00:00:00.000000',
-      Version: 'Data product API unreachable'
+      api_running: false,
+      last_metadata_update_time: '1970-01-01T00:00:00.000000',
+      api_version: 'Data product API unreachable'
     }
   };
 

@@ -1,9 +1,8 @@
 const MockStatusAPINotRunning = {
   data: {
-    API_running: false,
-    Search_enabled: false,
-    Date_modified: '2023-08-15T13:03:51.102605',
-    Version: 'Using Local data, mocking status'
+    api_running: false,
+    last_metadata_update_time: '2023-08-15T13:03:51.102605',
+    api_version: 'Using Local data, mocking status'
   },
   status: 200,
   statusText: 'OK',
