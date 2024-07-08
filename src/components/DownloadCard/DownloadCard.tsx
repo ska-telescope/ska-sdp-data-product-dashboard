@@ -10,7 +10,7 @@ import {
 import { useTranslation } from 'react-i18next';
 import streamSaver from 'streamsaver';
 import { SKA_SDP_DATAPRODUCT_API_URL, shellSize, FILTERCARDHEIGHT } from '@utils/constants';
-import MetaData from '@services/MetaData/MetaData';
+import fetchMetaData from '@services/GetMetaData/GetMetaData';
 
 function DownloadCard(selectedFileNames: {
   fileName: any;
@@ -39,7 +39,7 @@ function DownloadCard(selectedFileNames: {
 
     async function getMetaData() {
       if (metaDataFile) {
-        const results = await MetaData(metaDataFile);
+        const results = await fetchMetaData(metaDataFile);
         setMetaData(results);
       }
     }

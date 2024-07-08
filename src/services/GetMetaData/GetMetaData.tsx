@@ -2,7 +2,11 @@ import axios from 'axios';
 import { USE_LOCAL_DATA, SKA_SDP_DATAPRODUCT_API_URL } from '@utils/constants';
 import MockMeta from '@services/Mocking/mockMetaData';
 
-async function MetaData(inData: string) {
+function isWindows(): boolean {
+  return window.navigator.userAgent.indexOf('Windows') !== -1;
+}
+
+async function getMetaData(inData: string) {
   const config = {
     headers: {
       Accept: 'application/json',
@@ -19,10 +23,6 @@ async function MetaData(inData: string) {
     return outData;
   }
 
-  function isWindows() {
-    return window.navigator.userAgent.indexOf('Windows');
-  }
-
   function setFileName(inData: string) {
     const testValue = isWindows() ? '\\' : '/';
     return inData.substring(inData.lastIndexOf(testValue) + 1);
@@ -32,7 +32,7 @@ async function MetaData(inData: string) {
     return isWindows() ? flipSlash(inData) : inData;
   }
 
-  async function fetchMetaData() {
+  async function fetchMetaDataFromDPDAPI() {
     const paramData = setParamData(inData);
     const fileName = inData ? setFileName(inData) : '';
     const apiUrl = SKA_SDP_DATAPRODUCT_API_URL;
@@ -56,7 +56,7 @@ async function MetaData(inData: string) {
       throw new Error('Error fetching data product list from the API');
     }
   }
-  return fetchMetaData();
+  return fetchMetaDataFromDPDAPI();
 }
 
-export default MetaData;
+export default getMetaData;
