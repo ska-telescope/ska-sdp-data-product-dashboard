@@ -88,7 +88,9 @@ export function TheFooter(): React.JSX.Element {
 
   async function GetVersionNumber() {
     const results = await GetAPIStatus();
-    setAPIVersion(results?.data?.Version ? results.data.Version : t('error.API_NOT_AVAILABLE'));
+    setAPIVersion(
+      results?.data?.api_version ? results.data.api_version : t('error.API_NOT_AVAILABLE')
+    );
   }
 
   React.useEffect(() => {

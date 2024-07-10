@@ -26,7 +26,6 @@ const DataProductDashboard = () => {
     relativePathName: '',
     metaDataFile: ''
   });
-  const [canSearch, updateCanSearch] = React.useState(false);
   const [apiRunning, updateApiRunning] = React.useState(false);
   const [apiIndexing, updateApiIndexing] = React.useState(false);
   const [newDataAvailable, updateNewDataAvailable] = React.useState(false);
@@ -59,12 +58,10 @@ const DataProductDashboard = () => {
   async function CheckForNewData() {
     const results = await GetAPIStatus();
     if (results?.data) {
-      updateApiRunning(results.data.API_running);
-      updateCanSearch(results.data.Search_enabled);
+      updateApiRunning(results.data.api_running);
       updateApiIndexing(results.data.Indexing);
-      setDataStoreLastModifiedTime(results.data.Date_modified);
+      setDataStoreLastModifiedTime(results.data.last_metadata_update_time);
     } else {
-      updateCanSearch(false);
       setDataStoreLastModifiedTime(null);
     }
   }
@@ -123,7 +120,7 @@ const DataProductDashboard = () => {
     if (updating) {
       updateSearchResults();
     }
-  }, [canSearch, endDate, formFields, startDate, updating]);
+  }, [endDate, formFields, startDate, updating]);
 
   const handleRowClick = (params: {
     row: { id: any; execution_block: any; dataproduct_file: any; metadata_file: any };
