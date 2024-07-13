@@ -85,12 +85,36 @@ This section details the configuration options available when deploying the Data
     * - ``api.metadata_file_name``
       - ``ska-data-product.yaml``
       - The name of the data products metadata file that is used to indicate that a folder is a data product.
-    * - ``api.metadata_es_schema_file``
+    * - ``api.elasticsearch.host``
+      - ``https://localhost``
+      - The ElasticSearch port.
+    * - ``api.elasticsearch.port``
+      - ``9200``
+      - The ElasticSearch host.
+    * - ``api.elasticsearch.metadata_schema_file``
       - ``/mnt/src/ska_sdp_dataproduct_api/elasticsearch/data_product_metadata_schema.json``
-      - The metadata schema used to verify the metadata schema.
-    * - ``api.es_host``
-      - ``"http://ska-sdp-dataproduct-dashboard-elasticsearch-master-hl.test.svc:9200"``
-      - The Elasticsearch host.
+      - The ElasticSearch metadata schema.
+    * - ``api.elasticsearch.http_ca``
+      - ``None``
+      - The ElasticSearch CA certificate, it not used set to None.
+    * - ``api.elasticsearch.user``
+      - ``elastic``
+      - The ElasticSearch user.
+    * - ``api.elasticsearch.password``
+      - ````
+      - The ElasticSearch password.
+    * - ``api.postgresql.host``
+      - ``https://localhost``
+      - The PostgreSQL port.
+    * - ``api.postgresql.port``
+      - ``9200``
+      - The PostgreSQL host.
+    * - ``api.postgresql.user``
+      - ``elastic``
+      - The PostgreSQL user.
+    * - ``api.postgresql.password``
+      - ````
+      - The PostgreSQL password.
     * - ``api.stream_chunk_size``
       - ``65536``
       - Data downloaded are streamed in stream_chunk_size chunks.
