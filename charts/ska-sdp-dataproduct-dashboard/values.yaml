@@ -14,7 +14,7 @@ api:
   storagePath: "/mnt/data/product/"
   metadata_file_name: ska-data-product.yaml
   elasticsearch:
-    host: "http://ska-sdp-dataproduct-dashboard-elasticsearch-master-hl.test.svc"
+    host: "https://localhost"
     port: 9200
     metadata_schema_file: /mnt/src/ska_sdp_dataproduct_api/elasticsearch/data_product_metadata_schema.json
     http_ca: None
