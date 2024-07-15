@@ -5,6 +5,10 @@ Changelog
 Current Development
 -------------------
 
+* [Changed] `NAL-1115 <https://jira.skatelescope.org/browse/NAL-1115>`_ 
+
+  - Updated Data Product API Helm chart and the values file to reflect updated environment variables required for PostgreSQL and ElasticSearch.
+
 * **BREAKING** [Changed] `NAL-1093 <https://jira.skatelescope.org/browse/NAL-1093>`_ 
 
   - This update refactors the data structure used by the DPD API to serve data to the MUI DataGrid component. It now aligns with the structure expected by the MUI DataGrid itself. This brings several improvements:

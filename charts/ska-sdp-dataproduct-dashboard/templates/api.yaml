@@ -60,12 +60,28 @@ spec:
             value: {{ include "ska-sdp-dataproduct-dashboard.dashboard.ingress.path" . }}
           - name: PERSISTENT_STORAGE_PATH
             value: "{{ .Values.api.storagePath }}"
-          - name: METADATE_FILE_NAME
+          - name: METADATA_FILE_NAME
             value: "{{ .Values.api.metadata_file_name }}"
-          - name: METADATA_ES_SCHEMA_FILE
-            value: "{{ .Values.api.metadata_es_schema_file }}"
-          - name: ES_HOST
-            value: "{{ .Values.api.es_host }}"
+          - name: SDP_DATAPRODUCT_API_ELASTIC_METADATA_SCHEMA_FILE
+            value: "{{ .Values.api.elasticsearch.metadata_schema_file }}"
+          - name: SDP_DATAPRODUCT_API_ELASTIC_HOST
+            value: "{{ .Values.api.elasticsearch.host }}"
+          - name: SDP_DATAPRODUCT_API_ELASTIC_PORT
+            value: "{{ .Values.api.elasticsearch.port }}"
+          - name: SDP_DATAPRODUCT_API_ELASTIC_HTTP_CA
+            value: "{{ .Values.api.elasticsearch.http_ca }}"
+          - name: SDP_DATAPRODUCT_API_ELASTIC_USER
+            value: "{{ .Values.api.elasticsearch.user }}"
+          - name: SDP_DATAPRODUCT_API_ELASTIC_PASSWORD
+            value: "{{ .Values.api.elasticsearch.password }}"
+          - name: SDP_DATAPRODUCT_API_POSTGRESQL_HOST
+            value: "{{ .Values.api.postgresql.host }}"
+          - name: SDP_DATAPRODUCT_API_POSTGRESQL_PORT
+            value: "{{ .Values.api.postgresql.port }}"
+          - name: SDP_DATAPRODUCT_API_POSTGRESQL_USER
+            value: "{{ .Values.api.postgresql.user }}"
+          - name: SDP_DATAPRODUCT_API_POSTGRESQL_PASSWORD
+            value: "{{ .Values.api.postgresql.password }}"
           - name: SKA_SDP_DATAPRODUCT_API_VERSION
             value: "{{ .Values.api.version }}"
           - name: STREAM_CHUNK_SIZE
