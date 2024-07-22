@@ -103,6 +103,9 @@ This section details the configuration options available when deploying the Data
     * - ``api.elasticsearch.password``
       - ````
       - The ElasticSearch password.
+    * - ``api.elasticsearch.indices``
+      - ``localhost-sdp-dataproduct-dashboard-dev-v1``
+      - The ElasticSearch indices to be used for the search store, following the convention <Data center>-<product/app>-<namespace>-<version>. For example "sdhp-stfc-sdp-dataproduct-dashboard-integration-v1"
     * - ``api.postgresql.host``
       - ``https://localhost``
       - The PostgreSQL port.

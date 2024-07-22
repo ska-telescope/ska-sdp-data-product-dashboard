@@ -20,6 +20,7 @@ api:
     http_ca: None
     user: "elastic"
     password: ""
+    indices: "sdhp-stfc-sdp-dataproduct-dashboard-integration-v1"
   postgresql:
     host: ""
     port: 5432
