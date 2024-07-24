@@ -74,6 +74,8 @@ spec:
             value: "{{ .Values.api.elasticsearch.user }}"
           - name: SDP_DATAPRODUCT_API_ELASTIC_PASSWORD
             value: "{{ .Values.api.elasticsearch.password }}"
+          - name: SDP_DATAPRODUCT_API_ELASTIC_INDICES
+            value: "{{ .Values.api.elasticsearch.indices }}"
           - name: SDP_DATAPRODUCT_API_POSTGRESQL_HOST
             value: "{{ .Values.api.postgresql.host }}"
           - name: SDP_DATAPRODUCT_API_POSTGRESQL_PORT
