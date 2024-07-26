@@ -5,6 +5,10 @@ Changelog
 Current Development
 -------------------
 
+* [Fixed] `NAL-1153 <https://jira.skatelescope.org/browse/NAL-1153>`_
+
+  - Added default nginx config to Docker file to resolve issue with IPV6.
+
 Released
 ========
 
