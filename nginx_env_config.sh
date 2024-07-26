@@ -2,7 +2,10 @@
 
 if [ -f /vault/secrets/config ]; then
     source /vault/secrets/config
+else
+    echo "Warning: /vault/secrets/config not found or not readable. Application secrets not loaded. Some services for example authentication might not work"
 fi
+
 if [ ! -f /.env ]; then
     echo "No Setup Required, mising /.env"
     exit
