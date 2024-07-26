@@ -1,17 +1,42 @@
 Deployment Guide
 ~~~~~~~~~~~~~~~~
 
-Kubernetes Deployment
-=====================
+The Data Product Dashboard is built for continuous operation within a Kubernetes cluster. It functions as a service that enables access to data products created by various pipelines and saved on a shared persistent volume.
 
-This is the documentation for the Data Product Dashboard Helm Chart.
 
-All Configuration Options
--------------------------
+Pre-requisites
+==============
 
-Currently the full list of configuration options are:
+- **Metadata File**: 
 
-Ingress:
+  To ensure data products appear on the Data Product Dashboard, the folder containing the data product files must include a metadata file. Refer to `ADR-55 <https://confluence.skatelescope.org/display/SWSI/ADR-55+Definition+of+metadata+for+data+management+at+AA0.5>`_ : Definition of metadata for data management at AA0.5 for details on the metadata file format.
+
+
+- **Shared Persistent Volume**: 
+
+  The Data Product Dashboard needs to access the same persistent volume (PV) where the data products reside. These data products are typically written by pipelines deployed in a different namespace than the Data Product Dashboard. To enable access, you need to configure the persistent volume claim (PVC) correctly to share the PV between the namespaces.
+
+  For more information on configuring shared storage between namespaces in SKAO clusters, refer to the guide: `Guide to Sharing Storage Between Namespaces in SKAO Clusters. <https://developer.skao.int/en/latest/howto/shared-storage.html>`_.
+
+  Once the PVC is configured correctly, you can update the deployment's values file with the appropriate details. The following extract from a values file shows an example configuration for the shared-mnl PVC in the DP cluster (replace shared-mnl with your actual PVC name):
+
+
+  .. code-block:: yaml
+
+      dataProductPVC:
+        name: shared-mnl
+        create:
+          enabled: false
+          size: 5Gi
+          storageClassName: nfss1
+
+
+Helm chart configuration options
+================================
+
+This section details the configuration options available when deploying the Data Product Dashboard in Kubernetes using Helm.
+
+**Ingress**:
 
 .. list-table::
     :widths: 20, 20, 60
@@ -30,7 +55,7 @@ Ingress:
       - ``true``
       - The domain name where the application will be hosted. Used for MS Entra redirect URI.
 
-Data product API:
+**Data product API**:
 
 .. list-table::
     :widths: 20, 20, 60
@@ -60,12 +85,39 @@ Data product API:
     * - ``api.metadata_file_name``
       - ``ska-data-product.yaml``
       - The name of the data products metadata file that is used to indicate that a folder is a data product.
-    * - ``api.metadata_es_schema_file``
+    * - ``api.elasticsearch.host``
+      - ``https://localhost``
+      - The ElasticSearch port.
+    * - ``api.elasticsearch.port``
+      - ``9200``
+      - The ElasticSearch host.
+    * - ``api.elasticsearch.metadata_schema_file``
       - ``/mnt/src/ska_sdp_dataproduct_api/elasticsearch/data_product_metadata_schema.json``
-      - The metadata schema used to verify the metadata schema.
-    * - ``api.es_host``
-      - ``"http://ska-sdp-dataproduct-dashboard-elasticsearch-master-hl.test.svc:9200"``
-      - The Elasticsearch host.
+      - The ElasticSearch metadata schema.
+    * - ``api.elasticsearch.http_ca``
+      - ``None``
+      - The ElasticSearch CA certificate, it not used set to None.
+    * - ``api.elasticsearch.user``
+      - ``elastic``
+      - The ElasticSearch user.
+    * - ``api.elasticsearch.password``
+      - ````
+      - The ElasticSearch password.
+    * - ``api.elasticsearch.indices``
+      - ``localhost-sdp-dataproduct-dashboard-dev-v1``
+      - The ElasticSearch indices to be used for the search store, following the convention <Data center>-<product/app>-<namespace>-<version>. For example "sdhp-stfc-sdp-dataproduct-dashboard-integration-v1"
+    * - ``api.postgresql.host``
+      - ``https://localhost``
+      - The PostgreSQL port.
+    * - ``api.postgresql.port``
+      - ``9200``
+      - The PostgreSQL host.
+    * - ``api.postgresql.user``
+      - ``elastic``
+      - The PostgreSQL user.
+    * - ``api.postgresql.password``
+      - ````
+      - The PostgreSQL password.
     * - ``api.stream_chunk_size``
       - ``65536``
       - Data downloaded are streamed in stream_chunk_size chunks.
@@ -83,7 +135,7 @@ Data product API:
       - The maximum memory usage of the api.
    
 
-Data product Dashboard:
+**Data product Dashboard**:
 
 .. list-table::
     :widths: 20, 20, 60
@@ -138,7 +190,7 @@ Data product Dashboard:
       - ``2048Mi``
       - The maximum memory usage of the dashboard.
 
-Permissions API:
+**Permissions API**:
 
 .. list-table::
     :widths: 20, 20, 60
@@ -188,11 +240,35 @@ Permissions API:
       - The maximum memory usage of the api.
 
 
+**Shared persistent volume**:
 
-Usage
------
+.. list-table::
+    :widths: 20, 20, 60
+    :header-rows: 1
 
-The data product dashboard is intended to be deployed as a standalone deployment, running as a service accessible to other deployments through its API or to users through the dashboard URL. Typical deployments are done from within the GitLab pipelines, deploying into pre-configured environments to one of three namespaces (ci-dev, integration or staging)
+    * - Value
+      - Default
+      - Comment
+    * - ``dataProductPVC.name``
+      - ``shared-mnl``
+      - This is the name of the PVC that is shared between the namespace used by the pipeline that create data products and the namespace where the Data Product Dashboard is deployed.
+    * - ``dataProductPVC.create.enabled``
+      - ``false``
+      - Enable the creation of a PVC when running the application locally or in tests where the shared PCV is not used. 
+    * - ``dataProductPVC.create.size``
+      - ``false``
+      - The size of the requested PVC. 
+    * - ``dataProductPVC.create.storageClassName``
+      - ``false``
+      - The storage class of the requested PVC. 
+
+
+Deployment from GitLab pipelines
+--------------------------------
+
+If configured, the deployment can be done with GitLab pipelines, deploying into pre-configured environments to one of three namespaces (ci-dev, integration or staging)
+
+**Development branches**:
 
 During development, developers can deploy the development branches into the ci-dev namespace from the Gitlab pipeline. Here the installation use the local chart in the repository for deployment:
 
@@ -201,6 +277,8 @@ During development, developers can deploy the development branches into the ci-d
 
    Deployment from pipeline on dev branch
 
+
+**Master branch**:
 
 From the master branch, the application can be deployed into the integration or staging namespace of each environment. For these deployments released chart from `CAR <https://artefact.skao.int/>`_ is used.
 
@@ -213,91 +291,3 @@ From the master branch, the application can be deployed into the integration or 
 The deployed Data Product Dashboard should then be accessible at: "https://sdhp.stfc.skao.int/$KUBE_NAMESPACE/dashboard/", and the backend should be accessible at: "https://sdhp.stfc.skao.int/$KUBE_NAMESPACE/api/"
 
 
-Steps to run the system locally in Minikube
-===========================================
-
-The following steps will assume that you have the repo checked out, or have the chart
-locally.
-
-1. Start Minikube if it is not already running:
-
-.. code-block:: bash
-
-    minikube start
-    minikube status
-
-2. If needed, build the Docker images, tag and load them to Minikube.
-
-.. code-block:: bash
-
-    docker build -t ska-sdp-dataproduct-dashboard .
-    docker images
-    docker tag [Image ID] ska-sdp-dataproduct-dashboard:[Tag]
-    minikube image load ska-sdp-dataproduct-dashboard:[Tag]
-    minikube image ls
-
-3. If you want to run the API with a local instance of Elasticsearch, you can add the Bitnami repository to your repositories:
-
-.. code-block:: bash
-
-    helm repo add bitnami https://charts.bitnami.com/bitnami
-
-Pull and load the Elasticsearch images into Minikube if required:
-
-.. code-block:: bash
-
-    docker image pull bitnami/elasticsearch:[Tag]
-    minikube image load bitnami/elasticsearch:[Tag]
-
-Update the DPD chart (Chart.yaml) dependency to match the Elasticsearch tag and enable it. 
-
-.. code-block:: bash
-
-    dependencies:
-    - name: 'elasticsearch'
-        version: '[Tag]'
-        repository: 'https://charts.bitnami.com/bitnami'
-        condition: elasticsearch.enabled
-
-4. Change to the chart directory in the repository: ``cd charts/ska-sdp-dataproduct-dashboard/``. Make the needed changes to image versions and enable the deployments as required in the values files. Then update the Helm dependencies.
-
-.. code-block:: bash
-
-    helm dependency update .
-    helm dependency build
-
-5. Create a new namespace (optional): ``kubectl create namespace [namespace]``
-6. Install the helm chart with the following values: 
-
-    helm install [deploy-name] charts/ska-sdp-dataproduct-dashboard -n [namespace] --values values_local_deployment.yaml
-
-On a system with limited resources / slow connection, run with the following additional flags:
-
-.. code-block:: bash
-
-    helm install [deploy-name] charts/ska-sdp-dataproduct-dashboard -n [namespace] --values values_local_deployment.yaml --set diagnosticMode.enabled=true --timeout=60m
-
-Once the above is complete you will have the following running:
-
-* The Data Product API
-* The Data Product Dashboard
-
-7. To be able to access the API and the dashboard (Add Elasticsearch if in use as well so that it can be reached by the API on the local host) run the following:
-
-.. code-block:: bash
-
-    kubectl -n [namespace] port-forward service/ska-sdp-dataproduct-api 8000:8000
-    kubectl -n [namespace] port-forward service/ska-sdp-dataproduct-dashboard 80:80
-
-You should now be able to access the API and the Dashboard on the following URL's:
-
-* http://localhost:8000/filelist
-* http://localhost/
-
-
-To get data onto the PV:
-
-.. code-block:: bash
-
-	kubectl get pod -n [namespace]
-    kubectl cp [host path]/ska-sdp-dataproduct-api/tests/test_files/product [ska-sdp-dataproduct-api pod]:/usr/data -n [namespace]

@@ -14,43 +14,54 @@ import { ButtonVariantTypes } from '@ska-telescope/ska-gui-components';
 
 import DataProductsTable from '@components/DataProductsTable/DataProductsTable';
 import DownloadCard from '@components/DownloadCard/DownloadCard';
-import SearchForDataProduct from '@services/SearchForDataProduct/SearchForDataProduct';
 import GetAPIStatus from '@services/GetAPIStatus/GetAPIStatus';
 import { API_REFRESH_RATE, SKA_SDP_DATAPRODUCT_API_URL, FILTERCARDHEIGHT } from '@utils/constants';
-
-const DEF_START_DATE = '1970-01-01';
-const DEF_END_DATE = '2070-12-31';
-const DEF_FORM_FIELDS = ['*:*'];
+import DataproductDataGrid from '@components/DataGrid/DataGrid';
 
 const DataProductDashboard = () => {
   const { t } = useTranslation('dpd');
   const [updating, setUpdating] = React.useState(false);
-  const [dataProducts, setDataProductsData] = React.useState([]);
   const [selectedFileNames, setSelectedFileNames] = React.useState({
     fileName: '',
     relativePathName: '',
     metaDataFile: ''
   });
-  const [startDate, updateStartDate] = React.useState('');
-  const [endDate, updateEndDate] = React.useState('');
-  const [canSearch, updateCanSearch] = React.useState(false);
   const [apiRunning, updateApiRunning] = React.useState(false);
   const [apiIndexing, updateApiIndexing] = React.useState(false);
   const [newDataAvailable, updateNewDataAvailable] = React.useState(false);
   const [dataStoreLastModifiedTime, setDataStoreLastModifiedTime] = React.useState(null);
   const [initFlag, setInitFlag] = React.useState(true);
 
+  const DEF_START_DATE = '1970-01-01';
+  const DEF_END_DATE = '2070-12-31';
+  const [startDate, updateStartDate] = React.useState('');
+  const [endDate, updateEndDate] = React.useState('');
   const [formFields, setFormFields] = React.useState([{ keyPair: '', valuePair: '' }]);
+
+  const [searchPanelOptions, setSearchPanelOptions] = React.useState({
+    items: [
+      {
+        field: 'date_created',
+        operator: 'greaterThan',
+        value: DEF_START_DATE
+      },
+      {
+        field: 'date_created',
+        operator: 'lessThan',
+        value: DEF_END_DATE
+      },
+      { field: 'formFields', keyPairs: [...formFields] }
+    ],
+    logicOperator: 'and'
+  });
 
   async function CheckForNewData() {
     const results = await GetAPIStatus();
     if (results?.data) {
-      updateApiRunning(results.data.API_running);
-      updateCanSearch(results.data.Search_enabled);
+      updateApiRunning(results.data.api_running);
       updateApiIndexing(results.data.Indexing);
-      setDataStoreLastModifiedTime(results.data.Date_modified);
+      setDataStoreLastModifiedTime(results.data.last_metadata_update_time);
     } else {
-      updateCanSearch(false);
       setDataStoreLastModifiedTime(null);
     }
   }
@@ -60,7 +71,7 @@ const DataProductDashboard = () => {
       CheckForNewData();
       const interval = setInterval(async () => {
         CheckForNewData();
-      }, API_REFRESH_RATE);
+      }, parseInt(API_REFRESH_RATE));
       return () => clearInterval(interval);
     }, []);
     return;
@@ -82,14 +93,26 @@ const DataProductDashboard = () => {
   }, []);
 
   React.useEffect(() => {
+    setSearchPanelOptions({
+      items: [
+        {
+          field: 'date_created',
+          operator: 'greaterThan',
+          value: startDate
+        },
+        {
+          field: 'date_created',
+          operator: 'lessThan',
+          value: endDate
+        },
+        { field: 'formFields', keyPairs: [...formFields] }
+      ],
+      logicOperator: 'and'
+    });
+  }, [startDate, endDate, formFields]);
+
+  React.useEffect(() => {
     async function updateSearchResults() {
-      const results = await SearchForDataProduct(
-        startDate ? startDate : DEF_START_DATE,
-        endDate ? endDate : DEF_END_DATE,
-        formFields ? formFields : DEF_FORM_FIELDS,
-        ''
-      );
-      setDataProductsData(results.data);
       setUpdating(false);
       updateNewDataAvailable(false);
     }
@@ -97,7 +120,7 @@ const DataProductDashboard = () => {
     if (updating) {
       updateSearchResults();
     }
-  }, [canSearch, endDate, formFields, startDate, updating]);
+  }, [endDate, formFields, startDate, updating]);
 
   const handleRowClick = (params: {
     row: { id: any; execution_block: any; dataproduct_file: any; metadata_file: any };
@@ -309,7 +332,11 @@ const DataProductDashboard = () => {
         justifyContent="space-between"
       >
         <Grid item xs={9}>
-          {DataProductsTable(dataProducts, updating, apiRunning, handleRowClick)}
+          {DataProductsTable(
+            updating,
+            apiRunning,
+            DataproductDataGrid(handleRowClick, searchPanelOptions)
+          )}
         </Grid>
         <Grid item xs={3}>
           <>
