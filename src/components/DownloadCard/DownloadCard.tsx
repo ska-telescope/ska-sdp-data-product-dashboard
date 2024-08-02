@@ -13,7 +13,7 @@ import { SKA_SDP_DATAPRODUCT_API_URL, shellSize, FILTERCARDHEIGHT } from '@utils
 import getMetaData from '@services/GetMetaData/GetMetaData';
 
 function DownloadCard(selectedFileNames: {
-  fileName: any;
+  execution_block: any;
   relativePathName: any;
   metaDataFile?: string;
 }) {
@@ -35,7 +35,7 @@ function DownloadCard(selectedFileNames: {
   );
 
   React.useEffect(() => {
-    const metaDataFile = selectedFileNames?.metaDataFile;
+    const metaDataFile = selectedFileNames?.execution_block;
 
     async function loadMetaData() {
       if (metaDataFile) {
@@ -121,7 +121,7 @@ function DownloadCard(selectedFileNames: {
                 {t('prompt.selectedProduct')}
               </Typography>
               <Typography variant="subtitle2" component="div">
-                Execution Block ID: {selectedFileNames.fileName}
+                Execution Block ID: {selectedFileNames.execution_block}
               </Typography>
               <Button
                 testId="downloadButton"

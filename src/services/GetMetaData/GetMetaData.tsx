@@ -7,6 +7,8 @@ function isWindows(): boolean {
 }
 
 async function getMetaData(inData: string) {
+  console.log("inData:")
+  console.log(inData)
   const config = {
     headers: {
       Accept: 'application/json',
@@ -23,7 +25,7 @@ async function getMetaData(inData: string) {
     return outData;
   }
 
-  function setFileName(inData: string) {
+  function setExecutionBlock(inData: string) {
     const testValue = isWindows() ? '\\' : '/';
     return inData.substring(inData.lastIndexOf(testValue) + 1);
   }
@@ -34,11 +36,10 @@ async function getMetaData(inData: string) {
 
   async function fetchMetaDataFromDPDAPI() {
     const paramData = setParamData(inData);
-    const fileName = inData ? setFileName(inData) : '';
+    const executionBlock = inData ? setExecutionBlock(inData) : '';
     const apiUrl = SKA_SDP_DATAPRODUCT_API_URL;
     const params = {
-      relativePathName: paramData,
-      fileName: fileName
+      execution_block: executionBlock,
     };
 
     if (USE_LOCAL_DATA) {

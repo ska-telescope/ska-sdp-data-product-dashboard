@@ -22,7 +22,7 @@ const DataProductDashboard = () => {
   const { t } = useTranslation('dpd');
   const [updating, setUpdating] = React.useState(false);
   const [selectedFileNames, setSelectedFileNames] = React.useState({
-    fileName: '',
+    execution_block: '',
     relativePathName: '',
     metaDataFile: ''
   });
@@ -126,7 +126,7 @@ const DataProductDashboard = () => {
     row: { id: any; execution_block: any; dataproduct_file: any; metadata_file: any };
   }) => {
     setSelectedFileNames({
-      fileName: params.row.execution_block,
+      execution_block: params.row.execution_block,
       relativePathName: params.row.dataproduct_file,
       metaDataFile: params.row.metadata_file
     });
