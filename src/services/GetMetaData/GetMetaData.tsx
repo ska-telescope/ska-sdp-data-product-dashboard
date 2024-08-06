@@ -14,30 +14,16 @@ async function getMetaData(inData: string) {
     }
   };
 
-  function flipSlash(inData: string | any[]) {
-    let outData = '';
-    const len = inData ? inData.length : 0;
-    for (var i = 0; i < len; i++) {
-      outData += inData[i] === '\\' ? '/' : inData[i];
-    }
-    return outData;
-  }
-
   function setExecutionBlock(inData: string) {
     const testValue = isWindows() ? '\\' : '/';
     return inData.substring(inData.lastIndexOf(testValue) + 1);
   }
 
-  function setParamData(inData: any) {
-    return isWindows() ? flipSlash(inData) : inData;
-  }
-
   async function fetchMetaDataFromDPDAPI() {
-    const paramData = setParamData(inData);
     const executionBlock = inData ? setExecutionBlock(inData) : '';
     const apiUrl = SKA_SDP_DATAPRODUCT_API_URL;
     const params = {
-      execution_block: executionBlock,
+      execution_block: executionBlock
     };
 
     if (USE_LOCAL_DATA) {

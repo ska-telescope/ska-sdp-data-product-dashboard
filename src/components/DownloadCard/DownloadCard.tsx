@@ -21,7 +21,7 @@ function DownloadCard(selectedFileNames: {
   const apiUrl = SKA_SDP_DATAPRODUCT_API_URL;
   const { t } = useTranslation('dpd');
   const params = {
-    execution_block: selectedFileNames?.execution_block,
+    execution_block: selectedFileNames?.execution_block
   };
   const options = {
     method: 'POST',
