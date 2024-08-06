@@ -20,13 +20,16 @@ function DownloadCard(selectedFileNames: {
   const URL_DOWNLOAD = '/download';
   const apiUrl = SKA_SDP_DATAPRODUCT_API_URL;
   const { t } = useTranslation('dpd');
+  const params = {
+    execution_block: selectedFileNames?.execution_block,
+  };
   const options = {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
       'Accept-Encoding': 'gzip'
     },
-    body: JSON.stringify(selectedFileNames)
+    body: JSON.stringify(params)
   };
   const [metaData, setMetaData] = React.useState({ data: [] });
   const [oldFilename] = React.useState(null);

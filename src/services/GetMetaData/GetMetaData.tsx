@@ -7,8 +7,6 @@ function isWindows(): boolean {
 }
 
 async function getMetaData(inData: string) {
-  console.log("inData:")
-  console.log(inData)
   const config = {
     headers: {
       Accept: 'application/json',
