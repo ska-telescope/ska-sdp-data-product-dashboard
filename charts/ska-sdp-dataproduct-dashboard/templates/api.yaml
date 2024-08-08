@@ -30,6 +30,19 @@ spec:
     metadata:
       labels:
 {{ include "ska-sdp-dataproduct-dashboard.api.labels" . | indent 8 }}
+      annotations:
+      {{ if ((.Values.api.vault).useVault) }}
+          vault.hashicorp.com/agent-inject: "true"
+          vault.hashicorp.com/agent-inject-status: "update"
+          vault.hashicorp.com/agent-inject-secret-config: "{{ .Values.api.vault.pathToSecretVault }}"
+          vault.hashicorp.com/agent-inject-template-config: |
+              {{`{{- with secret `}}"{{ .Values.api.vault.pathToSecretVault }}"{{` -}}`}}
+              {{`{{- range $k, $v := .Data.data }}`}}
+              {{`{{ $k }}={{ $v }}`}}
+              {{`{{- end }}`}}
+              {{`{{- end }}`}}
+          vault.hashicorp.com/role: "kube-role"
+      {{ end }}
     spec:
       volumes:
       - name: shared-storage
@@ -84,6 +97,10 @@ spec:
             value: "{{ .Values.api.postgresql.user }}"
           - name: SDP_DATAPRODUCT_API_POSTGRESQL_PASSWORD
             value: "{{ .Values.api.postgresql.password }}"
+          - name: SDP_DATAPRODUCT_API_POSTGRESQL_SCHEMA
+            value: "{{ .Values.api.postgresql.schema }}"
+          - name: SDP_DATAPRODUCT_API_POSTGRESQL_TABLE_NAME
+            value: "{{ .Values.api.postgresql.tableName }}"
           - name: SKA_SDP_DATAPRODUCT_API_VERSION
             value: "{{ .Values.api.version }}"
           - name: STREAM_CHUNK_SIZE

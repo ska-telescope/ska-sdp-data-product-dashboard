@@ -13,19 +13,24 @@ api:
     path: api
   storagePath: "/mnt/data/product/"
   metadata_file_name: ska-data-product.yaml
+  vault:
+    useVault: false
+    pathToSecretVault: kv/data/users/andre_odendaal/sdhp-stfc/ska-sdp-dataproduct-api/integration
   elasticsearch:
     host: "https://localhost"
     port: 9200
     metadata_schema_file: /mnt/src/ska_sdp_dataproduct_api/elasticsearch/data_product_metadata_schema.json
     http_ca: None
     user: "elastic"
-    password: ""
+    password: "placeholder_for_password"
     indices: "sdhp-stfc-sdp-dataproduct-dashboard-integration-v1"
   postgresql:
     host: ""
     port: 5432
     user: "postgres"
-    password: ""
+    password: "placeholder_for_password"
+    schema: ""
+    tableName: ""
   stream_chunk_size: 65536
   resources:
     requests:
@@ -46,9 +51,9 @@ dashboard:
     allowMockAuth: false
   vault:
     useVault: false
-    pathToSecretVault: kv/data/users/andre_odendaal/ska-sdp-dataproduct-dashboard
-    client_id: abcde
-    tenant_id: abcde
+    pathToSecretVault: kv/data/users/andre_odendaal/sdhp-stfc/ska-sdp-dataproduct-dashboard/integration
+    client_id: placeholder_for_client_id
+    tenant_id: placeholder_for_tenant_id
   apiRefreshRate: 10000
   resources:
     requests:
@@ -58,20 +63,6 @@ dashboard:
       cpu: 2000m
       memory: 3072Mi
       
-elasticsearch:
-  enabled: false
-  fullnameOverride: ska-sdp-dataproduct-dashboard-elasticsearch
-  storageClass: nfss1
-  master:
-    masterOnly: true
-    replicaCount: 2
-    persistence:
-      enabled: true
-  data:
-    replicaCount: 2
-    persistence:
-      enabled: true
-
 permissionsApi:
   enabled: false
   image:
