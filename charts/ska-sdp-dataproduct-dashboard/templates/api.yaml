@@ -75,6 +75,8 @@ spec:
             value: "{{ .Values.api.storagePath }}"
           - name: METADATA_FILE_NAME
             value: "{{ .Values.api.metadata_file_name }}"
+          - name: SDP_DATAPRODUCT_SECRETS_FILE_PATH
+            value: "{{ .Values.api.vault.secretsFilePath }}"
           - name: SDP_DATAPRODUCT_API_ELASTIC_METADATA_SCHEMA_FILE
             value: "{{ .Values.api.elasticsearch.metadata_schema_file }}"
           - name: SDP_DATAPRODUCT_API_ELASTIC_HOST
@@ -85,8 +87,6 @@ spec:
             value: "{{ .Values.api.elasticsearch.http_ca }}"
           - name: SDP_DATAPRODUCT_API_ELASTIC_USER
             value: "{{ .Values.api.elasticsearch.user }}"
-          - name: SDP_DATAPRODUCT_API_ELASTIC_PASSWORD
-            value: "{{ .Values.api.elasticsearch.password }}"
           - name: SDP_DATAPRODUCT_API_ELASTIC_INDICES
             value: "{{ .Values.api.elasticsearch.indices }}"
           - name: SDP_DATAPRODUCT_API_POSTGRESQL_HOST
@@ -95,8 +95,8 @@ spec:
             value: "{{ .Values.api.postgresql.port }}"
           - name: SDP_DATAPRODUCT_API_POSTGRESQL_USER
             value: "{{ .Values.api.postgresql.user }}"
-          - name: SDP_DATAPRODUCT_API_POSTGRESQL_PASSWORD
-            value: "{{ .Values.api.postgresql.password }}"
+          - name: SDP_DATAPRODUCT_API_POSTGRESQL_DBNAME
+            value: "{{ .Values.api.postgresql.dbname }}"            
           - name: SDP_DATAPRODUCT_API_POSTGRESQL_SCHEMA
             value: "{{ .Values.api.postgresql.schema }}"
           - name: SDP_DATAPRODUCT_API_POSTGRESQL_TABLE_NAME
