@@ -38,7 +38,7 @@ api:
 dashboard:
   enabled: true
   container: artefact.skao.int/ska-sdp-dataproduct-dashboard
-  version: 0.8.1
+  version: 0.8.2
   imagePullPolicy: IfNotPresent
   ingress:
     path: dashboard
