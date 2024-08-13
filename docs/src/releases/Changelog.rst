@@ -8,6 +8,13 @@ Current Development
 Released
 ========
 
+v0.8.2
+------
+
+* [Fixed] `NAL-1167 <https://jira.skatelescope.org/browse/NAL-1167>`_
+
+  - Removed unneeded nginx default.config mount from chart, resolving issue with IPV6 when deployed with Helm.
+
 v0.8.1
 ------
 
