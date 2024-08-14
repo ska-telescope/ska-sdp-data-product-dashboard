@@ -7,4 +7,5 @@ maintainers:
   - email: naledi@sarao.ac.za
     name: NALEDI
 name: ska-sdp-dataproduct-dashboard
-version: 0.8.2    
+version: 0.8.2
+    
