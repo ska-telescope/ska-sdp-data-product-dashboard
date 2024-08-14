@@ -25,7 +25,7 @@ stages:
 install_dependencies:
   stage: dependencies
   tags:
-    - k8srunner
+    - ska-default
   before_script:
     - rm -rf node_modules
   script:
@@ -40,7 +40,7 @@ install_dependencies:
 code_analysis:
   stage: lint
   tags:
-    - k8srunner
+    - ska-default
   cache:
     paths:
       - node_modules/
@@ -61,7 +61,7 @@ test_and_coverage:
   image: cypress/browsers:node-20.11.1-chrome-123.0.6312.58-1-ff-124.0-edge-122.0.2365.92-1
   stage: test
   tags:
-    - k8srunner
+    - ska-default
   cache:
     paths:
       - node_modules/
@@ -83,7 +83,7 @@ test_and_coverage:
 list_dependencies:
   stage: test
   tags:
-    - k8srunner
+    - ska-default
   allow_failure: true
   cache:
     paths:
@@ -105,7 +105,7 @@ test-counts:
   image: cypress/browsers:node-20.11.1-chrome-123.0.6312.58-1-ff-124.0-edge-122.0.2365.92-1
   stage: scan
   tags:
-    - k8srunner
+    - ska-default
   cache:
     paths:
       - node_modules/
@@ -127,7 +127,7 @@ test-counts:
 build:
   stage: build
   tags:
-    - k8srunner
+    - ska-default
   cache:
     paths:
       - node_modules/
@@ -141,7 +141,7 @@ build:
 pages:
   stage: pages
   tags:
-    - k8srunner
+    - ska-default
   dependencies:
     - test-counts
     - test_and_coverage
@@ -321,7 +321,7 @@ code_quality:
   # disable dind service as it's not needed for k8srunner runners
   services: []
   tags:
-    - k8srunner
+    - ska-default
   # We need to merge the rules with what we have here on template rules
   # https://gitlab.com/ska-telescope/templates-repository/-/blob/master/gitlab-ci/includes/rules.gitlab-ci.yml
   # https://docs.gitlab.com/ee/user/project/merge_requests/code_quality.html#using-with-merge-request-pipelines
