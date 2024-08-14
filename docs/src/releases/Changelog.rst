@@ -5,6 +5,12 @@ Changelog
 Current Development
 -------------------
 
+
+* `NAL-1145 <https://jira.skatelescope.org/browse/NAL-1145>`_ 
+
+  - **BREAKING** [Changed] Updated charts and pipeline to include env variables required for integration with PostgreSQL and ElasticSearch instances in the cluster.
+
+
 * `NAL-1132 <https://jira.skatelescope.org/browse/NAL-1132>`_ 
 
   - **BREAKING** [Changed] The DPD API have been updated to find data products based on their execution_blocks. The dashboard has been updated to request data related to execution_blocks in requests.
