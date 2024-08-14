@@ -54,7 +54,6 @@ Create a file named .env at the root of your project directory. The following li
   REACT_APP_SKA_SDP_DATAPRODUCT_API_URL='http://localhost:8000'
   REACT_APP_API_REFRESH_RATE='1000'
   REACT_APP_USE_LOCAL_DATA='false'
-  REACT_APP_DOMAIN='https://sdhp.stfc.skao.int'
   REACT_APP_ALLOW_MOCK_AUTH='true'
   REACT_APP_MSENTRA_CLIENT_ID='The applciation ID'
   REACT_APP_MSENTRA_TENANT_ID='The tenant ID'

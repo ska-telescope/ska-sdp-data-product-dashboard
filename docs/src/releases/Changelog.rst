@@ -5,6 +5,10 @@ Changelog
 Current Development
 -------------------
 
+* `NAL-1132 <https://jira.skatelescope.org/browse/NAL-1132>`_ 
+
+  - **BREAKING** [Changed] The DPD API have been updated to find data products based on their execution_blocks. The dashboard has been updated to request data related to execution_blocks in requests.
+
 * `NAL-1110 <https://jira.skatelescope.org/browse/NAL-1110>`_ 
 
   - [Added] Added SDP_DATAPRODUCT_API_ELASTIC_INDICES to environment variables to enable specification of Elasticsearch instances in deployments.

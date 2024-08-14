@@ -10,23 +10,26 @@ import {
 import { useTranslation } from 'react-i18next';
 import streamSaver from 'streamsaver';
 import { SKA_SDP_DATAPRODUCT_API_URL, shellSize, FILTERCARDHEIGHT } from '@utils/constants';
-import fetchMetaData from '@services/GetMetaData/GetMetaData';
+import getMetaData from '@services/GetMetaData/GetMetaData';
 
 function DownloadCard(selectedFileNames: {
-  fileName: any;
+  execution_block: any;
   relativePathName: any;
   metaDataFile?: string;
 }) {
   const URL_DOWNLOAD = '/download';
   const apiUrl = SKA_SDP_DATAPRODUCT_API_URL;
   const { t } = useTranslation('dpd');
+  const params = {
+    execution_block: selectedFileNames?.execution_block
+  };
   const options = {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
       'Accept-Encoding': 'gzip'
     },
-    body: JSON.stringify(selectedFileNames)
+    body: JSON.stringify(params)
   };
   const [metaData, setMetaData] = React.useState({ data: [] });
   const [oldFilename] = React.useState(null);
@@ -35,18 +38,18 @@ function DownloadCard(selectedFileNames: {
   );
 
   React.useEffect(() => {
-    const metaDataFile = selectedFileNames?.metaDataFile;
+    const metaDataFile = selectedFileNames?.execution_block;
 
-    async function getMetaData() {
+    async function loadMetaData() {
       if (metaDataFile) {
-        const results = await fetchMetaData(metaDataFile);
+        const results = await getMetaData(metaDataFile);
         setMetaData(results);
       }
     }
 
     if (metaDataFile && metaDataFile.length) {
       if (oldFilename !== metaDataFile) {
-        getMetaData();
+        loadMetaData();
       }
     }
   }, [oldFilename, selectedFileNames]);
@@ -121,7 +124,7 @@ function DownloadCard(selectedFileNames: {
                 {t('prompt.selectedProduct')}
               </Typography>
               <Typography variant="subtitle2" component="div">
-                Execution Block ID: {selectedFileNames.fileName}
+                Execution Block ID: {selectedFileNames.execution_block}
               </Typography>
               <Button
                 testId="downloadButton"
