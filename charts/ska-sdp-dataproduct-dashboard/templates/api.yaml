@@ -30,6 +30,19 @@ spec:
     metadata:
       labels:
 {{ include "ska-sdp-dataproduct-dashboard.api.labels" . | indent 8 }}
+      annotations:
+      {{ if ((.Values.api.vault).useVault) }}
+          vault.hashicorp.com/agent-inject: "true"
+          vault.hashicorp.com/agent-inject-status: "update"
+          vault.hashicorp.com/agent-inject-secret-config: "{{ .Values.api.vault.pathToSecretVault }}"
+          vault.hashicorp.com/agent-inject-template-config: |
+              {{`{{- with secret `}}"{{ .Values.api.vault.pathToSecretVault }}"{{` -}}`}}
+              {{`{{- range $k, $v := .Data.data }}`}}
+              {{`{{ $k }}={{ $v }}`}}
+              {{`{{- end }}`}}
+              {{`{{- end }}`}}
+          vault.hashicorp.com/role: "kube-role"
+      {{ end }}
     spec:
       volumes:
       - name: shared-storage
@@ -62,6 +75,8 @@ spec:
             value: "{{ .Values.api.storagePath }}"
           - name: METADATA_FILE_NAME
             value: "{{ .Values.api.metadata_file_name }}"
+          - name: SDP_DATAPRODUCT_SECRETS_FILE_PATH
+            value: "{{ .Values.api.vault.secretsFilePath }}"
           - name: SDP_DATAPRODUCT_API_ELASTIC_METADATA_SCHEMA_FILE
             value: "{{ .Values.api.elasticsearch.metadata_schema_file }}"
           - name: SDP_DATAPRODUCT_API_ELASTIC_HOST
@@ -72,8 +87,6 @@ spec:
             value: "{{ .Values.api.elasticsearch.http_ca }}"
           - name: SDP_DATAPRODUCT_API_ELASTIC_USER
             value: "{{ .Values.api.elasticsearch.user }}"
-          - name: SDP_DATAPRODUCT_API_ELASTIC_PASSWORD
-            value: "{{ .Values.api.elasticsearch.password }}"
           - name: SDP_DATAPRODUCT_API_ELASTIC_INDICES
             value: "{{ .Values.api.elasticsearch.indices }}"
           - name: SDP_DATAPRODUCT_API_POSTGRESQL_HOST
@@ -82,8 +95,12 @@ spec:
             value: "{{ .Values.api.postgresql.port }}"
           - name: SDP_DATAPRODUCT_API_POSTGRESQL_USER
             value: "{{ .Values.api.postgresql.user }}"
-          - name: SDP_DATAPRODUCT_API_POSTGRESQL_PASSWORD
-            value: "{{ .Values.api.postgresql.password }}"
+          - name: SDP_DATAPRODUCT_API_POSTGRESQL_DBNAME
+            value: "{{ .Values.api.postgresql.dbname }}"            
+          - name: SDP_DATAPRODUCT_API_POSTGRESQL_SCHEMA
+            value: "{{ .Values.api.postgresql.schema }}"
+          - name: SDP_DATAPRODUCT_API_POSTGRESQL_TABLE_NAME
+            value: "{{ .Values.api.postgresql.tableName }}"
           - name: SKA_SDP_DATAPRODUCT_API_VERSION
             value: "{{ .Values.api.version }}"
           - name: STREAM_CHUNK_SIZE

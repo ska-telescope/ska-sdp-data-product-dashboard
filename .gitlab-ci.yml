@@ -222,6 +222,8 @@ deploy-integration-dp:
   when: manual
   tags:
     - ska-k8srunner-dp
+  variables:
+    K8S_CHART_PARAMS: "--set api.postgresql.user=sdp_sdp_dataproduct_dashboard_integration --set api.postgresql.schema=sdp_sdp_dataproduct_dashboard_integration --set api.vault.pathToSecretVault=kv/data/users/andre_odendaal/sdhp-stfc/ska-sdp-dataproduct-api/integration"
 
 info-integration-dp:
   stage: integration-dp
@@ -236,6 +238,8 @@ redeploy-integration-dp:
   extends: redeploy-integration
   tags:
     - ska-k8srunner-dp
+  variables:
+    K8S_CHART_PARAMS: "--set api.postgresql.user=sdp_sdp_dataproduct_dashboard_integration --set api.postgresql.schema=sdp_sdp_dataproduct_dashboard_integration --set api.vault.pathToSecretVault=kv/data/users/andre_odendaal/sdhp-stfc/ska-sdp-dataproduct-api/integration"
 
 stop-integration-dp:
   stage: integration-dp
@@ -253,6 +257,8 @@ deploy-staging-dp:
     - ska-k8srunner-dp
   needs:
     - deploy-integration-dp
+  variables:
+    K8S_CHART_PARAMS: "--set api.postgresql.user=sdp_sdp_dataproduct_dashboard_staging --set api.postgresql.schema=sdp_sdp_dataproduct_dashboard_staging --set api.vault.pathToSecretVault=kv/data/users/andre_odendaal/sdhp-stfc/ska-sdp-dataproduct-api/staging"
 
 info-staging-dp:
   stage: staging-dp
@@ -267,6 +273,8 @@ redeploy-staging-dp:
   extends: redeploy-staging
   tags:
     - ska-k8srunner-dp
+  variables:
+    K8S_CHART_PARAMS: "--set api.postgresql.user=sdp_sdp_dataproduct_dashboard_staging --set api.postgresql.schema=sdp_sdp_dataproduct_dashboard_staging --set api.vault.pathToSecretVault=kv/data/users/andre_odendaal/sdhp-stfc/ska-sdp-dataproduct-api/staging"
 
 stop-staging-dp:
   stage: staging-dp
