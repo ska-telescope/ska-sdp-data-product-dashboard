@@ -6,11 +6,17 @@ interface GetMuiDataGridRowsResponse {
 }
 
 const GetMuiDataGridRows = async (
-  muiDataGridFilterModel: Record<string, string | number> = {}
+  muiDataGridFilterModel: Record<string, string | number> = {},
+  token: string = ""
 ): Promise<GetMuiDataGridRowsResponse> => {
   // Define the API endpoint URL
   const apiUrl: string = SKA_SDP_DATAPRODUCT_API_URL;
   const URL_LIST: string = '/filterdataproducts';
+  const headers = new Headers();
+  const bearer = `Bearer ${token}`;
+  headers.append('Authorization', bearer);
+  console.log("muiDataGridFilterModel")
+  console.log(JSON.stringify(muiDataGridFilterModel))
 
   try {
     // Check if using local mock data
@@ -22,7 +28,7 @@ const GetMuiDataGridRows = async (
     // Send POST request to backend with muiDataGridFilterModel
     const response = await fetch(`${apiUrl}${URL_LIST}`, {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers: headers,
       body: JSON.stringify(muiDataGridFilterModel)
     });
 

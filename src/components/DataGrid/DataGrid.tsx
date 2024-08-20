@@ -4,6 +4,8 @@ import { Box } from '@mui/material';
 import GetMuiDataGridConfig from './GetMuiDataGridConfig';
 import GetMuiDataGridRows from './GetMuiDataGridRows';
 import { shellSize } from '@utils/constants';
+import { storageObject } from '@ska-telescope/ska-gui-local-storage';
+
 
 export default function DataproductDataGrid(
   handleSelectedNode: (data: any) => void,
@@ -16,6 +18,8 @@ export default function DataproductDataGrid(
   const [dataFilterModel, setDataFilterModel] = React.useState({});
   const [rows, setRows] = React.useState([]);
   const [tableHeight, setTableHeight] = React.useState(window.innerHeight - shellSize());
+  const { user } = storageObject.useStore();
+
 
   React.useEffect(() => {
     function handleResize() {
@@ -54,11 +58,11 @@ export default function DataproductDataGrid(
   }, [fetchData]); // Dependency on fetchData to ensure it runs only once
 
   const fetchRowData = React.useCallback(async () => {
-    const response = await GetMuiDataGridRows(dataFilterModel);
+    const response = await GetMuiDataGridRows(dataFilterModel, user?.token);
     if (response.DataGridRowsData) {
       setRows(response.DataGridRowsData);
     }
-  }, [dataFilterModel]); // Refetch data on muiDataGridFilterModel change
+  }, [dataFilterModel, user?.token]);
 
   React.useEffect(() => {
     fetchRowData();

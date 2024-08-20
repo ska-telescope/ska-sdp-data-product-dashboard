@@ -107,4 +107,6 @@ spec:
             value: "{{ .Values.api.stream_chunk_size }}"
           - name: API_ROOT_PATH
             value: {{ include "ska-sdp-dataproduct-dashboard.api.ingress.path" . }}
+          - name: SKA_PERMISSIONS_API_HOST
+            value: "{{ .Values.ingress.hostname }}{{ include "ska-sdp-dataproduct-dashboard.permissionsApi.ingress.path" . }}"
 {{- end }}
