@@ -83,8 +83,8 @@ spec:
             value: "{{ .Values.api.elasticsearch.host }}"
           - name: SDP_DATAPRODUCT_API_ELASTIC_PORT
             value: "{{ .Values.api.elasticsearch.port }}"
-          - name: SDP_DATAPRODUCT_API_ELASTIC_HTTP_CA
-            value: "{{ .Values.api.elasticsearch.http_ca }}"
+          - name: SDP_DATAPRODUCT_API_ELASTIC_HTTP_CA_FILE_NAME
+            value: "{{ .Values.api.elasticsearch.http_ca_file_name }}"
           - name: SDP_DATAPRODUCT_API_ELASTIC_USER
             value: "{{ .Values.api.elasticsearch.user }}"
           - name: SDP_DATAPRODUCT_API_ELASTIC_INDICES
