@@ -6,7 +6,6 @@ import GetMuiDataGridRows from './GetMuiDataGridRows';
 import { shellSize } from '@utils/constants';
 import { storageObject } from '@ska-telescope/ska-gui-local-storage';
 
-
 export default function DataproductDataGrid(
   handleSelectedNode: (data: any) => void,
   searchPanelOptions: {}
@@ -19,7 +18,6 @@ export default function DataproductDataGrid(
   const [rows, setRows] = React.useState([]);
   const [tableHeight, setTableHeight] = React.useState(window.innerHeight - shellSize());
   const { user } = storageObject.useStore();
-
 
   React.useEffect(() => {
     function handleResize() {

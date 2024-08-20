@@ -7,7 +7,7 @@ interface GetMuiDataGridRowsResponse {
 
 const GetMuiDataGridRows = async (
   muiDataGridFilterModel: Record<string, string | number> = {},
-  token: string = ""
+  token: string = ''
 ): Promise<GetMuiDataGridRowsResponse> => {
   // Define the API endpoint URL
   const apiUrl: string = SKA_SDP_DATAPRODUCT_API_URL;
@@ -15,8 +15,6 @@ const GetMuiDataGridRows = async (
   const headers = new Headers();
   const bearer = `Bearer ${token}`;
   headers.append('Authorization', bearer);
-  console.log("muiDataGridFilterModel")
-  console.log(JSON.stringify(muiDataGridFilterModel))
 
   try {
     // Check if using local mock data
