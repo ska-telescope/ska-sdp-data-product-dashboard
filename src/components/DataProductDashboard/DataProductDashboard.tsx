@@ -17,6 +17,7 @@ import DownloadCard from '@components/DownloadCard/DownloadCard';
 import GetAPIStatus from '@services/GetAPIStatus/GetAPIStatus';
 import { API_REFRESH_RATE, SKA_SDP_DATAPRODUCT_API_URL, FILTERCARDHEIGHT } from '@utils/constants';
 import DataproductDataGrid from '@components/DataGrid/DataGrid';
+import { storageObject } from '@ska-telescope/ska-gui-local-storage';
 
 const DataProductDashboard = () => {
   const { t } = useTranslation('dpd');
@@ -54,6 +55,7 @@ const DataProductDashboard = () => {
     ],
     logicOperator: 'and'
   });
+  const { user } = storageObject.useStore();
 
   async function CheckForNewData() {
     const results = await GetAPIStatus();
@@ -335,7 +337,7 @@ const DataProductDashboard = () => {
           {DataProductsTable(
             updating,
             apiRunning,
-            DataproductDataGrid(handleRowClick, searchPanelOptions)
+            DataproductDataGrid(handleRowClick, searchPanelOptions, user?.token)
           )}
         </Grid>
         <Grid item xs={3}>

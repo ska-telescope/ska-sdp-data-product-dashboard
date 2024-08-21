@@ -5,6 +5,12 @@ Changelog
 Current Development
 -------------------
 
+* `NAL-1146 <https://jira.skatelescope.org/browse/NAL-1146>`_ 
+
+  - **BREAKING** [Changed] Added the users access token to the request for data product metadata form the filterdataproducts endpoint of the DPD API.
+  - [Changed] Updated the environment variable names for Elasticsearch in the API Chart.
+  - [Added] Changed the default deployment of the SKA Permission API to true. 
+
 
 * `NAL-1145 <https://jira.skatelescope.org/browse/NAL-1145>`_ 
 
