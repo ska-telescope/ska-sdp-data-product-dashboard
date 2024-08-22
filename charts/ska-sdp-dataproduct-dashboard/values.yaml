@@ -20,10 +20,10 @@ api:
   elasticsearch:
     host: "https://localhost"
     port: 9200
-    metadata_schema_file: /mnt/src/ska_sdp_dataproduct_api/elasticsearch/data_product_metadata_schema.json
-    http_ca: None
+    metadata_schema_file: /usr/src/ska_sdp_dataproduct_api/components/search/elasticsearch/data_product_metadata_schema.json
+    http_ca_file_name: http_ca.crt
     user: "elastic"
-    indices: "sdhp-stfc-sdp-dataproduct-dashboard-integration-v1"
+    indices: "ska-dp-dataproduct-sdhp-stfc-integration-v1"
   postgresql:
     host: ""
     port: 5432
@@ -64,7 +64,7 @@ dashboard:
       memory: 3072Mi
       
 permissionsApi:
-  enabled: false
+  enabled: true
   image:
     imagePullPolicy: IfNotPresent
     container: artefact.skao.int/ska-permissions-api

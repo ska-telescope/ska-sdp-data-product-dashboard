@@ -37,5 +37,4 @@ const GetAPIStatus = async () => {
     return APIOfflineStatus;
   }
 };
-
 export default GetAPIStatus;

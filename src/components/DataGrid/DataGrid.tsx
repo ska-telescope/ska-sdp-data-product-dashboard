@@ -7,7 +7,8 @@ import { shellSize } from '@utils/constants';
 
 export default function DataproductDataGrid(
   handleSelectedNode: (data: any) => void,
-  searchPanelOptions: {}
+  searchPanelOptions: {},
+  token: string = ''
 ) {
   const [muiConfigData, setMuiConfigData] = React.useState({
     columns: []
@@ -54,11 +55,11 @@ export default function DataproductDataGrid(
   }, [fetchData]); // Dependency on fetchData to ensure it runs only once
 
   const fetchRowData = React.useCallback(async () => {
-    const response = await GetMuiDataGridRows(dataFilterModel);
+    const response = await GetMuiDataGridRows(dataFilterModel, token);
     if (response.DataGridRowsData) {
       setRows(response.DataGridRowsData);
     }
-  }, [dataFilterModel]); // Refetch data on muiDataGridFilterModel change
+  }, [dataFilterModel, token]);
 
   React.useEffect(() => {
     fetchRowData();
