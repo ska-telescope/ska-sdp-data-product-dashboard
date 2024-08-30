@@ -8,7 +8,8 @@ import { shellSize } from '@utils/constants';
 export default function DataproductDataGrid(
   handleSelectedNode: (data: any) => void,
   searchPanelOptions: {},
-  token: string = ''
+  token: string = '',
+  updating: boolean
 ) {
   const [muiConfigData, setMuiConfigData] = React.useState({
     columns: []
@@ -59,7 +60,8 @@ export default function DataproductDataGrid(
     if (response.DataGridRowsData) {
       setRows(response.DataGridRowsData);
     }
-  }, [dataFilterModel, token]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [dataFilterModel, token, updating]);
 
   React.useEffect(() => {
     fetchRowData();
