@@ -7,7 +7,7 @@ Current Development
 
 * `NAL-1157 <https://jira.skatelescope.org/browse/NAL-1157>`_ 
 
-  - [Changed] Updated reload behaviors to reload data products on the dashboard as they are added in the database by the API.
+  - [Changed] Updated reload behaviour to reload data products on the dashboard as they are added in the database by the API.
 
 * `NAL-1146 <https://jira.skatelescope.org/browse/NAL-1146>`_ 
 
