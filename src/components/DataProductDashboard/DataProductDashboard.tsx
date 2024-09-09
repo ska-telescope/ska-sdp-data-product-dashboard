@@ -62,7 +62,7 @@ const DataProductDashboard = () => {
     if (results?.data) {
       updateApiRunning(results.data.api_running);
       updateApiIndexing(results.data.Indexing);
-      setDataStoreLastModifiedTime(results.data.last_metadata_update_time);
+      setDataStoreLastModifiedTime(results.data.metadata_store_status?.last_metadata_update_time);
     } else {
       setDataStoreLastModifiedTime(null);
     }
@@ -92,7 +92,7 @@ const DataProductDashboard = () => {
 
   React.useEffect(() => {
     setUpdating(true);
-  }, []);
+  }, [newDataAvailable]);
 
   React.useEffect(() => {
     setSearchPanelOptions({
@@ -337,7 +337,7 @@ const DataProductDashboard = () => {
           {DataProductsTable(
             updating,
             apiRunning,
-            DataproductDataGrid(handleRowClick, searchPanelOptions, user?.token)
+            DataproductDataGrid(handleRowClick, searchPanelOptions, user?.token, updating)
           )}
         </Grid>
         <Grid item xs={3}>
