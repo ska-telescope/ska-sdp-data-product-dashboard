@@ -6,9 +6,9 @@ copyright = '2024, SKAO'
 author = 'SKAO'
 
 # The short X.Y version
-version = '0.8.2'
+version = '1.0.0'
 # The full version, including alpha/beta/rc tags
-release = '0.8.2'
+release = '1.0.0'
 
 # -- General configuration ---------------------------------------------------
 

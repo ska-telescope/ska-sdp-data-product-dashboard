@@ -1,11 +1,11 @@
 ---
 apiVersion: v2
-appVersion: 0.8.2
+appVersion: 1.0.0
 description: A Helm chart to deploy the Data Product Dashboard
 home: https://gitlab.com/ska-telescope/sdp/ska-sdp-dataproduct-dashboard
 maintainers:
   - email: naledi@sarao.ac.za
     name: NALEDI
 name: ska-sdp-dataproduct-dashboard
-version: 0.8.2
+version: 1.0.0
     
