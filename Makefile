@@ -13,6 +13,15 @@ production-deploy:
 	cp -R public /dist/
 	yarn webpack build --optimization-concatenate-modules --mode production --optimization-minimize --output-clean --output-path /dist/
 
+dev-local-env:
+	-rm public/env.js src/env.ts
+	ENV_TYPE_FILE=env_scripts/env_config \
+	ENV_JS_OUTPUT_LOCATION=public/env.js \
+		bash env_scripts/env_config.sh js
+	ENV_TYPE_FILE=env_scripts/env_config \
+	ENV_JS_OUTPUT_LOCATION=src/env.ts \
+		bash env_scripts/env_config.sh ts
+
 # DP Cluster shared PV setup
 ## Delete the existing PVC and PV. Note that this is safe as the PV is shared clusterwide
 ## Recreate the PV and PVC before installing the app
