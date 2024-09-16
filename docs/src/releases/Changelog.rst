@@ -8,7 +8,7 @@ Current Development
 Released
 ========
 
-v1.0.0
+v0.9.0
 ------
 
 * `NAL-1157 <https://jira.skatelescope.org/browse/NAL-1157>`_ 
