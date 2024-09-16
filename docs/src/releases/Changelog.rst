@@ -5,6 +5,12 @@ Changelog
 Current Development
 -------------------
 
+Released
+========
+
+v0.9.0
+------
+
 * `NAL-1157 <https://jira.skatelescope.org/browse/NAL-1157>`_ 
 
   - [Changed] Updated reload behaviour to reload data products on the dashboard as they are added in the database by the API.
@@ -52,8 +58,6 @@ Current Development
 
   - [Changed] Updated documentation to include details for the configuration and use of the required shared persistent volume.
 
-Released
-========
 
 v0.8.2
 ------
