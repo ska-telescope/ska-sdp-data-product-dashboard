@@ -193,7 +193,7 @@ deploy-dev-environment-dp:
   tags:
     - ska-k8srunner-dp
   variables:
-    K8S_CHART_PARAMS: 'api.postgresql.host=pgdev-lb.cnpgdev.svc.cluster.local, api.postgresql.user=sdp_sdp_dataproduct_dashboard_integration, api.postgresql.dbname=integration, api.postgresql.schema=sdp_sdp_dataproduct_dashboard_integration, api.elasticsearch.host=https://logging.stfc.skao.int, api.elasticsearch.user=naledi-team, api.elasticsearch.indices=ska-dp-dataproduct-sdhp-stfc-integration-v1, api.vault.pathToSecretVault=kv/data/users/andre_odendaal/sdhp-stfc/ska-sdp-dataproduct-api/integration, api.container=registry.gitlab.com/ska-telescope/sdp/ska-sdp-dataproduct-api/ska-sdp-dataproduct-api, permissionsApi.image.container=registry.gitlab.com/ska-telescope/ska-permissions-api/ska-permissions-api'
+    K8S_CHART_PARAMS: '--set api.postgresql.host=pgdev-lb.cnpgdev.svc.cluster.local --set api.postgresql.user=sdp_sdp_dataproduct_dashboard_integration --set api.postgresql.dbname=integration --set api.postgresql.schema=sdp_sdp_dataproduct_dashboard_integration --set api.elasticsearch.host=https://logging.stfc.skao.int --set api.elasticsearch.user=naledi-team --set api.elasticsearch.indices=ska-dp-dataproduct-sdhp-stfc-integration-v1 --set api.vault.pathToSecretVault=kv/data/users/andre_odendaal/sdhp-stfc/ska-sdp-dataproduct-api/integration --set api.container=registry.gitlab.com/ska-telescope/sdp/ska-sdp-dataproduct-api/ska-sdp-dataproduct-api --set permissionsApi.image.container=registry.gitlab.com/ska-telescope/ska-permissions-api/ska-permissions-api'
 
 test-dev-environment-dp:
   stage: deploy-dp
@@ -225,7 +225,7 @@ deploy-integration-dp:
   tags:
     - ska-k8srunner-dp
   variables:
-    K8S_CHART_PARAMS: 'api.postgresql.host=pgdev-lb.cnpgdev.svc.cluster.local, api.postgresql.user=sdp_sdp_dataproduct_dashboard_integration, api.postgresql.dbname=integration, api.postgresql.schema=sdp_sdp_dataproduct_dashboard_integration, api.elasticsearch.host=https://logging.stfc.skao.int, api.elasticsearch.user=naledi-team, api.elasticsearch.indices=ska-dp-dataproduct-sdhp-stfc-integration-v1, api.vault.pathToSecretVault=kv/data/users/andre_odendaal/sdhp-stfc/ska-sdp-dataproduct-api/integration'
+    K8S_CHART_PARAMS: '--set api.postgresql.host=pgdev-lb.cnpgdev.svc.cluster.local --set api.postgresql.user=sdp_sdp_dataproduct_dashboard_integration --set api.postgresql.dbname=integration --set api.postgresql.schema=sdp_sdp_dataproduct_dashboard_integration --set api.elasticsearch.host=https://logging.stfc.skao.int --set api.elasticsearch.user=naledi-team --set api.elasticsearch.indices=ska-dp-dataproduct-sdhp-stfc-integration-v1 --set api.vault.pathToSecretVault=kv/data/users/andre_odendaal/sdhp-stfc/ska-sdp-dataproduct-api/integration'
 
 info-integration-dp:
   stage: integration-dp
@@ -241,7 +241,7 @@ redeploy-integration-dp:
   tags:
     - ska-k8srunner-dp
   variables:
-    K8S_CHART_PARAMS: 'api.postgresql.host=pgdev-lb.cnpgdev.svc.cluster.local, api.postgresql.user=sdp_sdp_dataproduct_dashboard_integration, api.postgresql.dbname=integration, api.postgresql.schema=sdp_sdp_dataproduct_dashboard_integration, api.elasticsearch.host=https://logging.stfc.skao.int, api.elasticsearch.user=naledi-team, api.elasticsearch.indices=ska-dp-dataproduct-sdhp-stfc-integration-v1, api.vault.pathToSecretVault=kv/data/users/andre_odendaal/sdhp-stfc/ska-sdp-dataproduct-api/integration'
+    K8S_CHART_PARAMS: '--set api.postgresql.host=pgdev-lb.cnpgdev.svc.cluster.local --set api.postgresql.user=sdp_sdp_dataproduct_dashboard_integration --set api.postgresql.dbname=integration --set api.postgresql.schema=sdp_sdp_dataproduct_dashboard_integration --set api.elasticsearch.host=https://logging.stfc.skao.int --set api.elasticsearch.user=naledi-team --set api.elasticsearch.indices=ska-dp-dataproduct-sdhp-stfc-integration-v1 --set api.vault.pathToSecretVault=kv/data/users/andre_odendaal/sdhp-stfc/ska-sdp-dataproduct-api/integration'
 
 stop-integration-dp:
   stage: integration-dp
@@ -258,7 +258,7 @@ deploy-staging-dp:
   tags:
     - ska-k8srunner-dp
   variables:
-    K8S_CHART_PARAMS: 'api.postgresql.host=pgdev-lb.cnpgdev.svc.cluster.local, api.postgresql.user=sdp_sdp_dataproduct_dashboard_staging, api.postgresql.dbname=staging, api.postgresql.schema=sdp_sdp_dataproduct_dashboard_staging, api.elasticsearch.host=https://logging.stfc.skao.int, api.elasticsearch.user=naledi-team, api.elasticsearch.indices=ska-dp-dataproduct-sdhp-stfc-staging-v1, api.vault.pathToSecretVault=kv/data/users/andre_odendaal/sdhp-stfc/ska-sdp-dataproduct-api/staging'
+    K8S_CHART_PARAMS: '--set api.postgresql.host=pgdev-lb.cnpgdev.svc.cluster.local --set api.postgresql.user=sdp_sdp_dataproduct_dashboard_staging --set api.postgresql.dbname=staging --set api.postgresql.schema=sdp_sdp_dataproduct_dashboard_staging --set api.elasticsearch.host=https://logging.stfc.skao.int --set api.elasticsearch.user=naledi-team --set api.elasticsearch.indices=ska-dp-dataproduct-sdhp-stfc-staging-v1 --set api.vault.pathToSecretVault=kv/data/users/andre_odendaal/sdhp-stfc/ska-sdp-dataproduct-api/staging'
 
 info-staging-dp:
   stage: staging-dp
@@ -274,7 +274,7 @@ redeploy-staging-dp:
   tags:
     - ska-k8srunner-dp
   variables:
-    K8S_CHART_PARAMS: 'api.postgresql.host=pgdev-lb.cnpgdev.svc.cluster.local, api.postgresql.user=sdp_sdp_dataproduct_dashboard_staging, api.postgresql.dbname=staging, api.postgresql.schema=sdp_sdp_dataproduct_dashboard_staging, api.elasticsearch.host=https://logging.stfc.skao.int, api.elasticsearch.user=naledi-team, api.elasticsearch.indices=ska-dp-dataproduct-sdhp-stfc-staging-v1, api.vault.pathToSecretVault=kv/data/users/andre_odendaal/sdhp-stfc/ska-sdp-dataproduct-api/staging'
+    K8S_CHART_PARAMS: '--set api.postgresql.host=pgdev-lb.cnpgdev.svc.cluster.local --set api.postgresql.user=sdp_sdp_dataproduct_dashboard_staging --set api.postgresql.dbname=staging --set api.postgresql.schema=sdp_sdp_dataproduct_dashboard_staging --set api.elasticsearch.host=https://logging.stfc.skao.int --set api.elasticsearch.user=naledi-team --set api.elasticsearch.indices=ska-dp-dataproduct-sdhp-stfc-staging-v1 --set api.vault.pathToSecretVault=kv/data/users/andre_odendaal/sdhp-stfc/ska-sdp-dataproduct-api/staging'
 
 stop-staging-dp:
   stage: staging-dp
