@@ -5,7 +5,7 @@ kind: Service
 metadata:
   name: {{ $.Chart.Name }}-permissions-api
   labels:
-{{ include "ska-sdp-dataproduct-dashboard.permissionsApi.labels" . | indent 4 }}
+{{ include "ska-dataproduct-dashboard.permissionsApi.labels" . | indent 4 }}
 spec:
   ports:
   - port: 8000
@@ -13,23 +13,23 @@ spec:
     protocol: TCP
   clusterIP: None
   selector:
-{{ include "ska-sdp-dataproduct-dashboard.permissionsApi.labels" . | indent 4 }}
+{{ include "ska-dataproduct-dashboard.permissionsApi.labels" . | indent 4 }}
 ---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: {{ .Chart.Name }}-ska-permissions-api
   labels:
-{{ include "ska-sdp-dataproduct-dashboard.permissionsApi.labels" . | indent 4 }}
+{{ include "ska-dataproduct-dashboard.permissionsApi.labels" . | indent 4 }}
 spec:
   replicas: 1
   selector:
     matchLabels:
-{{ include "ska-sdp-dataproduct-dashboard.permissionsApi.labels" . | indent 6 }}
+{{ include "ska-dataproduct-dashboard.permissionsApi.labels" . | indent 6 }}
   template:
     metadata:
       labels:
-{{ include "ska-sdp-dataproduct-dashboard.permissionsApi.labels" . | indent 8 }}
+{{ include "ska-dataproduct-dashboard.permissionsApi.labels" . | indent 8 }}
       annotations:
       {{ if ((.Values.permissionsApi.vault).useVault) }}
           vault.hashicorp.com/agent-inject: "true"
@@ -62,8 +62,8 @@ spec:
         terminationMessagePath: "/dev/termination-log"
         terminationMessagePolicy: "File"
         env:
-          - name: SKA_SDP_DATAPRODUCT_API_VERSION
+          - name: SKA_DATAPRODUCT_API_VERSION
             value: "{{ .Values.permissionsApi.image.version }}"
           - name: MSENTRA_REDIRECT_URI
-            value: "{{ .Values.ingress.hostname }}{{ include "ska-sdp-dataproduct-dashboard.dashboard.ingress.path" . }}/"
+            value: "{{ .Values.ingress.hostname }}{{ include "ska-dataproduct-dashboard.dashboard.ingress.path" . }}/"
 {{- end }}

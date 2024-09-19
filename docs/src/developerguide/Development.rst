@@ -29,7 +29,7 @@ Clone the repository and its submodules:
 
 .. code-block:: bash
 
-    git clone --recursive git@gitlab.com:ska-telescope/sdp/ska-sdp-dataproduct-dashboard.git
+    git clone --recursive git@gitlab.com:ska-telescope/ska-dataproduct-dashboard.git
     make make
 
 Scripts for running, testing, and building the application are defined in the scripts section of the package.json file. These are run using YARN
@@ -51,7 +51,7 @@ Create a file named .env at the root of your project directory. The following li
 .. code-block:: bash
 
   SKIP_PREFLIGHT_CHECK='true'
-  REACT_APP_SKA_SDP_DATAPRODUCT_API_URL='http://localhost:8000'
+  REACT_APP_SKA_DATAPRODUCT_API_URL='http://localhost:8000'
   REACT_APP_API_REFRESH_RATE='1000'
   REACT_APP_USE_LOCAL_DATA='false'
   REACT_APP_ALLOW_MOCK_AUTH='true'
@@ -115,8 +115,8 @@ When running the application within a container, the production image of the app
 
 .. code-block:: bash
 
-  docker build -t ska-sdp-dataproduct-dashboard .
-  docker run -p 80:80 ska-sdp-dataproduct-dashboard
+  docker build -t ska-dataproduct-dashboard .
+  docker run -p 80:80 ska-dataproduct-dashboard
 
 The project will then be accessible at the URL http://localhost/
 
@@ -138,10 +138,10 @@ locally.
 
 .. code-block:: bash
 
-    docker build -t ska-sdp-dataproduct-dashboard .
+    docker build -t ska-dataproduct-dashboard .
     docker images
-    docker tag [Image ID] ska-sdp-dataproduct-dashboard:[Tag]
-    minikube image load ska-sdp-dataproduct-dashboard:[Tag]
+    docker tag [Image ID] ska-dataproduct-dashboard:[Tag]
+    minikube image load ska-dataproduct-dashboard:[Tag]
     minikube image ls
 
 3. If you want to run the API with a local instance of Elasticsearch, you can add the Bitnami repository to your repositories:
@@ -167,7 +167,7 @@ Update the DPD chart (Chart.yaml) dependency to match the Elasticsearch tag and 
         repository: 'https://charts.bitnami.com/bitnami'
         condition: elasticsearch.enabled
 
-4. Change to the chart directory in the repository: ``cd charts/ska-sdp-dataproduct-dashboard/``. Make the needed changes to image versions and enable the deployments as required in the values files. Then update the Helm dependencies.
+4. Change to the chart directory in the repository: ``cd charts/ska-dataproduct-dashboard/``. Make the needed changes to image versions and enable the deployments as required in the values files. Then update the Helm dependencies.
 
 .. code-block:: bash
 
@@ -177,13 +177,13 @@ Update the DPD chart (Chart.yaml) dependency to match the Elasticsearch tag and 
 5. Create a new namespace (optional): ``kubectl create namespace [namespace]``
 6. Install the helm chart with the following values: 
 
-    helm install [deploy-name] charts/ska-sdp-dataproduct-dashboard -n [namespace] --values values_local_deployment.yaml
+    helm install [deploy-name] charts/ska-dataproduct-dashboard -n [namespace] --values values_local_deployment.yaml
 
 On a system with limited resources / slow connection, run with the following additional flags:
 
 .. code-block:: bash
 
-    helm install [deploy-name] charts/ska-sdp-dataproduct-dashboard -n [namespace] --values values_local_deployment.yaml --set diagnosticMode.enabled=true --timeout=60m
+    helm install [deploy-name] charts/ska-dataproduct-dashboard -n [namespace] --values values_local_deployment.yaml --set diagnosticMode.enabled=true --timeout=60m
 
 Once the above is complete you will have the following running:
 
@@ -194,8 +194,8 @@ Once the above is complete you will have the following running:
 
 .. code-block:: bash
 
-    kubectl -n [namespace] port-forward service/ska-sdp-dataproduct-api 8000:8000
-    kubectl -n [namespace] port-forward service/ska-sdp-dataproduct-dashboard 80:80
+    kubectl -n [namespace] port-forward service/ska-dataproduct-api 8000:8000
+    kubectl -n [namespace] port-forward service/ska-dataproduct-dashboard 80:80
 
 You should now be able to access the API and the Dashboard on the following URL's:
 
@@ -208,4 +208,4 @@ To get data onto the PV:
 .. code-block:: bash
 
 	kubectl get pod -n [namespace]
-    kubectl cp [host path]/ska-sdp-dataproduct-api/tests/test_files/product [ska-sdp-dataproduct-api pod]:/usr/data -n [namespace]
+    kubectl cp [host path]/ska-dataproduct-api/tests/test_files/product [ska-dataproduct-api pod]:/usr/data -n [namespace]

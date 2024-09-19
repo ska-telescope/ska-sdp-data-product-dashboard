@@ -1,6 +1,6 @@
 {
-  "short_name": "ska-sdp-dataproduct-dashboard",
-  "name": "ska-sdp-dataproduct-dashboard",
+  "short_name": "ska-dataproduct-dashboard",
+  "name": "ska-dataproduct-dashboard",
   "icons": [
     {
       "sizes": "64x64 32x32 24x24 16x16",

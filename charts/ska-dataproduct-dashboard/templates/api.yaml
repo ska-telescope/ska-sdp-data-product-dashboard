@@ -5,7 +5,7 @@ kind: Service
 metadata:
   name: {{ $.Chart.Name }}-api-service
   labels:
-{{ include "ska-sdp-dataproduct-dashboard.api.labels" . | indent 4 }}
+{{ include "ska-dataproduct-dashboard.api.labels" . | indent 4 }}
 spec:
   ports:
   - port: 8000
@@ -13,23 +13,23 @@ spec:
     protocol: TCP
   clusterIP: None
   selector:
-{{ include "ska-sdp-dataproduct-dashboard.api.labels" . | indent 4 }}
+{{ include "ska-dataproduct-dashboard.api.labels" . | indent 4 }}
 ---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: ska-sdp-dataproduct-api
+  name: ska-dataproduct-api
   labels:
-{{ include "ska-sdp-dataproduct-dashboard.api.labels" . | indent 4 }}
+{{ include "ska-dataproduct-dashboard.api.labels" . | indent 4 }}
 spec:
   replicas: 1
   selector:
     matchLabels:
-{{ include "ska-sdp-dataproduct-dashboard.api.labels" . | indent 6 }}
+{{ include "ska-dataproduct-dashboard.api.labels" . | indent 6 }}
   template:
     metadata:
       labels:
-{{ include "ska-sdp-dataproduct-dashboard.api.labels" . | indent 8 }}
+{{ include "ska-dataproduct-dashboard.api.labels" . | indent 8 }}
       annotations:
       {{ if ((.Values.api.vault).useVault) }}
           vault.hashicorp.com/agent-inject: "true"
@@ -51,7 +51,7 @@ spec:
       restartPolicy: Always
       terminationGracePeriodSeconds: 10
       containers:
-      - name: ska-sdp-dataproduct-api
+      - name: ska-dataproduct-api
         image: "{{ .Values.api.container }}:{{ .Values.api.version }}"
         imagePullPolicy: {{ .Values.api.imagePullPolicy }}
         resources:
@@ -69,44 +69,44 @@ spec:
         terminationMessagePath: "/dev/termination-log"
         terminationMessagePolicy: "File"
         env:
-          - name: REACT_APP_SKA_SDP_DATAPRODUCT_DASHBOARD_URL
-            value: {{ include "ska-sdp-dataproduct-dashboard.dashboard.ingress.path" . }}
+          - name: REACT_APP_SKA_DATAPRODUCT_DASHBOARD_URL
+            value: {{ include "ska-dataproduct-dashboard.dashboard.ingress.path" . }}
           - name: PERSISTENT_STORAGE_PATH
             value: "{{ .Values.api.storagePath }}"
           - name: METADATA_FILE_NAME
             value: "{{ .Values.api.metadata_file_name }}"
-          - name: SDP_DATAPRODUCT_SECRETS_FILE_PATH
+          - name: SKA_DATAPRODUCT_API_SECRETS_FILE_PATH
             value: "{{ .Values.api.vault.secretsFilePath }}"
-          - name: SDP_DATAPRODUCT_API_ELASTIC_METADATA_SCHEMA_FILE
+          - name: SKA_DATAPRODUCT_API_ELASTIC_METADATA_SCHEMA_FILE
             value: "{{ .Values.api.elasticsearch.metadata_schema_file }}"
-          - name: SDP_DATAPRODUCT_API_ELASTIC_HOST
+          - name: SKA_DATAPRODUCT_API_ELASTIC_HOST
             value: "{{ .Values.api.elasticsearch.host }}"
-          - name: SDP_DATAPRODUCT_API_ELASTIC_PORT
+          - name: SKA_DATAPRODUCT_API_ELASTIC_PORT
             value: "{{ .Values.api.elasticsearch.port }}"
-          - name: SDP_DATAPRODUCT_API_ELASTIC_HTTP_CA_FILE_NAME
+          - name: SKA_DATAPRODUCT_API_ELASTIC_HTTP_CA_FILE_NAME
             value: "{{ .Values.api.elasticsearch.http_ca_file_name }}"
-          - name: SDP_DATAPRODUCT_API_ELASTIC_USER
+          - name: SKA_DATAPRODUCT_API_ELASTIC_USER
             value: "{{ .Values.api.elasticsearch.user }}"
-          - name: SDP_DATAPRODUCT_API_ELASTIC_INDICES
+          - name: SKA_DATAPRODUCT_API_ELASTIC_INDICES
             value: "{{ .Values.api.elasticsearch.indices }}"
-          - name: SDP_DATAPRODUCT_API_POSTGRESQL_HOST
+          - name: SKA_DATAPRODUCT_API_POSTGRESQL_HOST
             value: "{{ .Values.api.postgresql.host }}"
-          - name: SDP_DATAPRODUCT_API_POSTGRESQL_PORT
+          - name: SKA_DATAPRODUCT_API_POSTGRESQL_PORT
             value: "{{ .Values.api.postgresql.port }}"
-          - name: SDP_DATAPRODUCT_API_POSTGRESQL_USER
+          - name: SKA_DATAPRODUCT_API_POSTGRESQL_USER
             value: "{{ .Values.api.postgresql.user }}"
-          - name: SDP_DATAPRODUCT_API_POSTGRESQL_DBNAME
+          - name: SKA_DATAPRODUCT_API_POSTGRESQL_DBNAME
             value: "{{ .Values.api.postgresql.dbname }}"            
-          - name: SDP_DATAPRODUCT_API_POSTGRESQL_SCHEMA
+          - name: SKA_DATAPRODUCT_API_POSTGRESQL_SCHEMA
             value: "{{ .Values.api.postgresql.schema }}"
-          - name: SDP_DATAPRODUCT_API_POSTGRESQL_TABLE_NAME
+          - name: SKA_DATAPRODUCT_API_POSTGRESQL_TABLE_NAME
             value: "{{ .Values.api.postgresql.tableName }}"
-          - name: SKA_SDP_DATAPRODUCT_API_VERSION
+          - name: SKA_DATAPRODUCT_API_VERSION
             value: "{{ .Values.api.version }}"
           - name: STREAM_CHUNK_SIZE
             value: "{{ .Values.api.stream_chunk_size }}"
           - name: API_ROOT_PATH
-            value: {{ include "ska-sdp-dataproduct-dashboard.api.ingress.path" . }}
+            value: {{ include "ska-dataproduct-dashboard.api.ingress.path" . }}
           - name: SKA_PERMISSIONS_API_HOST
-            value: "{{ .Values.ingress.hostname }}{{ include "ska-sdp-dataproduct-dashboard.permissionsApi.ingress.path" . }}"
+            value: "{{ .Values.ingress.hostname }}{{ include "ska-dataproduct-dashboard.permissionsApi.ingress.path" . }}"
 {{- end }}

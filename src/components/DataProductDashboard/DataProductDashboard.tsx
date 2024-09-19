@@ -15,7 +15,7 @@ import { ButtonVariantTypes } from '@ska-telescope/ska-gui-components';
 import DataProductsTable from '@components/DataProductsTable/DataProductsTable';
 import DownloadCard from '@components/DownloadCard/DownloadCard';
 import GetAPIStatus from '@services/GetAPIStatus/GetAPIStatus';
-import { API_REFRESH_RATE, SKA_SDP_DATAPRODUCT_API_URL, FILTERCARDHEIGHT } from '@utils/constants';
+import { API_REFRESH_RATE, SKA_DATAPRODUCT_API_URL, FILTERCARDHEIGHT } from '@utils/constants';
 import DataproductDataGrid from '@components/DataGrid/DataGrid';
 import { storageObject } from '@ska-telescope/ska-gui-local-storage';
 
@@ -135,7 +135,7 @@ const DataProductDashboard = () => {
   };
 
   async function indexDataProduct() {
-    const apiUrl = SKA_SDP_DATAPRODUCT_API_URL;
+    const apiUrl = SKA_DATAPRODUCT_API_URL;
     try {
       return await axios.get(`${apiUrl}/reindexdataproducts`, {
         headers: {

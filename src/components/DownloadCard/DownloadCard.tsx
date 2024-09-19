@@ -9,7 +9,7 @@ import {
 } from '@ska-telescope/ska-gui-components';
 import { useTranslation } from 'react-i18next';
 import streamSaver from 'streamsaver';
-import { SKA_SDP_DATAPRODUCT_API_URL, shellSize, FILTERCARDHEIGHT } from '@utils/constants';
+import { SKA_DATAPRODUCT_API_URL, shellSize, FILTERCARDHEIGHT } from '@utils/constants';
 import getMetaData from '@services/GetMetaData/GetMetaData';
 
 function DownloadCard(selectedFileNames: {
@@ -18,7 +18,7 @@ function DownloadCard(selectedFileNames: {
   metaDataFile?: string;
 }) {
   const URL_DOWNLOAD = '/download';
-  const apiUrl = SKA_SDP_DATAPRODUCT_API_URL;
+  const apiUrl = SKA_DATAPRODUCT_API_URL;
   const { t } = useTranslation('dpd');
   const params = {
     execution_block: selectedFileNames?.execution_block

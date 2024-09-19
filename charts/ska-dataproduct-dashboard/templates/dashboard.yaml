@@ -5,7 +5,7 @@ kind: Service
 metadata:
   name: {{ $.Chart.Name }}-dashboard-service
   labels:
-{{ include "ska-sdp-dataproduct-dashboard.dashboard.labels" . | indent 4 }}
+{{ include "ska-dataproduct-dashboard.dashboard.labels" . | indent 4 }}
 spec:
   ports:
     - port: 80
@@ -13,23 +13,23 @@ spec:
       name: http
   clusterIP: None
   selector:
-{{ include "ska-sdp-dataproduct-dashboard.dashboard.labels" . | indent 4 }}
+{{ include "ska-dataproduct-dashboard.dashboard.labels" . | indent 4 }}
 ---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: ska-sdp-dataproduct-dashboard
+  name: ska-dataproduct-dashboard
   labels:
-{{ include "ska-sdp-dataproduct-dashboard.dashboard.labels" . | indent 4 }}
+{{ include "ska-dataproduct-dashboard.dashboard.labels" . | indent 4 }}
 spec:
   replicas: 1
   selector:
     matchLabels:
-{{ include "ska-sdp-dataproduct-dashboard.dashboard.labels" . | indent 6 }}
+{{ include "ska-dataproduct-dashboard.dashboard.labels" . | indent 6 }}
   template:
     metadata:
       labels:
-{{ include "ska-sdp-dataproduct-dashboard.dashboard.labels" . | indent 8 }}
+{{ include "ska-dataproduct-dashboard.dashboard.labels" . | indent 8 }}
       annotations:
       {{ if ((.Values.dashboard.vault).useVault) }}
           vault.hashicorp.com/agent-inject: "true"
@@ -45,7 +45,7 @@ spec:
       {{ end }}
     spec:
       containers:
-        - name: ska-sdp-dataproduct-dashboard
+        - name: ska-dataproduct-dashboard
           image: "{{ .Values.dashboard.container }}:{{ .Values.dashboard.version }}"
           imagePullPolicy: {{ .Values.dashboard.imagePullPolicy }}
           resources:
@@ -60,14 +60,14 @@ spec:
               containerPort: 80
               protocol: TCP
           env:
-            - name: REACT_APP_SKA_SDP_DATAPRODUCT_API_URL
-              value: {{ include "ska-sdp-dataproduct-dashboard.api.ingress.path" . }}
+            - name: REACT_APP_SKA_DATAPRODUCT_API_URL
+              value: {{ include "ska-dataproduct-dashboard.api.ingress.path" . }}
             - name: REACT_APP_API_REFRESH_RATE
               value: "{{ .Values.dashboard.apiRefreshRate }}"
             - name: REACT_APP_VERSION
               value: "{{ .Values.dashboard.version }}"
             - name: REACT_APP_MSENTRA_REDIRECT_URI
-              value: "{{ .Values.ingress.hostname }}{{ include "ska-sdp-dataproduct-dashboard.dashboard.ingress.path" . }}/"
+              value: "{{ .Values.ingress.hostname }}{{ include "ska-dataproduct-dashboard.dashboard.ingress.path" . }}/"
             - name: REACT_APP_MSENTRA_CLIENT_ID
               value: "{{ .Values.dashboard.vault.client_id }}"
             - name: REACT_APP_MSENTRA_TENANT_ID
@@ -75,7 +75,7 @@ spec:
             - name: REACT_APP_ALLOW_MOCK_AUTH
               value: "{{ .Values.dashboard.config.allowMockAuth }}"
             - name: REACT_APP_PERMISSIONS_API_URI
-              value: "{{ .Values.ingress.hostname }}{{ include "ska-sdp-dataproduct-dashboard.permissionsApi.ingress.path" . }}/v1/getuserrole"
+              value: "{{ .Values.ingress.hostname }}{{ include "ska-dataproduct-dashboard.permissionsApi.ingress.path" . }}/v1/getuserrole"
           livenessProbe:
             httpGet:
               path: /
