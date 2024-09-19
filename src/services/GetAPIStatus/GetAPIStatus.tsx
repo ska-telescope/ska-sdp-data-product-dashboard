@@ -1,10 +1,10 @@
 import axios from 'axios';
 
-import { USE_LOCAL_DATA, SKA_SDP_DATAPRODUCT_API_URL } from '@utils/constants';
+import { USE_LOCAL_DATA, SKA_DATAPRODUCT_API_URL } from '@utils/constants';
 import MockStatus from '@services/Mocking/mockStatus';
 
 const GetAPIStatus = async () => {
-  const apiUrl = SKA_SDP_DATAPRODUCT_API_URL;
+  const apiUrl = SKA_DATAPRODUCT_API_URL;
   const URL_LIST = '/status';
   const config = {
     headers: {

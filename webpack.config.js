@@ -67,7 +67,7 @@ module.exports = (env, argv) => { return {
 
   plugins: [
     new ModuleFederationPlugin({
-      name: 'sdpDataProductDashboard',
+      name: 'dataProductDashboard',
       filename: 'remoteEntry.js',
       remotes: {},
       exposes: {

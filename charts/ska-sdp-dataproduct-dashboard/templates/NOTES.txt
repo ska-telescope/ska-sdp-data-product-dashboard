@@ -1,4 +1,0 @@
-The application URL is: <host>{{ include "ska-sdp-dataproduct-dashboard.dashboard.ingress.path" . }}/
-where <host> is ip (or domain name) of the cluster. For example:
-1. http://localhost{{ include "ska-sdp-dataproduct-dashboard.dashboard.ingress.path" . }}/ if on your local minikube
-2. https://k8s.stfc.skao.int{{ include "ska-sdp-dataproduct-dashboard.dashboard.ingress.path" . }}/ if on stfc cluster

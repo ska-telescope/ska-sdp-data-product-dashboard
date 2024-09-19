@@ -1,4 +1,4 @@
-import { USE_LOCAL_DATA, SKA_SDP_DATAPRODUCT_API_URL } from '@utils/constants';
+import { USE_LOCAL_DATA, SKA_DATAPRODUCT_API_URL } from '@utils/constants';
 import mockDataGridRowsData from '@services/Mocking/mockDataGridRowsData';
 
 interface GetMuiDataGridRowsResponse {
@@ -10,7 +10,7 @@ const GetMuiDataGridRows = async (
   token: string = ''
 ): Promise<GetMuiDataGridRowsResponse> => {
   // Define the API endpoint URL
-  const apiUrl: string = SKA_SDP_DATAPRODUCT_API_URL;
+  const apiUrl: string = SKA_DATAPRODUCT_API_URL;
   const URL_LIST: string = '/filterdataproducts';
   const headers = new Headers();
   const bearer = `Bearer ${token}`;
