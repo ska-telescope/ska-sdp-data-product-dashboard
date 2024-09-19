@@ -5,6 +5,12 @@ Changelog
 Current Development
 -------------------
 
+* `NAL-1227 <https://jira.skatelescope.org/browse/NAL-1227>`_ 
+
+  - **BREAKING** [Changed] The project have now been renamed and moved out of the SDP Gitlab folder. This was done because the Data Product Dashboard is not limited to data products of SDP and it might cause confusion if the name is not more general.
+  - [Changed] Update the env_config.sh script to load variables from a .env file that can be used during development.
+  - [Fixed] Update the boolean data types of env variables in the project.
+
 Released
 ========
 
