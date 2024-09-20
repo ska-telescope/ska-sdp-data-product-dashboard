@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { USE_LOCAL_DATA, SKA_SDP_DATAPRODUCT_API_URL } from '@utils/constants';
+import { USE_LOCAL_DATA, SKA_DATAPRODUCT_API_URL } from '@utils/constants';
 import MockMeta from '@services/Mocking/mockMetaData';
 
 function isWindows(): boolean {
@@ -21,7 +21,7 @@ async function getMetaData(inData: string) {
 
   async function fetchMetaDataFromDPDAPI() {
     const executionBlock = inData ? setExecutionBlock(inData) : '';
-    const apiUrl = SKA_SDP_DATAPRODUCT_API_URL;
+    const apiUrl = SKA_DATAPRODUCT_API_URL;
     const params = {
       execution_block: executionBlock
     };

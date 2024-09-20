@@ -6,7 +6,7 @@ module.exports = defineConfig({
   viewportHeight: 900,
   video: false,
   env: {
-    REACT_APP_USE_LOCAL_DATA: "true",
+    REACT_APP_USE_LOCAL_DATA: true,
   },
   component: {
     devServer: {

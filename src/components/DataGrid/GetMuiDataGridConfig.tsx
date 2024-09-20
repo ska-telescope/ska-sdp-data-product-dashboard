@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { USE_LOCAL_DATA, SKA_SDP_DATAPRODUCT_API_URL } from '@utils/constants';
+import { USE_LOCAL_DATA, SKA_DATAPRODUCT_API_URL } from '@utils/constants';
 import mockMuiDataGridConfig from '@services/Mocking/mockMuiDataGridConfig';
 
 interface GetMuiDataGridConfigResponse {
@@ -8,7 +8,7 @@ interface GetMuiDataGridConfigResponse {
 
 const GetMuiDataGridConfig = async (): Promise<GetMuiDataGridConfigResponse> => {
   // Define the API endpoint URL
-  const apiUrl: string = SKA_SDP_DATAPRODUCT_API_URL;
+  const apiUrl: string = SKA_DATAPRODUCT_API_URL;
   const URL_LIST: string = '/muidatagridconfig';
 
   // Set up the headers for the API request

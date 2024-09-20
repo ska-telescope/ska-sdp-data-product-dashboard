@@ -144,8 +144,15 @@ run_create_env()
 
 }
 
+run_get_local_env()
+{
+    if [ -f ".env" ]; then
+        source .env
+    fi
+}
 
 
+run_get_local_env
 run_get_vault
 
 option_req=${1:-js}

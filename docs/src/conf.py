@@ -1,7 +1,7 @@
 
 # -- Project information -----------------------------------------------------
 
-project = 'ska-sdp-dataproduct-dashboard'
+project = 'ska-dataproduct-dashboard'
 copyright = '2024, SKAO'
 author = 'SKAO'
 
@@ -44,29 +44,29 @@ html_static_path = ['_static']
 
 # -- Options for HTMLHelp output ---------------------------------------------
 
-htmlhelp_basename = 'ska-sdp-dataproduct-dashboard'
+htmlhelp_basename = 'ska-dataproduct-dashboard'
 
 # -- Options for LaTeX output ------------------------------------------------
 
 latex_elements = {}
 
 latex_documents = [
-    (master_doc, 'ska-sdp-dataproduct-dashboard.tex', 'ska-sdp-dataproduct-dashboard Documentation',
+    (master_doc, 'ska-dataproduct-dashboard.tex', 'ska-dataproduct-dashboard Documentation',
      'SKAO', 'manual'),
 ]
 
 # -- Options for manual page output ------------------------------------------
 
 man_pages = [
-    (master_doc, 'ska-sdp-dataproduct-dashboard', 'ska-sdp-dataproduct-dashboard Documentation',
+    (master_doc, 'ska-dataproduct-dashboard', 'ska-dataproduct-dashboard Documentation',
      [author], 1)
 ]
 
 # -- Options for Texinfo output ----------------------------------------------
 
 texinfo_documents = [
-    (master_doc, 'ska-sdp-dataproduct-dashboard', 'ska-sdp-dataproduct-dashboard Documentation',
-     author, 'ska-sdp-dataproduct-dashboard', 'One line description of project.',
+    (master_doc, 'ska-dataproduct-dashboard', 'ska-dataproduct-dashboard Documentation',
+     author, 'ska-dataproduct-dashboard', 'One line description of project.',
      'Miscellaneous'),
 ]
 

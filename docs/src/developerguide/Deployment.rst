@@ -66,19 +66,19 @@ This section details the configuration options available when deploying the Data
       - Comment
     * - ``api.enabled``
       - ``true``
-      - If the ska-sdp-dataproduct-api should be enabled.
+      - If the ska-dataproduct-api should be enabled.
     * - ``api.container``
-      - ``artefact.skao.int/ska-sdp-dataproduct-api``
+      - ``artefact.skao.int/ska-dataproduct-api``
       - The link to the artefact repository
     * - ``api.version``
       - ``0.8.0``
-      - The version of the ska-sdp-dataproduct-api to use.
+      - The version of the ska-dataproduct-api to use.
     * - ``api.imagePullPolicy``
       - ``IfNotPresent``
-      - The pull policy of the ska-sdp-dataproduct-api.
+      - The pull policy of the ska-dataproduct-api.
     * - ``api.ingress.path``
       - ``"api"``
-      - What the prefix for the ska-sdp-dataproduct-api path should be.
+      - What the prefix for the ska-dataproduct-api path should be.
     * - ``api.storagePath``
       - ``"/mnt/data/product/"``
       - The path to the data on the PV.
@@ -92,7 +92,7 @@ This section details the configuration options available when deploying the Data
       - ``9200``
       - The ElasticSearch host.
     * - ``api.elasticsearch.metadata_schema_file``
-      - ``/mnt/src/ska_sdp_dataproduct_api/elasticsearch/data_product_metadata_schema.json``
+      - ``/mnt/src/ska_dataproduct_api/elasticsearch/data_product_metadata_schema.json``
       - The ElasticSearch metadata schema.
     * - ``api.elasticsearch.http_ca``
       - ``None``
@@ -146,19 +146,19 @@ This section details the configuration options available when deploying the Data
       - Comment
     * - ``dashboard.enabled``
       - ``true``
-      - If the ska-sdp-dataproduct-dashboard should be enabled.
+      - If the ska-dataproduct-dashboard should be enabled.
     * - ``dashboard.container``
-      - ``artefact.skao.int/ska-sdp-dataproduct-dashboard``
+      - ``artefact.skao.int/ska-dataproduct-dashboard``
       - The link to the artefact repository
     * - ``dashboard.version``
       - ``0.9.0``
-      - The version of the ska-sdp-dataproduct-dashboard to use.
+      - The version of the ska-dataproduct-dashboard to use.
     * - ``dashboard.imagePullPolicy``
       - ``IfNotPresent``
-      - The pull policy of the ska-sdp-dataproduct-dashboard.
+      - The pull policy of the ska-dataproduct-dashboard.
     * - ``dashboard.ingress.path``
       - ``"dashboard"``
-      - What the prefix for the ska-sdp-dataproduct-dashboard path should be.
+      - What the prefix for the ska-dataproduct-dashboard path should be.
     * - ``dashboard.config.allowMockAuth``
       - ``false``
       - Enable mocked authentication.

@@ -6,10 +6,10 @@ kind: Ingress
 metadata:
   annotations:
     kubernetes.io/ingress.class: nginx
-{{ include "ska-sdp-dataproduct-dashboard.dashboard.labels" . | indent 4 }}
+{{ include "ska-dataproduct-dashboard.dashboard.labels" . | indent 4 }}
     nginx.ingress.kubernetes.io/rewrite-target: /$1
   labels:
-{{ include "ska-sdp-dataproduct-dashboard.dashboard.labels" . | indent 4 }}
+{{ include "ska-dataproduct-dashboard.dashboard.labels" . | indent 4 }}
   name: {{ $.Chart.Name }}-dashboard-ingress
   namespace: {{ .Release.Namespace }}
 spec:
@@ -21,7 +21,7 @@ spec:
             name: {{ $.Chart.Name }}-dashboard-service
             port:
               number: 80
-        path: "{{ include "ska-sdp-dataproduct-dashboard.dashboard.ingress.path" . }}/(.*)"
+        path: "{{ include "ska-dataproduct-dashboard.dashboard.ingress.path" . }}/(.*)"
         pathType: ImplementationSpecific
 {{- end }}
 {{- if $.Values.api.enabled }}
@@ -31,10 +31,10 @@ kind: Ingress
 metadata:
   annotations:
     kubernetes.io/ingress.class: nginx
-{{ include "ska-sdp-dataproduct-dashboard.api.labels" . | indent 4 }}
+{{ include "ska-dataproduct-dashboard.api.labels" . | indent 4 }}
     nginx.ingress.kubernetes.io/rewrite-target: /$1
   labels:
-{{ include "ska-sdp-dataproduct-dashboard.api.labels" . | indent 4 }}
+{{ include "ska-dataproduct-dashboard.api.labels" . | indent 4 }}
   name: {{ $.Chart.Name }}-api-ingress
   namespace: {{ .Release.Namespace }}
 spec:
@@ -46,7 +46,7 @@ spec:
             name: {{ $.Chart.Name }}-api-service
             port:
               number: 8000
-        path: "{{ include "ska-sdp-dataproduct-dashboard.api.ingress.path" . }}/(.*)"
+        path: "{{ include "ska-dataproduct-dashboard.api.ingress.path" . }}/(.*)"
         pathType: ImplementationSpecific
 {{- end }}
 ---
@@ -56,10 +56,10 @@ kind: Ingress
 metadata:
   annotations:
     kubernetes.io/ingress.class: nginx
-{{ include "ska-sdp-dataproduct-dashboard.permissionsApi.labels" . | indent 4 }}
+{{ include "ska-dataproduct-dashboard.permissionsApi.labels" . | indent 4 }}
     nginx.ingress.kubernetes.io/rewrite-target: /$1
   labels:
-{{ include "ska-sdp-dataproduct-dashboard.permissionsApi.labels" . | indent 4 }}
+{{ include "ska-dataproduct-dashboard.permissionsApi.labels" . | indent 4 }}
   name: {{ $.Chart.Name }}-permissions-api
 spec:
   rules:
@@ -70,7 +70,7 @@ spec:
             name: {{ $.Chart.Name }}-permissions-api
             port:
               number: 8000
-        path: "{{ include "ska-sdp-dataproduct-dashboard.permissionsApi.ingress.path" . }}/(.*)"
+        path: "{{ include "ska-dataproduct-dashboard.permissionsApi.ingress.path" . }}/(.*)"
         pathType: ImplementationSpecific
 {{- end }}
 {{- end }}
