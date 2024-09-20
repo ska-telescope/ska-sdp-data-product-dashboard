@@ -193,7 +193,7 @@ deploy-dev-environment-dp:
   tags:
     - ska-k8srunner-dp
   variables:
-    K8S_CHART_PARAMS: '--set api.container=registry.gitlab.com/ska-telescope/ska-dataproduct-api/ska-dataproduct-api --set permissionsApi.image.container=registry.gitlab.com/ska-telescope/ska-permissions-api/ska-permissions-api --set api.imagePullPolicy=Always --set api.postgresql.host=pgdev-lb.cnpgdev.svc.cluster.local --set api.postgresql.user=sdp_sdp_dataproduct_dashboard_integration --set api.postgresql.dbname=integration --set api.postgresql.schema=sdp_sdp_dataproduct_dashboard_integration --set api.postgresql.tableName=data_products_metadata_v1'
+    K8S_CHART_PARAMS: '--set api.container=registry.gitlab.com/ska-telescope/ska-dataproduct-api/ska-dataproduct-api --set permissionsApi.image.container=registry.gitlab.com/ska-telescope/ska-permissions-api/ska-permissions-api --set api.version=0.9.0-dev.c2fa61137 --set api.imagePullPolicy=Always --set api.postgresql.host=pgdev-lb.cnpgdev.svc.cluster.local --set api.postgresql.user=sdp_sdp_dataproduct_dashboard_integration --set api.postgresql.dbname=integration --set api.postgresql.schema=sdp_sdp_dataproduct_dashboard_integration --set api.postgresql.tableName=data_products_metadata_v1'
 
 test-dev-environment-dp:
   stage: deploy-dp
