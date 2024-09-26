@@ -5,6 +5,10 @@ Changelog
 Current Development
 -------------------
 
+
+v0.10.0
+------
+
 * `NAL-1228 <https://jira.skatelescope.org/browse/NAL-1228>`_ 
 
   - [Changed] Updated K8S_CHART_PARAMS for Gitlab pipeline deployments.
@@ -16,8 +20,6 @@ Current Development
   - [Changed] Update the env_config.sh script to load variables from a .env file that can be used during development.
   - [Fixed] Update the boolean data types of env variables in the project.
 
-Released
-========
 
 v0.9.0
 ------
