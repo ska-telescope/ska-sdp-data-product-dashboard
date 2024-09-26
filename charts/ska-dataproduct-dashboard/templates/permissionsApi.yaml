@@ -62,7 +62,7 @@ spec:
         terminationMessagePath: "/dev/termination-log"
         terminationMessagePolicy: "File"
         env:
-          - name: SKA_DATAPRODUCT_API_VERSION
+          - name: SKA_PERMISSIONS_API_VERSION
             value: "{{ .Values.permissionsApi.image.version }}"
           - name: MSENTRA_REDIRECT_URI
             value: "{{ .Values.ingress.hostname }}{{ include "ska-dataproduct-dashboard.dashboard.ingress.path" . }}/"

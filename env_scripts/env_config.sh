@@ -147,7 +147,10 @@ run_create_env()
 run_get_local_env()
 {
     if [ -f ".env" ]; then
+        echo "Using local .env config"
         source .env
+    else
+        echo "No local .env config found, skipping loading"
     fi
 }
 
