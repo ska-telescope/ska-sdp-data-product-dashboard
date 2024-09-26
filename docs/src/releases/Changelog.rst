@@ -5,6 +5,11 @@ Changelog
 Current Development
 -------------------
 
+* `NAL-1228 <https://jira.skatelescope.org/browse/NAL-1228>`_ 
+
+  - [Changed] Updated K8S_CHART_PARAMS for Gitlab pipeline deployments.
+  - [Fixed] Updated env_config script to load environment variables from an .env when available.
+
 * `NAL-1227 <https://jira.skatelescope.org/browse/NAL-1227>`_ 
 
   - **BREAKING** [Changed] The project have now been renamed and moved out of the SDP Gitlab folder. This was done because the Data Product Dashboard is not limited to data products of SDP and it might cause confusion if the name is not more general.
