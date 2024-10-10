@@ -16,12 +16,13 @@ function DownloadCard(selectedFileNames: {
   execution_block: any;
   relativePathName: any;
   metaDataFile?: string;
+  uuid?: string;
 }) {
   const URL_DOWNLOAD = '/download';
   const apiUrl = SKA_DATAPRODUCT_API_URL;
   const { t } = useTranslation('dpd');
   const params = {
-    execution_block: selectedFileNames?.execution_block
+    uuid: selectedFileNames?.uuid
   };
   const options = {
     method: 'POST',
@@ -38,7 +39,7 @@ function DownloadCard(selectedFileNames: {
   );
 
   React.useEffect(() => {
-    const metaDataFile = selectedFileNames?.execution_block;
+    const metaDataFile = selectedFileNames?.uuid;
 
     async function loadMetaData() {
       if (metaDataFile) {

@@ -14,16 +14,16 @@ async function getMetaData(inData: string) {
     }
   };
 
-  function setExecutionBlock(inData: string) {
+  function setUuidBlock(inData: string) {
     const testValue = isWindows() ? '\\' : '/';
     return inData.substring(inData.lastIndexOf(testValue) + 1);
   }
 
   async function fetchMetaDataFromDPDAPI() {
-    const executionBlock = inData ? setExecutionBlock(inData) : '';
+    const uuid = inData ? setUuidBlock(inData) : '';
     const apiUrl = SKA_DATAPRODUCT_API_URL;
     const params = {
-      execution_block: executionBlock
+      uuid: uuid
     };
 
     if (USE_LOCAL_DATA) {

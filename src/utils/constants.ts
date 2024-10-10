@@ -1,9 +1,5 @@
 import { env } from '../env';
 
-function parseBoolean(str: string): boolean {
-  return str ? str.toLowerCase() === 'true' : false;
-}
-
 export const VERSION = process.env.REACT_APP_VERSION;
 
 export const { NODE_ENV } = process.env;
