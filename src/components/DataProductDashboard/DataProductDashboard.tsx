@@ -62,7 +62,7 @@ const DataProductDashboard = () => {
     const results = await GetAPIStatus();
     if (results?.data) {
       updateApiRunning(results.data.api_running);
-      updateApiIndexing(results.data.Indexing);
+      updateApiIndexing(results.data.metadata_store_status.indexing);
       setDataStoreLastModifiedTime(results.data.metadata_store_status?.last_metadata_update_time);
     } else {
       setDataStoreLastModifiedTime(null);
