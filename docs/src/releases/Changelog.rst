@@ -5,6 +5,12 @@ Changelog
 Current Development
 -------------------
 
+* `NAL-1254 <https://jira.skatelescope.org/browse/NAL-1254>`_ 
+
+ - [Changed] Changed the unique ID of data products from the execution_block_id to a UUID. This allows sub products of an execution_block to be loaded as a separate data product on the DPD.
+ - [Changed] Changed the /dataproductmetadata endpoint to expect a data products UUID instead of a execution_block_id, which is not unique in the case where there are sub products inside a data product.
+ - [Changed] Updated the /download endpoint to accept either the execution_block_id or a UUID. The UUID is used to differentiate between sub products inside a data product when downloading from the dashboard. If there are more than one match for data products of an execution_block_id, they will all be downloaded when calling the endpoint with an execution_block_id.
+
 
 v0.10.0
 ------

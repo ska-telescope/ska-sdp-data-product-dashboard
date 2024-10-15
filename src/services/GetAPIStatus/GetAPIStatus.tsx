@@ -17,7 +17,11 @@ const GetAPIStatus = async () => {
     data: {
       api_running: false,
       last_metadata_update_time: '1970-01-01T00:00:00.000000',
-      api_version: 'Data product API unreachable'
+      api_version: 'Data product API unreachable',
+      metadata_store_status: {
+        last_metadata_update_time: '2024-10-15T13:08:06.126363',
+        indexing: false
+      }
     }
   };
 

@@ -25,7 +25,8 @@ const DataProductDashboard = () => {
   const [selectedFileNames, setSelectedFileNames] = React.useState({
     execution_block: '',
     relativePathName: '',
-    metaDataFile: ''
+    metaDataFile: '',
+    uuid: ''
   });
   const [apiRunning, updateApiRunning] = React.useState(false);
   const [apiIndexing, updateApiIndexing] = React.useState(false);
@@ -61,7 +62,7 @@ const DataProductDashboard = () => {
     const results = await GetAPIStatus();
     if (results?.data) {
       updateApiRunning(results.data.api_running);
-      updateApiIndexing(results.data.Indexing);
+      updateApiIndexing(results.data.metadata_store_status.indexing);
       setDataStoreLastModifiedTime(results.data.metadata_store_status?.last_metadata_update_time);
     } else {
       setDataStoreLastModifiedTime(null);
@@ -125,12 +126,13 @@ const DataProductDashboard = () => {
   }, [endDate, formFields, startDate, updating]);
 
   const handleRowClick = (params: {
-    row: { id: any; execution_block: any; dataproduct_file: any; metadata_file: any };
+    row: { id: any; execution_block: any; dataproduct_file: any; metadata_file: any; uuid: any };
   }) => {
     setSelectedFileNames({
       execution_block: params.row.execution_block,
       relativePathName: params.row.dataproduct_file,
-      metaDataFile: params.row.metadata_file
+      metaDataFile: params.row.metadata_file,
+      uuid: params.row.uuid
     });
   };
 
