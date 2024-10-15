@@ -4,9 +4,9 @@ const MockStatus = {
     last_metadata_update_time: '2023-08-15T13:03:51.102605',
     api_version: 'Using Local data, mocking status',
     metadata_store_status: {
-      last_metadata_update_time: "2024-10-15T13:08:06.126363",
+      last_metadata_update_time: '2024-10-15T13:08:06.126363',
       indexing: false
-    },
+    }
   },
   status: 200,
   statusText: 'OK',
