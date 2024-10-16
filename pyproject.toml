@@ -5,7 +5,7 @@ urllib3 = "2.2.1"
 
 [tool.poetry]
 name = "ska-dataproduct-dashboard"
-version = "0.10.0"
+version = "0.11.0"
 description = "Data Product Dashboard"
 authors = ["NALEDI <naledi@sarao.ac.za>"]
 license = "BSD-3-Clause"
