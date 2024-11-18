@@ -4,7 +4,6 @@ import { Box } from '@mui/material';
 import GetMuiDataGridConfig from './GetMuiDataGridConfig';
 import GetMuiDataGridRows from './GetMuiDataGridRows';
 import { shellSize } from '@utils/constants';
-import theme from '@services/theme/theme';
 
 export default function DataproductDataGrid(
   handleSelectedNode: (data: any) => void,
@@ -87,9 +86,9 @@ export default function DataproductDataGrid(
             color: 'primary.contrastText',
             '&:hover': {
               backgroundColor: 'primary.dark',
-              color: 'primary.contrastText',
-            },
-          },
+              color: 'primary.contrastText'
+            }
+          }
         }}
       />
     </Box>
