@@ -46,11 +46,11 @@ export DP_PVC
 
 k8s-pre-install-chart-car: k8s-pre-install-chart
 k8s-pre-install-chart:
+	if [[ "$(CI_RUNNER_TAGS)" == *"ska-k8srunner-dp"* ]] || [[ "$(CI_RUNNER_TAGS)" == *"ska-k8srunner-dp-gpu-a100"* ]] ; then \
 	make k8s-namespace ;\
 	kubectl -n ${KUBE_NAMESPACE} delete --now --ignore-not-found pvc/shared-mnl || true ;\
 	kubectl delete --now --ignore-not-found pv/dpshared-${KUBE_NAMESPACE}-mnl || true ;\
-	apt-get update && apt-get install gettext -y
-	if [[ "$(CI_RUNNER_TAGS)" == *"ska-k8srunner-dp"* ]] || [[ "$(CI_RUNNER_TAGS)" == *"ska-k8srunner-dp-gpu-a100"* ]] ; then \
+	apt-get update && apt-get install gettext -y ;\
 	export SHARED_CAPACITY=$(shell kubectl get pv/dpshared-dp-shared-mnl -o jsonpath="{.spec.capacity.storage}") ; \
 	echo "$${DP_PVC}" | envsubst | kubectl -n $(KUBE_NAMESPACE) apply -f - ;\
 	kubectl get pv dpshared-dp-shared-mnl -o json | \

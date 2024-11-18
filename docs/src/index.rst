@@ -20,4 +20,4 @@ The SKA Data Product Dashboard `ska-dataproduct-dashboard` is a web-based applic
   :maxdepth: 1
   :caption: Releases
 
-  releases/Changelog
+  CHANGELOG.md

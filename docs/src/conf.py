@@ -21,12 +21,15 @@ extensions = [
     'sphinx.ext.mathjax',
     'sphinx.ext.ifconfig',
     'sphinx.ext.viewcode',
-    'sphinx.ext.githubpages',
+    'sphinx.ext.autosectionlabel',
+    'sphinx_copybutton',
+    'sphinx_new_tab_link',
+    'recommonmark',
 ]
 
 templates_path = ['_templates']
 
-source_suffix = '.rst'
+source_suffix = ['.rst', '.md']
 
 master_doc = 'index'
 

@@ -4,6 +4,7 @@ import { Box } from '@mui/material';
 import GetMuiDataGridConfig from './GetMuiDataGridConfig';
 import GetMuiDataGridRows from './GetMuiDataGridRows';
 import { shellSize } from '@utils/constants';
+import theme from '@services/theme/theme';
 
 export default function DataproductDataGrid(
   handleSelectedNode: (data: any) => void,
@@ -80,6 +81,16 @@ export default function DataproductDataGrid(
         loading={isLoading}
         rowHeight={35}
         style={{ height: tableHeight!, width: '100%' }}
+        sx={{
+          '& .MuiDataGrid-row.Mui-selected': {
+            backgroundColor: 'primary.dark',
+            color: 'primary.contrastText',
+            '&:hover': {
+              backgroundColor: 'primary.dark',
+              color: 'primary.contrastText',
+            },
+          },
+        }}
       />
     </Box>
   );
