@@ -3,6 +3,10 @@
 ## Current Development
 
 - [NAL-1279](https://jira.skatelescope.org/browse/NAL-1279)
+  - [Changed] Disable download button when data product has not file reference in the metadata.
+  - [Changed] Moved the download button to be inline with the data product in the data grid.
+
+- [NAL-1279](https://jira.skatelescope.org/browse/NAL-1279)
   - [Fixed] Resolved issue where the MUI DataGrid row selection did not change the selected rows color.
   - [Changed] Updated changelog to match guidelines in developer portal.
   - [Changed] Updated GUI Components library to ska-gui-components: "^2.0.21".

@@ -1,12 +1,22 @@
 import * as React from 'react';
-import { DataGrid, GridFilterModel } from '@mui/x-data-grid';
+import { DataGrid, GridFilterModel, GridColDef } from '@mui/x-data-grid';
+import DownloadIcon from '@mui/icons-material/Download';
 import { Box } from '@mui/material';
 import GetMuiDataGridConfig from './GetMuiDataGridConfig';
 import GetMuiDataGridRows from './GetMuiDataGridRows';
 import { shellSize } from '@utils/constants';
+import {
+  Button,
+  ButtonColorTypes,
+  ButtonVariantTypes,
+  ButtonIcons,
+  ButtonSizeTypes
+} from '@ska-telescope/ska-gui-components';
+import { useTranslation } from 'react-i18next';
+import dataProductDownloadStream from '@services/GetDownloadStream/GetDownloadStream';
 
 export default function DataproductDataGrid(
-  handleSelectedNode: (data: any) => void,
+  handleSelectedNode: () => void,
   searchPanelOptions: {},
   token: string = '',
   updating: boolean
@@ -18,6 +28,7 @@ export default function DataproductDataGrid(
   const [dataFilterModel, setDataFilterModel] = React.useState({});
   const [rows, setRows] = React.useState([]);
   const [tableHeight, setTableHeight] = React.useState(window.innerHeight - shellSize());
+  const { t } = useTranslation('dpd');
 
   React.useEffect(() => {
     function handleResize() {
@@ -46,9 +57,79 @@ export default function DataproductDataGrid(
     });
   }, [searchPanelOptions, muiDataGridFilterModel]);
 
+  const handleRowClick = (params: {
+    row: { id: any; execution_block: any; dataproduct_file: any; metadata_file: any; uuid: any };
+  }) => {
+    const saveData = () => {
+      localStorage.setItem(
+        'selectedDataProduct',
+        JSON.stringify({
+          execution_block: params.row.execution_block,
+          relativePathName: params.row.dataproduct_file,
+          metaDataFile: params.row.metadata_file,
+          uuid: params.row.uuid
+        })
+      );
+    };
+    saveData();
+    handleSelectedNode();
+  };
+
+  const columns: GridColDef[] = [
+    {
+      field: 'download',
+      headerName: 'Download',
+      sortable: false,
+      width: 150,
+      renderCell: (params) => {
+        const onClick = () => {
+          dataProductDownloadStream({
+            execution_block: params.row.execution_block,
+            relativePathName: params.row.dataproduct_file,
+            metaDataFile: params.row.metadata_file,
+            uuid: params.row.uuid
+          });
+        };
+
+        if (params.row.dataproduct_file !== 'None') {
+          return (
+            <Button
+              testId="downloadButton"
+              color={ButtonColorTypes.Secondary}
+              icon={<DownloadIcon />}
+              label={t('button.download')}
+              onClick={onClick}
+              toolTip={t('toolTip.button.dataProductAvailable')}
+              variant={ButtonVariantTypes.Outlined}
+              size={ButtonSizeTypes.Small}
+            />
+          );
+        } else {
+          return (
+            <Button
+              testId="unavailableDownloadButton"
+              color={ButtonColorTypes.Secondary}
+              icon={ButtonIcons.Download}
+              label={t('button.download')}
+              onClick={onClick}
+              toolTip={t('toolTip.button.dataProductNotAvailable')}
+              variant={ButtonVariantTypes.Outlined}
+              disabled={true}
+              size={ButtonSizeTypes.Small}
+            />
+          );
+        }
+      }
+    }
+  ];
+
   const fetchData = React.useCallback(async () => {
     const response = await GetMuiDataGridConfig();
-    setMuiConfigData(response);
+    const newData = {
+      columns: [...columns, ...response.columns]
+    };
+    setMuiConfigData(newData);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   React.useEffect(() => {
@@ -76,7 +157,7 @@ export default function DataproductDataGrid(
         rows={rows}
         filterMode="server"
         onFilterModelChange={onFilterChange}
-        onRowClick={handleSelectedNode}
+        onRowClick={handleRowClick}
         loading={isLoading}
         rowHeight={35}
         style={{ height: tableHeight!, width: '100%' }}
