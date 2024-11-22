@@ -13,7 +13,7 @@ import { Button, DateEntry, TextEntry, ButtonColorTypes } from '@ska-telescope/s
 import { ButtonVariantTypes } from '@ska-telescope/ska-gui-components';
 
 import DataProductsTable from '@components/DataProductsTable/DataProductsTable';
-import DownloadCard from '@components/DownloadCard/DownloadCard';
+import MetadataCard from '@components/MetadataCard/MetadataCard';
 import GetAPIStatus from '@services/GetAPIStatus/GetAPIStatus';
 import { API_REFRESH_RATE, SKA_DATAPRODUCT_API_URL, FILTERCARDHEIGHT } from '@utils/constants';
 import DataproductDataGrid from '@components/DataGrid/DataGrid';
@@ -125,16 +125,18 @@ const DataProductDashboard = () => {
     }
   }, [endDate, formFields, startDate, updating]);
 
-  const handleRowClick = (params: {
-    row: { id: any; execution_block: any; dataproduct_file: any; metadata_file: any; uuid: any };
-  }) => {
-    setSelectedFileNames({
-      execution_block: params.row.execution_block,
-      relativePathName: params.row.dataproduct_file,
-      metaDataFile: params.row.metadata_file,
-      uuid: params.row.uuid
-    });
+  const handleRowClick = () => {
+    const selectedDataProduct = localStorage.getItem('selectedDataProduct');
+    const selectedFileNames = selectedDataProduct ? JSON.parse(selectedDataProduct) : null;
+    setSelectedFileNames(selectedFileNames);
   };
+
+  // React.useEffect(() => {
+  //   const saveData = () => {
+  //     localStorage.setItem('selectedDataProduct', JSON.stringify(selectedFileNames));
+  //   };
+  //   saveData();
+  // }, [selectedFileNames]);
 
   async function indexDataProduct() {
     const apiUrl = SKA_DATAPRODUCT_API_URL;
@@ -345,7 +347,7 @@ const DataProductDashboard = () => {
         <Grid item xs={3}>
           <>
             {RenderSearchBox()}
-            {DownloadCard(selectedFileNames)}
+            {MetadataCard(selectedFileNames)}
           </>
         </Grid>
       </Grid>

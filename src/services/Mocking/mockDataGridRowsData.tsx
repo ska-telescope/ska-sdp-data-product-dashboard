@@ -75,7 +75,7 @@ const mockDataGridRowsData = {
     {
       execution_block: 'eb-m002-20221212-12345',
       date_created: '2024-02-01',
-      dataproduct_file: 'eb-m002-20221212-12345/ska-sdp/pb-notebookvr-20240201-54576',
+      dataproduct_file: 'None',
       metadata_file:
         'eb-m002-20221212-12345/ska-sdp/pb-notebookvr-20240201-54576/ska-data-product.yaml',
       'config.cmdline': null,
