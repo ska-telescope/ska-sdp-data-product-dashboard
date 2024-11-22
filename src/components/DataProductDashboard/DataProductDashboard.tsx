@@ -131,13 +131,6 @@ const DataProductDashboard = () => {
     setSelectedFileNames(selectedFileNames);
   };
 
-  // React.useEffect(() => {
-  //   const saveData = () => {
-  //     localStorage.setItem('selectedDataProduct', JSON.stringify(selectedFileNames));
-  //   };
-  //   saveData();
-  // }, [selectedFileNames]);
-
   async function indexDataProduct() {
     const apiUrl = SKA_DATAPRODUCT_API_URL;
     try {
