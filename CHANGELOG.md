@@ -2,7 +2,13 @@
 
 ## Current Development
 
+- [NAL-1309](https://jira.skatelescope.org/browse/NAL-1309)
+
+  - [Changed] Made the Elasticsearch query body size configurable from environment variable SKA_DATAPRODUCT_API_ELASTIC_QUERY_BODY_SIZE via the Helm chart.
+  - [Changed] Updated documentation.
+
 - [NAL-1279](https://jira.skatelescope.org/browse/NAL-1279)
+
   - [Changed] Disable download button when data product has not file reference in the metadata.
   - [Changed] Moved the download button to be inline with the data product in the data grid.
 

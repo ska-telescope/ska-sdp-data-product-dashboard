@@ -1,19 +1,40 @@
 Overview
 ~~~~~~~~
 
-The data product dashboard is used to list and download data products that are saved on a shared data volume within the environment where it is deployed. This documentation will guide you through utilizing the dashboard's features to  locate and retrieve data products.
+The data product dashboard is used to list and download data products saved on a shared data volume within the environment where it is deployed. This documentation will guide you through utilizing the dashboard's features to find data products and view their metadata.
 
 Usage
 =====
 
-The dashboard contains a table of all the data products in the shared data volume, as seen by the `Data Product API <https://developer.skao.int/projects/ska-dataproduct-api/en/latest/?badge=latest>`_. This table has built-in functionality for sorting and filtering. When a data product is selected, its metadata and download option is displayed on a panel on the right.
+The dashboard contains a table of data products. In the current version, you will be able to view and download all the data products on the shared data volume where the data product dashboard is deployed. You will also be able to view metadata of data products that has been registered as data products on the Data Product Dashboard by the DLM (`Data Life Cycle Manager <https://developer.skao.int/projects/ska-data-lifecycle/en/latest/?badge=latest>`_). 
 
-.. figure:: /_static/img/dataproductdashboardWithoutSearch.png
+.. figure:: /_static/img/dataproductdashboardDatagridSearch.png
    :width: 90%
 
    Example Data Product Dashboard
 
-When the download option is selected, the data product will be streamed to disk as a .tar archive with the browser download manager.
+
+This table has built-in functionality for sorting and filtering, allowing a user to select any column header, and filter for values contained in that property of the products.
+
+.. note:: In this release, only the 'contains' filter is implemented.
+
+
+The user can also give a time range and list key value pairs as search parameters on the search box on the right of the table.
+
+.. figure:: /_static/img/dataproductdashboardSearchPanelSearch.png
+   :width: 90%
+
+   Example Data Product Dashboard search with time range and key value pair.
+
+
+When a data product is selected, its metadata is displayed on a panel on the right.
+
+.. figure:: /_static/img/dataproductdashboardMetadata.png
+   :width: 90%
+
+   Example of selected data product metadata.
+
+The download functionality for these items will depend if the product is accessible on the shared data volume. If available the user will be able to stream the data product to disk as a .tar archive with the browser download manager.
 
 .. figure:: /_static/img/dataproductdashboardWithFileDownloaded.png
    :width: 90%
@@ -21,21 +42,16 @@ When the download option is selected, the data product will be streamed to disk 
    Example of file downloaded with browser download manager.
 
 
-Above the table is a panel which contains functions related to the data store in use. These can include the following:
 
-- **Index Data Products**
+Data Product Index
+==================
 
-  This button will re-index the shared data volume from disk into the metadata store. This allows the user to find items that might have been added to the volume without being ingested by the API. 
+The current release of the Data Product Dashboard can be deployed with either a persistent metadata store using a PostgreSQL backend, or an in-memory solution that indexes all the data products on the shared data volume and creates a table in memory. In both cases, the store will be updated when a new product is loaded by the DLM. If an administrator loads data products directly onto the shared volume, the user can re-index the data volume to update the metadata store of the Data Product Dashboard accordingly.
 
-- **Reload**
+The dashboard will automatically reload when new data is added to its store, and the reload button will be deactivated while the dashboard is in sync with the data in the store.
 
-  This function will update the table on the dashboard with the latest list of data products in the metadata store. This allows the user to find items that have been ingested by the API since the dashboard last loaded. 
 
-When the data product API has access to an Elasticsearch backend, additional search functionality will become available. This allows the user to use Elasticsearch to search for a key value pair within the metadata.
-
-.. figure:: /_static/img/dataproductdashboardWithSearch.png
-   :width: 90%
-
-   Example Data Product Dashboard with Elasticsearch enabled.
+Integration into the SKA Portal
+===============================
 
 The application can be run as a standalone front-end application or used as a remote (Webpack 5 Module) within the SKA Portal `SKA Landing Page <https://gitlab.com/ska-telescope/ska-landing-page>`_. 

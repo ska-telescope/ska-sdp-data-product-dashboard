@@ -24,6 +24,7 @@ api:
     http_ca_file_name: http_ca.crt
     user: "elastic"
     indices: "ska-dp-dataproduct-sdhp-stfc-integration-v1"
+    query_body_size: 1000
   postgresql:
     host: ""
     port: 5432

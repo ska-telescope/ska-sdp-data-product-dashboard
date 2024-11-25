@@ -85,6 +85,15 @@ This section details the configuration options available when deploying the Data
     * - ``api.metadata_file_name``
       - ``ska-data-product.yaml``
       - The name of the data products metadata file that is used to indicate that a folder is a data product.
+    * - ``api.vault.useVault``
+      - ``true``
+      - Enables the deployment to retrieve SPA registration details from the SKAO vault.
+    * - ``api.vault.pathToSecretVault``
+      - ``kv/data/users/andre_odendaal/ska_login_page``
+      - Path to the secrets in the vault.
+    * - ``api.vault.secretsFilePath``
+      - ``/vault/secrets/config``
+      - Path to the secrets as mapped into the API container.
     * - ``api.elasticsearch.host``
       - ``https://localhost``
       - The ElasticSearch port.
@@ -94,18 +103,18 @@ This section details the configuration options available when deploying the Data
     * - ``api.elasticsearch.metadata_schema_file``
       - ``/mnt/src/ska_dataproduct_api/elasticsearch/data_product_metadata_schema.json``
       - The ElasticSearch metadata schema.
-    * - ``api.elasticsearch.http_ca``
-      - ``None``
-      - The ElasticSearch CA certificate, it not used set to None.
+    * - ``api.elasticsearch.http_ca_file_name``
+      - ``http_ca.crt``
+      - The ElasticSearch CA certificate file name.
     * - ``api.elasticsearch.user``
       - ``elastic``
       - The ElasticSearch user.
-    * - ``api.elasticsearch.password``
-      - ````
-      - The ElasticSearch password.
     * - ``api.elasticsearch.indices``
       - ``ska-dp-dataproduct-localhost-dev-v1``
       - The ElasticSearch indices to be used for the search store, following the convention ska-dp-dataproduct-<Data center>-<namespace>-<version>. For example "ska-dp-dataproduct-sdhp-stfc-integration-v1"
+    * - ``api.elasticsearch.query_body_size``
+      - ``1000``
+      - The maximum number of ElasticSearch results returned by a query.
     * - ``api.postgresql.host``
       - ``https://localhost``
       - The PostgreSQL port.
@@ -115,9 +124,15 @@ This section details the configuration options available when deploying the Data
     * - ``api.postgresql.user``
       - ``elastic``
       - The PostgreSQL user.
-    * - ``api.postgresql.password``
+    * - ``api.postgresql.dbname``
       - ````
-      - The PostgreSQL password.
+      - The PostgreSQL database name.
+    * - ``api.postgresql.schema``
+      - ````
+      - The PostgreSQL schema name.
+    * - ``api.postgresql.tableName``
+      - ``data_products_metadata_v1``
+      - The PostgreSQL table name.
     * - ``api.stream_chunk_size``
       - ``65536``
       - Data downloaded are streamed in stream_chunk_size chunks.
@@ -134,6 +149,25 @@ This section details the configuration options available when deploying the Data
       - ``2048Mi``
       - The maximum memory usage of the api.
    
+
+**Data product API secrets**:
+
+The following secrets are expected in the file mapped into the API container by the vault: 
+
+.. list-table::
+    :widths: 50, 50
+    :header-rows: 1
+
+    * - Secret
+      - Comment
+    * - ``SKA_DATAPRODUCT_API_ELASTIC_PASSWORD``
+      - The ElasticSearch password.
+    * - ``SKA_DATAPRODUCT_API_ELASTIC_HTTP_CA_BASE64_CERT``
+      - The ElasticSearch password.
+    * - ``SKA_DATAPRODUCT_API_POSTGRESQL_PASSWORD``
+      - The PostgreSQL password.
+
+
 
 **Data product Dashboard**:
 
@@ -241,6 +275,8 @@ This section details the configuration options available when deploying the Data
 
 
 **Shared persistent volume**:
+
+.. note:: Only enable the creation of a PVC here when running the application locally or in tests where the shared PCV is not used.
 
 .. list-table::
     :widths: 20, 20, 60
