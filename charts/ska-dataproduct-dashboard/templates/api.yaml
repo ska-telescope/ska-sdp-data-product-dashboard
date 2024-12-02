@@ -89,6 +89,8 @@ spec:
             value: "{{ .Values.api.elasticsearch.user }}"
           - name: SKA_DATAPRODUCT_API_ELASTIC_INDICES
             value: "{{ .Values.api.elasticsearch.indices }}"
+          - name: SKA_DATAPRODUCT_API_ELASTIC_QUERY_BODY_SIZE
+            value: "{{ .Values.api.elasticsearch.query_body_size }}"          
           - name: SKA_DATAPRODUCT_API_POSTGRESQL_HOST
             value: "{{ .Values.api.postgresql.host }}"
           - name: SKA_DATAPRODUCT_API_POSTGRESQL_PORT
