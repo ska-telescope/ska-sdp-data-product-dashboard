@@ -16,7 +16,7 @@ describe('<MetadataCard />', () => {
           <MetadataCard metaData={mockData} />
         </ThemeProvider>
       );
-      cy.findByTestId('metaDataDescription').should('be.visible');
+      cy.findByTestId('MetadataDataTree').should('be.visible');
     });
   }
 });

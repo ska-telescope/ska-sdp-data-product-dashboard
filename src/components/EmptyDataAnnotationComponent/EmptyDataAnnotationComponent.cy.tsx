@@ -12,7 +12,7 @@ describe('<MetaData />', () => {
       cy.mount(
         <ThemeProvider theme={theme(theTheme)}>
           <CssBaseline />
-          <EmptyDataAnnotationComponent/>
+          <EmptyDataAnnotationComponent />
         </ThemeProvider>
       );
     });

@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { USE_LOCAL_DATA, SKA_DATAPRODUCT_API_URL } from '@utils/constants';
-import MockDataAnnotations from '@services/Mocking/mockDataAnnotations'
+import MockDataAnnotations from '@services/Mocking/mockDataAnnotations';
 
 async function getDataAnnotations(uuid: string) {
   const config = {
@@ -9,7 +9,7 @@ async function getDataAnnotations(uuid: string) {
       'Content-Type': 'application/json'
     }
   };
-   
+
   if (USE_LOCAL_DATA) {
     console.log('USE_LOCAL_DATA: Loading MockDataAnnotations');
     return MockDataAnnotations;

@@ -13,7 +13,7 @@ describe('<DataAnnotationsCard  />', () => {
       cy.mount(
         <ThemeProvider theme={theme(theTheme)}>
           <CssBaseline />
-          <DataAnnotationsCard data={mockDataAnnotations}/>
+          <DataAnnotationsCard data={mockDataAnnotations} />
         </ThemeProvider>
       );
       cy.findByTestId('createDataAnnotation').should('be.visible');
