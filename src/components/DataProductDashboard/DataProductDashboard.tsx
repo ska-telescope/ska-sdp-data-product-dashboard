@@ -18,6 +18,7 @@ import GetAPIStatus from '@services/GetAPIStatus/GetAPIStatus';
 import { API_REFRESH_RATE, SKA_DATAPRODUCT_API_URL, FILTERCARDHEIGHT } from '@utils/constants';
 import DataproductDataGrid from '@components/DataGrid/DataGrid';
 import { storageObject } from '@ska-telescope/ska-gui-local-storage';
+import DataAnnotationsCard from '@components/DataAnnotationsCard/DataAnnotationsCard';
 
 const DataProductDashboard = () => {
   const { t } = useTranslation('dpd');
@@ -341,6 +342,7 @@ const DataProductDashboard = () => {
           <>
             {RenderSearchBox()}
             {MetadataCard(selectedFileNames)}
+            {DataAnnotationsCard(selectedFileNames.uuid)}
           </>
         </Grid>
       </Grid>

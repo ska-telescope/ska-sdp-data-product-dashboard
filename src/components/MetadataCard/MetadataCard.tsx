@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Box, Card, CardContent, Typography } from '@mui/material';
+import { Box, Card, CardContent, CardHeader, Typography } from '@mui/material';
 import { DataTree } from '@ska-telescope/ska-gui-components';
 import { useTranslation } from 'react-i18next';
 import { shellSize, FILTERCARDHEIGHT } from '@utils/constants';
@@ -56,18 +56,8 @@ function MetadataCard(selectedDataProduct: {
       {selectedDataProduct?.relativePathName !== '' && (
         <Box m={1}>
           <Card variant="outlined" sx={{ maxHeight: cardHeight }}>
+            <CardHeader title="Meta Data Tree"/>
             <CardContent>
-              <Typography
-                data-testid={'metaDataDescription'}
-                sx={{ fontSize: 16 }}
-                color="text.secondary"
-                gutterBottom
-              >
-                {t('prompt.selectedProduct')}
-              </Typography>
-              <Typography variant="subtitle2" component="div">
-                Execution Block ID: {selectedDataProduct.execution_block}
-              </Typography>
               {metaData && (
                 <DataTree
                   testId="MetadataDataTree"
