@@ -11,7 +11,7 @@ function DataAnnotationsCard(uuid: any) {
   const { t } = useTranslation('dpd');
 
   const [dataAnnotations, setDataAnnotations] = React.useState([]);
-  const [dataAnnotationMessage, setDataAnnotationMessage] = React.useState("");
+  const [dataAnnotationMessage, setDataAnnotationMessage] = React.useState('');
   const [cardHeight, setCardHeight] = React.useState(
     tableHeight() - (window.innerHeight - shellSize() - FILTERCARDHEIGHT - 240)
   );
@@ -19,12 +19,11 @@ function DataAnnotationsCard(uuid: any) {
   React.useEffect(() => {
     async function loadDataAnnotations() {
       const result = await getDataAnnotations(uuid);
-      console.log(result)
-      if(typeof(result) === "string"){
+      console.log(result);
+      if (typeof result === 'string') {
         setDataAnnotationMessage(result);
         setDataAnnotations([]);
-      }
-      else{
+      } else {
         setDataAnnotations(result);
       }
     }
@@ -57,7 +56,7 @@ function DataAnnotationsCard(uuid: any) {
         </>
       );
     } else {
-      return <EmptyDataAnnotationComponent message={dataAnnotationMessage}/>;
+      return <EmptyDataAnnotationComponent message={dataAnnotationMessage} />;
     }
   }
 
