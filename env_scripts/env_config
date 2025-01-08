@@ -19,4 +19,4 @@ REACT_APP_SKA_DATAPRODUCT_API_URL:string
 REACT_APP_VERSION:string
 
 # Make sure you commit this as false
-REACT_APP_USE_LOCAL_DATA:boolean:true
+REACT_APP_USE_LOCAL_DATA:boolean:false
