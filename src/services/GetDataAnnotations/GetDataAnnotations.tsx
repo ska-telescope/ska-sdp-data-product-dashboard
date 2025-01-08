@@ -17,6 +17,9 @@ async function getDataAnnotations(uuid: string) {
 
   try {
     const result = await axios.get(`${SKA_DATAPRODUCT_API_URL}/annotations/${uuid}`, config);
+    if(result.status === 202){
+      return result.data.message;
+    }
     return result.data;
   } catch (error) {
     throw new Error('Error fetching data product list from the API');

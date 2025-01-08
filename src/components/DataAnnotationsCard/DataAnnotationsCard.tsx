@@ -10,15 +10,23 @@ import getDataAnnotations from '@services/GetDataAnnotations/GetDataAnnotations'
 function DataAnnotationsCard(uuid: any) {
   const { t } = useTranslation('dpd');
 
-  const [dataAnnotations, setDataAnnotations] = React.useState({ data: [] });
+  const [dataAnnotations, setDataAnnotations] = React.useState([]);
+  const [dataAnnotationMessage, setDataAnnotationMessage] = React.useState("");
   const [cardHeight, setCardHeight] = React.useState(
     tableHeight() - (window.innerHeight - shellSize() - FILTERCARDHEIGHT - 240)
   );
 
   React.useEffect(() => {
     async function loadDataAnnotations() {
-      const results = await getDataAnnotations(uuid);
-      setDataAnnotations(results);
+      const result = await getDataAnnotations(uuid);
+      console.log(result)
+      if(typeof(result) === "string"){
+        setDataAnnotationMessage(result);
+        setDataAnnotations([]);
+      }
+      else{
+        setDataAnnotations(result);
+      }
     }
     if (uuid !== '') {
       loadDataAnnotations();
@@ -49,7 +57,7 @@ function DataAnnotationsCard(uuid: any) {
         </>
       );
     } else {
-      return <EmptyDataAnnotationComponent />;
+      return <EmptyDataAnnotationComponent message={dataAnnotationMessage}/>;
     }
   }
 
@@ -62,8 +70,8 @@ function DataAnnotationsCard(uuid: any) {
             sx={{ maxHeight: cardHeight, overflow: { overflowY: 'scroll' } }}
           >
             <CardHeader
-              title="Data Annotations"
-              action={<Button label="Create" testId="createDataAnnotation" />}
+              title={t('annotations.title')}
+              action={<Button label={t('button.create')} testId="createDataAnnotation" />}
             />
             <CardContent>
               <Stack>{renderDataAnnotationStack(dataAnnotations)}</Stack>
