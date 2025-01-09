@@ -42,6 +42,14 @@ The download functionality for these items will depend if the product is accessi
    Example of file downloaded with browser download manager.
 
 
+The data annotations associated with the selected data product can be viewed on a panel on the right of the table under the metadata.
+
+.. figure:: /_static/img/dataAnnotationsPanel.png
+   :width: 90%
+
+   Example of data annotations panel.
+
+
 
 Data Product Index
 ==================

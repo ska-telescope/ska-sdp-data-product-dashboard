@@ -2,21 +2,20 @@ import React from 'react';
 import { CssBaseline, ThemeProvider } from '@mui/material';
 import { THEME_DARK, THEME_LIGHT } from '@ska-telescope/ska-gui-components';
 import theme from '@services/theme/theme';
-import mockData from '@services/Mocking/mockMetaData';
-import MetadataCard from '@components/MetadataCard/MetadataCard';
+import MockDataAnnotations from '@services/Mocking/mockDataAnnotations';
+import DataAnnotationComponent from '@components/DataAnnotationComponent/DataAnnotationComponent';
 
 const THEME = [THEME_DARK, THEME_LIGHT];
 
-describe('<MetadataCard />', () => {
+describe('<MetaData />', () => {
   for (const theTheme of THEME) {
     it('Theme ' + theTheme + ': Renders', () => {
       cy.mount(
         <ThemeProvider theme={theme(theTheme)}>
           <CssBaseline />
-          <MetadataCard metaData={mockData} />
+          <DataAnnotationComponent data={MockDataAnnotations} />
         </ThemeProvider>
       );
-      cy.findByTestId('MetadataDataTree').should('be.visible');
     });
   }
 });

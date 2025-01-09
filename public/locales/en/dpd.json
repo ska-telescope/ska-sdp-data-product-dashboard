@@ -8,7 +8,9 @@
     "indexDP": "Re-Index Data Products",
     "search": "Search",
     "reload": "New data available, reload",
-    "settings": "Settings"
+    "settings": "Settings",
+    "create": "Create",
+    "view": "View"
   },
   "error": {
     "API_NO_DATA": "No data products found on volume",
@@ -30,6 +32,7 @@
     "id": "ID",
     "interface": "Interface",
     "key": "Key",
+    "lastModified": "Last Modified",
     "metaData": "Meta Data",
     "selectFile": "Selected File",
     "startDate": "Start date",
@@ -51,5 +54,9 @@
       "dataProductNotAvailable": "Dataproduct not available for download",
       "dataProductAvailable": "Download the selected data product. This will stream the selected data product to a tar file in your default downloads directory."
     }
+  },
+  "annotations": {
+    "title": "Data Annotations",
+    "noAnnotations": "No Data Annotations found for this Data Product"
   }
 }
