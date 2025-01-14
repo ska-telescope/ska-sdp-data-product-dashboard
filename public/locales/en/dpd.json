@@ -10,7 +10,9 @@
     "reload": "New data available, reload",
     "settings": "Settings",
     "create": "Create",
-    "view": "View"
+    "view": "View",
+    "save": "Save",
+    "edit": "Edit"
   },
   "error": {
     "API_NO_DATA": "No data products found on volume",
@@ -36,8 +38,19 @@
     "metaData": "Meta Data",
     "selectFile": "Selected File",
     "startDate": "Start date",
+    "statusCode": "Status Code",
     "value": "Value",
-    "version": "Version"
+    "version": "Version",
+    "userPrincipalName": "User",
+    "dataProductUUID": "Data Product UUID",
+    "annotation": {
+      "title": "Data Annotations",
+      "noAnnotations": "No Data Annotations found for this Data Product",
+      "placeholderText": "Add information on data product here.",
+      "error": "Error Saving Data Annotation",
+      "errorMessage": "Error Message"
+
+    }
   },
   "prompt": {
     "filter": "Filter data products based on metadata:",
@@ -54,9 +67,5 @@
       "dataProductNotAvailable": "Dataproduct not available for download",
       "dataProductAvailable": "Download the selected data product. This will stream the selected data product to a tar file in your default downloads directory."
     }
-  },
-  "annotations": {
-    "title": "Data Annotations",
-    "noAnnotations": "No Data Annotations found for this Data Product"
   }
 }

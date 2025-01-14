@@ -75,7 +75,7 @@ const DataProductDashboard = () => {
       CheckForNewData();
       const interval = setInterval(async () => {
         CheckForNewData();
-      }, parseInt(API_REFRESH_RATE));
+      }, API_REFRESH_RATE);
       return () => clearInterval(interval);
     }, []);
     return;

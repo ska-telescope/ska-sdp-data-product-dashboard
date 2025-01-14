@@ -10,7 +10,7 @@ function EmptyDataAnnotationComponent(message: any) {
       <Card variant="outlined" sx={{ minHeight: '100%', minWidth: 275 }}>
         <CardContent>
           <Typography align="center">
-            {message.message ? message.message : t('annotations.noAnnotations')}
+            {message.message ? message.message : t('label.annotation.noAnnotations')}
           </Typography>
         </CardContent>
       </Card>

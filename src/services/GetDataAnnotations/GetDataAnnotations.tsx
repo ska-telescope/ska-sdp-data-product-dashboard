@@ -22,7 +22,7 @@ async function getDataAnnotations(uuid: string) {
     }
     return result.data;
   } catch (error) {
-    throw new Error('Error fetching data product list from the API');
+    throw new Error('Error fetching data annotations from the API');
   }
 }
 

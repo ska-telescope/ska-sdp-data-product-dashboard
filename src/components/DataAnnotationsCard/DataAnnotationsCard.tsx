@@ -1,10 +1,11 @@
 import * as React from 'react';
-import { Box, Card, CardContent, CardHeader, Stack } from '@mui/material';
+import { Box, Card, CardContent, CardHeader, Modal, Stack } from '@mui/material';
 import { Button } from '@ska-telescope/ska-gui-components';
 import { useTranslation } from 'react-i18next';
 import { shellSize, FILTERCARDHEIGHT, tableHeight } from '@utils/constants';
 import DataAnnotationComponent from '@components/DataAnnotationComponent/DataAnnotationComponent';
 import EmptyDataAnnotationComponent from '@components/EmptyDataAnnotationComponent/EmptyDataAnnotationComponent';
+import SaveDataAnnotationCard from '@components/SaveDataAnnotationCard/SaveDataAnnotationCard';
 import getDataAnnotations from '@services/GetDataAnnotations/GetDataAnnotations';
 
 function DataAnnotationsCard(uuid: any) {
@@ -12,9 +13,13 @@ function DataAnnotationsCard(uuid: any) {
 
   const [dataAnnotations, setDataAnnotations] = React.useState([]);
   const [dataAnnotationMessage, setDataAnnotationMessage] = React.useState('');
+  const [disableCreateButton, setDisableCreateButton] = React.useState(false);
   const [cardHeight, setCardHeight] = React.useState(
     tableHeight() - (window.innerHeight - shellSize() - FILTERCARDHEIGHT - 240)
   );
+  const [open, setOpen] = React.useState(false);
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
 
   React.useEffect(() => {
     async function loadDataAnnotations() {
@@ -23,8 +28,10 @@ function DataAnnotationsCard(uuid: any) {
       if (typeof result === 'string') {
         setDataAnnotationMessage(result);
         setDataAnnotations([]);
+        setDisableCreateButton(true);
       } else {
         setDataAnnotations(result);
+        setDisableCreateButton(false);
       }
     }
     if (uuid !== '') {
@@ -64,13 +71,16 @@ function DataAnnotationsCard(uuid: any) {
     <>
       {uuid !== '' && (
         <Box m={1}>
+           <Modal  open={open} onClose={handleClose}>
+            <SaveDataAnnotationCard userPrincipalName="" uuid={uuid} handleClose={handleClose}/>
+          </Modal>
           <Card
             variant="outlined"
             sx={{ maxHeight: cardHeight, overflow: { overflowY: 'scroll' } }}
           >
             <CardHeader
-              title={t('annotations.title')}
-              action={<Button label={t('button.create')} testId="createDataAnnotation" />}
+              title={t('label.annotation.title')}
+              action={<Button disabled={disableCreateButton} label={t('button.create')} testId="createDataAnnotation" onClick={handleOpen}/>}
             />
             <CardContent>
               <Stack>{renderDataAnnotationStack(dataAnnotations)}</Stack>
