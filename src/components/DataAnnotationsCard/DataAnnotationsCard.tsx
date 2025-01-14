@@ -8,7 +8,7 @@ import EmptyDataAnnotationComponent from '@components/EmptyDataAnnotationCompone
 import SaveDataAnnotationCard from '@components/SaveDataAnnotationCard/SaveDataAnnotationCard';
 import getDataAnnotations from '@services/GetDataAnnotations/GetDataAnnotations';
 
-function DataAnnotationsCard(uuid: any) {
+function DataAnnotationsCard(uuid: any, userPrincipalName: string = '') {
   const { t } = useTranslation('dpd');
 
   const [dataAnnotations, setDataAnnotations] = React.useState([]);
@@ -24,7 +24,6 @@ function DataAnnotationsCard(uuid: any) {
   React.useEffect(() => {
     async function loadDataAnnotations() {
       const result = await getDataAnnotations(uuid);
-      console.log(result);
       if (typeof result === 'string') {
         setDataAnnotationMessage(result);
         setDataAnnotations([]);
@@ -71,8 +70,12 @@ function DataAnnotationsCard(uuid: any) {
     <>
       {uuid !== '' && (
         <Box m={1}>
-           <Modal  open={open} onClose={handleClose}>
-            <SaveDataAnnotationCard userPrincipalName="" uuid={uuid} handleClose={handleClose}/>
+          <Modal
+            open={open}
+            onClose={handleClose}
+            sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}
+          >
+            <SaveDataAnnotationCard userPrincipalName={userPrincipalName} uuid={uuid} />
           </Modal>
           <Card
             variant="outlined"
@@ -80,7 +83,14 @@ function DataAnnotationsCard(uuid: any) {
           >
             <CardHeader
               title={t('label.annotation.title')}
-              action={<Button disabled={disableCreateButton} label={t('button.create')} testId="createDataAnnotation" onClick={handleOpen}/>}
+              action={
+                <Button
+                  disabled={disableCreateButton}
+                  label={t('button.create')}
+                  testId="createDataAnnotation"
+                  onClick={handleOpen}
+                />
+              }
             />
             <CardContent>
               <Stack>{renderDataAnnotationStack(dataAnnotations)}</Stack>

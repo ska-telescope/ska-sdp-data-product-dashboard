@@ -3,6 +3,7 @@
 ## Current Development
 
 - [NAL-1319](https://jira.skatelescope.org/browse/NAL-1319)
+
   - [Added] View Data Annotations to dashboard
 
 - [NAL-1309](https://jira.skatelescope.org/browse/NAL-1309)

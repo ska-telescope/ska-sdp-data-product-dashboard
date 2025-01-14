@@ -49,7 +49,6 @@
       "placeholderText": "Add information on data product here.",
       "error": "Error Saving Data Annotation",
       "errorMessage": "Error Message"
-
     }
   },
   "prompt": {

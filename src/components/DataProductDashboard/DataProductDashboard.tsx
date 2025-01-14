@@ -342,7 +342,7 @@ const DataProductDashboard = () => {
           <>
             {RenderSearchBox()}
             {MetadataCard(selectedFileNames)}
-            {DataAnnotationsCard(selectedFileNames.uuid)}
+            {DataAnnotationsCard(selectedFileNames.uuid, user?.username)}
           </>
         </Grid>
       </Grid>
