@@ -2,7 +2,12 @@
 
 ## Current Development
 
+- [NAL-1348](https://jira.skatelescope.org/browse/NAL-1348)
+
+  - [Changed] Updated key value search field to match structure used by MUI Data Grid and DPD API.
+
 - [NAL-1319](https://jira.skatelescope.org/browse/NAL-1319)
+
   - [Added] View Data Annotations to dashboard
 
 - [NAL-1309](https://jira.skatelescope.org/browse/NAL-1309)
