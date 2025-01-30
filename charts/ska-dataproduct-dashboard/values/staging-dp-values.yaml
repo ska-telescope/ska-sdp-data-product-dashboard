@@ -1,93 +1,33 @@
 ---
-ingress:
-  enabled: true
-  namespaced: true
-  hostname: "https://sdhp.stfc.skao.int"
-
 api:
-  enabled: true
-  container: registry.gitlab.com/ska-telescope/ska-dataproduct-api/ska-dataproduct-api 
-  version: 0.10.0-dev.c8de06df0
-  imagePullPolicy: Always
-  ingress:
-    path: api
-  storagePath: "/mnt/data/product/"
-  metadata_file_name: ska-data-product.yaml
+  version: 0.11.0
   vault:
     useVault: true
     pathToSecretVault: kv/data/users/andre_odendaal/sdhp-stfc/ska-sdp-dataproduct-api/staging
-    secretsFilePath: /vault/secrets/config
   elasticsearch:
     host: "https://logging.stfc.skao.int"
-    port: 9200
     metadata_schema_file: /usr/src/ska_dataproduct_api/components/search/elasticsearch/data_product_metadata_schema.json
-    http_ca_file_name: http_ca.crt
     user: "naledi-team"
     indices: "ska-dp-dataproduct-sdhp-stfc-integration-v2"
-    query_body_size: 1000
   postgresql:
     host: "pgdev-lb.cnpgdev.svc.cluster.local"
-    port: 5432
     user: "sdp_sdp_dataproduct_dashboard_staging"
     dbname: "staging"
     schema: "sdp_sdp_dataproduct_dashboard_staging"
     tableName: "data_products_metadata_v2"
-  stream_chunk_size: 65536
-  resources:
-    requests:
-      cpu: 200m
-      memory: 200Mi
-    limits:
-      cpu: 1000m
-      memory: 600Mi
 
 dashboard:
-  enabled: true
-  container: registry.gitlab.com/ska-telescope/ska-dataproduct-dashboard/ska-dataproduct-dashboard
-  version: 0.10.0-dev.c470fa564
-  imagePullPolicy: Always
-  ingress:
-    path: dashboard
-  config:
-    allowMockAuth: false
+  version: 0.11.0
   vault:
     useVault: true
     pathToSecretVault: kv/data/users/andre_odendaal/sdhp-stfc/ska-sdp-dataproduct-dashboard/staging
-    client_id: placeholder_for_client_id
-    tenant_id: placeholder_for_tenant_id
-  apiRefreshRate: 10000
-  resources:
-    requests:
-      cpu: 1000m
-      memory: 2048Mi
-    limits:
-      cpu: 2000m
-      memory: 3072Mi
       
 permissionsApi:
   enabled: true
   image:
-    imagePullPolicy: Always
-    container: registry.gitlab.com/ska-telescope/ska-permissions-api/ska-permissions-api
-    version: 1.0.0-dev.c345a48e1
-  ingress:
-    path: skapermissionsapi
+    version: 1.0.1
   vault:
     useVault: false
     pathToSecretVault: kv/data/users/andre_odendaal/skao_mf_remote_module_permissions_api
     client_id: abcde
     tenant_id: abcde
-  resources:
-    requests:
-      cpu: 200m
-      memory: 200Mi
-    limits:
-      cpu: 1000m
-      memory: 600Mi
-
-dataProductPVC:
-  name: shared
-  create:
-    enabled: false
-    size: 5Gi
-    storageClassName: nfss1
