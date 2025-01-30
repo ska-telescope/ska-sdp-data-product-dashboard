@@ -14,6 +14,7 @@
 
   - [Changed] Made the Elasticsearch query body size configurable from environment variable SKA_DATAPRODUCT_API_ELASTIC_QUERY_BODY_SIZE via the Helm chart.
   - [Changed] Updated documentation.
+  - [Changed] Updated deployment values name for the shared PVC.
 
 - [NAL-1275](https://jira.skatelescope.org/browse/NAL-1275)
 
