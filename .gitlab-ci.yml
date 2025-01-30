@@ -193,7 +193,7 @@ deploy-dev-environment-dp:
   tags:
     - ska-k8srunner-dp
   variables:
-    K8S_CHART_PARAMS: --values charts/ska-dataproduct-dashboard/values/dev-environment-dp-values.yaml
+    K8S_CHART_PARAMS: --values resources/values/dev-environment-dp-values.yaml
 
 test-dev-environment-dp:
   stage: deploy-dp
@@ -225,7 +225,7 @@ deploy-integration-dp:
   tags:
     - ska-k8srunner-dp
   variables:
-    K8S_CHART_PARAMS: --values charts/ska-dataproduct-dashboard/values/integration-dp-values.yaml
+    K8S_CHART_PARAMS: --values resources/values/integration-dp-values.yaml
 
 info-integration-dp:
   stage: integration-dp
@@ -241,7 +241,7 @@ redeploy-integration-dp:
   tags:
     - ska-k8srunner-dp
   variables:
-    K8S_CHART_PARAMS:  --values charts/ska-dataproduct-dashboard/values/integration-dp-values.yaml
+    K8S_CHART_PARAMS:  --values resources/values/integration-dp-values.yaml
 
 stop-integration-dp:
   stage: integration-dp
@@ -258,7 +258,7 @@ deploy-staging-dp:
   tags:
     - ska-k8srunner-dp
   variables:
-    K8S_CHART_PARAMS: --values charts/ska-dataproduct-dashboard/values/staging-dp-values.yaml
+    K8S_CHART_PARAMS: --values resources/values/staging-dp-values.yaml
 
 info-staging-dp:
   stage: staging-dp
@@ -274,7 +274,7 @@ redeploy-staging-dp:
   tags:
     - ska-k8srunner-dp
   variables:
-    K8S_CHART_PARAMS: --values charts/ska-dataproduct-dashboard/values/staging-dp-values.yaml
+    K8S_CHART_PARAMS: --values resources/values/staging-dp-values.yaml
 
 stop-staging-dp:
   stage: staging-dp
