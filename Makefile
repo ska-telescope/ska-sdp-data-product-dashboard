@@ -30,17 +30,19 @@ define DP_PVC
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: shared-mnl
+  labels:
+    skao.int/clone-pvc: shared-template
+    skao.int/clone-pvc-namespace: dp-shared
+  name: shared
   namespace: ${KUBE_NAMESPACE}
 spec:
   accessModes:
   - ReadWriteMany
   resources:
     requests:
-      storage: $${SHARED_CAPACITY}
-  storageClassName: ""
+      storage: 10Ti
+  storageClassName: csi-manila-cephfs
   volumeMode: Filesystem
-  volumeName: dpshared-${KUBE_NAMESPACE}-mnl
 endef
 export DP_PVC
 
@@ -48,19 +50,8 @@ k8s-pre-install-chart-car: k8s-pre-install-chart
 k8s-pre-install-chart:
 	if [[ "$(CI_RUNNER_TAGS)" == *"ska-k8srunner-dp"* ]] || [[ "$(CI_RUNNER_TAGS)" == *"ska-k8srunner-dp-gpu-a100"* ]] ; then \
 	make k8s-namespace ;\
-	kubectl -n ${KUBE_NAMESPACE} delete --now --ignore-not-found pvc/shared-mnl || true ;\
-	kubectl delete --now --ignore-not-found pv/dpshared-${KUBE_NAMESPACE}-mnl || true ;\
-	apt-get update && apt-get install gettext -y ;\
-	export SHARED_CAPACITY=$(shell kubectl get pv/dpshared-dp-shared-mnl -o jsonpath="{.spec.capacity.storage}") ; \
+	kubectl -n ${KUBE_NAMESPACE} delete --now --ignore-not-found pvc/shared || true ;\
 	echo "$${DP_PVC}" | envsubst | kubectl -n $(KUBE_NAMESPACE) apply -f - ;\
-	kubectl get pv dpshared-dp-shared-mnl -o json | \
-	jq ".metadata = { \"name\": \"dpshared-${KUBE_NAMESPACE}-mnl\" }" | \
-	jq ".spec.csi.volumeHandle = \"dpshared-${KUBE_NAMESPACE}-mnlfs-pv\"" | \
-	jq 'del(.spec.claimRef)' | \
-	jq 'del(.status)' | \
-	kubectl apply -f - ; \
 	elif [[ "$(CI_RUNNER_TAGS)" == *"k8srunner"* ]] || [[ "$(CI_RUNNER_TAGS)" == *"k8srunner-gpu-v100"* ]] ; then \
 		echo "techops not implemented yet!" ;\
 	fi
-
-# k8s-post-install-chart: k8s-namespace-credentials

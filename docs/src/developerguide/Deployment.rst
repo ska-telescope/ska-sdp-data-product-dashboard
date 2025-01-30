@@ -18,13 +18,13 @@ Pre-requisites
 
   For more information on configuring shared storage between namespaces in SKAO clusters, refer to the guide: `Guide to Sharing Storage Between Namespaces in SKAO Clusters. <https://developer.skao.int/en/latest/howto/shared-storage.html>`_.
 
-  Once the PVC is configured correctly, you can update the deployment's values file with the appropriate details. The following extract from a values file shows an example configuration for the shared-mnl PVC in the DP cluster (replace shared-mnl with your actual PVC name):
+  Once the PVC is configured correctly, you can update the deployment's values file with the appropriate details. The following extract from a values file shows an example configuration for the shared PVC in the DP cluster (replace shared with your actual PVC name):
 
 
   .. code-block:: yaml
 
       dataProductPVC:
-        name: shared-mnl
+        name: shared
         create:
           enabled: false
           size: 5Gi
@@ -185,7 +185,7 @@ The following secrets are expected in the file mapped into the API container by 
       - ``artefact.skao.int/ska-dataproduct-dashboard``
       - The link to the artefact repository
     * - ``dashboard.version``
-      - ``0.11.0``
+      - ``0.12.0``
       - The version of the ska-dataproduct-dashboard to use.
     * - ``dashboard.imagePullPolicy``
       - ``IfNotPresent``
@@ -286,7 +286,7 @@ The following secrets are expected in the file mapped into the API container by 
       - Default
       - Comment
     * - ``dataProductPVC.name``
-      - ``shared-mnl``
+      - ``shared``
       - This is the name of the PVC that is shared between the namespace used by the pipeline that create data products and the namespace where the Data Product Dashboard is deployed.
     * - ``dataProductPVC.create.enabled``
       - ``false``

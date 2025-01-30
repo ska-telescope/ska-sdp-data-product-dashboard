@@ -53,7 +53,7 @@ function MetadataCard(selectedDataProduct: {
       {selectedDataProduct?.relativePathName !== '' && (
         <Box m={1}>
           <Card variant="outlined" sx={{ maxHeight: cardHeight }}>
-            <CardHeader title="Meta Data Tree" />
+            <CardHeader title={t('label.metaData')} />
             <CardContent>
               {metaData && (
                 <DataTree

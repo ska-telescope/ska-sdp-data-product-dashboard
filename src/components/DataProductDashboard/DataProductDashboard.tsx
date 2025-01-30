@@ -39,7 +39,9 @@ const DataProductDashboard = () => {
   const DEF_END_DATE = '2070-12-31';
   const [startDate, updateStartDate] = React.useState('');
   const [endDate, updateEndDate] = React.useState('');
-  const [formFields, setFormFields] = React.useState([{ keyPair: '', valuePair: '' }]);
+  const [formFields, setFormFields] = React.useState([
+    { field: '', operator: 'contains', value: '' }
+  ]);
 
   const [searchPanelOptions, setSearchPanelOptions] = React.useState({
     items: [
@@ -52,8 +54,7 @@ const DataProductDashboard = () => {
         field: 'date_created',
         operator: 'lessThan',
         value: DEF_END_DATE
-      },
-      { field: 'formFields', keyPairs: [...formFields] }
+      }
     ],
     logicOperator: 'and'
   });
@@ -99,6 +100,7 @@ const DataProductDashboard = () => {
   React.useEffect(() => {
     setSearchPanelOptions({
       items: [
+        ...formFields,
         {
           field: 'date_created',
           operator: 'greaterThan',
@@ -108,8 +110,7 @@ const DataProductDashboard = () => {
           field: 'date_created',
           operator: 'lessThan',
           value: endDate
-        },
-        { field: 'formFields', keyPairs: [...formFields] }
+        }
       ],
       logicOperator: 'and'
     });
@@ -155,20 +156,22 @@ const DataProductDashboard = () => {
   function RenderSearchBox() {
     const handleKeyPairChange = (event: string, index: number) => {
       let data = [...formFields];
-      data[index]['keyPair'] = event;
+      data[index]['field'] = event;
       setFormFields(data);
     };
 
     const handleValuePairChange = (event: string, index: number) => {
       let data = [...formFields];
-      data[index]['valuePair'] = event;
+      data[index]['operator'] = 'contains';
+      data[index]['value'] = event;
       setFormFields(data);
     };
 
     const addFields = () => {
       let object = {
-        keyPair: '',
-        valuePair: ''
+        field: '',
+        operator: 'contains',
+        value: ''
       };
 
       setFormFields([...formFields, object]);
@@ -220,21 +223,21 @@ const DataProductDashboard = () => {
                   <>
                     <Grid item xs={12}>
                       <TextEntry
-                        ariaTitle="keyPair"
+                        ariaTitle="field"
                         testId="DateEntryKeyPair"
                         label={t('label.key')}
                         setValue={(event: any) => handleKeyPairChange(event, index)}
-                        value={form.keyPair}
+                        value={form.field}
                       />
                     </Grid>
 
                     <Grid item xs={12}>
                       <TextEntry
-                        ariaTitle="valuePair"
+                        ariaTitle="value"
                         testId="DateEntryValuePair"
                         label={t('label.value')}
                         setValue={(event: any) => handleValuePairChange(event, index)}
-                        value={form.valuePair}
+                        value={form.value}
                       />
                     </Grid>
 
