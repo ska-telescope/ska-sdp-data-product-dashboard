@@ -12,7 +12,7 @@ import saveDataAnnotations from '@services/SaveDataAnnotation/SaveDataAnnotation
 interface SaveDataAnnotationCardProps {
   dataAnnotation?: any;
   userPrincipalName: string;
-  uuid?: string;
+  uuid: string;
 }
 
 const SaveDataAnnotationCard = ({
@@ -21,8 +21,8 @@ const SaveDataAnnotationCard = ({
   uuid
 }: SaveDataAnnotationCardProps) => {
   const { t } = useTranslation('dpd');
-  const [buttonText, setButtonText] = React.useState(t('button.save'));
-  const [disableTextField, setDisableTextField] = React.useState(true);
+  const [saveEditButtonText, setSaveEditButtonText] = React.useState(t('button.save'));
+  const [disableAnnotationTextEntryField, setDisableAnnotationTextEntryField] = React.useState(true);
   const [annotationText, setAnnotationText] = React.useState('');
   const [alertOpen, setAlertOpen] = React.useState(false);
   const handleAlertOpen = () => setAlertOpen(true);
@@ -30,10 +30,10 @@ const SaveDataAnnotationCard = ({
   const [alertText, setAlertText] = React.useState('');
   const [alertColour, setAlertColour] = React.useState(AlertColorTypes.Success);
 
-  async function buttonClick() {
-    if (buttonText === t('button.edit')) {
-      setDisableTextField(false);
-      setButtonText(t('button.save'));
+  async function saveEditButtonClick() {
+    if (saveEditButtonText === t('button.edit')) {
+      setDisableAnnotationTextEntryField(false);
+      setSaveEditButtonText(t('button.save'));
     } else {
       const annotationID = dataAnnotation ? dataAnnotation.annotation_id : null;
       const result = await saveDataAnnotations(
@@ -69,7 +69,7 @@ const SaveDataAnnotationCard = ({
         </CardContent>
       );
     }
-    setButtonText(t('button.edit'));
+    setSaveEditButtonText(t('button.edit'));
     return (
       <CardContent>
         <Typography variant="subtitle1">
@@ -83,7 +83,7 @@ const SaveDataAnnotationCard = ({
         </Typography>
         <TextField
           onChange={(v) => setAnnotationText(v.target.value)}
-          disabled={disableTextField}
+          disabled={disableAnnotationTextEntryField}
           multiline={true}
           rows={7}
           fullWidth
@@ -103,11 +103,11 @@ const SaveDataAnnotationCard = ({
           testId={'saveAnnotationAlert'}
         />
       </Modal>
-      <Card sx={{ width: 1500, height: 400 }}>
+      <Card sx={{ width: 600, height: 400 }}>
         <CardHeader
           title={t('label.annotation.title')}
           subheader={t('label.dataProductUUID') + `: ${uuid}`}
-          action={<Button label={buttonText} testId="saveDataAnnotation" onClick={buttonClick} />}
+          action={<Button label={saveEditButtonText} testId="saveDataAnnotation" onClick={saveEditButtonClick} />}
         />
         {renderCardContent()}
       </Card>

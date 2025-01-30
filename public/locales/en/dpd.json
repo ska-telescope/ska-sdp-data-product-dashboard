@@ -44,7 +44,7 @@
     "userPrincipalName": "User",
     "dataProductUUID": "Data Product UUID",
     "annotation": {
-      "title": "Data Annotations",
+      "title": "Annotations",
       "noAnnotations": "No Data Annotations found for this Data Product",
       "placeholderText": "Add information on data product here.",
       "error": "Error Saving Data Annotation",

@@ -3,6 +3,8 @@ import { Box, Card, CardContent, CardHeader } from '@mui/material';
 import { DataTree } from '@ska-telescope/ska-gui-components';
 import { shellSize, FILTERCARDHEIGHT } from '@utils/constants';
 import getMetaData from '@services/GetMetaData/GetMetaData';
+import { useTranslation } from 'react-i18next';
+
 
 function MetadataCard(selectedDataProduct: {
   execution_block: any;
@@ -15,6 +17,7 @@ function MetadataCard(selectedDataProduct: {
   const [cardHeight, setCardHeight] = React.useState(
     window.innerHeight - shellSize() - FILTERCARDHEIGHT
   );
+  const { t } = useTranslation('dpd');
 
   React.useEffect(() => {
     const metaDataFile = selectedDataProduct?.uuid;
