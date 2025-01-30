@@ -185,7 +185,7 @@ The following secrets are expected in the file mapped into the API container by 
       - ``artefact.skao.int/ska-dataproduct-dashboard``
       - The link to the artefact repository
     * - ``dashboard.version``
-      - ``0.11.0``
+      - ``0.12.0``
       - The version of the ska-dataproduct-dashboard to use.
     * - ``dashboard.imagePullPolicy``
       - ``IfNotPresent``

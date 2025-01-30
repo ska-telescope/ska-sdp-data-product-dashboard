@@ -2,6 +2,8 @@
 
 ## Current Development
 
+## v0.12.0
+
 - [NAL-1348](https://jira.skatelescope.org/browse/NAL-1348)
 
   - [Changed] Updated key value search field to match structure used by MUI Data Grid and DPD API.

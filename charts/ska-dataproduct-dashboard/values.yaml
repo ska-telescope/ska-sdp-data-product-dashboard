@@ -7,7 +7,7 @@ ingress:
 api:
   enabled: true
   container: artefact.skao.int/ska-dataproduct-api
-  version: 0.11.0
+  version: 0.12.0
   imagePullPolicy: IfNotPresent
   ingress:
     path: api
@@ -44,7 +44,7 @@ api:
 dashboard:
   enabled: true
   container: artefact.skao.int/ska-dataproduct-dashboard
-  version: 0.11.0
+  version: 0.12.0
   imagePullPolicy: IfNotPresent
   ingress:
     path: dashboard
