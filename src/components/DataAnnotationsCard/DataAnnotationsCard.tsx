@@ -7,11 +7,14 @@ import DataAnnotationComponent from '@components/DataAnnotationComponent/DataAnn
 import EmptyDataAnnotationComponent from '@components/EmptyDataAnnotationComponent/EmptyDataAnnotationComponent';
 import SaveDataAnnotationCard from '@components/SaveDataAnnotationCard/SaveDataAnnotationCard';
 import getDataAnnotations from '@services/GetDataAnnotations/GetDataAnnotations';
+import { storageObject } from '@ska-telescope/ska-gui-local-storage';
+import { DataAnnotation } from 'types/annotations/annotations';
+import { SelectedDataProduct } from 'types/dataproducts/dataproducts';
 
-function DataAnnotationsCard(uuid: any, userPrincipalName: string = '') {
+function DataAnnotationsCard(selectedDataProduct: SelectedDataProduct) {
   const { t } = useTranslation('dpd');
 
-  const [dataAnnotations, setDataAnnotations] = React.useState([]);
+  const [listOfDataAnnotations, setListOfDataAnnotations] = React.useState([]);
   const [dataAnnotationMessage, setDataAnnotationMessage] = React.useState('');
   const [disableCreateButton, setDisableCreateButton] = React.useState(false);
   const [cardHeight, setCardHeight] = React.useState(
@@ -20,23 +23,37 @@ function DataAnnotationsCard(uuid: any, userPrincipalName: string = '') {
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
+  const { user } = storageObject.useStore();
+  const newAnnotation: DataAnnotation = {
+    data_product_uuid: selectedDataProduct.uuid,
+    annotation_text: '',
+    user_principal_name: user?.email ?? '',
+    annotation_id: 0
+  };
+
+  // TODO: This need to change to pull form session storage
+  React.useEffect(() => {
+    if (user) {
+      setDisableCreateButton(false);
+    } else {
+      setDisableCreateButton(true);
+    }
+  }, [user]);
 
   React.useEffect(() => {
     async function loadDataAnnotations() {
-      const result = await getDataAnnotations(uuid);
+      const result = await getDataAnnotations(selectedDataProduct.uuid);
       if (typeof result === 'string') {
         setDataAnnotationMessage(result);
-        setDataAnnotations([]);
-        setDisableCreateButton(true);
+        setListOfDataAnnotations([]);
       } else {
-        setDataAnnotations(result);
-        setDisableCreateButton(false);
+        setListOfDataAnnotations(result);
       }
     }
-    if (uuid !== '') {
+    if (selectedDataProduct.uuid !== '') {
       loadDataAnnotations();
     }
-  }, [uuid]);
+  }, [selectedDataProduct.uuid]);
 
   React.useEffect(() => {
     function handleResize() {
@@ -52,12 +69,12 @@ function DataAnnotationsCard(uuid: any, userPrincipalName: string = '') {
     };
   }, []); // Empty dependency array ensures the effect runs only once
 
-  function renderDataAnnotationStack(dataAnnotations: any) {
-    if (dataAnnotations.length > 0) {
+  function renderDataAnnotationStack(listOfDataAnnotations: any) {
+    if (listOfDataAnnotations.length > 0) {
       return (
         <>
-          {dataAnnotations.map((annotation: any) => (
-            <DataAnnotationComponent data={annotation} />
+          {listOfDataAnnotations.map((annotation: DataAnnotation) => (
+            <DataAnnotationComponent {...annotation} />
           ))}
         </>
       );
@@ -68,14 +85,14 @@ function DataAnnotationsCard(uuid: any, userPrincipalName: string = '') {
 
   return (
     <>
-      {uuid !== '' && (
+      {selectedDataProduct.uuid !== '' && (
         <Box m={1}>
           <Modal
             open={open}
             onClose={handleClose}
             sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}
           >
-            <SaveDataAnnotationCard userPrincipalName={userPrincipalName} uuid={uuid} />
+            <SaveDataAnnotationCard {...newAnnotation} />
           </Modal>
           <Card
             variant="outlined"
@@ -93,7 +110,7 @@ function DataAnnotationsCard(uuid: any, userPrincipalName: string = '') {
               }
             />
             <CardContent>
-              <Stack>{renderDataAnnotationStack(dataAnnotations)}</Stack>
+              <Stack>{renderDataAnnotationStack(listOfDataAnnotations)}</Stack>
             </CardContent>
           </Card>
         </Box>

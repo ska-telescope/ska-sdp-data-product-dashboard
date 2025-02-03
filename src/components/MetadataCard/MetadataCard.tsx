@@ -4,14 +4,9 @@ import { DataTree } from '@ska-telescope/ska-gui-components';
 import { shellSize, FILTERCARDHEIGHT } from '@utils/constants';
 import getMetaData from '@services/GetMetaData/GetMetaData';
 import { useTranslation } from 'react-i18next';
+import { SelectedDataProduct } from 'types/dataproducts/dataproducts';
 
-
-function MetadataCard(selectedDataProduct: {
-  execution_block: any;
-  relativePathName: any;
-  metaDataFile: any;
-  uuid: any;
-}) {
+function MetadataCard(selectedDataProduct: SelectedDataProduct) {
   const [metaData, setMetaData] = React.useState({ data: [] });
   const [oldFilename] = React.useState(null);
   const [cardHeight, setCardHeight] = React.useState(
