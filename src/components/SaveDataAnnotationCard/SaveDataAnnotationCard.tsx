@@ -50,13 +50,15 @@ const SaveDataAnnotationCard = (props: DataAnnotation) => {
           annotationID
         );
         setAlertText(result.data.message);
-        if (!(result.status in [200, 201])) {
+        setAlertColour(AlertColorTypes.Info)
+        console.log(result.status)
+        if (![200, 201].includes(result.status)) {
           setAlertColour(AlertColorTypes.Error);
           setAlertText(
             `${t('label.annotation.error')}: \n${t('label.statusCode')}: ${result.status}\n${t('label.annotation.errorMessage')}: ${result.data.message}`
           );
-          handleAlertOpen();
         }
+        handleAlertOpen();
       }
     }
   }
@@ -109,12 +111,9 @@ const SaveDataAnnotationCard = (props: DataAnnotation) => {
   return (
     <Box>
       <Modal open={alertOpen} onClose={handleAlertClose}>
-        <Alert
-          ariaDescription={alertText}
-          color={alertColour}
-          variant={AlertVariantTypes.Filled}
-          testId={'saveAnnotationAlert'}
-        />
+        <Alert testId={'saveAnnotationAlert'} color={alertColour}>
+          <>{alertText}</>
+        </Alert>
       </Modal>
       <Card sx={{ width: 600, height: 400 }}>
         <CardHeader
