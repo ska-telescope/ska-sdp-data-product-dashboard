@@ -16,6 +16,7 @@ function DataAnnotationsCard(selectedDataProduct: SelectedDataProduct) {
 
   const [listOfDataAnnotations, setListOfDataAnnotations] = React.useState([]);
   const [dataAnnotationMessage, setDataAnnotationMessage] = React.useState('');
+  const [annotationsTableAvailable, setAnnotationsTableAvailable] = React.useState(false);
   const [disableCreateButton, setDisableCreateButton] = React.useState(false);
   const [cardHeight, setCardHeight] = React.useState(
     tableHeight() - (window.innerHeight - shellSize() - FILTERCARDHEIGHT - 240)
@@ -33,12 +34,12 @@ function DataAnnotationsCard(selectedDataProduct: SelectedDataProduct) {
 
   // TODO: This need to change to pull form session storage
   React.useEffect(() => {
-    if (user) {
+    if (user && annotationsTableAvailable) {
       setDisableCreateButton(false);
     } else {
       setDisableCreateButton(true);
     }
-  }, [user]);
+  }, [user, annotationsTableAvailable]);
 
   React.useEffect(() => {
     async function loadDataAnnotations() {
@@ -46,8 +47,10 @@ function DataAnnotationsCard(selectedDataProduct: SelectedDataProduct) {
       if (typeof result === 'string') {
         setDataAnnotationMessage(result);
         setListOfDataAnnotations([]);
+        setAnnotationsTableAvailable(false);
       } else {
         setListOfDataAnnotations(result);
+        setAnnotationsTableAvailable(true);
       }
     }
     if (selectedDataProduct.uuid !== '') {
