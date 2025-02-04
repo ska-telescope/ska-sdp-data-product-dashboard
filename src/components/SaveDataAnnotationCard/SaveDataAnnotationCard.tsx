@@ -1,11 +1,6 @@
 import * as React from 'react';
 import { Box, Card, CardContent, CardHeader, Modal, TextField, Typography } from '@mui/material';
-import {
-  Button,
-  Alert,
-  AlertColorTypes,
-  AlertVariantTypes
-} from '@ska-telescope/ska-gui-components';
+import { Button, Alert, AlertColorTypes } from '@ska-telescope/ska-gui-components';
 import { useTranslation } from 'react-i18next';
 import saveDataAnnotations from '@services/SaveDataAnnotation/SaveDataAnnotation';
 import { storageObject } from '@ska-telescope/ska-gui-local-storage';
@@ -50,8 +45,7 @@ const SaveDataAnnotationCard = (props: DataAnnotation) => {
           annotationID
         );
         setAlertText(result.data.message);
-        setAlertColour(AlertColorTypes.Info)
-        console.log(result.status)
+        setAlertColour(AlertColorTypes.Info);
         if (![200, 201].includes(result.status)) {
           setAlertColour(AlertColorTypes.Error);
           setAlertText(
