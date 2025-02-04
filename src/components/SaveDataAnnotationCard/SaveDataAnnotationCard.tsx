@@ -81,8 +81,8 @@ const SaveDataAnnotationCard = (props: DataAnnotation) => {
             rows={9}
             fullWidth
             placeholder={t('label.annotation.placeholderText')}
-            value={standardText} // Bind value to state
-            onChange={handleStandardChange} // Add onChange handler
+            value={standardText}
+            onChange={handleStandardChange}
           />
         </CardContent>
       );
@@ -94,14 +94,13 @@ const SaveDataAnnotationCard = (props: DataAnnotation) => {
           {t('label.userPrincipalName') + `: ${user_principal_name}`}
         </Typography>
         <TextField
-          // onChange={(v) => setAnnotationText(v.target.value)}
           disabled={disableAnnotationTextEntryField}
           multiline={true}
           rows={7}
           fullWidth
           defaultValue={annotation_text}
-          value={standardText} // Bind value to state
-          onChange={handleStandardChange} // Add onChange handler
+          value={standardText}
+          onChange={handleStandardChange}
         />
       </CardContent>
     );

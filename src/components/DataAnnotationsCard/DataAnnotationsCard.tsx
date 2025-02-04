@@ -70,7 +70,7 @@ function DataAnnotationsCard(selectedDataProduct: SelectedDataProduct) {
     return () => {
       window.removeEventListener('resize', handleResize);
     };
-  }, []); // Empty dependency array ensures the effect runs only once
+  }, []);
 
   function renderDataAnnotationStack(listOfDataAnnotations: any) {
     if (listOfDataAnnotations.length > 0) {

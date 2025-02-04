@@ -44,7 +44,7 @@ function MetadataCard(selectedDataProduct: SelectedDataProduct) {
     return () => {
       window.removeEventListener('resize', handleResize);
     };
-  }, []); // Empty dependency array ensures the effect runs only once
+  }, []);
 
   return (
     <>
