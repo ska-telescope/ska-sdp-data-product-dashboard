@@ -12,12 +12,7 @@ import { storageObject } from '@ska-telescope/ska-gui-local-storage';
 import { DataAnnotation } from 'types/annotations/annotations';
 
 const SaveDataAnnotationCard = (props: DataAnnotation) => {
-  const {
-    data_product_uuid,
-    annotation_text,
-    user_principal_name,
-    annotation_id
-  } = props;
+  const { data_product_uuid, annotation_text, user_principal_name, annotation_id } = props;
   const { t } = useTranslation('dpd');
   const [saveEditButtonText, setSaveEditButtonText] = React.useState(t('button.save'));
   const [disableAnnotationTextEntryField, setDisableAnnotationTextEntryField] =
@@ -75,7 +70,7 @@ const SaveDataAnnotationCard = (props: DataAnnotation) => {
       setSaveEditButtonText(t('button.edit'));
     }
     setStandardText(annotation_text);
-  }, [data_product_uuid, annotation_text]);
+  }, [data_product_uuid, annotation_text, t]);
 
   function renderCardContent() {
     if (data_product_uuid && !annotation_text) {
