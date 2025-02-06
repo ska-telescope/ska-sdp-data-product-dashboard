@@ -4,11 +4,6 @@ api:
   vault:
     useVault: true
     pathToSecretVault: kv/data/users/andre_odendaal/sdhp-stfc/ska-sdp-dataproduct-api/staging
-  elasticsearch:
-    host: "https://logging.stfc.skao.int"
-    metadata_schema_file: /usr/src/ska_dataproduct_api/components/search/elasticsearch/data_product_metadata_schema.json
-    user: "naledi-team"
-    indices: "ska-dp-dataproduct-sdhp-stfc-integration-v2"
   postgresql:
     host: "pgdev-lb.cnpgdev.svc.cluster.local"
     user: "sdp_sdp_dataproduct_dashboard_staging"

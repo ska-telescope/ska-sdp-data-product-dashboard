@@ -17,14 +17,6 @@ api:
     useVault: true
     pathToSecretVault: kv/data/users/andre_odendaal/sdhp-stfc/ska-sdp-dataproduct-api/integration
     secretsFilePath: /vault/secrets/config
-  elasticsearch:
-    host: "https://logging.stfc.skao.int"
-    port: 9200
-    metadata_schema_file: /usr/src/ska_dataproduct_api/components/search/elasticsearch/data_product_metadata_schema.json
-    http_ca_file_name: http_ca.crt
-    user: "naledi-team"
-    indices: "ska-dp-dataproduct-sdhp-stfc-integration-v2"
-    query_body_size: 1000
   postgresql:
     host: "pgdev-lb.cnpgdev.svc.cluster.local"
     port: 5432

@@ -144,38 +144,15 @@ locally.
     minikube image load ska-dataproduct-dashboard:[Tag]
     minikube image ls
 
-3. If you want to run the API with a local instance of Elasticsearch, you can add the Bitnami repository to your repositories:
-
-.. code-block:: bash
-
-    helm repo add bitnami https://charts.bitnami.com/bitnami
-
-Pull and load the Elasticsearch images into Minikube if required:
-
-.. code-block:: bash
-
-    docker image pull bitnami/elasticsearch:[Tag]
-    minikube image load bitnami/elasticsearch:[Tag]
-
-Update the DPD chart (Chart.yaml) dependency to match the Elasticsearch tag and enable it. 
-
-.. code-block:: bash
-
-    dependencies:
-    - name: 'elasticsearch'
-        version: '[Tag]'
-        repository: 'https://charts.bitnami.com/bitnami'
-        condition: elasticsearch.enabled
-
-4. Change to the chart directory in the repository: ``cd charts/ska-dataproduct-dashboard/``. Make the needed changes to image versions and enable the deployments as required in the values files. Then update the Helm dependencies.
+3. Change to the chart directory in the repository: ``cd charts/ska-dataproduct-dashboard/``. Make the needed changes to image versions and enable the deployments as required in the values files. Then update the Helm dependencies.
 
 .. code-block:: bash
 
     helm dependency update .
     helm dependency build
 
-5. Create a new namespace (optional): ``kubectl create namespace [namespace]``
-6. Install the helm chart with the following values: 
+4. Create a new namespace (optional): ``kubectl create namespace [namespace]``
+5. Install the helm chart with the following values: 
 
     helm install [deploy-name] charts/ska-dataproduct-dashboard -n [namespace] --values values_local_deployment.yaml
 
@@ -190,7 +167,7 @@ Once the above is complete you will have the following running:
 * The Data Product API
 * The Data Product Dashboard
 
-7. To be able to access the API and the dashboard (Add Elasticsearch if in use as well so that it can be reached by the API on the local host) run the following:
+6. To be able to access the API and the dashboard run the following:
 
 .. code-block:: bash
 

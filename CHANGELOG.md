@@ -2,6 +2,11 @@
 
 ## Current Development
 
+- [NAL-1363](https://jira.skatelescope.org/browse/NAL-1363)
+
+  - [Removed] Removed old references to Elasticsearch.
+
+
 ## v0.12.0
 
 - [NAL-1348](https://jira.skatelescope.org/browse/NAL-1348)

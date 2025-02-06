@@ -94,27 +94,6 @@ This section details the configuration options available when deploying the Data
     * - ``api.vault.secretsFilePath``
       - ``/vault/secrets/config``
       - Path to the secrets as mapped into the API container.
-    * - ``api.elasticsearch.host``
-      - ``https://localhost``
-      - The ElasticSearch port.
-    * - ``api.elasticsearch.port``
-      - ``9200``
-      - The ElasticSearch host.
-    * - ``api.elasticsearch.metadata_schema_file``
-      - ``/mnt/src/ska_dataproduct_api/elasticsearch/data_product_metadata_schema.json``
-      - The ElasticSearch metadata schema.
-    * - ``api.elasticsearch.http_ca_file_name``
-      - ``http_ca.crt``
-      - The ElasticSearch CA certificate file name.
-    * - ``api.elasticsearch.user``
-      - ``elastic``
-      - The ElasticSearch user.
-    * - ``api.elasticsearch.indices``
-      - ``ska-dp-dataproduct-localhost-dev-v1``
-      - The ElasticSearch indices to be used for the search store, following the convention ska-dp-dataproduct-<Data center>-<namespace>-<version>. For example "ska-dp-dataproduct-sdhp-stfc-integration-v1"
-    * - ``api.elasticsearch.query_body_size``
-      - ``1000``
-      - The maximum number of ElasticSearch results returned by a query.
     * - ``api.postgresql.host``
       - ``https://localhost``
       - The PostgreSQL port.
@@ -122,7 +101,7 @@ This section details the configuration options available when deploying the Data
       - ``9200``
       - The PostgreSQL host.
     * - ``api.postgresql.user``
-      - ``elastic``
+      - ``postgre``
       - The PostgreSQL user.
     * - ``api.postgresql.dbname``
       - ````
@@ -160,10 +139,6 @@ The following secrets are expected in the file mapped into the API container by 
 
     * - Secret
       - Comment
-    * - ``SKA_DATAPRODUCT_API_ELASTIC_PASSWORD``
-      - The ElasticSearch password.
-    * - ``SKA_DATAPRODUCT_API_ELASTIC_HTTP_CA_BASE64_CERT``
-      - The ElasticSearch password.
     * - ``SKA_DATAPRODUCT_API_POSTGRESQL_PASSWORD``
       - The PostgreSQL password.
 

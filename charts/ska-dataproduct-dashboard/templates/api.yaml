@@ -77,20 +77,6 @@ spec:
             value: "{{ .Values.api.metadata_file_name }}"
           - name: SKA_DATAPRODUCT_API_SECRETS_FILE_PATH
             value: "{{ .Values.api.vault.secretsFilePath }}"
-          - name: SKA_DATAPRODUCT_API_ELASTIC_METADATA_SCHEMA_FILE
-            value: "{{ .Values.api.elasticsearch.metadata_schema_file }}"
-          - name: SKA_DATAPRODUCT_API_ELASTIC_HOST
-            value: "{{ .Values.api.elasticsearch.host }}"
-          - name: SKA_DATAPRODUCT_API_ELASTIC_PORT
-            value: "{{ .Values.api.elasticsearch.port }}"
-          - name: SKA_DATAPRODUCT_API_ELASTIC_HTTP_CA_FILE_NAME
-            value: "{{ .Values.api.elasticsearch.http_ca_file_name }}"
-          - name: SKA_DATAPRODUCT_API_ELASTIC_USER
-            value: "{{ .Values.api.elasticsearch.user }}"
-          - name: SKA_DATAPRODUCT_API_ELASTIC_INDICES
-            value: "{{ .Values.api.elasticsearch.indices }}"
-          - name: SKA_DATAPRODUCT_API_ELASTIC_QUERY_BODY_SIZE
-            value: "{{ .Values.api.elasticsearch.query_body_size }}"          
           - name: SKA_DATAPRODUCT_API_POSTGRESQL_HOST
             value: "{{ .Values.api.postgresql.host }}"
           - name: SKA_DATAPRODUCT_API_POSTGRESQL_PORT
