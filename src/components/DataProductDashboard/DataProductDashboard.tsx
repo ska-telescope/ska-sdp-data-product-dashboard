@@ -76,7 +76,7 @@ const DataProductDashboard = () => {
       CheckForNewData();
       const interval = setInterval(async () => {
         CheckForNewData();
-      }, parseInt(API_REFRESH_RATE));
+      }, API_REFRESH_RATE);
       return () => clearInterval(interval);
     }, []);
     return;
@@ -345,7 +345,7 @@ const DataProductDashboard = () => {
           <>
             {RenderSearchBox()}
             {MetadataCard(selectedFileNames)}
-            {DataAnnotationsCard(selectedFileNames.uuid)}
+            {DataAnnotationsCard(selectedFileNames)}
           </>
         </Grid>
       </Grid>

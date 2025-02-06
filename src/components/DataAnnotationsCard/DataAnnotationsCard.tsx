@@ -1,36 +1,62 @@
 import * as React from 'react';
-import { Box, Card, CardContent, CardHeader, Stack } from '@mui/material';
+import { Box, Card, CardContent, CardHeader, Modal, Stack } from '@mui/material';
 import { Button } from '@ska-telescope/ska-gui-components';
 import { useTranslation } from 'react-i18next';
 import { shellSize, FILTERCARDHEIGHT, tableHeight } from '@utils/constants';
 import DataAnnotationComponent from '@components/DataAnnotationComponent/DataAnnotationComponent';
 import EmptyDataAnnotationComponent from '@components/EmptyDataAnnotationComponent/EmptyDataAnnotationComponent';
+import SaveDataAnnotationCard from '@components/SaveDataAnnotationCard/SaveDataAnnotationCard';
 import getDataAnnotations from '@services/GetDataAnnotations/GetDataAnnotations';
+import { storageObject } from '@ska-telescope/ska-gui-local-storage';
+import { DataAnnotation } from 'types/annotations/annotations';
+import { SelectedDataProduct } from 'types/dataproducts/dataproducts';
 
-function DataAnnotationsCard(uuid: any) {
+function DataAnnotationsCard(selectedDataProduct: SelectedDataProduct) {
   const { t } = useTranslation('dpd');
 
-  const [dataAnnotations, setDataAnnotations] = React.useState([]);
+  const [listOfDataAnnotations, setListOfDataAnnotations] = React.useState([]);
   const [dataAnnotationMessage, setDataAnnotationMessage] = React.useState('');
+  const [annotationsTableAvailable, setAnnotationsTableAvailable] = React.useState(false);
+  const [disableCreateButton, setDisableCreateButton] = React.useState(false);
   const [cardHeight, setCardHeight] = React.useState(
     tableHeight() - (window.innerHeight - shellSize() - FILTERCARDHEIGHT - 240)
   );
+  const [open, setOpen] = React.useState(false);
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
+  const { user } = storageObject.useStore();
+  const newAnnotation: DataAnnotation = {
+    data_product_uuid: selectedDataProduct.uuid,
+    annotation_text: '',
+    user_principal_name: user?.email ?? '',
+    annotation_id: 0
+  };
+
+  // TODO: This need to change to pull form session storage
+  React.useEffect(() => {
+    if (user && annotationsTableAvailable) {
+      setDisableCreateButton(false);
+    } else {
+      setDisableCreateButton(true);
+    }
+  }, [user, annotationsTableAvailable]);
 
   React.useEffect(() => {
     async function loadDataAnnotations() {
-      const result = await getDataAnnotations(uuid);
-      console.log(result);
+      const result = await getDataAnnotations(selectedDataProduct.uuid);
       if (typeof result === 'string') {
         setDataAnnotationMessage(result);
-        setDataAnnotations([]);
+        setListOfDataAnnotations([]);
+        setAnnotationsTableAvailable(false);
       } else {
-        setDataAnnotations(result);
+        setListOfDataAnnotations(result);
+        setAnnotationsTableAvailable(true);
       }
     }
-    if (uuid !== '') {
+    if (selectedDataProduct.uuid !== '') {
       loadDataAnnotations();
     }
-  }, [uuid]);
+  }, [selectedDataProduct.uuid]);
 
   React.useEffect(() => {
     function handleResize() {
@@ -44,14 +70,14 @@ function DataAnnotationsCard(uuid: any) {
     return () => {
       window.removeEventListener('resize', handleResize);
     };
-  }, []); // Empty dependency array ensures the effect runs only once
+  }, []);
 
-  function renderDataAnnotationStack(dataAnnotations: any) {
-    if (dataAnnotations.length > 0) {
+  function renderDataAnnotationStack(listOfDataAnnotations: any) {
+    if (listOfDataAnnotations.length > 0) {
       return (
         <>
-          {dataAnnotations.map((annotation: any) => (
-            <DataAnnotationComponent data={annotation} />
+          {listOfDataAnnotations.map((annotation: DataAnnotation) => (
+            <DataAnnotationComponent {...annotation} />
           ))}
         </>
       );
@@ -62,18 +88,32 @@ function DataAnnotationsCard(uuid: any) {
 
   return (
     <>
-      {uuid !== '' && (
+      {selectedDataProduct.uuid !== '' && (
         <Box m={1}>
+          <Modal
+            open={open}
+            onClose={handleClose}
+            sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}
+          >
+            <SaveDataAnnotationCard {...newAnnotation} />
+          </Modal>
           <Card
             variant="outlined"
             sx={{ maxHeight: cardHeight, overflow: { overflowY: 'scroll' } }}
           >
             <CardHeader
-              title={t('annotations.title')}
-              action={<Button label={t('button.create')} testId="createDataAnnotation" />}
+              title={t('label.annotation.title')}
+              action={
+                <Button
+                  disabled={disableCreateButton}
+                  label={t('button.create')}
+                  testId="createDataAnnotation"
+                  onClick={handleOpen}
+                />
+              }
             />
             <CardContent>
-              <Stack>{renderDataAnnotationStack(dataAnnotations)}</Stack>
+              <Stack>{renderDataAnnotationStack(listOfDataAnnotations)}</Stack>
             </CardContent>
           </Card>
         </Box>

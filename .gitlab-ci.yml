@@ -241,7 +241,7 @@ redeploy-integration-dp:
   tags:
     - ska-k8srunner-dp
   variables:
-    K8S_CHART_PARAMS:  --values resources/values/integration-dp-values.yaml
+    K8S_CHART_PARAMS: --values resources/values/integration-dp-values.yaml
 
 stop-integration-dp:
   stage: integration-dp
