@@ -76,6 +76,12 @@ This section details the configuration options available when deploying the Data
     * - ``api.imagePullPolicy``
       - ``IfNotPresent``
       - The pull policy of the ska-dataproduct-api.
+    * - ``api.verbose``
+      - ``false``
+      - Enable verbose logging.
+    * - ``api.dateFromat``
+      - ``%Y-%m-%d``
+      - Date format used for search.
     * - ``api.ingress.path``
       - ``"api"``
       - What the prefix for the ska-dataproduct-api path should be.
@@ -96,10 +102,10 @@ This section details the configuration options available when deploying the Data
       - Path to the secrets as mapped into the API container.
     * - ``api.postgresql.host``
       - ``https://localhost``
-      - The PostgreSQL port.
+      - The PostgreSQL host.
     * - ``api.postgresql.port``
       - ``9200``
-      - The PostgreSQL host.
+      - The PostgreSQL port.
     * - ``api.postgresql.user``
       - ``postgre``
       - The PostgreSQL user.
@@ -109,9 +115,15 @@ This section details the configuration options available when deploying the Data
     * - ``api.postgresql.schema``
       - ````
       - The PostgreSQL schema name.
-    * - ``api.postgresql.tableName``
-      - ``data_products_metadata_v1``
-      - The PostgreSQL table name.
+    * - ``api.postgresql.metadataTableName``
+      - ``data_products_metadata_v2``
+      - The PostgreSQL table that contain the data products metadata.
+    * - ``api.postgresql.annotationsTableName``
+      - ``data_products_annotations_v1``
+      - The PostgreSQL table that contain the data products annotations.
+    * - ``api.postgresql.querySizeLimit``
+      - ``10000``
+      - Limit of the number of results from a PostgreSQL query.
     * - ``api.stream_chunk_size``
       - ``65536``
       - Data downloaded are streamed in stream_chunk_size chunks.
