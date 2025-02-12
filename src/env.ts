@@ -13,7 +13,6 @@ declare global {
 
 type EnvType = {
   SKIP_PREFLIGHT_CHECK: boolean;
-  REACT_APP_ALLOW_MOCK_AUTH: boolean;
   REACT_APP_API_REFRESH_RATE: number;
   REACT_APP_MSENTRA_CLIENT_ID: string;
   REACT_APP_MSENTRA_REDIRECT_URI: string;

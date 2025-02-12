@@ -6,7 +6,7 @@ import { DOWNLOAD_ID, PROD_1, PROD_2, TEST_DATA_FILE_1, TEXT_NO_API } from '@uti
 import DataProductDashboard from '@components/DataProductDashboard/DataProductDashboard';
 import MockStatusAPINotRunning from '@services/Mocking/mockStatusAPINotRunning';
 import { StoreProvider } from '@ska-telescope/ska-gui-local-storage';
-import AuthProvider from '@components/Auth/AuthContext';
+import { AuthProvider } from '@ska-telescope/ska-login-page';
 
 const THEME = [THEME_DARK, THEME_LIGHT];
 
@@ -17,7 +17,11 @@ describe('<DataProductDashboard />', () => {
       cy.window().then((win) => (win.GetAPIStatus = stub));
       cy.mount(
         <StoreProvider>
-          <AuthProvider>
+          <AuthProvider
+            MSENTRA_CLIENT_ID={'MSENTRA_CLIENT_ID'}
+            MSENTRA_TENANT_ID={'MSENTRA_TENANT_ID'}
+            MSENTRA_REDIRECT_URI={'MSENTRA_REDIRECT_URI'}
+          >
             <React.StrictMode>
               <ThemeProvider theme={theme(theTheme)}>
                 <CssBaseline />
@@ -33,7 +37,11 @@ describe('<DataProductDashboard />', () => {
     it('Theme ' + theTheme + ': Renders correctly when data is available', () => {
       cy.mount(
         <StoreProvider>
-          <AuthProvider>
+          <AuthProvider
+            MSENTRA_CLIENT_ID={'MSENTRA_CLIENT_ID'}
+            MSENTRA_TENANT_ID={'MSENTRA_TENANT_ID'}
+            MSENTRA_REDIRECT_URI={'MSENTRA_REDIRECT_URI'}
+          >
             <React.StrictMode>
               <ThemeProvider theme={theme(theTheme)}>
                 <CssBaseline />
@@ -51,7 +59,11 @@ describe('<DataProductDashboard />', () => {
     it('Theme ' + theTheme + ': Data is available for download on Data Product Dashboard', () => {
       cy.mount(
         <StoreProvider>
-          <AuthProvider>
+          <AuthProvider
+            MSENTRA_CLIENT_ID={'MSENTRA_CLIENT_ID'}
+            MSENTRA_TENANT_ID={'MSENTRA_TENANT_ID'}
+            MSENTRA_REDIRECT_URI={'MSENTRA_REDIRECT_URI'}
+          >
             <React.StrictMode>
               <ThemeProvider theme={theme(theTheme)}>
                 <CssBaseline />
@@ -69,7 +81,11 @@ describe('<DataProductDashboard />', () => {
     it('Theme ' + theTheme + ': Data products re-index endpoint is called', () => {
       cy.mount(
         <StoreProvider>
-          <AuthProvider>
+          <AuthProvider
+            MSENTRA_CLIENT_ID={'MSENTRA_CLIENT_ID'}
+            MSENTRA_TENANT_ID={'MSENTRA_TENANT_ID'}
+            MSENTRA_REDIRECT_URI={'MSENTRA_REDIRECT_URI'}
+          >
             <React.StrictMode>
               <ThemeProvider theme={theme(theTheme)}>
                 <CssBaseline />
@@ -85,7 +101,11 @@ describe('<DataProductDashboard />', () => {
     it('Theme ' + theTheme + ': Data products reload endpoint is called', () => {
       cy.mount(
         <StoreProvider>
-          <AuthProvider>
+          <AuthProvider
+            MSENTRA_CLIENT_ID={'MSENTRA_CLIENT_ID'}
+            MSENTRA_TENANT_ID={'MSENTRA_TENANT_ID'}
+            MSENTRA_REDIRECT_URI={'MSENTRA_REDIRECT_URI'}
+          >
             <React.StrictMode>
               <ThemeProvider theme={theme(theTheme)}>
                 <CssBaseline />

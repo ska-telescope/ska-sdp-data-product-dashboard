@@ -1,9 +1,9 @@
 import React from 'react';
+import { useMsal } from '@azure/msal-react';
 import { Box, Card, CardContent, CardHeader, Modal, TextField } from '@mui/material';
 import { Button } from '@ska-telescope/ska-gui-components';
 import { useTranslation } from 'react-i18next';
 import SaveDataAnnotationCard from '@components/SaveDataAnnotationCard/SaveDataAnnotationCard';
-import { storageObject } from '@ska-telescope/ska-gui-local-storage';
 import { DataAnnotation } from 'types/annotations/annotations';
 
 function DataAnnotationComponent(props: DataAnnotation) {
@@ -19,16 +19,16 @@ function DataAnnotationComponent(props: DataAnnotation) {
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
   const [disableViewButton, setDisableViewButton] = React.useState(false);
-  const { user } = storageObject.useStore();
+  const { instance } = useMsal();
+  const account = instance.getAllAccounts()[0];
 
-  // TODO: This need to change to pull form session storage
   React.useEffect(() => {
-    if (user) {
+    if (account?.username) {
       setDisableViewButton(false);
     } else {
       setDisableViewButton(true);
     }
-  }, [user]);
+  }, [account?.username]);
 
   return (
     <Box m={1}>

@@ -172,6 +172,18 @@ module.exports = (env, argv) => { return {
           singleton: true,
           eager: true,
         },
+        // MS Entra components
+        '@azure/msal-browser': {
+          requiredVersion: deps['@azure/msal-browser'],
+          singleton: true,
+          eager: true,
+        },
+        '@azure/msal-react': {
+          requiredVersion: deps['@azure/msal-react'],
+          singleton: true,
+          eager: true,
+        },
+        // mixture
         axios: {
           eager: true,
           singleton: true,

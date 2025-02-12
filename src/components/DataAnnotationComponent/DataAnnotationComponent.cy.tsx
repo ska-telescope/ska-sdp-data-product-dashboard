@@ -13,7 +13,13 @@ describe('<MetaData />', () => {
       cy.mount(
         <ThemeProvider theme={theme(theTheme)}>
           <CssBaseline />
-          <DataAnnotationComponent data={MockDataAnnotations} />
+          <DataAnnotationComponent
+            data_product_uuid={''}
+            annotation_text={''}
+            user_principal_name={''}
+            annotation_id={0}
+            {...MockDataAnnotations}
+          />
         </ThemeProvider>
       );
     });
