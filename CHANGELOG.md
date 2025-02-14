@@ -7,7 +7,6 @@
   - [Removed] Removed old references to Elasticsearch.
   - [Changed] Updated environment variables in API chart to match all variables in the API.
 
-
 ## v0.12.0
 
 - [NAL-1348](https://jira.skatelescope.org/browse/NAL-1348)
