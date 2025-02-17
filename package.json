@@ -54,7 +54,7 @@
     "@react-spring/web": "^9.7.3",
     "@ska-telescope/ska-gui-components": "2.1.2",
     "@ska-telescope/ska-gui-local-storage": "^2.0.4",
-    "@ska-telescope/ska-login-page": "0.9.8",
+    "@ska-telescope/ska-login-page": "0.9.15",
     "@types/streamsaver": "^2.0.4",
     "axios": "^1.6.5",
     "babel-loader": "^9.1.0",

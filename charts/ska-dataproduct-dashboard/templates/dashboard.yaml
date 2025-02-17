@@ -72,10 +72,6 @@ spec:
               value: "{{ .Values.dashboard.vault.client_id }}"
             - name: REACT_APP_MSENTRA_TENANT_ID
               value: "{{ .Values.dashboard.vault.tenant_id }}"
-            - name: REACT_APP_ALLOW_MOCK_AUTH
-              value: "{{ .Values.dashboard.config.allowMockAuth }}"
-            - name: REACT_APP_PERMISSIONS_API_URI
-              value: "{{ .Values.ingress.hostname }}{{ include "ska-dataproduct-dashboard.permissionsApi.ingress.path" . }}/v1/getuserrole"
           livenessProbe:
             httpGet:
               path: /

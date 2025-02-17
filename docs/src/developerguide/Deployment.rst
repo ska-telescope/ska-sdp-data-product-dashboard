@@ -180,9 +180,6 @@ The following secrets are expected in the file mapped into the API container by 
     * - ``dashboard.ingress.path``
       - ``"dashboard"``
       - What the prefix for the ska-dataproduct-dashboard path should be.
-    * - ``dashboard.config.allowMockAuth``
-      - ``false``
-      - Enable mocked authentication.
     * - ``dashboard.vault.useVault``
       - ``true``
       - Enables the deployment to retrieve SPA registration details from the SKAO vault.
@@ -210,55 +207,6 @@ The following secrets are expected in the file mapped into the API container by 
     * - ``dashboard.resources.limits.memory``
       - ``2048Mi``
       - The maximum memory usage of the dashboard.
-
-**Permissions API**:
-
-.. list-table::
-    :widths: 20, 20, 60
-    :header-rows: 1
-
-    * - Value
-      - Default
-      - Comment
-    * - ``permissionsApi.enabled``
-      - ``false``
-      - If the ska-permissions-api should be enabled.
-    * - ``permissionsApi.container``
-      - ``artefact.skao.int/ska-permissions-api``
-      - The link to the artefact repository
-    * - ``permissionsApi.version``
-      - ``0.1.0``
-      - The version of the ska-permissions-api to use.
-    * - ``permissionsApi.imagePullPolicy``
-      - ``IfNotPresent``
-      - The pull policy of the ska-permissions-api.
-    * - ``permissionsApi.ingress.path``
-      - ``"permissionsApi"``
-      - What the prefix for the ska-permissions-api path should be.
-    * - ``permissionsApi.vault.useVault``
-      - ``true``
-      - Enables the deployment to retrieve WEB API registration details from the SKAO vault.
-    * - ``permissionsApi.vault.pathToSecretVault``
-      - ``kv/data/users/andre_odendaal/skao_mf_remote_module_permissions_api``
-      - Path to the secrets in the vault.
-    * - ``permissionsApi.vault.client_id``
-      - ``abcde``
-      - Placeholder env variable for MS Entra application registration client ID.
-    * - ``permissionsApi.vault.tenant_id``
-      - ``abcde``
-      - Placeholder env variable for MS Entra application registration tenant ID.
-    * - ``permissionsApi.resources.requests.cpu``
-      - ``500m``
-      - The requested minimum CPU usage of the api.
-    * - ``permissionsApi.resources.requests.memory``
-      - ``1024Mi``
-      - The requested minimum memory usage of the api.
-    * - ``permissionsApi.resources.limits.cpu``
-      - ``1000m``
-      - The maximum CPU usage of the api.
-    * - ``permissionsApi.resources.limits.memory``
-      - ``2048Mi``
-      - The maximum memory usage of the api.
 
 
 **Shared persistent volume**:

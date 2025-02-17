@@ -1,6 +1,4 @@
-import React from 'react';
 import axios from 'axios';
-import { useTranslation } from 'react-i18next';
 
 import { USE_LOCAL_DATA, SKA_DATAPRODUCT_API_URL } from '@utils/constants';
 import MockStatus from '@services/Mocking/mockStatus';
@@ -43,14 +41,3 @@ export const GetAPIStatus = async () => {
     return APIOfflineStatus;
   }
 };
-
-export async function GetVersionNumber() {
-  const { t } = useTranslation('dpd');
-  const [apiVersion, setAPIVersion] = React.useState('LOCAL');
-  const results = await GetAPIStatus();
-  setAPIVersion(
-    results?.data?.api_version ? results.data.api_version : t('error.API_NOT_AVAILABLE')
-  );
-
-  return apiVersion;
-}

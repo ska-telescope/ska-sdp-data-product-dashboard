@@ -15,11 +15,6 @@ app: {{ $.Chart.Name }}-dashboard
 app: {{ $.Chart.Name }}-api
 {{- end }}
 
-{{- define "ska-dataproduct-dashboard.permissionsApi.labels" -}}
-{{ include "ska-dataproduct-dashboard.labels" . }}
-app: {{ $.Chart.Name }}-permissions-api
-{{- end }}
-
 {{/*
 set the ingress url path
 */}}
@@ -36,14 +31,6 @@ set the ingress url path
 /{{ .Release.Namespace }}/{{ .Values.api.ingress.path }}
 {{- else -}}
 /{{ .Values.api.ingress.path}}
-{{- end }}
-{{- end }}
-
-{{- define "ska-dataproduct-dashboard.permissionsApi.ingress.path" }}
-{{- if .Values.ingress.namespaced -}}
-/{{ .Release.Namespace }}/{{ .Values.permissionsApi.ingress.path }}
-{{- else -}}
-/{{ .Values.permissionsApi.ingress.path }}
 {{- end }}
 {{- end }}
 
