@@ -1,8 +1,8 @@
 import useAxiosClient from '@services/AxiosClient/AxiosClient';
-import { AxiosResponse } from 'axios'; // Import AxiosResponse and AxiosError
+import { AxiosResponse } from 'axios';
 
 const saveDataAnnotations = async (
-  authAxiosClient: ReturnType<typeof useAxiosClient>, // Add the authAxiosClient parameter
+  authAxiosClient: ReturnType<typeof useAxiosClient>,
   annotationText: string,
   uuid: string,
   annotationID?: number

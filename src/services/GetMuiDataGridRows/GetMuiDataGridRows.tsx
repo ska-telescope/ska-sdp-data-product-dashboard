@@ -7,7 +7,7 @@ interface GetMuiDataGridRowsResponse {
 }
 
 const GetMuiDataGridRows = async (
-  authAxiosClient: ReturnType<typeof useAxiosClient>, // Add the authAxiosClient parameter
+  authAxiosClient: ReturnType<typeof useAxiosClient>,
   muiDataGridFilterModel: Record<string, string | number> = {}
 ): Promise<GetMuiDataGridRowsResponse> => {
   const ENDPOINT: string = '/filterdataproducts';
@@ -20,15 +20,15 @@ const GetMuiDataGridRows = async (
 
   try {
     const response = await authAxiosClient.post(ENDPOINT, JSON.stringify(muiDataGridFilterModel));
-    const DataGridRowsData = response.data; // Use response.data directly with axios
+    const DataGridRowsData = response.data;
 
     if (!DataGridRowsData) {
       console.error('Data product search API response is empty or undefined');
       return { DataGridRowsData: [] } as GetMuiDataGridRowsResponse;
     }
-    return { DataGridRowsData }; // Return the data
+    return { DataGridRowsData };
   } catch (error) {
-    console.error('Error in GetMuiDataGridRows:', error); // Log the error for debugging
+    console.error('Error in GetMuiDataGridRows:', error);
     return { DataGridRowsData: [] } as GetMuiDataGridRowsResponse;
   }
 };

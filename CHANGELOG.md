@@ -4,7 +4,7 @@
 
 - [NAL-1341](https://jira.skatelescope.org/browse/NAL-1341)
 
-  - [Changed] Updated AAA components to make use of the latest SKA AAA Gui components form the SKA-Login-Page.
+  - [Changed] Updated AAA components to make use of the latest SKA AAA Gui components from the SKA-Login-Page.
   - [Changed] Removed the SKA Permissions API from the Helm chart. The SKA Permissions API is now installed independently and only added as a URL to the service for use by the DPD API.
 
 

@@ -49,7 +49,7 @@ function DataAnnotationsCard(selectedDataProduct: SelectedDataProduct) {
   React.useEffect(() => {
     async function loadDataAnnotations() {
       setListOfDataAnnotations([]);
-      const result = await getDataAnnotations(authAxiosClient, selectedDataProduct.uuid); // Pass the client here
+      const result = await getDataAnnotations(authAxiosClient, selectedDataProduct.uuid);
       if ([200, 201].includes(result.status)) {
         setListOfDataAnnotations(result.data);
         setAnnotationsTableAvailable(true);
