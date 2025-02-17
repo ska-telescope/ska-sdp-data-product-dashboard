@@ -1,10 +1,10 @@
 import React from 'react';
-import { useMsal } from '@azure/msal-react';
 import { Box, Card, CardContent, CardHeader, Modal, TextField } from '@mui/material';
 import { Button } from '@ska-telescope/ska-gui-components';
 import { useTranslation } from 'react-i18next';
 import SaveDataAnnotationCard from '@components/SaveDataAnnotationCard/SaveDataAnnotationCard';
 import { DataAnnotation } from 'types/annotations/annotations';
+import { useUserAuthenticated } from '@services/GetAuthStatus/GetAuthStatus';
 
 function DataAnnotationComponent(props: DataAnnotation) {
   const {
@@ -19,16 +19,15 @@ function DataAnnotationComponent(props: DataAnnotation) {
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
   const [disableViewButton, setDisableViewButton] = React.useState(false);
-  const { instance } = useMsal();
-  const account = instance.getAllAccounts()[0];
+  const isAuthenticated = useUserAuthenticated();
 
   React.useEffect(() => {
-    if (account?.username) {
+    if (isAuthenticated) {
       setDisableViewButton(false);
     } else {
       setDisableViewButton(true);
     }
-  }, [account?.username]);
+  }, [isAuthenticated]);
 
   return (
     <Box m={1}>

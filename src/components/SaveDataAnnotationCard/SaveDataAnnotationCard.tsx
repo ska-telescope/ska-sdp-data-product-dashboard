@@ -1,5 +1,4 @@
 import React from 'react';
-import { useMsal } from '@azure/msal-react';
 import { Box, Card, CardContent, CardHeader, Modal, TextField, Typography } from '@mui/material';
 import { Button, Alert, AlertColorTypes } from '@ska-telescope/ska-gui-components';
 import { useTranslation } from 'react-i18next';
@@ -7,6 +6,7 @@ import saveDataAnnotations from '@services/SaveDataAnnotation/SaveDataAnnotation
 import { DataAnnotation } from 'types/annotations/annotations';
 import { SKA_DATAPRODUCT_API_URL } from '@utils/constants';
 import useAxiosClient from '@services/AxiosClient/AxiosClient';
+import { useUserAuthenticated } from '@services/GetAuthStatus/GetAuthStatus';
 
 const SaveDataAnnotationCard = (props: DataAnnotation) => {
   const { data_product_uuid, annotation_text, user_principal_name, annotation_id } = props;
@@ -20,18 +20,17 @@ const SaveDataAnnotationCard = (props: DataAnnotation) => {
   const [alertText, setAlertText] = React.useState('');
   const [alertColour, setAlertColour] = React.useState(AlertColorTypes.Success);
   const [standardText, setStandardText] = React.useState('');
-  const { instance } = useMsal();
-  const account = instance.getAllAccounts()[0];
+  const isAuthenticated = useUserAuthenticated();
   const [disableEditButton, setDisableEditButton] = React.useState(false);
   const authAxiosClient = useAxiosClient(SKA_DATAPRODUCT_API_URL); // Call the hook here!
 
   React.useEffect(() => {
-    if (account.username) {
+    if (isAuthenticated) {
       setDisableEditButton(false);
     } else {
       setDisableEditButton(true);
     }
-  }, [account.username, user_principal_name]);
+  }, [isAuthenticated, user_principal_name]);
 
   async function saveEditButtonClick() {
     if (saveEditButtonText === t('button.edit')) {

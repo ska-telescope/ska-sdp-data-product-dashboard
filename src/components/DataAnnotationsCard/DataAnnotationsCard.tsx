@@ -16,6 +16,7 @@ import getDataAnnotations from '@services/GetDataAnnotations/GetDataAnnotations'
 import { DataAnnotation } from 'types/annotations/annotations';
 import { SelectedDataProduct } from 'types/dataproducts/dataproducts';
 import useAxiosClient from '@services/AxiosClient/AxiosClient';
+import { useUserAuthenticated } from '@services/GetAuthStatus/GetAuthStatus';
 
 function DataAnnotationsCard(selectedDataProduct: SelectedDataProduct) {
   const { t } = useTranslation('dpd');
@@ -37,14 +38,15 @@ function DataAnnotationsCard(selectedDataProduct: SelectedDataProduct) {
     annotation_id: 0
   };
   const authAxiosClient = useAxiosClient(SKA_DATAPRODUCT_API_URL);
+  const isAuthenticated = useUserAuthenticated();
 
   React.useEffect(() => {
-    if (account?.username && annotationsTableAvailable) {
+    if (isAuthenticated && annotationsTableAvailable) {
       setDisableCreateButton(false);
     } else {
       setDisableCreateButton(true);
     }
-  }, [account?.username, annotationsTableAvailable]);
+  }, [isAuthenticated, annotationsTableAvailable]);
 
   React.useEffect(() => {
     async function loadDataAnnotations() {
