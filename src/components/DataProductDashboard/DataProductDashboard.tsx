@@ -14,10 +14,9 @@ import { ButtonVariantTypes } from '@ska-telescope/ska-gui-components';
 
 import DataProductsTable from '@components/DataProductsTable/DataProductsTable';
 import MetadataCard from '@components/MetadataCard/MetadataCard';
-import GetAPIStatus from '@services/GetAPIStatus/GetAPIStatus';
+import { GetAPIStatus } from '@services/GetAPIStatus/GetAPIStatus';
 import { API_REFRESH_RATE, SKA_DATAPRODUCT_API_URL, FILTERCARDHEIGHT } from '@utils/constants';
 import DataproductDataGrid from '@components/DataGrid/DataGrid';
-import { storageObject } from '@ska-telescope/ska-gui-local-storage';
 import DataAnnotationsCard from '@components/DataAnnotationsCard/DataAnnotationsCard';
 
 const DataProductDashboard = () => {
@@ -58,12 +57,11 @@ const DataProductDashboard = () => {
     ],
     logicOperator: 'and'
   });
-  const { user } = storageObject.useStore();
 
   async function CheckForNewData() {
     const results = await GetAPIStatus();
     if (results?.data) {
-      updateApiRunning(results.data.api_running);
+      updateApiRunning(results.data?.api_running ?? false);
       updateApiIndexing(results.data.metadata_store_status.indexing);
       setDataStoreLastModifiedTime(results.data.metadata_store_status?.last_metadata_update_time);
     } else {
@@ -338,7 +336,7 @@ const DataProductDashboard = () => {
           {DataProductsTable(
             updating,
             apiRunning,
-            DataproductDataGrid(handleRowClick, searchPanelOptions, user?.token, updating)
+            DataproductDataGrid(handleRowClick, searchPanelOptions, updating)
           )}
         </Grid>
         <Grid item xs={3}>

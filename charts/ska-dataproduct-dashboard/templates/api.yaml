@@ -102,7 +102,7 @@ spec:
           - name: SKA_DATAPRODUCT_API_POSTGRESQL_QUERY_SIZE_LIMIT
             value: "{{ .Values.api.postgresql.querySizeLimit }}"
           - name: SKA_PERMISSIONS_API_HOST
-            value: "{{ .Values.ingress.hostname }}{{ include "ska-dataproduct-dashboard.permissionsApi.ingress.path" . }}"
+            value: "{{ .Values.api.permissionsapi.serviceUrl }}"
           - name: DATE_FORMAT
             value: "{{ .Values.api.dateFromat }}"
           - name: API_ROOT_PATH

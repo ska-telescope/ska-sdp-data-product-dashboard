@@ -1,10 +1,11 @@
-import * as React from 'react';
+import React from 'react';
 import { DataGrid, GridFilterModel, GridColDef } from '@mui/x-data-grid';
 import DownloadIcon from '@mui/icons-material/Download';
 import { Box } from '@mui/material';
 import GetMuiDataGridConfig from './GetMuiDataGridConfig';
-import GetMuiDataGridRows from './GetMuiDataGridRows';
-import { shellSize } from '@utils/constants';
+import GetMuiDataGridRows from '../../services/GetMuiDataGridRows/GetMuiDataGridRows';
+import useAxiosClient from '@services/AxiosClient/AxiosClient';
+import { shellSize, SKA_DATAPRODUCT_API_URL } from '@utils/constants';
 import {
   Button,
   ButtonColorTypes,
@@ -18,7 +19,6 @@ import dataProductDownloadStream from '@services/GetDownloadStream/GetDownloadSt
 export default function DataproductDataGrid(
   handleSelectedNode: () => void,
   searchPanelOptions: {},
-  token: string = '',
   updating: boolean
 ) {
   const [muiConfigData, setMuiConfigData] = React.useState({
@@ -29,6 +29,16 @@ export default function DataproductDataGrid(
   const [rows, setRows] = React.useState([]);
   const [tableHeight, setTableHeight] = React.useState(window.innerHeight - shellSize());
   const { t } = useTranslation('dpd');
+  const authAxiosClient = useAxiosClient(SKA_DATAPRODUCT_API_URL);
+
+  React.useEffect(() => {
+    const fetchData = async () => {
+      const result = await GetMuiDataGridRows(authAxiosClient, dataFilterModel);
+      setRows(result.DataGridRowsData);
+    };
+    fetchData();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [dataFilterModel, updating]);
 
   React.useEffect(() => {
     function handleResize() {
@@ -135,18 +145,6 @@ export default function DataproductDataGrid(
   React.useEffect(() => {
     fetchData();
   }, [fetchData]); // Dependency on fetchData to ensure it runs only once
-
-  const fetchRowData = React.useCallback(async () => {
-    const response = await GetMuiDataGridRows(dataFilterModel, token);
-    if (response.DataGridRowsData) {
-      setRows(response.DataGridRowsData);
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [dataFilterModel, token, updating]);
-
-  React.useEffect(() => {
-    fetchRowData();
-  }, [fetchRowData, dataFilterModel]);
 
   const isLoading = false;
 

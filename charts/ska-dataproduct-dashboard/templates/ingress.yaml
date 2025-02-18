@@ -51,27 +51,4 @@ spec:
         pathType: ImplementationSpecific
 {{- end }}
 ---
-{{- if $.Values.permissionsApi.enabled }}
-apiVersion: networking.k8s.io/v1
-kind: Ingress
-metadata:
-  annotations:
-    kubernetes.io/ingress.class: nginx
-{{ include "ska-dataproduct-dashboard.permissionsApi.labels" . | indent 4 }}
-    nginx.ingress.kubernetes.io/rewrite-target: /$1
-  labels:
-{{ include "ska-dataproduct-dashboard.permissionsApi.labels" . | indent 4 }}
-  name: {{ $.Chart.Name }}-permissions-api
-spec:
-  rules:
-  - http:
-      paths:
-      - backend:
-          service:
-            name: {{ $.Chart.Name }}-permissions-api
-            port:
-              number: 8000
-        path: "{{ include "ska-dataproduct-dashboard.permissionsApi.ingress.path" . }}/(.*)"
-        pathType: ImplementationSpecific
-{{- end }}
 {{- end }}

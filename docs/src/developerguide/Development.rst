@@ -58,7 +58,6 @@ Create a file named .env at the root of your project directory. The following li
   REACT_APP_MSENTRA_CLIENT_ID='The applciation ID'
   REACT_APP_MSENTRA_TENANT_ID='The tenant ID'
   REACT_APP_MSENTRA_REDIRECT_URI='http://localhost:8000'
-  REACT_APP_PERMISSIONS_API_URI='http://localhost:8000/v1/getuserrole'
 
 
 Running scripts

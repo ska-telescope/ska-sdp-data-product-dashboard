@@ -1,6 +1,6 @@
 import { env } from '../env';
 
-export const VERSION = process.env.REACT_APP_VERSION;
+export const VERSION = process.env.REACT_APP_VERSION || 'unknown';
 
 export const { NODE_ENV } = process.env;
 export const IS_DEV = NODE_ENV !== 'production';
@@ -10,8 +10,6 @@ export const SKA_DATAPRODUCT_API_URL = env.REACT_APP_SKA_DATAPRODUCT_API_URL;
 export const MSENTRA_CLIENT_ID = env.REACT_APP_MSENTRA_CLIENT_ID;
 export const MSENTRA_TENANT_ID = env.REACT_APP_MSENTRA_TENANT_ID;
 export const MSENTRA_REDIRECT_URI = env.REACT_APP_MSENTRA_REDIRECT_URI;
-export const ALLOW_MOCK_AUTH = env.REACT_APP_ALLOW_MOCK_AUTH;
-export const PERMISSIONS_API_URI = env.REACT_APP_PERMISSIONS_API_URI;
 
 export const DOWNLOAD_BUTTON_LABEL = 'BUTTON.DOWNLOAD';
 export const DOWNLOAD_ID = 'downloadButton';

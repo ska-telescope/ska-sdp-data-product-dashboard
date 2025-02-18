@@ -1,20 +1,13 @@
-import axios from 'axios';
-import { SKA_DATAPRODUCT_API_URL } from '@utils/constants';
+import useAxiosClient from '@services/AxiosClient/AxiosClient';
+import { AxiosResponse } from 'axios';
 
-async function saveDataAnnotations(
-  token: string = '',
+const saveDataAnnotations = async (
+  authAxiosClient: ReturnType<typeof useAxiosClient>,
   annotationText: string,
   uuid: string,
   annotationID?: number
-) {
-  const bearer = `Bearer ${token}`;
-  const config = {
-    headers: {
-      Accept: 'application/json',
-      'Content-Type': 'application/json',
-      Authorization: bearer
-    }
-  };
+): Promise<AxiosResponse> => {
+  const ENDPOINT: string = '/annotation';
 
   let payload: object = {
     data_product_uuid: uuid,
@@ -27,11 +20,24 @@ async function saveDataAnnotations(
       annotation_id: annotationID
     };
   }
+
   try {
-    return await axios.post(`${SKA_DATAPRODUCT_API_URL}/annotation`, payload, config);
-  } catch (error) {
-    throw new Error('Error Saving Data Annotation');
+    const response = await authAxiosClient.post(ENDPOINT, payload);
+    return response;
+  } catch (error: any) {
+    console.error('Error Saving Data Annotation:', error);
+
+    if (error.response) {
+      // Server error
+      throw error.response; // Re-throw the AxiosResponse error for the caller to handle
+    } else if (error.request) {
+      // Request error (no response)
+      throw new Error('No response received from the server'); // Re-throw a custom error
+    } else {
+      // Client-side error
+      throw error; // Re-throw the original error
+    }
   }
-}
+};
 
 export default saveDataAnnotations;

@@ -19,6 +19,8 @@ api:
     useVault: false
     pathToSecretVault: kv/data/users/andre_odendaal/sdhp-stfc/ska-sdp-dataproduct-api/integration
     secretsFilePath: /vault/secrets/config
+  permissionsapi:
+    serviceUrl: https://sdhp.stfc.skao.int/integration-ska-permissions-api
   postgresql:
     host: ""
     port: 5432
@@ -44,8 +46,6 @@ dashboard:
   imagePullPolicy: IfNotPresent
   ingress:
     path: dashboard
-  config:
-    allowMockAuth: false
   vault:
     useVault: false
     pathToSecretVault: kv/data/users/andre_odendaal/sdhp-stfc/ska-sdp-dataproduct-dashboard/integration
@@ -60,27 +60,6 @@ dashboard:
       cpu: 2000m
       memory: 3072Mi
       
-permissionsApi:
-  enabled: true
-  image:
-    imagePullPolicy: IfNotPresent
-    container: artefact.skao.int/ska-permissions-api
-    version: 1.0.1
-  ingress:
-    path: skapermissionsapi
-  vault:
-    useVault: false
-    pathToSecretVault: kv/data/users/andre_odendaal/skao_mf_remote_module_permissions_api
-    client_id: abcde
-    tenant_id: abcde
-  resources:
-    requests:
-      cpu: 200m
-      memory: 200Mi
-    limits:
-      cpu: 1000m
-      memory: 600Mi
-
 dataProductPVC:
   name: shared
   create:

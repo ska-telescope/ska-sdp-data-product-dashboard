@@ -1,10 +1,12 @@
-import * as React from 'react';
+import React from 'react';
 import { Box, Card, CardContent, CardHeader, Modal, TextField, Typography } from '@mui/material';
 import { Button, Alert, AlertColorTypes } from '@ska-telescope/ska-gui-components';
 import { useTranslation } from 'react-i18next';
 import saveDataAnnotations from '@services/SaveDataAnnotation/SaveDataAnnotation';
-import { storageObject } from '@ska-telescope/ska-gui-local-storage';
 import { DataAnnotation } from 'types/annotations/annotations';
+import { SKA_DATAPRODUCT_API_URL } from '@utils/constants';
+import useAxiosClient from '@services/AxiosClient/AxiosClient';
+import { useUserAuthenticated } from '@services/GetAuthStatus/GetAuthStatus';
 
 const SaveDataAnnotationCard = (props: DataAnnotation) => {
   const { data_product_uuid, annotation_text, user_principal_name, annotation_id } = props;
@@ -18,28 +20,27 @@ const SaveDataAnnotationCard = (props: DataAnnotation) => {
   const [alertText, setAlertText] = React.useState('');
   const [alertColour, setAlertColour] = React.useState(AlertColorTypes.Success);
   const [standardText, setStandardText] = React.useState('');
-  const { user } = storageObject.useStore();
-  const token: string = user?.token ?? '';
+  const isAuthenticated = useUserAuthenticated();
   const [disableEditButton, setDisableEditButton] = React.useState(false);
+  const authAxiosClient = useAxiosClient(SKA_DATAPRODUCT_API_URL);
 
-  // TODO: This need to change to pull form session storage
   React.useEffect(() => {
-    if (user) {
+    if (isAuthenticated) {
       setDisableEditButton(false);
     } else {
       setDisableEditButton(true);
     }
-  }, [user, user_principal_name]);
+  }, [isAuthenticated, user_principal_name]);
 
   async function saveEditButtonClick() {
     if (saveEditButtonText === t('button.edit')) {
       setDisableAnnotationTextEntryField(false);
       setSaveEditButtonText(t('button.save'));
     } else {
-      const annotationID = annotation_id ? annotation_id : null;
+      const annotationID = annotation_id ? annotation_id : undefined;
       if (standardText) {
         const result = await saveDataAnnotations(
-          token,
+          authAxiosClient,
           standardText,
           data_product_uuid,
           annotationID

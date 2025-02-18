@@ -2,11 +2,15 @@
 
 ## Current Development
 
+- [NAL-1341](https://jira.skatelescope.org/browse/NAL-1341)
+
+  - [Changed] Updated AAA components to make use of the latest SKA AAA Gui components from the SKA-Login-Page.
+  - [Changed] Removed the SKA Permissions API from the Helm chart. The SKA Permissions API is now installed independently and only added as a URL to the service for use by the DPD API.
+
 - [NAL-1363](https://jira.skatelescope.org/browse/NAL-1363)
 
   - [Removed] Removed old references to Elasticsearch.
   - [Changed] Updated environment variables in API chart to match all variables in the API.
-
 
 ## v0.12.0
 

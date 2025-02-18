@@ -17,13 +17,3 @@ dashboard:
   vault:
     useVault: true
     pathToSecretVault: kv/data/users/andre_odendaal/sdhp-stfc/ska-sdp-dataproduct-dashboard/staging
-      
-permissionsApi:
-  enabled: true
-  image:
-    version: 1.0.1
-  vault:
-    useVault: false
-    pathToSecretVault: kv/data/users/andre_odendaal/skao_mf_remote_module_permissions_api
-    client_id: abcde
-    tenant_id: abcde
