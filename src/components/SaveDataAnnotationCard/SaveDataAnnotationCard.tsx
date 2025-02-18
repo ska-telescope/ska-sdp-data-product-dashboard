@@ -22,7 +22,7 @@ const SaveDataAnnotationCard = (props: DataAnnotation) => {
   const [standardText, setStandardText] = React.useState('');
   const isAuthenticated = useUserAuthenticated();
   const [disableEditButton, setDisableEditButton] = React.useState(false);
-  const authAxiosClient = useAxiosClient(SKA_DATAPRODUCT_API_URL); // Call the hook here!
+  const authAxiosClient = useAxiosClient(SKA_DATAPRODUCT_API_URL);
 
   React.useEffect(() => {
     if (isAuthenticated) {

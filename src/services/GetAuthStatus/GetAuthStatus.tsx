@@ -11,7 +11,7 @@ export const useUserAuthenticated = () => {
       setIsAuthenticated(allAccounts.length === 1);
     };
 
-    checkAuthStatus(); // Check on initial mount
+    checkAuthStatus();
   }, [instance]);
 
   return isAuthenticated;
