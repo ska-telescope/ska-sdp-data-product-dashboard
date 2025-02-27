@@ -26,7 +26,7 @@ context('Select and download data product', () => {
 
   function setUpForTests() {
     Cypress.env('REACT_APP_USE_LOCAL_DATA', false);
-    cy.intercept("GET", "http://localhost:8000/dataproductlist", ExampleDataProductList);
+    cy.intercept("POST", "http://localhost:8000/filterdataproducts", ExampleDataProductList);
     cy.intercept("POST", "http://localhost:8000/dataproductmetadata", {
       statusCode: 200,
       body: ExampleMetadata,
@@ -60,7 +60,7 @@ context('Select and download data product', () => {
     beforeEach(() => {
       Cypress.env('REACT_APP_USE_LOCAL_DATA', false);
       cy.visit(LOCAL_HOST)
-      cy.intercept("GET", "http://localhost:8000/dataproductlist", {});
+      cy.intercept("POST", "http://localhost:8000/filterdataproducts", {});
       cy.intercept('GET', 'http://localhost:8000/status', ExampleDataProductStatusUnavailable)
     })
 

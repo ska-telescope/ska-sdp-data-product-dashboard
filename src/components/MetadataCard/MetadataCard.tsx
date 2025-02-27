@@ -15,11 +15,11 @@ function MetadataCard(selectedDataProduct: SelectedDataProduct) {
   const { t } = useTranslation('dpd');
 
   React.useEffect(() => {
-    const metaDataFile = selectedDataProduct?.uuid;
+    const metaDataFile = selectedDataProduct?.uid;
 
     async function loadMetaData() {
       if (metaDataFile) {
-        const results = await getMetaData(metaDataFile);
+        const results = await getMetaData(selectedDataProduct);
         setMetaData(results);
       }
     }
@@ -30,7 +30,7 @@ function MetadataCard(selectedDataProduct: SelectedDataProduct) {
       }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [selectedDataProduct?.uuid]);
+  }, [selectedDataProduct?.uid]);
 
   React.useEffect(() => {
     function handleResize() {

@@ -4,13 +4,13 @@ import { AxiosResponse } from 'axios';
 const saveDataAnnotations = async (
   authAxiosClient: ReturnType<typeof useAxiosClient>,
   annotationText: string,
-  uuid: string,
+  uid: string,
   annotationID?: number
 ): Promise<AxiosResponse> => {
   const ENDPOINT: string = '/annotation';
 
   let payload: object = {
-    data_product_uuid: uuid,
+    data_product_uid: uid,
     annotation_text: annotationText
   };
 

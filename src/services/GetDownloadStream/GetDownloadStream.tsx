@@ -5,7 +5,7 @@ const dataProductDownloadStream = async (selectedDataProduct: {
   execution_block: any;
   relativePathName: any;
   metaDataFile: any;
-  uuid: any;
+  uid: any;
 }) => {
   const URL_DOWNLOAD = '/download';
   const apiUrl = SKA_DATAPRODUCT_API_URL;

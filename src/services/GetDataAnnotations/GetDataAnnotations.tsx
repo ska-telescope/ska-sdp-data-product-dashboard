@@ -5,9 +5,9 @@ import { AxiosResponse } from 'axios';
 
 const getDataAnnotations = async (
   authAxiosClient: ReturnType<typeof useAxiosClient>,
-  uuid: string = ''
+  uid: string = ''
 ): Promise<AxiosResponse> => {
-  const ENDPOINT: string = `/annotations/${uuid}`;
+  const ENDPOINT: string = `/annotations/${uid}`;
 
   // Check if using local mock data
   if (USE_LOCAL_DATA) {

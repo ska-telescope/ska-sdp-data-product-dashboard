@@ -1,12 +1,9 @@
 import axios from 'axios';
 import { USE_LOCAL_DATA, SKA_DATAPRODUCT_API_URL } from '@utils/constants';
 import MockMeta from '@services/Mocking/mockMetaData';
+import { SelectedDataProduct } from 'types/dataproducts/dataproducts';
 
-function isWindows(): boolean {
-  return window.navigator.userAgent.indexOf('Windows') !== -1;
-}
-
-async function getMetaData(inData: string) {
+async function getMetaData(selectedDataProduct: SelectedDataProduct) {
   const config = {
     headers: {
       Accept: 'application/json',
@@ -14,17 +11,9 @@ async function getMetaData(inData: string) {
     }
   };
 
-  function setUuidBlock(inData: string) {
-    const testValue = isWindows() ? '\\' : '/';
-    return inData.substring(inData.lastIndexOf(testValue) + 1);
-  }
-
   async function fetchMetaDataFromDPDAPI() {
-    const uuid = inData ? setUuidBlock(inData) : '';
     const apiUrl = SKA_DATAPRODUCT_API_URL;
-    const params = {
-      uuid: uuid
-    };
+    const params = { ...selectedDataProduct };
 
     if (USE_LOCAL_DATA) {
       console.log('USE_LOCAL_DATA: Loading MockMeta');

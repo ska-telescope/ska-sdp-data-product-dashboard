@@ -14,7 +14,7 @@ describe('<MetaData />', () => {
         <ThemeProvider theme={theme(theTheme)}>
           <CssBaseline />
           <DataAnnotationComponent
-            data_product_uuid={''}
+            data_product_uid={''}
             annotation_text={''}
             user_principal_name={''}
             annotation_id={0}

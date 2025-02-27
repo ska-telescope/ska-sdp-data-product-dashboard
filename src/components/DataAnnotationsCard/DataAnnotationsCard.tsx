@@ -32,7 +32,7 @@ function DataAnnotationsCard(selectedDataProduct: SelectedDataProduct) {
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
   const newAnnotation: DataAnnotation = {
-    data_product_uuid: selectedDataProduct.uuid,
+    data_product_uid: selectedDataProduct.uid,
     annotation_text: '',
     user_principal_name: account?.username ?? '',
     annotation_id: 0
@@ -51,7 +51,7 @@ function DataAnnotationsCard(selectedDataProduct: SelectedDataProduct) {
   React.useEffect(() => {
     async function loadDataAnnotations() {
       setListOfDataAnnotations([]);
-      const result = await getDataAnnotations(authAxiosClient, selectedDataProduct.uuid);
+      const result = await getDataAnnotations(authAxiosClient, selectedDataProduct.uid);
       if ([200, 201].includes(result.status)) {
         setListOfDataAnnotations(result.data);
         setAnnotationsTableAvailable(true);
@@ -61,11 +61,11 @@ function DataAnnotationsCard(selectedDataProduct: SelectedDataProduct) {
         setAnnotationsTableAvailable(false);
       }
     }
-    if (selectedDataProduct.uuid !== '') {
+    if (selectedDataProduct.uid !== '') {
       loadDataAnnotations();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [selectedDataProduct.uuid]);
+  }, [selectedDataProduct.uid]);
 
   React.useEffect(() => {
     function handleResize() {
@@ -97,7 +97,7 @@ function DataAnnotationsCard(selectedDataProduct: SelectedDataProduct) {
 
   return (
     <>
-      {selectedDataProduct.uuid !== '' && (
+      {selectedDataProduct.uid !== '' && (
         <Box m={1}>
           <Modal
             open={open}

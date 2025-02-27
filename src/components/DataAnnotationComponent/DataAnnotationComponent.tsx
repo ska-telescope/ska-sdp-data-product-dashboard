@@ -8,7 +8,7 @@ import { useUserAuthenticated } from '@services/GetAuthStatus/GetAuthStatus';
 
 function DataAnnotationComponent(props: DataAnnotation) {
   const {
-    data_product_uuid,
+    data_product_uid,
     annotation_text,
     annotation_id,
     timestamp_modified,
@@ -39,7 +39,7 @@ function DataAnnotationComponent(props: DataAnnotation) {
         <SaveDataAnnotationCard
           user_principal_name={user_principal_name}
           annotation_text={annotation_text}
-          data_product_uuid={data_product_uuid}
+          data_product_uid={data_product_uid}
           annotation_id={annotation_id}
         />
       </Modal>
