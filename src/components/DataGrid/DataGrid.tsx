@@ -68,7 +68,14 @@ export default function DataproductDataGrid(
   }, [searchPanelOptions, muiDataGridFilterModel]);
 
   const handleRowClick = (params: {
-    row: { id: any; execution_block: any; dataproduct_file: any; metadata_file: any; uid: any ; data_store: any };
+    row: {
+      id: any;
+      execution_block: any;
+      dataproduct_file: any;
+      metadata_file: any;
+      uid: any;
+      data_store: any;
+    };
   }) => {
     const saveData = () => {
       localStorage.setItem(
@@ -102,8 +109,7 @@ export default function DataproductDataGrid(
           });
         };
 
-        
-        if ((params.row.data_store !== 'dlm') && (params.row.dataproduct_file !== 'None')) {
+        if (params.row.data_store !== 'dlm' && params.row.dataproduct_file !== 'None') {
           return (
             <Button
               testId="downloadButton"

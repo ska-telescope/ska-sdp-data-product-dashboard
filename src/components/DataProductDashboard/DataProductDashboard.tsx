@@ -28,7 +28,7 @@ const DataProductDashboard = () => {
     relativePathName: '',
     metaDataFile: '',
     uid: '',
-    data_store: '',
+    data_store: ''
   });
 
   const [apiRunning, updateApiRunning] = React.useState(false);
