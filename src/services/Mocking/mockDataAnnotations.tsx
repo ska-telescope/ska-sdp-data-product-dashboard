@@ -3,7 +3,7 @@ import { AxiosResponse } from 'axios';
 const MockDataAnnotations: AxiosResponse = {
   data: [
     {
-      data_product_uuid: '1',
+      data_product_uid: '1',
       annotation_text:
         'test annotation text \n\n' +
         'hello world! 🌍 😀' +
@@ -17,7 +17,7 @@ const MockDataAnnotations: AxiosResponse = {
       annotation_id: 1
     },
     {
-      data_product_uuid: '2',
+      data_product_uid: '2',
       annotation_text: 'test annotation text',
       user_principal_name: 'test@skao.int',
       timestamp_created: '2024-12-24T12:23:00',
@@ -25,7 +25,7 @@ const MockDataAnnotations: AxiosResponse = {
       annotation_id: 2
     },
     {
-      data_product_uuid: '1',
+      data_product_uid: '1',
       annotation_text: 'test annotation text',
       user_principal_name: 'test@skao.int',
       timestamp_created: '2024-12-24T12:40:00',
@@ -33,7 +33,7 @@ const MockDataAnnotations: AxiosResponse = {
       annotation_id: 3
     },
     {
-      data_product_uuid: '1',
+      data_product_uid: '1',
       annotation_text: 'test annotation text',
       user_principal_name: 'test@skao.int',
       timestamp_created: '2024-12-24T12:40:00',

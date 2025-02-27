@@ -9,7 +9,7 @@ import useAxiosClient from '@services/AxiosClient/AxiosClient';
 import { useUserAuthenticated } from '@services/GetAuthStatus/GetAuthStatus';
 
 const SaveDataAnnotationCard = (props: DataAnnotation) => {
-  const { data_product_uuid, annotation_text, user_principal_name, annotation_id } = props;
+  const { data_product_uid, annotation_text, user_principal_name, annotation_id } = props;
   const { t } = useTranslation('dpd');
   const [saveEditButtonText, setSaveEditButtonText] = React.useState(t('button.save'));
   const [disableAnnotationTextEntryField, setDisableAnnotationTextEntryField] =
@@ -42,7 +42,7 @@ const SaveDataAnnotationCard = (props: DataAnnotation) => {
         const result = await saveDataAnnotations(
           authAxiosClient,
           standardText,
-          data_product_uuid,
+          data_product_uid,
           annotationID
         );
         setAlertText(result.data.message);
@@ -63,14 +63,14 @@ const SaveDataAnnotationCard = (props: DataAnnotation) => {
   };
 
   React.useEffect(() => {
-    if (data_product_uuid && annotation_text) {
+    if (data_product_uid && annotation_text) {
       setSaveEditButtonText(t('button.edit'));
     }
     setStandardText(annotation_text);
-  }, [data_product_uuid, annotation_text, t]);
+  }, [data_product_uid, annotation_text, t]);
 
   function renderCardContent() {
-    if (data_product_uuid && !annotation_text) {
+    if (data_product_uid && !annotation_text) {
       return (
         <CardContent>
           <TextField
@@ -113,7 +113,7 @@ const SaveDataAnnotationCard = (props: DataAnnotation) => {
       <Card sx={{ width: 600, height: 400 }}>
         <CardHeader
           title={t('label.annotation.title')}
-          subheader={t('label.dataProductUUID') + `: ${data_product_uuid}`}
+          subheader={t('label.dataProductUUID') + `: ${data_product_uid}`}
           action={
             <Button
               label={saveEditButtonText}

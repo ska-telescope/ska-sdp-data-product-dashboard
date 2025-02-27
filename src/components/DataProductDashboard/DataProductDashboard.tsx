@@ -18,16 +18,19 @@ import { GetAPIStatus } from '@services/GetAPIStatus/GetAPIStatus';
 import { API_REFRESH_RATE, SKA_DATAPRODUCT_API_URL, FILTERCARDHEIGHT } from '@utils/constants';
 import DataproductDataGrid from '@components/DataGrid/DataGrid';
 import DataAnnotationsCard from '@components/DataAnnotationsCard/DataAnnotationsCard';
+import { SelectedDataProduct } from 'types/dataproducts/dataproducts';
 
 const DataProductDashboard = () => {
   const { t } = useTranslation('dpd');
   const [updating, setUpdating] = React.useState(false);
-  const [selectedFileNames, setSelectedFileNames] = React.useState({
+  const [selectedFileNames, setSelectedFileNames] = React.useState<SelectedDataProduct>({
     execution_block: '',
     relativePathName: '',
     metaDataFile: '',
-    uuid: ''
+    uid: '',
+    data_store: '',
   });
+
   const [apiRunning, updateApiRunning] = React.useState(false);
   const [apiIndexing, updateApiIndexing] = React.useState(false);
   const [newDataAvailable, updateNewDataAvailable] = React.useState(false);
