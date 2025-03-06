@@ -7,7 +7,7 @@ ingress:
 api:
   enabled: true
   container: registry.gitlab.com/ska-telescope/ska-dataproduct-api/ska-dataproduct-api 
-  version: 0.12.0
+  version: 0.13.0
   imagePullPolicy: Always
   verbose: false
   dateFromat: "%Y-%m-%d"
@@ -27,7 +27,7 @@ api:
     user: "sdp_sdp_dataproduct_dashboard_integration"
     dbname: "integration"
     schema: "sdp_sdp_dataproduct_dashboard_integration"
-    metadataTableName: "data_products_metadata_v2"
+    metadataTableName: "data_products_metadata_v3"
     annotationsTableName: "data_products_annotations_v1"
     dlmInterfaceEnabled: false
     dlmSchema: "dlm"
@@ -45,7 +45,7 @@ api:
 dashboard:
   enabled: true
   container: registry.gitlab.com/ska-telescope/ska-dataproduct-dashboard/ska-dataproduct-dashboard
-  version: 0.12.0
+  version: 0.13.0
   imagePullPolicy: Always
   ingress:
     path: dashboard

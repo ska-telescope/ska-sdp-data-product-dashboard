@@ -116,7 +116,7 @@ This section details the configuration options available when deploying the Data
       - ````
       - The PostgreSQL schema name.
     * - ``api.postgresql.metadataTableName``
-      - ``data_products_metadata_v2``
+      - ``data_products_metadata_v3``
       - The PostgreSQL table that contain the data products metadata.
     * - ``api.postgresql.annotationsTableName``
       - ``data_products_annotations_v1``
@@ -172,7 +172,7 @@ The following secrets are expected in the file mapped into the API container by 
       - ``artefact.skao.int/ska-dataproduct-dashboard``
       - The link to the artefact repository
     * - ``dashboard.version``
-      - ``0.12.0``
+      - ``0.13.0``
       - The version of the ska-dataproduct-dashboard to use.
     * - ``dashboard.imagePullPolicy``
       - ``IfNotPresent``
