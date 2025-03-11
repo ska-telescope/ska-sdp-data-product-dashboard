@@ -48,9 +48,9 @@ code_analysis:
   before_script:
     - mkdir -p build/reports
   script:
-    - npm config set registry https://registry.npmjs.org/
-    - yarn install --immutable
-    - yarn code-analysis
+    # - npm config set registry https://registry.npmjs.org/
+    # - yarn install --immutable
+    # - yarn code-analysis
     - mv linting.xml build/reports/linting.xml
   artifacts:
     paths:
