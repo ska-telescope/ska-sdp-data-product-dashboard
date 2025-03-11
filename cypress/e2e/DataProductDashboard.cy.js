@@ -71,8 +71,8 @@ context('Select and download data product', () => {
 
   describe('data product service is available with search functionality', () => {
     beforeEach(() => {
-      cy.intercept('GET', 'http://localhost:8000/status', ExampleDataProductStatusAvailableWithSearch)
       setUpForTests();
+      cy.intercept('GET', 'http://localhost:8000/status', ExampleDataProductStatusAvailableWithSearch)
       cy.visit(LOCAL_HOST)
     })
     //TODO: refactor to solve failure - to be addressed in nal-662
