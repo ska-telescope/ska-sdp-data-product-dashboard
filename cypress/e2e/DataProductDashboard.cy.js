@@ -47,9 +47,9 @@ context('Select and download data product', () => {
 
   describe('data product service is available', () => {
     beforeEach(() => {
-      cy.visit(LOCAL_HOST)
       cy.intercept('GET', 'http://localhost:8000/status', ExampleDataProductStatus)
       setUpForTests();
+      cy.visit(LOCAL_HOST)
     })
     //TODO: refactor to solve failure - to be addressed in nal-662
 
@@ -59,9 +59,9 @@ context('Select and download data product', () => {
   describe('data product service is unavailable', () => {
     beforeEach(() => {
       Cypress.env('REACT_APP_USE_LOCAL_DATA', false);
-      cy.visit(LOCAL_HOST)
       cy.intercept("POST", "http://localhost:8000/filterdataproducts", {});
       cy.intercept('GET', 'http://localhost:8000/status', ExampleDataProductStatusUnavailable)
+      cy.visit(LOCAL_HOST)
     })
 
     it('Verify Data API not available alert is displayed', () => {
@@ -71,9 +71,9 @@ context('Select and download data product', () => {
 
   describe('data product service is available with search functionality', () => {
     beforeEach(() => {
-      cy.visit(LOCAL_HOST)
       cy.intercept('GET', 'http://localhost:8000/status', ExampleDataProductStatusAvailableWithSearch)
       setUpForTests();
+      cy.visit(LOCAL_HOST)
     })
     //TODO: refactor to solve failure - to be addressed in nal-662
 
