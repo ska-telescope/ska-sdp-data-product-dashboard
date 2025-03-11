@@ -50,8 +50,6 @@ code_analysis:
   before_script:
     - mkdir -p build/reports
   script:
-    # - npm config set registry https://registry.npmjs.org/
-    # - yarn install --immutable
     - yarn code-analysis
     - mv linting.xml build/reports/linting.xml
   artifacts:
@@ -64,13 +62,14 @@ test_and_coverage:
   stage: test
   tags:
     - ska-default
+  dependencies:
+    - install_dependencies
   cache:
     paths:
       - node_modules/
     policy: pull
   before_script:
     - mkdir -p build/reports
-    - yarn install --immutable
     - yarn cypress install
   script:
     - yarn start &
@@ -86,14 +85,14 @@ list_dependencies:
   stage: test
   tags:
     - ska-default
+  dependencies:
+    - install_dependencies
   allow_failure: true
   cache:
     paths:
       - node_modules/
     policy: pull
   script:
-    - npm config set registry https://registry.npmjs.org/
-    - yarn install --immutable
     - yarn list --depth=0 --json >> npm_deps.json
     - yarn list --depth=0  >> npm_deps.txt
     - mkdir .public
@@ -108,13 +107,14 @@ test-counts:
   stage: scan
   tags:
     - ska-default
+  dependencies:
+    - install_dependencies
   cache:
     paths:
       - node_modules/
     policy: pull
   before_script:
     - mkdir -p build/tests
-    - yarn install --immutable
     - yarn cypress install
   script:
     - yarn test:cypress:component:ci
@@ -130,13 +130,13 @@ build:
   stage: build
   tags:
     - ska-default
+  dependencies:
+    - install_dependencies
   cache:
     paths:
       - node_modules/
     policy: pull
   script:
-    - npm config set registry https://registry.npmjs.org/
-    - yarn install --immutable
     - yarn build
 
 # export the report
