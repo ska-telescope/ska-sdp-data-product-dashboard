@@ -148,7 +148,7 @@ pages:
   tags:
     - ska-default
   dependencies:
-    - test-counts
+    # - test-counts
     - test_and_coverage
     - list_dependencies
     - code_quality
