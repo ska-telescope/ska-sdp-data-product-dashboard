@@ -8,18 +8,18 @@ variables:
 stages:
   - dependencies
   - lint
-  - build
   - test
-  - deploy
-  - deploy-dp
+  - build
   - scan
   - pages
+  - publish
+  - deploy
+  - deploy-dp
   - integration
   - integration-dp
   - staging
   - staging-dp
   - integration-psi-low
-  - publish
 
 #Install basic dependencies using yarn
 install_dependencies:
@@ -83,6 +83,20 @@ test_and_coverage:
     paths:
       - build/
 
+# Build the application
+build:
+  stage: build
+  tags:
+    - ska-default
+  dependencies:
+    - install_dependencies
+  cache:
+    paths:
+      - node_modules/
+    policy: pull
+  script:
+    - yarn build
+
 # list the current top level dependencies for the project
 list_dependencies:
   stage: test
@@ -95,6 +109,9 @@ list_dependencies:
     paths:
       - node_modules/
     policy: pull
+  before_script:
+    - mkdir -p build/tests
+    - yarn cypress install
   script:
     - yarn list --depth=0 --json >> npm_deps.json
     - yarn list --depth=0  >> npm_deps.txt
@@ -128,19 +145,6 @@ list_dependencies:
 #     paths:
 #       - build/
 
-# Build the application
-build:
-  stage: build
-  tags:
-    - ska-default
-  dependencies:
-    - install_dependencies
-  cache:
-    paths:
-      - node_modules/
-    policy: pull
-  script:
-    - yarn build
 
 # export the report
 pages:
