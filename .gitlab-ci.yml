@@ -145,7 +145,6 @@ list_dependencies:
 #     paths:
 #       - build/
 
-
 # export the report
 pages:
   stage: pages
