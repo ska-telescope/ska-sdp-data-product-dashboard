@@ -41,6 +41,8 @@ code_analysis:
   stage: lint
   tags:
     - ska-default
+  dependencies:
+    - install_dependencies
   cache:
     paths:
       - node_modules/
@@ -50,7 +52,7 @@ code_analysis:
   script:
     # - npm config set registry https://registry.npmjs.org/
     # - yarn install --immutable
-    # - yarn code-analysis
+    - yarn code-analysis
     - mv linting.xml build/reports/linting.xml
   artifacts:
     paths:
