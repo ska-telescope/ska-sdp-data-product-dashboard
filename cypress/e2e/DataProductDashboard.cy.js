@@ -46,15 +46,15 @@ context('Select and download data product', () => {
     });
   }
 
-  describe('data product service is available', () => {
-    beforeEach(() => {
-      setUpForTests();
-      cy.visit(LOCAL_HOST)
-    })
-    //TODO: refactor to solve failure - to be addressed in nal-662
+  // describe('data product service is available', () => {
+  //   beforeEach(() => {
+  //     setUpForTests();
+  //     cy.visit(LOCAL_HOST)
+  //   })
+  //   //TODO: refactor to solve failure - to be addressed in nal-662
 
-    // testDownloadProducts();
-  })
+  //   // testDownloadProducts();
+  // })
 
   describe('data product service is unavailable', () => {
     beforeEach(() => {
