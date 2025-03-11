@@ -122,36 +122,12 @@ list_dependencies:
     paths:
       - .public
 
-# test-counts:
-#   image: cypress/browsers:node-20.11.1-chrome-123.0.6312.58-1-ff-124.0-edge-122.0.2365.92-1
-#   stage: scan
-#   tags:
-#     - ska-default
-#   dependencies:
-#     - install_dependencies
-#   cache:
-#     paths:
-#       - node_modules/
-#     policy: pull
-#   before_script:
-#     - mkdir -p build/tests
-#     - yarn cypress install
-#   script:
-#     - yarn test:cypress:component:ci
-#     - yarn start &
-#     - yarn test:cypress:e2e:ci
-#     - yarn merge-reports
-#   artifacts:
-#     paths:
-#       - build/
-
 # export the report
 pages:
   stage: pages
   tags:
     - ska-default
   dependencies:
-    # - test-counts
     - test_and_coverage
     - list_dependencies
     - code_quality
