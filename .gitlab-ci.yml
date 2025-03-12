@@ -76,6 +76,7 @@ test_and_coverage:
   script:
     - yarn test:cypress:component:ci
     - yarn start &
+    - npx wait-on http://localhost:8100/ --timeout 120000
     - yarn test:cypress:e2e:ci
     - yarn test:coverage:report:ci
     - cp build/reports/cobertura-coverage.xml build/reports/code-coverage.xml
