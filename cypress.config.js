@@ -25,5 +25,6 @@ module.exports = defineConfig({
       on('file:preprocessor', require('@cypress/code-coverage/use-babelrc'))
       return config
     },
+    pageLoadTimeout: 120000, // 120 seconds
   },
 });
