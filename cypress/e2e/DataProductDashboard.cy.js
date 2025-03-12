@@ -8,21 +8,6 @@ import ExampleDataProductStatusAvailableWithSearch from '../data/ExampleDataProd
 const LOCAL_HOST = "http://localhost:8100/";
 
 context('Select and download data product', () => {
-  //TODO: refactor to solve failure - to be addressed in nal-662
-
-  // function testDownloadProducts() {
-  //   it("Select data product 1 and download file", () => {
-  //     cy.get('div').contains('1').click() // Yield el in .nav containing 'About'
-  //     cy.findByTestId(DOWNLOAD_ID).click();
-  //     cy.readFile("cypress/data/" + TEST_DATA_FILE_1).should("contain", "This is test file 1");
-  //   });
-  //
-  //   it("Select data product 2 and download file", () => {
-  //     cy.get('div').contains('2').click() // Yield el in .nav containing 'About'
-  //    cy.findByTestId(DOWNLOAD_ID).click();
-  //    cy.readFile("cypress/data/" + TEST_DATA_FILE_1).should("contain", "This is test file 1");
-  //   });
-  // }
 
   function setUpForTests() {
     Cypress.env('REACT_APP_USE_LOCAL_DATA', false);
@@ -46,16 +31,6 @@ context('Select and download data product', () => {
     });
   }
 
-  //TODO: refactor to solve failure - to be addressed in nal-662
-
-  // describe('data product service is available', () => {
-  //   beforeEach(() => {
-  //     setUpForTests();
-  //     cy.visit(LOCAL_HOST)
-  //   })
-  //   
-  //   // testDownloadProducts();
-  // })
 
   describe('data product service is unavailable', () => {
     beforeEach(() => {
@@ -76,10 +51,6 @@ context('Select and download data product', () => {
       cy.intercept('GET', 'http://localhost:8000/status', ExampleDataProductStatusAvailableWithSearch)
       cy.visit(LOCAL_HOST)
     })
-
-    //TODO: refactor to solve failure - to be addressed in nal-662
-    
-    // testDownloadProducts();
 
     it('Search for data product', () => {
       cy.findByTestId("metaDataDescription").contains("Filter data products based on metadata:").should("be.visible");
