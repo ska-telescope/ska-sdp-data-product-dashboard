@@ -46,13 +46,14 @@ context('Select and download data product', () => {
     });
   }
 
+  //TODO: refactor to solve failure - to be addressed in nal-662
+
   // describe('data product service is available', () => {
   //   beforeEach(() => {
   //     setUpForTests();
   //     cy.visit(LOCAL_HOST)
   //   })
-  //   //TODO: refactor to solve failure - to be addressed in nal-662
-
+  //   
   //   // testDownloadProducts();
   // })
 
@@ -75,8 +76,9 @@ context('Select and download data product', () => {
       cy.intercept('GET', 'http://localhost:8000/status', ExampleDataProductStatusAvailableWithSearch)
       cy.visit(LOCAL_HOST)
     })
-    //TODO: refactor to solve failure - to be addressed in nal-662
 
+    //TODO: refactor to solve failure - to be addressed in nal-662
+    
     // testDownloadProducts();
 
     it('Search for data product', () => {
