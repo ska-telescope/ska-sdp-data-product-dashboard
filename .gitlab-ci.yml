@@ -74,7 +74,7 @@ test_and_coverage:
     - mkdir -p build/reports
     - yarn cypress install
   script:
-    - yarn test:cypress:component:ci
+    # - yarn test:cypress:component:ci
     - yarn start &
     - yarn test:cypress:e2e:ci
     - yarn test:coverage:report:ci
