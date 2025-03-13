@@ -31,10 +31,11 @@ Clone the repository and its submodules:
 
 .. code-block:: bash
 
-    git clone --recursive git@gitlab.com:ska-telescope/ska-dataproduct-dashboard.git
+    git clone --recursive https://gitlab.com/ska-telescope/ska-dataproduct-dashboard.git
     make make
 
-Scripts for running, testing, and building the application are defined in the scripts section of the package.json file. These are run using YARN
+Scripts for running, testing, and building the application are defined in the scripts section of the package.json file.
+These are run using YARN.
 
 To run the application locally on your host machine, install all the latest SKAO React components library and other necessary project dependencies with the YARN package manager:
 
@@ -80,7 +81,8 @@ The app can be run with the node environment set to NODE_ENV=test (allowing Ista
 
 Cypress has been set up to provide component and end to end testing. For information on the use of Cypress, see `Cypress component-testing <https://docs.cypress.io/guides/component-testing/overview>`_. 
 
-Code coverage is implemented with `Istanbul <https://istanbul.js.org/>`_ and `NYC <https://www.npmjs.com/package/nyc>`_ for instrumenting the code, and `cobertura reporter <https://istanbul.js.org/docs/advanced/alternative-reporters/#cobertura>`_ as it is used for reporting for the Gitlab CI of coverage statistics.
+Code coverage is implemented with `Istanbul <https://istanbul.js.org/>`_ and `NYC <https://www.npmjs.com/package/nyc>`_ for instrumenting the code,
+and `cobertura reporter <https://istanbul.js.org/docs/advanced/alternative-reporters/#cobertura>`_ as it is used for reporting for the Gitlab CI of coverage statistics.
 
 Cypress can be opened in a browser by running: 
 
