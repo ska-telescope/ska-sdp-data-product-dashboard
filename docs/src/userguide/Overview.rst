@@ -1,12 +1,17 @@
 Overview
 ~~~~~~~~
 
-The data product dashboard is used to list and download data products saved on a shared data volume within the environment where it is deployed. This documentation will guide you through utilizing the dashboard's features to find data products and view their metadata.
+The data product dashboard is used to list and download data products saved on a shared data volume within the environment where it is deployed.
+This documentation will guide you through utilizing the dashboard's features to find data products and view their metadata.
+
+On DP Platform, an example dashboard HTML can be accessed through `this address <https://sdhp.stfc.skao.int/integration-ska-dataproduct-dashboard/dashboard/#>`_,
+alternatively you can also set up a Dashboard locally, please check the Developer guide page for details how this is done.
 
 Usage
 =====
 
-The dashboard contains a table of data products. In the current version, you will be able to view and download all the data products on the shared data volume where the data product dashboard is deployed. You will also be able to view metadata of data products that has been registered as data products on the Data Product Dashboard by the DLM (`Data Life Cycle Manager <https://developer.skao.int/projects/ska-data-lifecycle/en/latest/?badge=latest>`_). 
+The dashboard contains a table of data products. In the current version, you will be able to view and download all the data products on the shared data volume where the data product dashboard is deployed.
+You will also be able to view metadata of data products that has been registered as data products on the Data Product Dashboard by the DLM (`Data Life Cycle Manager <https://developer.skao.int/projects/ska-data-lifecycle/en/latest/?badge=latest>`_).
 
 .. figure:: /_static/img/dataproductdashboardDatagridSearch.png
    :width: 90%
