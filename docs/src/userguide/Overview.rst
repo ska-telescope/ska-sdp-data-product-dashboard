@@ -4,8 +4,11 @@ Overview
 The data product dashboard is used to list and download data products saved on a shared data volume within the environment where it is deployed.
 This documentation will guide you through utilizing the dashboard's features to find data products and view their metadata.
 
+The application can be run as a standalone front-end application or used as a remote (Webpack 5 Module)
+within the SKA Portal `SKA Landing Page <https://gitlab.com/ska-telescope/ska-landing-page>`_.
+
 On DP Platform, an example dashboard HTML can be accessed through `this address <https://sdhp.stfc.skao.int/integration-ska-dataproduct-dashboard/dashboard/#>`_,
-alternatively you can also set up a Dashboard locally, please check the Developer guide page for details how this is done.
+alternatively you can also set up a Dashboard locally, please check the Developer guide page for details on how this is done.
 
 Usage
 =====
@@ -55,16 +58,14 @@ The data annotations associated with the selected data product can be viewed on 
    Example of data annotations panel.
 
 
-
 Data Product Index
 ==================
 
-The current release of the Data Product Dashboard can be deployed with either a persistent metadata store using a PostgreSQL backend, or an in-memory solution that indexes all the data products on the shared data volume and creates a table in memory. In both cases, the store will be updated when a new product is loaded by the DLM. If an administrator loads data products directly onto the shared volume, the user can re-index the data volume to update the metadata store of the Data Product Dashboard accordingly.
+The current release of the Data Product Dashboard can be deployed with either a persistent metadata store using a PostgreSQL backend, or an in-memory solution that indexes all the data products on the shared data volume and creates a table in memory.
+In both cases, the store will be updated when a new product is loaded by the DLM.
+If an administrator loads data products directly onto the shared volume, the user can re-index the data volume to update the metadata store of the Data Product Dashboard accordingly.
 
 The dashboard will automatically reload when new data is added to its store, and the reload button will be deactivated while the dashboard is in sync with the data in the store.
 
 
-Integration into the SKA Portal
-===============================
 
-The application can be run as a standalone front-end application or used as a remote (Webpack 5 Module) within the SKA Portal `SKA Landing Page <https://gitlab.com/ska-telescope/ska-landing-page>`_. 

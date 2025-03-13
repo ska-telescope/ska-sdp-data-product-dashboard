@@ -1,7 +1,8 @@
 Deployment Guide
 ~~~~~~~~~~~~~~~~
 
-The Data Product Dashboard is built for continuous operation within a Kubernetes cluster. It functions as a service that enables access to data products created by various pipelines and saved on a shared persistent volume.
+The Data Product Dashboard is built for continuous operation within a Kubernetes cluster.
+It functions as a service that enables access to data products created by various pipelines and saved on a shared persistent volume.
 
 
 Pre-requisites
