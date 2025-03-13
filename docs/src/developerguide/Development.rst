@@ -90,8 +90,8 @@ Or alternatively unit and end to end tests can be run headless by:
 
 .. code-block:: bash
 
-  > yarn test:component:headless
-  > yarn test:e2e:headless
+  > yarn test:cypress:component:ci
+  > yarn test:cypress:e2e:ci
 
 
 Code coverage can be viewed by opening the `build/coverage/index.html` in a browser after running:

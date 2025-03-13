@@ -119,7 +119,7 @@ This section details the configuration options available when deploying the Data
       - ``data_products_metadata_v3``
       - The PostgreSQL table that contain the data products metadata.
     * - ``api.postgresql.annotationsTableName``
-      - ``data_products_annotations_v1``
+      - ``data_products_annotations_v2``
       - The PostgreSQL table that contain the data products annotations.
     * - ``api.postgresql.querySizeLimit``
       - ``10000``

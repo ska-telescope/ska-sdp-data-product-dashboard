@@ -8,18 +8,18 @@ variables:
 stages:
   - dependencies
   - lint
-  - build
   - test
-  - deploy
-  - deploy-dp
+  - build
   - scan
   - pages
+  - publish
+  - deploy
+  - deploy-dp
   - integration
   - integration-dp
   - staging
   - staging-dp
   - integration-psi-low
-  - publish
 
 #Install basic dependencies using yarn
 install_dependencies:
@@ -41,6 +41,8 @@ code_analysis:
   stage: lint
   tags:
     - ska-default
+  dependencies:
+    - install_dependencies
   cache:
     paths:
       - node_modules/
@@ -48,8 +50,8 @@ code_analysis:
   before_script:
     - mkdir -p build/reports
   script:
-    - npm config set registry https://registry.npmjs.org/
-    - yarn install --immutable
+    - yarn prettier
+    - yarn lint
     - yarn code-analysis
     - mv linting.xml build/reports/linting.xml
   artifacts:
@@ -62,63 +64,22 @@ test_and_coverage:
   stage: test
   tags:
     - ska-default
+  dependencies:
+    - install_dependencies
   cache:
     paths:
       - node_modules/
     policy: pull
   before_script:
     - mkdir -p build/reports
-    - yarn install --immutable
-    - yarn cypress install
-  script:
-    - yarn start &
-    - yarn test:e2e:headless
-    - yarn test:coverage:report:ci
-    - cp build/reports/cobertura-coverage.xml build/reports/code-coverage.xml
-  artifacts:
-    paths:
-      - build/
-
-# list the current top level dependencies for the project
-list_dependencies:
-  stage: test
-  tags:
-    - ska-default
-  allow_failure: true
-  cache:
-    paths:
-      - node_modules/
-    policy: pull
-  script:
-    - npm config set registry https://registry.npmjs.org/
-    - yarn install --immutable
-    - yarn list --depth=0 --json >> npm_deps.json
-    - yarn list --depth=0  >> npm_deps.txt
-    - mkdir .public
-    - cp npm_deps.txt .public/
-    - cp npm_deps.json .public/
-  artifacts:
-    paths:
-      - .public
-
-test-counts:
-  image: cypress/browsers:node-20.11.1-chrome-123.0.6312.58-1-ff-124.0-edge-122.0.2365.92-1
-  stage: scan
-  tags:
-    - ska-default
-  cache:
-    paths:
-      - node_modules/
-    policy: pull
-  before_script:
-    - mkdir -p build/tests
-    - yarn install --immutable
     - yarn cypress install
   script:
     - yarn test:cypress:component:ci
     - yarn start &
+    - npx wait-on http://localhost:8100/ --timeout 120000
     - yarn test:cypress:e2e:ci
-    - yarn merge-reports
+    - yarn test:coverage:report:ci
+    - cp build/reports/cobertura-coverage.xml build/reports/code-coverage.xml
   artifacts:
     paths:
       - build/
@@ -128,14 +89,39 @@ build:
   stage: build
   tags:
     - ska-default
+  dependencies:
+    - install_dependencies
   cache:
     paths:
       - node_modules/
     policy: pull
   script:
-    - npm config set registry https://registry.npmjs.org/
-    - yarn install --immutable
     - yarn build
+
+# list the current top level dependencies for the project
+list_dependencies:
+  stage: test
+  tags:
+    - ska-default
+  dependencies:
+    - install_dependencies
+  allow_failure: true
+  cache:
+    paths:
+      - node_modules/
+    policy: pull
+  before_script:
+    - mkdir -p build/tests
+    - yarn cypress install
+  script:
+    - yarn list --depth=0 --json >> npm_deps.json
+    - yarn list --depth=0  >> npm_deps.txt
+    - mkdir .public
+    - cp npm_deps.txt .public/
+    - cp npm_deps.json .public/
+  artifacts:
+    paths:
+      - .public
 
 # export the report
 pages:
@@ -143,7 +129,6 @@ pages:
   tags:
     - ska-default
   dependencies:
-    - test-counts
     - test_and_coverage
     - list_dependencies
     - code_quality
@@ -313,29 +298,3 @@ stop-integration-psi-low:
     - k8srunner-psi-low
   needs:
     - deploy-integration-psi-low
-
-code_quality:
-  # https://docs.gitlab.com/ee/user/project/merge_requests/code_quality.html#generate-an-html-report
-  artifacts:
-    paths: [gl-code-quality-report.json]
-  # disable dind service as it's not needed for k8srunner runners
-  services: []
-  tags:
-    - ska-default
-  # We need to merge the rules with what we have here on template rules
-  # https://gitlab.com/ska-telescope/templates-repository/-/blob/master/gitlab-ci/includes/rules.gitlab-ci.yml
-  # https://docs.gitlab.com/ee/user/project/merge_requests/code_quality.html#using-with-merge-request-pipelines
-  rules:
-    - if: '$CODE_QUALITY_DISABLED'
-      when: never
-    # don't run branch pipeline if there are open MRs
-    - if: $CI_COMMIT_BRANCH && $CI_OPEN_MERGE_REQUESTS && $CI_PIPELINE_SOURCE == "push"
-      when: never
-    # run on MRs
-    - if: $CI_MERGE_REQUEST_IID
-    # For `$CI_DEFAULT_BRANCH` branch, create a pipeline (this includes on schedules, pushes, merges, etc.).
-    - if: '$CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH'
-    # For tags, create a pipeline.
-    - if: '$CI_COMMIT_TAG'
-    # run on branches
-    - if: '$CI_COMMIT_BRANCH'
