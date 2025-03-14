@@ -11,7 +11,14 @@ This project requires **Node** and **YARN** to install and run. To install pleas
 Alternatively, the official Node docker image can be used.
 Instructions can be found on the `official Node docker image site <https://github.com/nodejs/docker-node/blob/master/README.md#how-to-use-this-image>`_.
 
-After installing Node, YARN can be installed following `this page <https://yarnpkg.com/getting-started/install>>`_.
+After installing Node, YARN can be installed following `this page <https://yarnpkg.com/getting-started/install>>`_. Currently, the repository only accepts classical YARN versions.
+We recommend using 1.22.22, and under corepack you can set this by
+
+.. code-block:: bash
+
+  > yarn set version 1.22.22
+
+Or you can directly install YARN via npm.
 
 If you have any questions, the SKA developer portal also has a general guide on how to install JS related packages:
 `Javascript (JS) Guidelines <https://developer.skao.int/en/latest/tools/codeguides/javascript-codeguide.html>`_ .
