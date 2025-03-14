@@ -55,6 +55,8 @@ To run the application locally on your host machine, install all the latest SKAO
   > yarn skao:update
   > yarn
 
+If you are setting this up the first time, you may need to run 'yarn install' to install any missing dependencies.
+
 Using a .env File (For hosting the application on a developer machine)
 ______________________________________________________________________
 
@@ -81,8 +83,9 @@ You should now be able to run the scripts defined in the package.json within the
 
 **Running the application in development mode**
 
-The app can be run with the node environment set to NODE_ENV=test (allowing Istanbul to instrument the code) and webpack serve with --mode development. You can access your application at http://localhost:8100. The app will recompile and restart if you make any edits to the source files. 
-
+The app can be run with the node environment set to NODE_ENV=test (allowing Istanbul to instrument the code) and webpack serve with --mode development.
+You can access your application at http://localhost:8100. The app will recompile and restart if you make any edits to the source files.
+To run, use the following command and the dashboard will pop up automatically.
 
 .. code-block:: bash
 
@@ -90,12 +93,13 @@ The app can be run with the node environment set to NODE_ENV=test (allowing Ista
 
 **Running the application tests using Cypress**
 
-Cypress has been set up to provide component and end to end testing. For information on the use of Cypress, see `Cypress component-testing <https://docs.cypress.io/guides/component-testing/overview>`_. 
+The package `Cypress <https://www.cypress.io>`_ has been set up to provide component and end to end testing.
+For information on the use of Cypress, see `Cypress component-testing <https://docs.cypress.io/guides/component-testing/overview>`_.
 
 Code coverage is implemented with `Istanbul <https://istanbul.js.org/>`_ and `NYC <https://www.npmjs.com/package/nyc>`_ for instrumenting the code,
 and `cobertura reporter <https://istanbul.js.org/docs/advanced/alternative-reporters/#cobertura>`_ as it is used for reporting for the Gitlab CI of coverage statistics.
 
-Cypress can be opened in a browser by running: 
+Cypress can be opened in a browser by running the following (this will open an interactive session):
 
 .. code-block:: bash
 
