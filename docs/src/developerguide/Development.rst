@@ -8,9 +8,13 @@ Tooling Pre-requisites
 
 This project requires **Node** and **YARN** to install and run. To install please follow the instructions for your operating system at `nodejs downloads <https://nodejs.org/en/download/>`_.
 
-Alternatively, the official Node docker image can be used. Instructions can be found on the `official Node docker image site <https://github.com/nodejs/docker-node/blob/master/README.md#how-to-use-this-image>`_.
+Alternatively, the official Node docker image can be used.
+Instructions can be found on the `official Node docker image site <https://github.com/nodejs/docker-node/blob/master/README.md#how-to-use-this-image>`_.
 
 After installing Node, YARN can be installed following `this page <https://yarnpkg.com/getting-started/install>>`_.
+
+If you have any questions, the SKA developer portal also has a general guide on how to install JS related packages:
+`Javascript (JS) Guidelines <https://developer.skao.int/en/latest/tools/codeguides/javascript-codeguide.html>`_ .
 
 Development setup
 =================
