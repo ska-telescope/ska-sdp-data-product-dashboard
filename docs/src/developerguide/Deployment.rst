@@ -111,10 +111,10 @@ This section details the configuration options available when deploying the Data
       - ``postgre``
       - The PostgreSQL user.
     * - ``api.postgresql.dbname``
-      - ````
+      - 
       - The PostgreSQL database name.
     * - ``api.postgresql.schema``
-      - ````
+      - 
       - The PostgreSQL schema name.
     * - ``api.postgresql.metadataTableName``
       - ``data_products_metadata_v3``

@@ -14,7 +14,7 @@ Usage
 =====
 
 The dashboard contains a table of data products. In the current version, you will be able to view and download all the data products on the shared data volume where the data product dashboard is deployed.
-You will also be able to view metadata of data products that has been registered as data products on the Data Product Dashboard by the DLM (`Data Life Cycle Manager <https://developer.skao.int/projects/ska-data-lifecycle/en/latest/?badge=latest>`_).
+If a view of the data_item PostgreSQL database table used by the DLM (`Data Life Cycle Manager <https://developer.skao.int/projects/ska-data-lifecycle/en/latest/?badge=latest>`_) has been shared with the dashboard database user, you will also be able to view metadata of data products that has been registered as data products in the DLM.
 
 .. figure:: /_static/img/dataproductdashboardDatagridSearch.png
    :width: 90%
@@ -62,10 +62,6 @@ Data Product Index
 ==================
 
 The current release of the Data Product Dashboard can be deployed with either a persistent metadata store using a PostgreSQL backend, or an in-memory solution that indexes all the data products on the shared data volume and creates a table in memory.
-In both cases, the store will be updated when a new product is loaded by the DLM.
-If an administrator loads data products directly onto the shared volume, the user can re-index the data volume to update the metadata store of the Data Product Dashboard accordingly.
+When products are directly loaded onto the shared volume, the user can re-index the data volume to update the metadata store of the Data Product Dashboard accordingly.
 
-The dashboard will automatically reload when new data is added to its store, and the reload button will be deactivated while the dashboard is in sync with the data in the store.
-
-
-
+The dashboard will automatically reload after a re-index or when new data is added to its store via the rest API endpoints. The reload button will be deactivated while the dashboard is in sync with the data in the store.
