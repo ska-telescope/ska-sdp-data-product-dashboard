@@ -14,7 +14,8 @@ Usage
 =====
 
 The dashboard contains a table of data products. In the current version, you will be able to view and download all the data products on the shared data volume where the data product dashboard is deployed.
-If a view of the data_item PostgreSQL database table used by the DLM (`Data Life Cycle Manager <https://developer.skao.int/projects/ska-data-lifecycle/en/latest/?badge=latest>`_) has been shared with the dashboard database user, you will also be able to view metadata of data products that has been registered as data products in the DLM.
+If a view of the data_item PostgreSQL database table used by the DLM (`Data Life Cycle Manager <https://developer.skao.int/projects/ska-data-lifecycle/en/latest/?badge=latest>`_) has been shared with the dashboard database user,
+you will also be able to view metadata of data products that have been registered as data products in the DLM.
 
 .. figure:: /_static/img/dataproductdashboardDatagridSearch.png
    :width: 90%
