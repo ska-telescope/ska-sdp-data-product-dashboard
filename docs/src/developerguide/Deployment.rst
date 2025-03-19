@@ -1,7 +1,8 @@
 Deployment Guide
 ~~~~~~~~~~~~~~~~
 
-The Data Product Dashboard is built for continuous operation within a Kubernetes cluster. It functions as a service that enables access to data products created by various pipelines and saved on a shared persistent volume.
+The Data Product Dashboard is built for continuous operation within a Kubernetes cluster.
+It functions as a service that enables access to data products created by various pipelines and saved on a shared persistent volume.
 
 
 Pre-requisites
@@ -110,10 +111,10 @@ This section details the configuration options available when deploying the Data
       - ``postgre``
       - The PostgreSQL user.
     * - ``api.postgresql.dbname``
-      - ````
+      - 
       - The PostgreSQL database name.
     * - ``api.postgresql.schema``
-      - ````
+      - 
       - The PostgreSQL schema name.
     * - ``api.postgresql.metadataTableName``
       - ``data_products_metadata_v3``

@@ -8,7 +8,20 @@ Tooling Pre-requisites
 
 This project requires **Node** and **YARN** to install and run. To install please follow the instructions for your operating system at `nodejs downloads <https://nodejs.org/en/download/>`_.
 
-Alternatively, the official Node docker image can be used. Instructions can be found on the `official Node docker image site <https://github.com/nodejs/docker-node/blob/master/README.md#how-to-use-this-image>`_. 
+Alternatively, the official Node docker image can be used.
+Instructions can be found on the `official Node docker image site <https://github.com/nodejs/docker-node/blob/master/README.md#how-to-use-this-image>`_.
+
+After installing Node, YARN can be installed following `this page <https://yarnpkg.com/getting-started/install>`_. Currently, the repository only accepts classical YARN versions.
+We recommend using 1.22.22, and under corepack you can set this by
+
+.. code-block:: bash
+
+  > yarn set version 1.22.22
+
+Or you can directly install YARN via npm.
+
+If you have any questions, the SKA developer portal also has a general guide on how to install JS related packages:
+`Javascript (JS) Guidelines <https://developer.skao.int/en/latest/tools/codeguides/javascript-codeguide.html>`_ .
 
 Development setup
 =================
@@ -29,10 +42,11 @@ Clone the repository and its submodules:
 
 .. code-block:: bash
 
-    git clone --recursive git@gitlab.com:ska-telescope/ska-dataproduct-dashboard.git
+    git clone --recursive https://gitlab.com/ska-telescope/ska-dataproduct-dashboard.git
     make make
 
-Scripts for running, testing, and building the application are defined in the scripts section of the package.json file. These are run using YARN
+Scripts for running, testing, and building the application are defined in the scripts section of the package.json file.
+These are run using YARN.
 
 To run the application locally on your host machine, install all the latest SKAO React components library and other necessary project dependencies with the YARN package manager:
 
@@ -40,6 +54,8 @@ To run the application locally on your host machine, install all the latest SKAO
 
   > yarn skao:update
   > yarn
+
+If you are setting this up the first time, you may need to run 'yarn install' to install any missing dependencies.
 
 Using a .env File (For hosting the application on a developer machine)
 ______________________________________________________________________
@@ -67,8 +83,9 @@ You should now be able to run the scripts defined in the package.json within the
 
 **Running the application in development mode**
 
-The app can be run with the node environment set to NODE_ENV=test (allowing Istanbul to instrument the code) and webpack serve with --mode development. You can access your application at http://localhost:8100. The app will recompile and restart if you make any edits to the source files. 
-
+The app can be run with the node environment set to NODE_ENV=test (allowing Istanbul to instrument the code) and webpack serve with --mode development.
+You can access your application at http://localhost:8100. The app will recompile and restart if you make any edits to the source files.
+To run, use the following command and the dashboard will pop up automatically.
 
 .. code-block:: bash
 
@@ -76,11 +93,13 @@ The app can be run with the node environment set to NODE_ENV=test (allowing Ista
 
 **Running the application tests using Cypress**
 
-Cypress has been set up to provide component and end to end testing. For information on the use of Cypress, see `Cypress component-testing <https://docs.cypress.io/guides/component-testing/overview>`_. 
+The package `Cypress <https://www.cypress.io>`_ has been set up to provide component and end to end testing.
+For information on the use of Cypress, see `Cypress component-testing <https://docs.cypress.io/guides/component-testing/overview>`_.
 
-Code coverage is implemented with `Istanbul <https://istanbul.js.org/>`_ and `NYC <https://www.npmjs.com/package/nyc>`_ for instrumenting the code, and `cobertura reporter <https://istanbul.js.org/docs/advanced/alternative-reporters/#cobertura>`_ as it is used for reporting for the Gitlab CI of coverage statistics.
+Code coverage is implemented with `Istanbul <https://istanbul.js.org/>`_ and `NYC <https://www.npmjs.com/package/nyc>`_ for instrumenting the code,
+and `cobertura reporter <https://istanbul.js.org/docs/advanced/alternative-reporters/#cobertura>`_ as it is used for reporting for the Gitlab CI of coverage statistics.
 
-Cypress can be opened in a browser by running: 
+Cypress can be opened in a browser by running the following (this will open an interactive session):
 
 .. code-block:: bash
 
