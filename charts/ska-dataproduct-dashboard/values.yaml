@@ -16,7 +16,7 @@ api:
   storagePath: "/mnt/data/product/"
   metadata_file_name: ska-data-product.yaml
   vault:
-    useVault: true
+    useVault: false
     engine: "dev"
     refreshAfter: 360s
     pathToSecretVault: phoenix/sdhp-stfc/integration/ska-sdp-dataproduct-api
@@ -52,7 +52,7 @@ dashboard:
   ingress:
     path: dashboard
   vault:
-    useVault: true
+    useVault: false
     engine: "dev"
     refreshAfter: 360s
     pathToSecretVault: phoenix/sdhp-stfc/integration/ska-dataproduct-dashboard
