@@ -50,8 +50,10 @@ dashboard:
   ingress:
     path: dashboard
   vault:
-    useVault: false
-    pathToSecretVault: kv/data/users/andre_odendaal/sdhp-stfc/ska-sdp-dataproduct-dashboard/integration
+    useVault: true
+    engine: "kv"
+    refreshAfter: 360s
+    pathToSecretVault: users/andre_odendaal/sdhp-stfc/ska-sdp-dataproduct-dashboard/integration
     client_id: placeholder_for_client_id
     tenant_id: placeholder_for_tenant_id
   apiRefreshRate: 10000
@@ -62,7 +64,7 @@ dashboard:
     limits:
       cpu: 2000m
       memory: 3072Mi
-      
+
 dataProductPVC:
   name: shared
   create:
