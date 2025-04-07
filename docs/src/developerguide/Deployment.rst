@@ -8,12 +8,12 @@ It functions as a service that enables access to data products created by variou
 Pre-requisites
 ==============
 
-- **Metadata File**: 
+- **Metadata File**:
 
   To ensure data products appear on the Data Product Dashboard, the folder containing the data product files must include a metadata file. Refer to `ADR-55 <https://confluence.skatelescope.org/display/SWSI/ADR-55+Definition+of+metadata+for+data+management+at+AA0.5>`_ : Definition of metadata for data management at AA0.5 for details on the metadata file format.
 
 
-- **Shared Persistent Volume**: 
+- **Shared Persistent Volume**:
 
   The Data Product Dashboard needs to access the same persistent volume (PV) where the data products reside. These data products are typically written by pipelines deployed in a different namespace than the Data Product Dashboard. To enable access, you need to configure the persistent volume claim (PVC) correctly to share the PV between the namespaces.
 
@@ -98,9 +98,12 @@ This section details the configuration options available when deploying the Data
     * - ``api.vault.pathToSecretVault``
       - ``kv/data/users/andre_odendaal/ska_login_page``
       - Path to the secrets in the vault.
-    * - ``api.vault.secretsFilePath``
-      - ``/vault/secrets/config``
-      - Path to the secrets as mapped into the API container.
+    * - ``api.vault.refreshAfter``
+      - ``360s``
+      - The amount of time between refreshing the data.
+    * - ``api.vault.engine``
+      - ``dev``
+      - The base engine in which the secrets are stored.
     * - ``api.postgresql.host``
       - ``https://localhost``
       - The PostgreSQL host.
@@ -111,10 +114,10 @@ This section details the configuration options available when deploying the Data
       - ``postgre``
       - The PostgreSQL user.
     * - ``api.postgresql.dbname``
-      - 
+      -
       - The PostgreSQL database name.
     * - ``api.postgresql.schema``
-      - 
+      -
       - The PostgreSQL schema name.
     * - ``api.postgresql.metadataTableName``
       - ``data_products_metadata_v3``
@@ -140,11 +143,11 @@ This section details the configuration options available when deploying the Data
     * - ``api.resources.limits.memory``
       - ``2048Mi``
       - The maximum memory usage of the api.
-   
+
 
 **Data product API secrets**:
 
-The following secrets are expected in the file mapped into the API container by the vault: 
+The following secrets are expected in the file mapped into the API container by the vault:
 
 .. list-table::
     :widths: 50, 50
@@ -193,9 +196,15 @@ The following secrets are expected in the file mapped into the API container by 
     * - ``dashboard.vault.tenant_id``
       - ``abcde``
       - Placeholder env variable for MS Entra application registration tenant ID.
+    * - ``dashboard.vault.refreshAfter``
+      - ``360s``
+      - The amount of time between refreshing the data.
+    * - ``dashboard.vault.engine``
+      - ``dev``
+      - The base engine in which the secrets are stored.
     * - ``dashboard.apiRefreshRate``
       - ``10000``
-      - The polling rate for new data from the API.      
+      - The polling rate for new data from the API.
     * - ``dashboard.resources.requests.cpu``
       - ``500m``
       - The requested minimum CPU usage of the dashboard.
@@ -226,13 +235,13 @@ The following secrets are expected in the file mapped into the API container by 
       - This is the name of the PVC that is shared between the namespace used by the pipeline that create data products and the namespace where the Data Product Dashboard is deployed.
     * - ``dataProductPVC.create.enabled``
       - ``false``
-      - Enable the creation of a PVC when running the application locally or in tests where the shared PCV is not used. 
+      - Enable the creation of a PVC when running the application locally or in tests where the shared PCV is not used.
     * - ``dataProductPVC.create.size``
       - ``false``
-      - The size of the requested PVC. 
+      - The size of the requested PVC.
     * - ``dataProductPVC.create.storageClassName``
       - ``false``
-      - The storage class of the requested PVC. 
+      - The storage class of the requested PVC.
 
 
 Deployment from GitLab pipelines
