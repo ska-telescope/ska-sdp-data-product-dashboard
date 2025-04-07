@@ -16,15 +16,17 @@ api:
   storagePath: "/mnt/data/product/"
   metadata_file_name: ska-data-product.yaml
   vault:
-    useVault: false
-    pathToSecretVault: kv/data/users/andre_odendaal/sdhp-stfc/ska-sdp-dataproduct-api/integration
-    secretsFilePath: /vault/secrets/config
+    useVault: true
+    engine: "dev"
+    refreshAfter: 360s
+    pathToSecretVault: phoenix/sdhp-stfc/integration/ska-sdp-dataproduct-api
   permissionsapi:
     serviceUrl: https://sdhp.stfc.skao.int/integration-ska-permissions-api
   postgresql:
     host: ""
     port: 5432
     user: "postgres"
+    password: ""
     dbname: ""
     schema: ""
     metadataTableName: "data_products_metadata_v3"
@@ -51,9 +53,9 @@ dashboard:
     path: dashboard
   vault:
     useVault: true
-    engine: "kv"
+    engine: "dev"
     refreshAfter: 360s
-    pathToSecretVault: users/andre_odendaal/sdhp-stfc/ska-sdp-dataproduct-dashboard/integration
+    pathToSecretVault: phoenix/sdhp-stfc/integration/ska-dataproduct-dashboard
     client_id: placeholder_for_client_id
     tenant_id: placeholder_for_tenant_id
   apiRefreshRate: 10000

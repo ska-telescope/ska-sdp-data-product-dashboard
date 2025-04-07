@@ -14,6 +14,26 @@ spec:
   clusterIP: None
   selector:
 {{ include "ska-dataproduct-dashboard.api.labels" . | indent 4 }}
+{{- if $.Values.api.vault.useVault }}
+---
+apiVersion: secrets.hashicorp.com/v1beta1
+kind: VaultStaticSecret
+metadata:
+  name: {{ $.Chart.Name }}-api-secret
+spec:
+  type: kv-v2
+  mount: "{{ .Values.api.vault.engine }}"
+  path: "{{ .Values.api.vault.pathToSecretVault }}"
+  refreshAfter: "{{ .Values.api.vault.refreshAfter }}"
+  destination:
+    name: {{ $.Chart.Name }}-api-secret
+    create: true
+    overwrite: true
+    transformation:
+      excludeRaw: true
+      includes:
+        - SKA_DATAPRODUCT_API_POSTGRESQL_PASSWORD
+{{- end }}
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -30,19 +50,6 @@ spec:
     metadata:
       labels:
 {{ include "ska-dataproduct-dashboard.api.labels" . | indent 8 }}
-      annotations:
-      {{ if ((.Values.api.vault).useVault) }}
-          vault.hashicorp.com/agent-inject: "true"
-          vault.hashicorp.com/agent-inject-status: "update"
-          vault.hashicorp.com/agent-inject-secret-config: "{{ .Values.api.vault.pathToSecretVault }}"
-          vault.hashicorp.com/agent-inject-template-config: |
-              {{`{{- with secret `}}"{{ .Values.api.vault.pathToSecretVault }}"{{` -}}`}}
-              {{`{{- range $k, $v := .Data.data }}`}}
-              {{`{{ $k }}={{ $v }}`}}
-              {{`{{- end }}`}}
-              {{`{{- end }}`}}
-          vault.hashicorp.com/role: "kube-role"
-      {{ end }}
     spec:
       volumes:
       - name: shared-storage
@@ -71,8 +78,6 @@ spec:
         env:
           - name: API_VERBOSE
             value: "{{ .Values.api.verbose }}"
-          - name: SKA_DATAPRODUCT_API_SECRETS_FILE_PATH
-            value: "{{ .Values.api.vault.secretsFilePath }}"
           - name: PERSISTENT_STORAGE_PATH
             value: "{{ .Values.api.storagePath }}"
           - name: PVCNAME
@@ -92,7 +97,7 @@ spec:
           - name: SKA_DATAPRODUCT_API_POSTGRESQL_USER
             value: "{{ .Values.api.postgresql.user }}"
           - name: SKA_DATAPRODUCT_API_POSTGRESQL_DBNAME
-            value: "{{ .Values.api.postgresql.dbname }}"            
+            value: "{{ .Values.api.postgresql.dbname }}"
           - name: SKA_DATAPRODUCT_API_POSTGRESQL_SCHEMA
             value: "{{ .Values.api.postgresql.schema }}"
           - name: SKA_DATAPRODUCT_API_POSTGRESQL_METADATA_TABLE_NAME
@@ -102,7 +107,7 @@ spec:
           - name: SKA_DATAPRODUCT_API_POSTGRESQL_QUERY_SIZE_LIMIT
             value: "{{ .Values.api.postgresql.querySizeLimit }}"
           - name: SKA_DATAPRODUCT_DLM_INTERFACE_ENABLED
-            value: "{{ .Values.api.postgresql.dlmInterfaceEnabled }}"            
+            value: "{{ .Values.api.postgresql.dlmInterfaceEnabled }}"
           - name: SKA_DATAPRODUCT_API_POSTGRESQL_DLM_SCHEMA
             value: "{{ .Values.api.postgresql.dlmSchema }}"
           - name: SKA_DATAPRODUCT_API_POSTGRESQL_DLM_METADATA_TABLE_NAME
@@ -113,4 +118,14 @@ spec:
             value: "{{ .Values.api.dateFromat }}"
           - name: API_ROOT_PATH
             value: {{ include "ska-dataproduct-dashboard.api.ingress.path" . }}
+{{- if $.Values.dashboard.vault.useVault }}
+          - name: SKA_DATAPRODUCT_API_POSTGRESQL_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: {{ $.Chart.Name }}-api-secret
+                key: SKA_DATAPRODUCT_API_POSTGRESQL_PASSWORD
+{{- else }}
+          - name: SKA_DATAPRODUCT_API_POSTGRESQL_PASSWORD
+            value: "{{ .Values.api.postgresql.password }}"
+{{- end }}
 {{- end }}

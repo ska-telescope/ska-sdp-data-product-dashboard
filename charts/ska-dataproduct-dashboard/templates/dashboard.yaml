@@ -19,14 +19,14 @@ spec:
 apiVersion: secrets.hashicorp.com/v1beta1
 kind: VaultStaticSecret
 metadata:
-  name: {{ $.Chart.Name }}-secret
+  name: {{ $.Chart.Name }}-dashboard-secret
 spec:
   type: kv-v2
   mount: "{{ .Values.dashboard.vault.engine }}"
   path: "{{ .Values.dashboard.vault.pathToSecretVault }}"
   refreshAfter: "{{ .Values.dashboard.vault.refreshAfter }}"
   destination:
-    name: {{ $.Chart.Name }}-secret
+    name: {{ $.Chart.Name }}-dashboard-secret
     create: true
     overwrite: true
     transformation:
@@ -80,12 +80,12 @@ spec:
             - name: REACT_APP_MSENTRA_CLIENT_ID
               valueFrom:
                 secretKeyRef:
-                  name: {{ $.Chart.Name }}-secret
+                  name: {{ $.Chart.Name }}-dashboard-secret
                   key: REACT_APP_MSENTRA_CLIENT_ID
             - name: REACT_APP_MSENTRA_TENANT_ID
               valueFrom:
                 secretKeyRef:
-                  name: {{ $.Chart.Name }}-secret
+                  name: {{ $.Chart.Name }}-dashboard-secret
                   key: REACT_APP_MSENTRA_TENANT_ID
 {{- else }}
             - name: REACT_APP_MSENTRA_CLIENT_ID

@@ -123,16 +123,6 @@ EOF
     } > "$ENV_JS_OUTPUT_LOCATION"
 }
 
-run_get_vault()
-{
-    if [ -f /vault/secrets/config ]; then
-        echo "Using vault config"
-        source /vault/secrets/config
-    else
-        echo "No vault secrets found, skipping loading"
-    fi
-}
-
 run_create_env()
 {
     if [ -f "$ENV_TYPE_FILE" ]; then
@@ -156,7 +146,6 @@ run_get_local_env()
 
 
 run_get_local_env
-run_get_vault
 
 option_req=${1:-js}
 
