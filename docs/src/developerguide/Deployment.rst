@@ -96,7 +96,7 @@ This section details the configuration options available when deploying the Data
       - ``true``
       - Enables the deployment to retrieve SPA registration details from the SKAO vault.
     * - ``api.vault.pathToSecretVault``
-      - ``kv/data/users/andre_odendaal/ska_login_page``
+      - ``phoenix/sdhp-stfc/integration/ska-sdp-dataproduct-api``
       - Path to the secrets in the vault.
     * - ``api.vault.refreshAfter``
       - ``360s``
@@ -188,7 +188,7 @@ The following secrets are expected in the file mapped into the API container by 
       - ``true``
       - Enables the deployment to retrieve SPA registration details from the SKAO vault.
     * - ``dashboard.vault.pathToSecretVault``
-      - ``kv/data/users/andre_odendaal/ska_login_page``
+      - ``phoenix/sdhp-stfc/integration/ska-dataproduct-dashboard``
       - Path to the secrets in the vault.
     * - ``dashboard.vault.client_id``
       - ``abcde``
