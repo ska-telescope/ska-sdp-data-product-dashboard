@@ -2,6 +2,13 @@
 
 ## Current Development
 
+### Changed
+
+- [PHX-35](https://jira.skatelescope.org/browse/PHX-35)
+  - Migrated Vault config to use new method of fetching secrets
+
+### Other Changes
+
 - [NAL-1341](https://jira.skatelescope.org/browse/NAL-1341)
 
   - [Changed] Updated AAA components to make use of the latest SKA AAA Gui components from the SKA-Login-Page.

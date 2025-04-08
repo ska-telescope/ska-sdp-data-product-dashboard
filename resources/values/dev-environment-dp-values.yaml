@@ -6,7 +6,7 @@ ingress:
 
 api:
   enabled: true
-  container: registry.gitlab.com/ska-telescope/ska-dataproduct-api/ska-dataproduct-api 
+  container: registry.gitlab.com/ska-telescope/ska-dataproduct-api/ska-dataproduct-api
   version: 0.13.0
   imagePullPolicy: Always
   verbose: false
@@ -17,8 +17,7 @@ api:
   metadata_file_name: ska-data-product.yaml
   vault:
     useVault: true
-    pathToSecretVault: kv/data/users/andre_odendaal/sdhp-stfc/ska-sdp-dataproduct-api/integration
-    secretsFilePath: /vault/secrets/config
+    pathToSecretVault: phoenix/sdhp-stfc/integration/ska-sdp-dataproduct-api
   permissionsapi:
     serviceUrl: https://sdhp.stfc.skao.int/integration-ska-permissions-api
   postgresql:
@@ -51,9 +50,7 @@ dashboard:
     path: dashboard
   vault:
     useVault: true
-    pathToSecretVault: kv/data/users/andre_odendaal/sdhp-stfc/ska-sdp-dataproduct-dashboard/integration
-    client_id: placeholder_for_client_id
-    tenant_id: placeholder_for_tenant_id
+    pathToSecretVault: phoenix/sdhp-stfc/integration/ska-dataproduct-dashboard
   apiRefreshRate: 10000
   resources:
     requests:

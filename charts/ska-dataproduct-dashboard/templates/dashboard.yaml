@@ -14,6 +14,27 @@ spec:
   clusterIP: None
   selector:
 {{ include "ska-dataproduct-dashboard.dashboard.labels" . | indent 4 }}
+{{- if $.Values.dashboard.vault.useVault }}
+---
+apiVersion: secrets.hashicorp.com/v1beta1
+kind: VaultStaticSecret
+metadata:
+  name: {{ $.Chart.Name }}-dashboard-secret
+spec:
+  type: kv-v2
+  mount: "{{ .Values.dashboard.vault.engine }}"
+  path: "{{ .Values.dashboard.vault.pathToSecretVault }}"
+  refreshAfter: "{{ .Values.dashboard.vault.refreshAfter }}"
+  destination:
+    name: {{ $.Chart.Name }}-dashboard-secret
+    create: true
+    overwrite: true
+    transformation:
+      excludeRaw: true
+      includes:
+        - REACT_APP_MSENTRA_CLIENT_ID
+        - REACT_APP_MSENTRA_TENANT_ID
+{{- end }}
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -30,19 +51,6 @@ spec:
     metadata:
       labels:
 {{ include "ska-dataproduct-dashboard.dashboard.labels" . | indent 8 }}
-      annotations:
-      {{ if ((.Values.dashboard.vault).useVault) }}
-          vault.hashicorp.com/agent-inject: "true"
-          vault.hashicorp.com/agent-inject-status: "update"
-          vault.hashicorp.com/agent-inject-secret-config: "{{ .Values.dashboard.vault.pathToSecretVault }}"
-          vault.hashicorp.com/agent-inject-template-config: |
-              {{`{{- with secret `}}"{{ .Values.dashboard.vault.pathToSecretVault }}"{{` -}}`}}
-              {{`{{- range $k, $v := .Data.data }}`}}
-              {{`export {{ $k }}={{ $v }}`}}
-              {{`{{- end }}`}}
-              {{`{{- end }}`}}
-          vault.hashicorp.com/role: "kube-role"
-      {{ end }}
     spec:
       containers:
         - name: ska-dataproduct-dashboard
@@ -68,10 +76,23 @@ spec:
               value: "{{ .Values.dashboard.version }}"
             - name: REACT_APP_MSENTRA_REDIRECT_URI
               value: "{{ .Values.ingress.hostname }}{{ include "ska-dataproduct-dashboard.dashboard.ingress.path" . }}/"
+{{- if $.Values.dashboard.vault.useVault }}
+            - name: REACT_APP_MSENTRA_CLIENT_ID
+              valueFrom:
+                secretKeyRef:
+                  name: {{ $.Chart.Name }}-dashboard-secret
+                  key: REACT_APP_MSENTRA_CLIENT_ID
+            - name: REACT_APP_MSENTRA_TENANT_ID
+              valueFrom:
+                secretKeyRef:
+                  name: {{ $.Chart.Name }}-dashboard-secret
+                  key: REACT_APP_MSENTRA_TENANT_ID
+{{- else }}
             - name: REACT_APP_MSENTRA_CLIENT_ID
               value: "{{ .Values.dashboard.vault.client_id }}"
             - name: REACT_APP_MSENTRA_TENANT_ID
               value: "{{ .Values.dashboard.vault.tenant_id }}"
+{{- end }}
           livenessProbe:
             httpGet:
               path: /
