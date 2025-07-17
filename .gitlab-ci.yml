@@ -5,6 +5,17 @@ variables:
   GIT_SUBMODULE_STRATEGY: recursive
   CI_POETRY_VERSION: 1.8.2
 
+include:
+  - template: Code-Quality.gitlab-ci.yml
+  - project: 'ska-telescope/templates-repository'
+    file:
+      - 'gitlab-ci/includes/docs.gitlab-ci.yml'
+      - 'gitlab-ci/includes/oci-image.gitlab-ci.yml'
+      - 'gitlab-ci/includes/release.gitlab-ci.yml'
+      - 'gitlab-ci/includes/finaliser.gitlab-ci.yml'
+      - 'gitlab-ci/includes/helm-chart.gitlab-ci.yml'
+      - 'gitlab-ci/includes/deploy.gitlab-ci.yml'
+
 stages:
   - dependencies
   - lint
@@ -21,11 +32,13 @@ stages:
   - staging-dp
   - integration-psi-low
 
+########################## JOB SPECIFIC STUFF BELOW HERE #################################
+
 #Install basic dependencies using yarn
 install_dependencies:
   stage: dependencies
   tags:
-    - ska-default
+    - ${SKA_DEFAULT_RUNNER}
   before_script:
     - rm -rf node_modules
   script:
@@ -40,7 +53,7 @@ install_dependencies:
 code_analysis:
   stage: lint
   tags:
-    - ska-default
+    - ${SKA_DEFAULT_RUNNER}
   dependencies:
     - install_dependencies
   cache:
@@ -63,7 +76,7 @@ test_and_coverage:
   image: cypress/browsers:node-20.11.1-chrome-123.0.6312.58-1-ff-124.0-edge-122.0.2365.92-1
   stage: test
   tags:
-    - ska-default
+    - ${SKA_DEFAULT_RUNNER}
   dependencies:
     - install_dependencies
   cache:
@@ -88,7 +101,7 @@ test_and_coverage:
 build:
   stage: build
   tags:
-    - ska-default
+    - ${SKA_DEFAULT_RUNNER}
   dependencies:
     - install_dependencies
   cache:
@@ -102,7 +115,7 @@ build:
 list_dependencies:
   stage: test
   tags:
-    - ska-default
+    - ${SKA_DEFAULT_RUNNER}
   dependencies:
     - install_dependencies
   allow_failure: true
@@ -127,7 +140,7 @@ list_dependencies:
 pages:
   stage: pages
   tags:
-    - ska-default
+    - ${SKA_DEFAULT_RUNNER}
   dependencies:
     - test_and_coverage
     - list_dependencies
@@ -141,17 +154,7 @@ pages:
       - public
     expire_in: 30 days
 
-include:
-  - template: Code-Quality.gitlab-ci.yml
-    # Docs pages
-  - project: 'ska-telescope/templates-repository'
-    file:
-      - 'gitlab-ci/includes/docs.gitlab-ci.yml'
-      - 'gitlab-ci/includes/oci-image.gitlab-ci.yml'
-      - 'gitlab-ci/includes/release.gitlab-ci.yml'
-      - 'gitlab-ci/includes/finaliser.gitlab-ci.yml'
-      - 'gitlab-ci/includes/helm-chart.gitlab-ci.yml'
-      - 'gitlab-ci/includes/deploy.gitlab-ci.yml'
+# Deploy the application
 
 .info_script: &info_script
   - |-
