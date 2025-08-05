@@ -89,7 +89,7 @@ This section details the configuration options available when deploying the Data
     * - ``api.storagePath``
       - ``"/mnt/data/product/"``
       - The path to the data on the PV.
-    * - ``api.metadata_file_name``
+    * - ``api.metadataFileName``
       - ``ska-data-product.yaml``
       - The name of the data products metadata file that is used to indicate that a folder is a data product.
     * - ``api.vault.useVault``

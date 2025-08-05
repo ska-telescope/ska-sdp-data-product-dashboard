@@ -14,7 +14,7 @@ api:
   ingress:
     path: api
   storagePath: "/mnt/data/product/"
-  metadata_file_name: ska-data-product.yaml
+  metadataFileName: ska-data-product.yaml
   vault:
     useVault: true
     pathToSecretVault: phoenix/sdhp-stfc/integration/ska-sdp-dataproduct-api
