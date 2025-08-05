@@ -118,6 +118,8 @@ spec:
             value: "{{ .Values.api.dateFromat }}"
           - name: API_ROOT_PATH
             value: {{ include "ska-dataproduct-dashboard.api.ingress.path" . }}
+          - name: SDP_CONFIG_HOST
+            value: {{ .Values.api.sdpConfigdbHost | quote }}
 {{- if $.Values.dashboard.vault.useVault }}
           - name: SKA_DATAPRODUCT_API_POSTGRESQL_PASSWORD
             valueFrom:

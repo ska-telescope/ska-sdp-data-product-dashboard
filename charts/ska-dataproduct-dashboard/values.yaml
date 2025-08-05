@@ -15,6 +15,7 @@ api:
     path: api
   storagePath: "/mnt/data/product/"
   metadata_file_name: ska-data-product.yaml
+  sdpConfigdbHost: "ska-sdp-etcd.dp-shared"
   vault:
     useVault: false
     engine: "dev"
