@@ -7,7 +7,7 @@ ingress:
 api:
   enabled: true
   container: artefact.skao.int/ska-dataproduct-api
-  version: 0.13.0
+  version: 0.14.0
   imagePullPolicy: IfNotPresent
   verbose: false
   dateFromat: "%Y-%m-%d"
@@ -15,7 +15,7 @@ api:
     path: api
   storagePath: "/mnt/data/product/"
   metadata_file_name: ska-data-product.yaml
-  sdpConfigdbHost: "ska-sdp-etcd.dp-shared"
+  sdpConfigdbHost: ""
   vault:
     useVault: false
     engine: "dev"
@@ -48,7 +48,7 @@ api:
 dashboard:
   enabled: true
   container: artefact.skao.int/ska-dataproduct-dashboard
-  version: 0.13.0
+  version: 0.14.0
   imagePullPolicy: IfNotPresent
   ingress:
     path: dashboard

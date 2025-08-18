@@ -7,7 +7,7 @@ ingress:
 api:
   enabled: true
   container: registry.gitlab.com/ska-telescope/ska-dataproduct-api/ska-dataproduct-api
-  version: 0.13.0
+  version: 0.14.0
   imagePullPolicy: Always
   verbose: false
   dateFromat: "%Y-%m-%d"
@@ -15,6 +15,7 @@ api:
     path: api
   storagePath: "/mnt/data/product/"
   metadata_file_name: ska-data-product.yaml
+  sdpConfigdbHost: "ska-sdp-etcd.dp-shared"
   vault:
     useVault: true
     pathToSecretVault: phoenix/sdhp-stfc/integration/ska-sdp-dataproduct-api
