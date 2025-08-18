@@ -45,7 +45,7 @@ api:
 dashboard:
   enabled: true
   container: registry.gitlab.com/ska-telescope/ska-dataproduct-dashboard/ska-dataproduct-dashboard
-  version: 0.13.0
+  version: 0.14.0
   imagePullPolicy: Always
   ingress:
     path: dashboard
