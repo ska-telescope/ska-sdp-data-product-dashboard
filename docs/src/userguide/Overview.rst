@@ -66,3 +66,14 @@ The current release of the Data Product Dashboard can be deployed with either a 
 When products are directly loaded onto the shared volume, the user can re-index the data volume to update the metadata store of the Data Product Dashboard accordingly.
 
 The dashboard will automatically reload after a re-index or when new data is added to its store via the rest API endpoints. The reload button will be deactivated while the dashboard is in sync with the data in the store.
+
+
+Connecting to an SDP Configuration Database
+===========================================
+
+The DPD has the capability (from v0.14.0) to connect to a specific Science Data Processor (SDP) Configuration Database (Config DB).
+This feature allows the DPD to retrieve data flow information from the Config DB. Data flow objects give
+the users information about the status of a data product, e.g if it is already available or being written, etc.,
+as well as will allow users to "reserve" data products in the buffer space for further processing.
+Note that this latter functionality is not yet implemented. For now, the DPD only displays flow keys and status
+associated with existing data products in the data table.
