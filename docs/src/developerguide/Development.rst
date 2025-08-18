@@ -204,3 +204,18 @@ To get data onto the PV:
 
 	kubectl get pod -n [namespace]
     kubectl cp [host path]/ska-dataproduct-api/tests/test_files/product [ska-dataproduct-api pod]:/usr/data -n [namespace]
+
+
+Connecting to SDP
+=================
+
+If you wish to connect to an existing deployment of the Science Data Processor (SDP)
+and display data flow information associated with data products, you need to install
+the DPD with the following value set in ``values.yaml``
+
+.. code-block::
+
+    api:
+      sdpConfigdbHost: "ska-sdp-etcd.<namespace>"
+
+Replace ``<namespace>`` with the SDP control system namespace where its Configuration DB is running.

@@ -1,6 +1,7 @@
 ---
 api:
-  version: 0.13.0
+  version: 0.14.0
+  sdpConfigdbHost: "ska-sdp-etcd.dp-shared"
   vault:
     useVault: true
     pathToSecretVault: phoenix/sdhp-stfc/integration/ska-sdp-dataproduct-api
@@ -13,7 +14,7 @@ api:
     annotationsTableName: "data_products_annotations_v2"
 
 dashboard:
-  version: 0.13.0
+  version: 0.14.0
   vault:
     useVault: true
     pathToSecretVault: phoenix/sdhp-stfc/integration/ska-dataproduct-dashboard

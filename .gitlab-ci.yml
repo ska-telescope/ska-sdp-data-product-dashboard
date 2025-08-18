@@ -3,7 +3,10 @@ default:
 
 variables:
   GIT_SUBMODULE_STRATEGY: recursive
-  CI_POETRY_VERSION: 1.8.2
+  # Tag for GitLab runner on the STFC DP cluster
+  SKA_DP_DEFAULT_RUNNER: ska-dp-default
+  # Tag for GitLab runner on PSI Low
+  K8SRUNNER_PSI_LOW: k8srunner-psi-low
 
 include:
   - template: Code-Quality.gitlab-ci.yml
@@ -170,7 +173,7 @@ deploy-dev-environment-dp:
   extends: deploy-dev-environment
   when: manual
   tags:
-    - ska-k8srunner-dp
+    - ${SKA_DP_DEFAULT_RUNNER}
   variables:
     K8S_CHART_PARAMS: --values resources/values/dev-environment-dp-values.yaml
 
@@ -179,7 +182,7 @@ test-dev-environment-dp:
   extends: test-dev-environment
   when: manual
   tags:
-    - ska-k8srunner-dp
+    - ${SKA_DP_DEFAULT_RUNNER}
   needs:
     - deploy-dev-environment-dp
 
@@ -187,7 +190,7 @@ info-dev-environment-dp:
   stage: deploy-dp
   extends: info-dev-environment
   tags:
-    - ska-k8srunner-dp
+    - ${SKA_DP_DEFAULT_RUNNER}
   script:
     - *info_script
 
@@ -195,14 +198,14 @@ stop-dev-environment-dp:
   stage: deploy-dp
   extends: stop-dev-environment
   tags:
-    - ska-k8srunner-dp
+    - ${SKA_DP_DEFAULT_RUNNER}
 
 deploy-integration-dp:
   stage: integration-dp
   extends: deploy-integration
   when: manual
   tags:
-    - ska-k8srunner-dp
+    - ${SKA_DP_DEFAULT_RUNNER}
   variables:
     K8S_CHART_PARAMS: --values resources/values/integration-dp-values.yaml
 
@@ -210,7 +213,7 @@ info-integration-dp:
   stage: integration-dp
   extends: info-integration
   tags:
-    - ska-k8srunner-dp
+    - ${SKA_DP_DEFAULT_RUNNER}
   script:
     - *info_script
 
@@ -218,7 +221,7 @@ redeploy-integration-dp:
   stage: integration-dp
   extends: redeploy-integration
   tags:
-    - ska-k8srunner-dp
+    - ${SKA_DP_DEFAULT_RUNNER}
   variables:
     K8S_CHART_PARAMS: --values resources/values/integration-dp-values.yaml
 
@@ -226,7 +229,7 @@ stop-integration-dp:
   stage: integration-dp
   extends: stop-integration
   tags:
-    - ska-k8srunner-dp
+    - ${SKA_DP_DEFAULT_RUNNER}
   needs:
     - deploy-integration-dp
 
@@ -235,7 +238,7 @@ deploy-staging-dp:
   extends: deploy-staging
   when: manual
   tags:
-    - ska-k8srunner-dp
+    - ${SKA_DP_DEFAULT_RUNNER}
   variables:
     K8S_CHART_PARAMS: --values resources/values/staging-dp-values.yaml
 
@@ -243,7 +246,7 @@ info-staging-dp:
   stage: staging-dp
   extends: info-staging
   tags:
-    - ska-k8srunner-dp
+    - ${SKA_DP_DEFAULT_RUNNER}
   script:
     - *info_script
 
@@ -251,7 +254,7 @@ redeploy-staging-dp:
   stage: staging-dp
   extends: redeploy-staging
   tags:
-    - ska-k8srunner-dp
+    - ${SKA_DP_DEFAULT_RUNNER}
   variables:
     K8S_CHART_PARAMS: --values resources/values/staging-dp-values.yaml
 
@@ -259,7 +262,7 @@ stop-staging-dp:
   stage: staging-dp
   extends: stop-staging
   tags:
-    - ska-k8srunner-dp
+    - ${SKA_DP_DEFAULT_RUNNER}
   needs:
     - deploy-staging-dp
 
@@ -269,13 +272,13 @@ deploy-integration-psi-low:
   extends: deploy-integration
   when: manual
   tags:
-    - k8srunner-psi-low
+    - ${K8SRUNNER_PSI_LOW}
 
 info-integration-psi-low:
   stage: integration-psi-low
   extends: info-integration
   tags:
-    - k8srunner-psi-low
+    - ${K8SRUNNER_PSI_LOW}
   script:
     - *info_script
 
@@ -283,12 +286,12 @@ redeploy-integration-psi-low:
   stage: integration-psi-low
   extends: redeploy-integration
   tags:
-    - k8srunner-psi-low
+    - ${K8SRUNNER_PSI_LOW}
 
 stop-integration-psi-low:
   stage: integration-psi-low
   extends: stop-integration
   tags:
-    - k8srunner-psi-low
+    - ${K8SRUNNER_PSI_LOW}
   needs:
     - deploy-integration-psi-low

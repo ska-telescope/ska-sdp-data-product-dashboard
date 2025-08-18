@@ -92,6 +92,9 @@ This section details the configuration options available when deploying the Data
     * - ``api.metadata_file_name``
       - ``ska-data-product.yaml``
       - The name of the data products metadata file that is used to indicate that a folder is a data product.
+    * - ``api.sdpConfigdbHost``
+      - ``""``
+      - Host path to an SDP Configuration DB. Example: "ska-sdp-etcd.dp-shared"
     * - ``api.vault.useVault``
       - ``true``
       - Enables the deployment to retrieve SPA registration details from the SKAO vault.

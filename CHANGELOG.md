@@ -1,13 +1,21 @@
 # Changelog
 
-## Current Development
+## v0.14.0
 
-### Changed
+- [PHX-68](https://jira.skatelescope.org/browse/PHX-68)
+
+  - [Changed] Updated API and Dashboard version to 0.14.0.
+  - [Changed] Updated API template to pass an SPD Configuration DB host to the component.
+  - [Changed] Updated documentation.
 
 - [PHX-35](https://jira.skatelescope.org/browse/PHX-35)
-  - Migrated Vault config to use new method of fetching secrets
 
-### Other Changes
+  - [Changed] Migrated Vault config to use new method of fetching secrets.
+
+- [PHX-18](https://jira.skatelescope.org/browse/PHX-18)
+  - [Changed] Updated the documentation.
+
+## v0.13.0
 
 - [NAL-1341](https://jira.skatelescope.org/browse/NAL-1341)
 
@@ -15,7 +23,6 @@
   - [Changed] Removed the SKA Permissions API from the Helm chart. The SKA Permissions API is now installed independently and only added as a URL to the service for use by the DPD API.
 
 - [NAL-1363](https://jira.skatelescope.org/browse/NAL-1363)
-
   - [Removed] Removed old references to Elasticsearch.
   - [Changed] Updated environment variables in API chart to match all variables in the API.
 
