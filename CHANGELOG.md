@@ -1,42 +1,42 @@
 # Changelog
 
-## Current Development
+## v0.14.0
 
-### Changed
+- [PHX-68](https://jira.skatelescope.org/browse/PHX-68)
+  - [Changed] Updated API and Dashboard version to 0.14.0
+  - [Changed] Updated API template to pass an SPD Configuration DB host to the component
+  - [Changed] Updated documentation
 
 - [PHX-35](https://jira.skatelescope.org/browse/PHX-35)
-  - Migrated Vault config to use new method of fetching secrets
+  - [Changed] Migrated Vault config to use new method of fetching secrets
 
-### Other Changes
+- [PHX-18](https://jira.skatelescope.org/browse/PHX-18)
+  - [Changed] Updated the documentation
+
+## v0.13.0
 
 - [NAL-1341](https://jira.skatelescope.org/browse/NAL-1341)
-
   - [Changed] Updated AAA components to make use of the latest SKA AAA Gui components from the SKA-Login-Page.
   - [Changed] Removed the SKA Permissions API from the Helm chart. The SKA Permissions API is now installed independently and only added as a URL to the service for use by the DPD API.
 
 - [NAL-1363](https://jira.skatelescope.org/browse/NAL-1363)
-
   - [Removed] Removed old references to Elasticsearch.
   - [Changed] Updated environment variables in API chart to match all variables in the API.
 
 ## v0.12.0
 
 - [NAL-1348](https://jira.skatelescope.org/browse/NAL-1348)
-
   - [Changed] Updated key value search field to match structure used by MUI Data Grid and DPD API.
 
 - [NAL-1319](https://jira.skatelescope.org/browse/NAL-1319)
-
   - [Added] View Data Annotations to dashboard
 
 - [NAL-1309](https://jira.skatelescope.org/browse/NAL-1309)
-
   - [Changed] Made the Elasticsearch query body size configurable from environment variable SKA_DATAPRODUCT_API_ELASTIC_QUERY_BODY_SIZE via the Helm chart.
   - [Changed] Updated documentation.
   - [Changed] Updated deployment values name for the shared PVC.
 
 - [NAL-1275](https://jira.skatelescope.org/browse/NAL-1275)
-
   - [Changed] Disable download button when data product has not file reference in the metadata.
   - [Changed] Moved the download button to be inline with the data product in the data grid.
 
