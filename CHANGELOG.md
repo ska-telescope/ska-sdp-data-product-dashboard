@@ -1,5 +1,11 @@
 # Changelog
 
+## Unreleased
+
+- [LOW-1657](https://jira.skatelescope.org/browse/LOW-1657)
+
+  - [Added] Support for API getting database connection info from an existing k8s Secret.
+
 ## v0.14.0
 
 - [PHX-68](https://jira.skatelescope.org/browse/PHX-68)
