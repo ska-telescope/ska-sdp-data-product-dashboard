@@ -74,14 +74,6 @@ spec:
             value: "{{ .Values.api.version }}"
           - name: STREAM_CHUNK_SIZE
             value: "{{ .Values.api.stream_chunk_size }}"
-          - name: SKA_DATAPRODUCT_API_POSTGRESQL_HOST
-            value: "{{ .Values.api.postgresql.host }}"
-          - name: SKA_DATAPRODUCT_API_POSTGRESQL_PORT
-            value: "{{ .Values.api.postgresql.port }}"
-          - name: SKA_DATAPRODUCT_API_POSTGRESQL_USER
-            value: "{{ .Values.api.postgresql.user }}"
-          - name: SKA_DATAPRODUCT_API_POSTGRESQL_DBNAME
-            value: "{{ .Values.api.postgresql.dbname }}"
           - name: SKA_DATAPRODUCT_API_POSTGRESQL_SCHEMA
             value: "{{ .Values.api.postgresql.schema }}"
           - name: SKA_DATAPRODUCT_API_POSTGRESQL_METADATA_TABLE_NAME
@@ -108,9 +100,46 @@ spec:
             value: "{{ .Values.api.indexingTimeoutSeconds }}"
           - name: INDEXING_BATCH_SIZE
             value: "{{ .Values.api.indexingBatchSize }}"
+{{- if $.Values.api.postgresql.existingSecret}}
+          - name: SKA_DATAPRODUCT_API_POSTGRESQL_HOST
+            valueFrom:
+              secretKeyRef:
+                name: {{$.Values.api.postgresql.existingSecret}}
+                key: PGHOST
+          - name: SKA_DATAPRODUCT_API_POSTGRESQL_PORT
+            valueFrom:
+              secretKeyRef:
+                name: {{$.Values.api.postgresql.existingSecret}}
+                key: PGPORT
+                optional: true
+          - name: SKA_DATAPRODUCT_API_POSTGRESQL_USER
+            valueFrom:
+              secretKeyRef:
+                name: {{$.Values.api.postgresql.existingSecret}}
+                key: PGUSER
+          - name: SKA_DATAPRODUCT_API_POSTGRESQL_DBNAME
+            valueFrom:
+              secretKeyRef:
+                name: {{$.Values.api.postgresql.existingSecret}}
+                key: PGDATABASE
+          - name: SKA_DATAPRODUCT_API_POSTGRESQL_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: {{$.Values.api.postgresql.existingSecret}}
+                key: PGPASSWORD
+{{- else}}
+          - name: SKA_DATAPRODUCT_API_POSTGRESQL_HOST
+            value: "{{ .Values.api.postgresql.host }}"
+          - name: SKA_DATAPRODUCT_API_POSTGRESQL_PORT
+            value: "{{ .Values.api.postgresql.port}}"
+          - name: SKA_DATAPRODUCT_API_POSTGRESQL_USER
+            value: "{{ .Values.api.postgresql.user }}"
+          - name: SKA_DATAPRODUCT_API_POSTGRESQL_DBNAME
+            value: "{{ .Values.api.postgresql.dbname }}"
           - name: SKA_DATAPRODUCT_API_POSTGRESQL_PASSWORD
             valueFrom:
               secretKeyRef:
                 name: {{ .Values.api.secretName }}
                 key: SKA_DATAPRODUCT_API_POSTGRESQL_PASSWORD
+{{- end }}
 {{- end }}

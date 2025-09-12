@@ -10,9 +10,13 @@
   - [Added] Simplified secret management to two options: Vault-synced secrets (via vault-secret-sync subchart) or user-managed Kubernetes secrets
 
 - [PHX-123](https://jira.skatelescope.org/browse/PHX-123)
+
   - [Added] Implemented progressive data loading to display data products as they are indexed, even during long indexing operations
   - [Added] Implemented server-side sorting for MUI DataGrid.
   - [Added] IndexingStatus component with StatusIcon and IndexingStatus tooltip with API configuration details (version, metadata store, search store, SDP config status)
+
+- [LOW-1657](https://jira.skatelescope.org/browse/LOW-1657)
+  - [Added] Support for API getting database connection info from an existing k8s Secret.
 
 ## v0.14.0
 
