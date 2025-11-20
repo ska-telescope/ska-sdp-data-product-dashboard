@@ -6,8 +6,8 @@ ingress:
 
 api:
   enabled: true
-  container: artefact.skao.int/ska-dataproduct-api
-  version: 0.14.0
+  container: registry.gitlab.com/ska-telescope/ska-dataproduct-api/ska-dataproduct-api
+  version: 0.14.0-dev.c591324dd
   imagePullPolicy: Always
   verbose: false
   dateFromat: "%Y-%m-%d"
@@ -44,8 +44,8 @@ api:
 
 dashboard:
   enabled: true
-  container: artefact.skao.int/ska-dataproduct-dashboard
-  version: 0.14.0
+  container: registry.gitlab.com/ska-telescope/ska-dataproduct-dashboard/ska-dataproduct-dashboard
+  version: 0.14.0-dev.c89eac1a6
   imagePullPolicy: Always
   ingress:
     path: dashboard
