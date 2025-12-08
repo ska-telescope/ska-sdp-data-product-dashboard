@@ -42,7 +42,7 @@ export default function DataproductDataGrid(
 
   React.useEffect(() => {
     let isCancelled = false;
-    
+
     const fetchData = async () => {
       setIsLoading(true);
       try {
@@ -56,9 +56,9 @@ export default function DataproductDataGrid(
         }
       }
     };
-    
+
     fetchData();
-    
+
     return () => {
       isCancelled = true;
     };
