@@ -85,9 +85,8 @@ const DataProductsTable = (
 
   return (
     <>
-      {apiRunning && updating && RenderInfo(2, 'info.fetching')}
       {!apiRunning && RenderInfo(1, 'error.API_NOT_AVAILABLE')}
-      {apiRunning && !updating && RenderData()}
+      {apiRunning && RenderData()}
     </>
   );
 };

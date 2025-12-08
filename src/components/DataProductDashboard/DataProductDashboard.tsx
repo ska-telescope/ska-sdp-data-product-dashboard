@@ -135,6 +135,18 @@ const DataProductDashboard = () => {
     setSelectedFileNames(selectedFileNames);
   };
 
+  // Memoize the DataGrid to prevent unnecessary re-renders
+  const dataGridComponent = React.useMemo(
+    () => (
+      <DataproductDataGrid
+        handleSelectedNode={handleRowClick}
+        searchPanelOptions={searchPanelOptions}
+        updating={updating}
+      />
+    ),
+    [searchPanelOptions, updating]
+  );
+
   async function indexDataProduct() {
     const apiUrl = SKA_DATAPRODUCT_API_URL;
     try {
@@ -340,7 +352,7 @@ const DataProductDashboard = () => {
           {DataProductsTable(
             updating,
             apiRunning,
-            DataproductDataGrid(handleRowClick, searchPanelOptions, updating)
+            dataGridComponent
           )}
         </Grid>
         <Grid item xs={3}>

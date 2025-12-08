@@ -16,11 +16,17 @@ import {
 import { useTranslation } from 'react-i18next';
 import dataProductDownloadStream from '@services/GetDownloadStream/GetDownloadStream';
 
-export default function DataproductDataGrid(
-  handleSelectedNode: () => void,
-  searchPanelOptions: {},
-  updating: boolean
-) {
+interface DataproductDataGridProps {
+  handleSelectedNode: () => void;
+  searchPanelOptions: any;
+  updating: boolean;
+}
+
+export default function DataproductDataGrid({
+  handleSelectedNode,
+  searchPanelOptions,
+  updating
+}: DataproductDataGridProps) {
   const [muiConfigData, setMuiConfigData] = React.useState({
     columns: []
   });
@@ -47,9 +53,13 @@ export default function DataproductDataGrid(
       setIsLoading(true);
       try {
         const result = await GetMuiDataGridRows(authAxiosClient, dataFilterModel);
-        if (!isCancelled) {
+        if (!isCancelled && result.DataGridRowsData) {
+          // Only update rows if we have valid data
           setRows(result.DataGridRowsData);
         }
+      } catch (error) {
+        console.error('Error fetching data grid rows:', error);
+        // Keep existing rows on error
       } finally {
         if (!isCancelled) {
           setIsLoading(false);

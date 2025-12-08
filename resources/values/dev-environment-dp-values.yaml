@@ -16,7 +16,7 @@ api:
   storagePath: "/mnt/data/product/"
   metadata_file_name: ska-data-product.yaml
   indexingTimeoutSeconds: 300
-  indexingBatchSize: 100
+  indexingBatchSize: 10
   sdpConfigdbHost: "ska-sdp-etcd.dp-shared"
   vault:
     useVault: true
