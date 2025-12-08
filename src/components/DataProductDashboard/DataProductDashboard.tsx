@@ -118,15 +118,16 @@ const DataProductDashboard = () => {
   }, [startDate, endDate, formFields]);
 
   React.useEffect(() => {
-    async function updateSearchResults() {
-      setUpdating(false);
-      updateNewDataAvailable(false);
-    }
-
+    // Reset updating flag after filter changes have been applied
+    // This allows the DataGrid to detect the change and refetch
     if (updating) {
-      updateSearchResults();
+      const timer = setTimeout(() => {
+        setUpdating(false);
+        updateNewDataAvailable(false);
+      }, 100);
+      return () => clearTimeout(timer);
     }
-  }, [endDate, formFields, startDate, updating]);
+  }, [updating, searchPanelOptions]);
 
   const handleRowClick = () => {
     const selectedDataProduct = localStorage.getItem('selectedDataProduct');

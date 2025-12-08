@@ -120,6 +120,10 @@ spec:
             value: {{ include "ska-dataproduct-dashboard.api.ingress.path" . }}
           - name: SDP_CONFIG_HOST
             value: {{ .Values.api.sdpConfigdbHost | quote }}
+          - name: INDEXING_TIMEOUT_SECONDS
+            value: "{{ .Values.api.indexingTimeoutSeconds }}"
+          - name: INDEXING_BATCH_SIZE
+            value: "{{ .Values.api.indexingBatchSize }}"
 {{- if $.Values.dashboard.vault.useVault }}
           - name: SKA_DATAPRODUCT_API_POSTGRESQL_PASSWORD
             valueFrom:

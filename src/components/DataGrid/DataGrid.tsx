@@ -27,18 +27,43 @@ export default function DataproductDataGrid(
   const [muiDataGridFilterModel, setMuiDataGridFilterModel] = React.useState({});
   const [dataFilterModel, setDataFilterModel] = React.useState({});
   const [rows, setRows] = React.useState([]);
+  const [isLoading, setIsLoading] = React.useState(false);
+  const [refreshTrigger, setRefreshTrigger] = React.useState(0);
   const [tableHeight, setTableHeight] = React.useState(window.innerHeight - shellSize());
   const { t } = useTranslation('dpd');
   const authAxiosClient = useAxiosClient(SKA_DATAPRODUCT_API_URL);
 
+  // Trigger refresh when updating prop changes
   React.useEffect(() => {
+    if (updating) {
+      setRefreshTrigger((prev: number) => prev + 1);
+    }
+  }, [updating]);
+
+  React.useEffect(() => {
+    let isCancelled = false;
+    
     const fetchData = async () => {
-      const result = await GetMuiDataGridRows(authAxiosClient, dataFilterModel);
-      setRows(result.DataGridRowsData);
+      setIsLoading(true);
+      try {
+        const result = await GetMuiDataGridRows(authAxiosClient, dataFilterModel);
+        if (!isCancelled) {
+          setRows(result.DataGridRowsData);
+        }
+      } finally {
+        if (!isCancelled) {
+          setIsLoading(false);
+        }
+      }
     };
+    
     fetchData();
+    
+    return () => {
+      isCancelled = true;
+    };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [dataFilterModel, updating]);
+  }, [dataFilterModel, refreshTrigger]);
 
   React.useEffect(() => {
     function handleResize() {
@@ -153,8 +178,6 @@ export default function DataproductDataGrid(
   React.useEffect(() => {
     fetchData();
   }, [fetchData]); // Dependency on fetchData to ensure it runs only once
-
-  const isLoading = false;
 
   return (
     <Box data-testid={'availableData'} m={1} sx={{ backgroundColor: 'secondary.contrastText' }}>
