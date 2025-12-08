@@ -349,11 +349,7 @@ const DataProductDashboard = () => {
         justifyContent="space-between"
       >
         <Grid item xs={9}>
-          {DataProductsTable(
-            updating,
-            apiRunning,
-            dataGridComponent
-          )}
+          {DataProductsTable(updating, apiRunning, dataGridComponent)}
         </Grid>
         <Grid item xs={3}>
           <>
