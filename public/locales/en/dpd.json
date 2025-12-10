@@ -23,7 +23,12 @@
     "UNDEFINED_ERROR": "Error undefined"
   },
   "info": {
-    "fetching": "Retrieving information from API"
+    "fetching": "Retrieving information from API",
+    "indexingInProgress": "Indexing in progress:",
+    "filesProcessed": "files processed",
+    "dataLoadingProgressively": "Data is being loaded progressively as files are indexed...",
+    "indexingScanning": "Indexing in progress...",
+    "scanningForFiles": "Scanning for data product files. Please wait..."
   },
   "label": {
     "apiVersion": "API Version",

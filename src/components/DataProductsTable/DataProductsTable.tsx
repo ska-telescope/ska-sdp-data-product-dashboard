@@ -94,13 +94,27 @@ const DataProductsTable = (
               textAlign: 'center'
             }}
           >
-            <strong>Indexing in progress:</strong> {indexingProgress.files_processed} of{' '}
-            {indexingProgress.total_files} files processed (
+            <strong>{t('info.indexingInProgress')}</strong> {indexingProgress.files_processed}{' '}
+            {t('label.of')} {indexingProgress.total_files} {t('info.filesProcessed')} (
             {Math.round((indexingProgress.files_processed / indexingProgress.total_files) * 100)}%)
             <br />
-            <em style={{ fontSize: '0.9em' }}>
-              Data is being loaded progressively as files are indexed...
-            </em>
+            <em style={{ fontSize: '0.9em' }}>{t('info.dataLoadingProgressively')}</em>
+          </Box>
+        )}
+        {indexingProgress?.in_progress && indexingProgress?.total_files === 0 && (
+          <Box
+            m={1}
+            p={2}
+            sx={{
+              backgroundColor: 'warning.light',
+              color: 'warning.contrastText',
+              borderRadius: 1,
+              textAlign: 'center'
+            }}
+          >
+            <strong>{t('info.indexingScanning')}</strong>
+            <br />
+            <em style={{ fontSize: '0.9em' }}>{t('info.scanningForFiles')}</em>
           </Box>
         )}
         {dataproductDataGrid}
