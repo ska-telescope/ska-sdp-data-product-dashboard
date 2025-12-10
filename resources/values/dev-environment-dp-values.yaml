@@ -51,6 +51,7 @@ dashboard:
   imagePullPolicy: Always
   ingress:
     path: dashboard
+  dataGridDefaultPageSize: 25
   vault:
     useVault: true
     pathToSecretVault: phoenix/sdhp-stfc/integration/ska-dataproduct-dashboard

@@ -72,6 +72,8 @@ spec:
               value: {{ include "ska-dataproduct-dashboard.api.ingress.path" . }}
             - name: REACT_APP_API_REFRESH_RATE
               value: "{{ .Values.dashboard.apiRefreshRate }}"
+            - name: REACT_APP_DATAGRID_DEFAULT_PAGE_SIZE
+              value: "{{ .Values.dashboard.dataGridDefaultPageSize }}"
             - name: REACT_APP_VERSION
               value: "{{ .Values.dashboard.version }}"
             - name: REACT_APP_MSENTRA_REDIRECT_URI

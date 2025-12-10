@@ -54,6 +54,7 @@ dashboard:
   imagePullPolicy: IfNotPresent
   ingress:
     path: dashboard
+  dataGridDefaultPageSize: 25
   vault:
     useVault: false
     engine: "dev"

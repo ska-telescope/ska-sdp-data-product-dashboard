@@ -4,6 +4,7 @@ import useAxiosClient from '@services/AxiosClient/AxiosClient';
 
 interface GetMuiDataGridRowsResponse {
   DataGridRowsData: [];
+  total?: number;
   error?: {
     type: string;
     message: string;
@@ -30,13 +31,22 @@ const GetMuiDataGridRows = async (
 
   try {
     const response = await authAxiosClient.post(ENDPOINT, JSON.stringify(muiDataGridFilterModel));
-    const DataGridRowsData = response.data;
+    const responseData = response.data;
 
-    if (!DataGridRowsData) {
-      console.error('Data product search API response is empty or undefined');
-      return { DataGridRowsData: [] } as GetMuiDataGridRowsResponse;
+    // Handle paginated response format
+    if (responseData && typeof responseData === 'object' && 'data' in responseData) {
+      return {
+        DataGridRowsData: responseData.data || [],
+        total: responseData.total || 0
+      } as GetMuiDataGridRowsResponse;
     }
-    return { DataGridRowsData };
+
+    // Fallback for non-paginated response (backward compatibility)
+    if (!responseData) {
+      console.error('Data product search API response is empty or undefined');
+      return { DataGridRowsData: [], total: 0 } as GetMuiDataGridRowsResponse;
+    }
+    return { DataGridRowsData: responseData, total: responseData.length };
   } catch (error: any) {
     console.error('Error in GetMuiDataGridRows:', error);
 

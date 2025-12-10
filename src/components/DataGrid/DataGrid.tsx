@@ -5,7 +5,7 @@ import { Box } from '@mui/material';
 import GetMuiDataGridConfig from './GetMuiDataGridConfig';
 import GetMuiDataGridRows from '../../services/GetMuiDataGridRows/GetMuiDataGridRows';
 import useAxiosClient from '@services/AxiosClient/AxiosClient';
-import { shellSize, SKA_DATAPRODUCT_API_URL } from '@utils/constants';
+import { shellSize, SKA_DATAPRODUCT_API_URL, DATAGRID_DEFAULT_PAGE_SIZE } from '@utils/constants';
 import {
   Button,
   ButtonColorTypes,
@@ -42,6 +42,11 @@ export default function DataproductDataGrid({
   const [errorMessage, setErrorMessage] = React.useState<string | null>(null);
   const [refreshTrigger, setRefreshTrigger] = React.useState(0);
   const [tableHeight, setTableHeight] = React.useState(window.innerHeight - shellSize());
+  const [paginationModel, setPaginationModel] = React.useState({
+    page: 0,
+    pageSize: DATAGRID_DEFAULT_PAGE_SIZE
+  });
+  const [rowCount, setRowCount] = React.useState(0);
   const { t } = useTranslation('dpd');
   const authAxiosClient = useAxiosClient(SKA_DATAPRODUCT_API_URL);
 
@@ -83,7 +88,12 @@ export default function DataproductDataGrid({
       }
 
       try {
-        const result = await GetMuiDataGridRows(authAxiosClient, dataFilterModel);
+        const filterModelWithPagination = {
+          ...dataFilterModel,
+          page: paginationModel.page,
+          pageSize: paginationModel.pageSize
+        };
+        const result = await GetMuiDataGridRows(authAxiosClient, filterModelWithPagination);
 
         if (!isCancelled) {
           // Check for errors in the response
@@ -99,6 +109,7 @@ export default function DataproductDataGrid({
           } else if (result.DataGridRowsData) {
             // Always update rows to show progressive data loading
             setRows(result.DataGridRowsData);
+            setRowCount(result.total || 0);
             setErrorMessage(null);
           }
         }
@@ -121,7 +132,7 @@ export default function DataproductDataGrid({
       isCancelled = true;
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [dataFilterModel, refreshTrigger]);
+  }, [dataFilterModel, refreshTrigger, paginationModel]);
 
   React.useEffect(() => {
     function handleResize() {
@@ -268,7 +279,12 @@ export default function DataproductDataGrid({
       <DataGrid
         {...muiConfigData}
         rows={rows}
+        rowCount={rowCount}
         filterMode="server"
+        paginationMode="server"
+        paginationModel={paginationModel}
+        onPaginationModelChange={setPaginationModel}
+        pageSizeOptions={[25, 50, 100, 200]}
         onFilterModelChange={onFilterChange}
         onRowClick={handleRowClick}
         loading={isLoading}
