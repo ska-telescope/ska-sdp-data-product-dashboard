@@ -36,7 +36,8 @@ const DataProductDashboard = () => {
   const [indexingProgress, setIndexingProgress] = React.useState<any>(null);
   const [newDataAvailable, updateNewDataAvailable] = React.useState(false);
   const [dataStoreLastModifiedTime, setDataStoreLastModifiedTime] = React.useState(null);
-  const [previousDataStoreLastModifiedTime, setPreviousDataStoreLastModifiedTime] = React.useState(null);
+  const [previousDataStoreLastModifiedTime, setPreviousDataStoreLastModifiedTime] =
+    React.useState(null);
   const [initFlag, setInitFlag] = React.useState(true);
 
   const DEF_START_DATE = '1970-01-01';
@@ -70,7 +71,7 @@ const DataProductDashboard = () => {
       updateApiIndexing(results.data.metadata_store_status.indexing);
       setIndexingProgress(results.data?.indexing_progress || null);
       const newTimestamp = results.data.metadata_store_status?.last_metadata_update_time;
-      
+
       // Only update if timestamp actually changed (debouncing)
       if (newTimestamp !== dataStoreLastModifiedTime) {
         setDataStoreLastModifiedTime(newTimestamp);
@@ -96,8 +97,10 @@ const DataProductDashboard = () => {
 
   // Debounced effect: Only trigger data refresh when timestamp actually changes
   React.useEffect(() => {
-    if (dataStoreLastModifiedTime !== null && 
-        dataStoreLastModifiedTime !== previousDataStoreLastModifiedTime) {
+    if (
+      dataStoreLastModifiedTime !== null &&
+      dataStoreLastModifiedTime !== previousDataStoreLastModifiedTime
+    ) {
       if (!initFlag) {
         updateNewDataAvailable(true);
       }

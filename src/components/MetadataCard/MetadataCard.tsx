@@ -72,6 +72,7 @@ function MetadataCard(selectedDataProduct: SelectedDataProduct) {
 
 export default React.memo(MetadataCard, (prevProps, nextProps) => {
   // Only re-render if the uid actually changed
-  return prevProps.uid === nextProps.uid && 
-         prevProps.relativePathName === nextProps.relativePathName;
+  return (
+    prevProps.uid === nextProps.uid && prevProps.relativePathName === nextProps.relativePathName
+  );
 });

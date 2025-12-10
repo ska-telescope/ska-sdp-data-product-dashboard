@@ -57,7 +57,12 @@ const GetMuiDataGridRows = async (
         isIndexing ? '(API is indexing)' : ''
       );
       await delay(RETRY_DELAY_MS * (retryCount + 1)); // Exponential backoff
-      return GetMuiDataGridRows(authAxiosClient, muiDataGridFilterModel, retryCount + 1, maxRetries);
+      return GetMuiDataGridRows(
+        authAxiosClient,
+        muiDataGridFilterModel,
+        retryCount + 1,
+        maxRetries
+      );
     }
 
     // Return error information for the UI to handle

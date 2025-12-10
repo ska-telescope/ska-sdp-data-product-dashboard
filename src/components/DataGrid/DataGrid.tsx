@@ -59,7 +59,7 @@ export default function DataproductDataGrid({
       const interval = setInterval(() => {
         setRefreshTrigger((prev: number) => prev + 1);
       }, INDEXING_REFRESH_INTERVAL);
-      
+
       return () => clearInterval(interval);
     }
   }, [isIndexing]);
@@ -69,18 +69,22 @@ export default function DataproductDataGrid({
 
     const fetchData = async () => {
       setIsLoading(true);
-      
+
       // Update loading message based on indexing status
       if (indexingProgress?.in_progress && indexingProgress?.total_files > 0) {
-        const percent = Math.round((indexingProgress.files_processed / indexingProgress.total_files) * 100);
-        setLoadingMessage(`Loading data... (Indexing ${indexingProgress.files_processed} of ${indexingProgress.total_files} files - ${percent}%)`);
+        const percent = Math.round(
+          (indexingProgress.files_processed / indexingProgress.total_files) * 100
+        );
+        setLoadingMessage(
+          `Loading data... (Indexing ${indexingProgress.files_processed} of ${indexingProgress.total_files} files - ${percent}%)`
+        );
       } else {
         setLoadingMessage('Loading data...');
       }
-      
+
       try {
         const result = await GetMuiDataGridRows(authAxiosClient, dataFilterModel);
-        
+
         if (!isCancelled) {
           // Check for errors in the response
           if (result.error) {
@@ -236,10 +240,10 @@ export default function DataproductDataGrid({
   return (
     <Box data-testid={'availableData'} m={1} sx={{ backgroundColor: 'secondary.contrastText' }}>
       {errorMessage && (
-        <Box 
-          sx={{ 
-            padding: 2, 
-            backgroundColor: 'error.light', 
+        <Box
+          sx={{
+            padding: 2,
+            backgroundColor: 'error.light',
             color: 'error.contrastText',
             marginBottom: 1,
             borderRadius: 1
@@ -249,10 +253,10 @@ export default function DataproductDataGrid({
         </Box>
       )}
       {loadingMessage && isLoading && (
-        <Box 
-          sx={{ 
-            padding: 2, 
-            backgroundColor: 'info.light', 
+        <Box
+          sx={{
+            padding: 2,
+            backgroundColor: 'info.light',
             color: 'info.contrastText',
             marginBottom: 1,
             borderRadius: 1
