@@ -20,12 +20,16 @@ interface DataproductDataGridProps {
   handleSelectedNode: () => void;
   searchPanelOptions: any;
   updating: boolean;
+  isIndexing?: boolean;
+  indexingProgress?: any;
 }
 
 export default function DataproductDataGrid({
   handleSelectedNode,
   searchPanelOptions,
-  updating
+  updating,
+  isIndexing,
+  indexingProgress
 }: DataproductDataGridProps) {
   const [muiConfigData, setMuiConfigData] = React.useState({
     columns: []
@@ -34,6 +38,8 @@ export default function DataproductDataGrid({
   const [dataFilterModel, setDataFilterModel] = React.useState({});
   const [rows, setRows] = React.useState([]);
   const [isLoading, setIsLoading] = React.useState(false);
+  const [loadingMessage, setLoadingMessage] = React.useState('Loading data...');
+  const [errorMessage, setErrorMessage] = React.useState<string | null>(null);
   const [refreshTrigger, setRefreshTrigger] = React.useState(0);
   const [tableHeight, setTableHeight] = React.useState(window.innerHeight - shellSize());
   const { t } = useTranslation('dpd');
@@ -46,19 +52,57 @@ export default function DataproductDataGrid({
     }
   }, [updating]);
 
+  // Auto-refresh during indexing for progressive data loading
+  React.useEffect(() => {
+    if (isIndexing) {
+      const INDEXING_REFRESH_INTERVAL = 3000; // 3 seconds
+      const interval = setInterval(() => {
+        setRefreshTrigger((prev: number) => prev + 1);
+      }, INDEXING_REFRESH_INTERVAL);
+      
+      return () => clearInterval(interval);
+    }
+  }, [isIndexing]);
+
   React.useEffect(() => {
     let isCancelled = false;
 
     const fetchData = async () => {
       setIsLoading(true);
+      
+      // Update loading message based on indexing status
+      if (indexingProgress?.in_progress && indexingProgress?.total_files > 0) {
+        const percent = Math.round((indexingProgress.files_processed / indexingProgress.total_files) * 100);
+        setLoadingMessage(`Loading data... (Indexing ${indexingProgress.files_processed} of ${indexingProgress.total_files} files - ${percent}%)`);
+      } else {
+        setLoadingMessage('Loading data...');
+      }
+      
       try {
         const result = await GetMuiDataGridRows(authAxiosClient, dataFilterModel);
-        if (!isCancelled && result.DataGridRowsData) {
-          // Only update rows if we have valid data
-          setRows(result.DataGridRowsData);
+        
+        if (!isCancelled) {
+          // Check for errors in the response
+          if (result.error) {
+            if (result.error.indexing) {
+              setLoadingMessage('API is indexing data products. Please wait...');
+              setErrorMessage(null);
+              // Keep existing rows visible during indexing
+            } else {
+              setErrorMessage(result.error.message);
+              setLoadingMessage('');
+            }
+          } else if (result.DataGridRowsData) {
+            // Always update rows to show progressive data loading
+            setRows(result.DataGridRowsData);
+            setErrorMessage(null);
+          }
         }
       } catch (error) {
         console.error('Error fetching data grid rows:', error);
+        if (!isCancelled) {
+          setErrorMessage('Failed to fetch data products. Please try again.');
+        }
         // Keep existing rows on error
       } finally {
         if (!isCancelled) {
@@ -191,6 +235,32 @@ export default function DataproductDataGrid({
 
   return (
     <Box data-testid={'availableData'} m={1} sx={{ backgroundColor: 'secondary.contrastText' }}>
+      {errorMessage && (
+        <Box 
+          sx={{ 
+            padding: 2, 
+            backgroundColor: 'error.light', 
+            color: 'error.contrastText',
+            marginBottom: 1,
+            borderRadius: 1
+          }}
+        >
+          {errorMessage}
+        </Box>
+      )}
+      {loadingMessage && isLoading && (
+        <Box 
+          sx={{ 
+            padding: 2, 
+            backgroundColor: 'info.light', 
+            color: 'info.contrastText',
+            marginBottom: 1,
+            borderRadius: 1
+          }}
+        >
+          {loadingMessage}
+        </Box>
+      )}
       <DataGrid
         {...muiConfigData}
         rows={rows}

@@ -14,7 +14,8 @@ type ExtendedColumn = {
 const DataProductsTable = (
   updating: boolean,
   apiRunning: boolean,
-  dataproductDataGrid: React.JSX.Element
+  dataproductDataGrid: React.JSX.Element,
+  indexingProgress?: any
 ) => {
   const { t } = useTranslation('dpd');
   const [columnInfo, setColumnInfo] = React.useState([]);
@@ -80,7 +81,28 @@ const DataProductsTable = (
   }
 
   function RenderData() {
-    return <>{dataproductDataGrid}</>;
+    return (
+      <>
+        {indexingProgress?.in_progress && indexingProgress?.total_files > 0 && (
+          <Box 
+            m={1} 
+            p={2} 
+            sx={{ 
+              backgroundColor: 'info.light', 
+              color: 'info.contrastText',
+              borderRadius: 1,
+              textAlign: 'center'
+            }}
+          >
+            <strong>Indexing in progress:</strong> {indexingProgress.files_processed} of {indexingProgress.total_files} files processed
+            ({Math.round((indexingProgress.files_processed / indexingProgress.total_files) * 100)}%)
+            <br />
+            <em style={{ fontSize: '0.9em' }}>Data is being loaded progressively as files are indexed...</em>
+          </Box>
+        )}
+        {dataproductDataGrid}
+      </>
+    );
   }
 
   return (

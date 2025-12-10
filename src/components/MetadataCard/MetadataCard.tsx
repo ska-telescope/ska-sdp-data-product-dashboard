@@ -8,7 +8,7 @@ import { SelectedDataProduct } from 'types/dataproducts/dataproducts';
 
 function MetadataCard(selectedDataProduct: SelectedDataProduct) {
   const [metaData, setMetaData] = React.useState({ data: [] });
-  const [oldFilename] = React.useState(null);
+  const [oldFilename, setOldFilename] = React.useState(null);
   const [cardHeight, setCardHeight] = React.useState(
     window.innerHeight - shellSize() - FILTERCARDHEIGHT
   );
@@ -21,6 +21,7 @@ function MetadataCard(selectedDataProduct: SelectedDataProduct) {
       if (metaDataFile) {
         const results = await getMetaData(selectedDataProduct);
         setMetaData(results);
+        setOldFilename(metaDataFile);
       }
     }
 
@@ -69,4 +70,8 @@ function MetadataCard(selectedDataProduct: SelectedDataProduct) {
   );
 }
 
-export default MetadataCard;
+export default React.memo(MetadataCard, (prevProps, nextProps) => {
+  // Only re-render if the uid actually changed
+  return prevProps.uid === nextProps.uid && 
+         prevProps.relativePathName === nextProps.relativePathName;
+});

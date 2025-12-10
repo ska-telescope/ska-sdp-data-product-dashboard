@@ -33,8 +33,10 @@ const DataProductDashboard = () => {
 
   const [apiRunning, updateApiRunning] = React.useState(false);
   const [apiIndexing, updateApiIndexing] = React.useState(false);
+  const [indexingProgress, setIndexingProgress] = React.useState<any>(null);
   const [newDataAvailable, updateNewDataAvailable] = React.useState(false);
   const [dataStoreLastModifiedTime, setDataStoreLastModifiedTime] = React.useState(null);
+  const [previousDataStoreLastModifiedTime, setPreviousDataStoreLastModifiedTime] = React.useState(null);
   const [initFlag, setInitFlag] = React.useState(true);
 
   const DEF_START_DATE = '1970-01-01';
@@ -66,9 +68,16 @@ const DataProductDashboard = () => {
     if (results?.data) {
       updateApiRunning(results.data?.api_running ?? false);
       updateApiIndexing(results.data.metadata_store_status.indexing);
-      setDataStoreLastModifiedTime(results.data.metadata_store_status?.last_metadata_update_time);
+      setIndexingProgress(results.data?.indexing_progress || null);
+      const newTimestamp = results.data.metadata_store_status?.last_metadata_update_time;
+      
+      // Only update if timestamp actually changed (debouncing)
+      if (newTimestamp !== dataStoreLastModifiedTime) {
+        setDataStoreLastModifiedTime(newTimestamp);
+      }
     } else {
       setDataStoreLastModifiedTime(null);
+      setIndexingProgress(null);
     }
   }
 
@@ -85,14 +94,17 @@ const DataProductDashboard = () => {
 
   PeriodicAPIStatusCheck();
 
+  // Debounced effect: Only trigger data refresh when timestamp actually changes
   React.useEffect(() => {
-    if (!initFlag) {
-      updateNewDataAvailable(true);
-    }
-    if (dataStoreLastModifiedTime !== null) {
+    if (dataStoreLastModifiedTime !== null && 
+        dataStoreLastModifiedTime !== previousDataStoreLastModifiedTime) {
+      if (!initFlag) {
+        updateNewDataAvailable(true);
+      }
+      setPreviousDataStoreLastModifiedTime(dataStoreLastModifiedTime);
       setInitFlag(false);
     }
-  }, [initFlag, dataStoreLastModifiedTime]);
+  }, [dataStoreLastModifiedTime, previousDataStoreLastModifiedTime, initFlag]);
 
   React.useEffect(() => {
     setUpdating(true);
@@ -142,9 +154,11 @@ const DataProductDashboard = () => {
         handleSelectedNode={handleRowClick}
         searchPanelOptions={searchPanelOptions}
         updating={updating}
+        isIndexing={apiIndexing}
+        indexingProgress={indexingProgress}
       />
     ),
-    [searchPanelOptions, updating]
+    [searchPanelOptions, updating, apiIndexing, indexingProgress]
   );
 
   async function indexDataProduct() {
@@ -349,12 +363,12 @@ const DataProductDashboard = () => {
         justifyContent="space-between"
       >
         <Grid item xs={9}>
-          {DataProductsTable(updating, apiRunning, dataGridComponent)}
+          {DataProductsTable(updating, apiRunning, dataGridComponent, indexingProgress)}
         </Grid>
         <Grid item xs={3}>
           <>
             {RenderSearchBox()}
-            {MetadataCard(selectedFileNames)}
+            <MetadataCard {...selectedFileNames} />
             {DataAnnotationsCard(selectedFileNames)}
           </>
         </Grid>
