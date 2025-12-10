@@ -28,7 +28,8 @@
     "filesProcessed": "files processed",
     "dataLoadingProgressively": "Data is being loaded progressively as files are indexed...",
     "indexingScanning": "Indexing in progress...",
-    "scanningForFiles": "Scanning for data product files. Please wait..."
+    "scanningForFiles": "Scanning for data product files. Please wait...",
+    "indexingStatus": "Status:"
   },
   "label": {
     "apiVersion": "API Version",

@@ -98,6 +98,11 @@ const DataProductsTable = (
             {t('label.of')} {indexingProgress.total_files} {t('info.filesProcessed')} (
             {Math.round((indexingProgress.files_processed / indexingProgress.total_files) * 100)}%)
             <br />
+            {indexingProgress.indexing_step && (
+              <em style={{ fontSize: '0.85em', display: 'block', marginTop: '4px' }}>
+                {t('info.indexingStatus')} {indexingProgress.indexing_step}
+              </em>
+            )}
             <em style={{ fontSize: '0.9em' }}>{t('info.dataLoadingProgressively')}</em>
           </Box>
         )}
@@ -114,6 +119,11 @@ const DataProductsTable = (
           >
             <strong>{t('info.indexingScanning')}</strong>
             <br />
+            {indexingProgress.indexing_step && (
+              <em style={{ fontSize: '0.85em', display: 'block', marginTop: '4px' }}>
+                {t('info.indexingStatus')} {indexingProgress.indexing_step}
+              </em>
+            )}
             <em style={{ fontSize: '0.9em' }}>{t('info.scanningForFiles')}</em>
           </Box>
         )}
