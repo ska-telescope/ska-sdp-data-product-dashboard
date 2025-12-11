@@ -81,9 +81,11 @@ const DataProductsTable = (
   }
 
   function RenderData() {
+    const isScanning = indexingProgress?.indexing_step?.includes('scanning');
+    
     return (
       <>
-        {indexingProgress?.in_progress && indexingProgress?.total_files > 0 && (
+        {indexingProgress?.in_progress && indexingProgress?.files_processed > 0 && (
           <Box
             m={1}
             p={2}
@@ -95,8 +97,7 @@ const DataProductsTable = (
             }}
           >
             <strong>{t('info.indexingInProgress')}</strong> {indexingProgress.files_processed}{' '}
-            {t('label.of')} {indexingProgress.total_files} {t('info.filesProcessed')} (
-            {Math.round((indexingProgress.files_processed / indexingProgress.total_files) * 100)}%)
+            {t('info.filesProcessed')}
             <br />
             {indexingProgress.indexing_step && (
               <em style={{ fontSize: '0.85em', display: 'block', marginTop: '4px' }}>
@@ -106,7 +107,7 @@ const DataProductsTable = (
             <em style={{ fontSize: '0.9em' }}>{t('info.dataLoadingProgressively')}</em>
           </Box>
         )}
-        {indexingProgress?.in_progress && indexingProgress?.total_files === 0 && (
+        {indexingProgress?.in_progress && indexingProgress?.files_processed === 0 && (
           <Box
             m={1}
             p={2}
