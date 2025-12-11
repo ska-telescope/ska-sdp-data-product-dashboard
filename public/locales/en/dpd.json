@@ -49,6 +49,7 @@
     "version": "Version",
     "userPrincipalName": "User",
     "dataProductUUID": "Data Product UUID",
+    "indexingStatus": "Data Processing Status",
     "annotation": {
       "title": "Annotations",
       "noAnnotations": "No Data Annotations found for this Data Product",
@@ -71,6 +72,23 @@
       "docsURL": "https://developer.skao.int/projects/ska-dataproduct-dashboard/en/latest/?badge=latest",
       "dataProductNotAvailable": "Dataproduct not available for download",
       "dataProductAvailable": "Download the selected data product. This will stream the selected data product to a tar file in your default downloads directory."
+    },
+    "indexingStatus": {
+      "status": "Status",
+      "filesProcessed": "Files Processed",
+      "progress": "Progress",
+      "currentStep": "Current Step",
+      "loadingMessage": "Loading data from backend...",
+      "status.indexing": "Indexing data products",
+      "status.scanning": "Scanning for files",
+      "status.loading": "Loading data",
+      "status.ready": "Ready",
+      "apiVersion": "API Version",
+      "metadataStore": "Metadata Store",
+      "searchStore": "Search Store",
+      "sdpConfig": "SDP Configuration",
+      "sdpConfigConnected": "Connected",
+      "sdpConfigDisconnected": "Not Available"
     }
   }
 }

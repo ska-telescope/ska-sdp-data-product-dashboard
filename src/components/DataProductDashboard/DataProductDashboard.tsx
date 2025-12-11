@@ -14,6 +14,7 @@ import { ButtonVariantTypes } from '@ska-telescope/ska-gui-components';
 
 import DataProductsTable from '@components/DataProductsTable/DataProductsTable';
 import MetadataCard from '@components/MetadataCard/MetadataCard';
+import IndexingStatus from '@components/IndexingStatus/IndexingStatus';
 import { GetAPIStatus } from '@services/GetAPIStatus/GetAPIStatus';
 import { API_REFRESH_RATE, SKA_DATAPRODUCT_API_URL, FILTERCARDHEIGHT } from '@utils/constants';
 import DataproductDataGrid from '@components/DataGrid/DataGrid';
@@ -34,6 +35,8 @@ const DataProductDashboard = () => {
   const [apiRunning, updateApiRunning] = React.useState(false);
   const [apiIndexing, updateApiIndexing] = React.useState(false);
   const [indexingProgress, setIndexingProgress] = React.useState<any>(null);
+  const [apiStatus, setApiStatus] = React.useState<any>(null);
+  const [isDataLoading, setIsDataLoading] = React.useState(false);
   const [newDataAvailable, updateNewDataAvailable] = React.useState(false);
   const [dataStoreLastModifiedTime, setDataStoreLastModifiedTime] = React.useState(null);
   const [previousDataStoreLastModifiedTime, setPreviousDataStoreLastModifiedTime] =
@@ -70,6 +73,7 @@ const DataProductDashboard = () => {
       updateApiRunning(results.data?.api_running ?? false);
       updateApiIndexing(results.data?.indexing ?? false);
       setIndexingProgress(results.data?.indexing_progress || null);
+      setApiStatus(results.data);
       const newTimestamp = results.data.metadata_store_status?.last_metadata_update_time;
 
       // Only update if timestamp actually changed (debouncing)
@@ -159,6 +163,7 @@ const DataProductDashboard = () => {
         updating={updating}
         isIndexing={apiIndexing}
         indexingProgress={indexingProgress}
+        onLoadingChange={setIsDataLoading}
       />
     ),
     [searchPanelOptions, updating, apiIndexing, indexingProgress]
@@ -325,7 +330,13 @@ const DataProductDashboard = () => {
   function RenderDataStoreBox() {
     return (
       <Box m={1}>
-        <Grid container spacing={1} direction="row" justifyContent="justify-left">
+        <Grid
+          container
+          spacing={1}
+          direction="row"
+          justifyContent="justify-left"
+          alignItems="center"
+        >
           <Grid item>
             <Button
               testId="IndexDataProductsButton"
@@ -348,6 +359,14 @@ const DataProductDashboard = () => {
               onClick={() => setUpdating(true)}
               toolTip="Load the latest index from the backend API, update the index in the browser and reloads the data product table."
               variant={ButtonVariantTypes.Outlined}
+            />
+          </Grid>
+          <Grid item>
+            <IndexingStatus
+              isIndexing={apiIndexing}
+              indexingProgress={indexingProgress}
+              isLoading={isDataLoading}
+              apiStatus={apiStatus}
             />
           </Grid>
         </Grid>

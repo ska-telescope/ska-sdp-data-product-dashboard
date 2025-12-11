@@ -81,54 +81,7 @@ const DataProductsTable = (
   }
 
   function RenderData() {
-    return (
-      <>
-        {indexingProgress?.in_progress && indexingProgress?.files_processed > 0 && (
-          <Box
-            m={1}
-            p={2}
-            sx={{
-              backgroundColor: 'info.light',
-              color: 'info.contrastText',
-              borderRadius: 1,
-              textAlign: 'center'
-            }}
-          >
-            <strong>{t('info.indexingInProgress')}</strong> {indexingProgress.files_processed}{' '}
-            {t('info.filesProcessed')}
-            <br />
-            {indexingProgress.indexing_step && (
-              <em style={{ fontSize: '0.85em', display: 'block', marginTop: '4px' }}>
-                {t('info.indexingStatus')} {indexingProgress.indexing_step}
-              </em>
-            )}
-            <em style={{ fontSize: '0.9em' }}>{t('info.dataLoadingProgressively')}</em>
-          </Box>
-        )}
-        {indexingProgress?.in_progress && indexingProgress?.files_processed === 0 && (
-          <Box
-            m={1}
-            p={2}
-            sx={{
-              backgroundColor: 'warning.light',
-              color: 'warning.contrastText',
-              borderRadius: 1,
-              textAlign: 'center'
-            }}
-          >
-            <strong>{t('info.indexingScanning')}</strong>
-            <br />
-            {indexingProgress.indexing_step && (
-              <em style={{ fontSize: '0.85em', display: 'block', marginTop: '4px' }}>
-                {t('info.indexingStatus')} {indexingProgress.indexing_step}
-              </em>
-            )}
-            <em style={{ fontSize: '0.9em' }}>{t('info.scanningForFiles')}</em>
-          </Box>
-        )}
-        {dataproductDataGrid}
-      </>
-    );
+    return <>{dataproductDataGrid}</>;
   }
 
   return (

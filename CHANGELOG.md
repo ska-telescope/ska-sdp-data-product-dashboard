@@ -22,6 +22,11 @@
   - [Changed] Modified data fetching to include sortModel in API requests alongside pagination and filtering
   - [Fixed] Fixed sorting to operate on full dataset instead of only the currently displayed page
   - [Added] Support for multi-column sorting with proper state propagation to backend
+  - [Added] IndexingStatus component with StatusIcon and tooltip following WebSocket status pattern
+  - [Changed] Replaced text-based indexing/loading messages with icon-based status indicator in toolbar
+  - [Added] Real-time status icon showing indexing progress, scanning state, and data loading with detailed tooltips
+  - [Added] Enhanced IndexingStatus tooltip with API configuration details (version, metadata store, search store, SDP config status)
+  - [Changed] Improved user experience with consistent status visualization across the application
 
 ## v0.14.0
 

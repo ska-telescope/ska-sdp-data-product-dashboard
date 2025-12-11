@@ -22,6 +22,7 @@ interface DataproductDataGridProps {
   updating: boolean;
   isIndexing?: boolean;
   indexingProgress?: any;
+  onLoadingChange?: (isLoading: boolean) => void;
 }
 
 export default function DataproductDataGrid({
@@ -29,7 +30,8 @@ export default function DataproductDataGrid({
   searchPanelOptions,
   updating,
   isIndexing,
-  indexingProgress
+  indexingProgress,
+  onLoadingChange
 }: DataproductDataGridProps) {
   const [muiConfigData, setMuiConfigData] = React.useState({
     columns: []
@@ -39,7 +41,6 @@ export default function DataproductDataGrid({
   const [sortModel, setSortModel] = React.useState<GridSortModel>([]);
   const [rows, setRows] = React.useState([]);
   const [isLoading, setIsLoading] = React.useState(false);
-  const [loadingMessage, setLoadingMessage] = React.useState('Loading data...');
   const [errorMessage, setErrorMessage] = React.useState<string | null>(null);
   const [refreshTrigger, setRefreshTrigger] = React.useState(0);
   const [tableHeight, setTableHeight] = React.useState(window.innerHeight - shellSize());
@@ -75,18 +76,7 @@ export default function DataproductDataGrid({
 
     const fetchData = async () => {
       setIsLoading(true);
-
-      // Update loading message based on indexing status
-      if (indexingProgress?.in_progress && indexingProgress?.total_files > 0) {
-        const percent = Math.round(
-          (indexingProgress.files_processed / indexingProgress.total_files) * 100
-        );
-        setLoadingMessage(
-          `Loading data... (Indexing ${indexingProgress.files_processed} of ${indexingProgress.total_files} files - ${percent}%)`
-        );
-      } else {
-        setLoadingMessage('Loading data...');
-      }
+      onLoadingChange?.(true);
 
       try {
         const filterModelWithPagination = {
@@ -100,14 +90,12 @@ export default function DataproductDataGrid({
         if (!isCancelled) {
           // Check for errors in the response
           if (result.error) {
-            if (result.error.indexing) {
-              setLoadingMessage('API is indexing data products. Please wait...');
-              setErrorMessage(null);
-              // Keep existing rows visible during indexing
-            } else {
+            if (!result.error.indexing) {
               setErrorMessage(result.error.message);
-              setLoadingMessage('');
+            } else {
+              setErrorMessage(null);
             }
+            // Keep existing rows visible during indexing
           } else if (result.DataGridRowsData) {
             // Always update rows to show progressive data loading
             setRows(result.DataGridRowsData);
@@ -124,6 +112,7 @@ export default function DataproductDataGrid({
       } finally {
         if (!isCancelled) {
           setIsLoading(false);
+          onLoadingChange?.(false);
         }
       }
     };
@@ -267,19 +256,6 @@ export default function DataproductDataGrid({
           }}
         >
           {errorMessage}
-        </Box>
-      )}
-      {loadingMessage && isLoading && (
-        <Box
-          sx={{
-            padding: 2,
-            backgroundColor: 'info.light',
-            color: 'info.contrastText',
-            marginBottom: 1,
-            borderRadius: 1
-          }}
-        >
-          {loadingMessage}
         </Box>
       )}
       <DataGrid
