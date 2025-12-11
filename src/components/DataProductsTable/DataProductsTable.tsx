@@ -81,8 +81,6 @@ const DataProductsTable = (
   }
 
   function RenderData() {
-    const isScanning = indexingProgress?.indexing_step?.includes('scanning');
-    
     return (
       <>
         {indexingProgress?.in_progress && indexingProgress?.files_processed > 0 && (
