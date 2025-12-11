@@ -1,5 +1,5 @@
 import React from 'react';
-import { DataGrid, GridFilterModel, GridColDef } from '@mui/x-data-grid';
+import { DataGrid, GridFilterModel, GridColDef, GridSortModel } from '@mui/x-data-grid';
 import DownloadIcon from '@mui/icons-material/Download';
 import { Box } from '@mui/material';
 import GetMuiDataGridConfig from './GetMuiDataGridConfig';
@@ -36,6 +36,7 @@ export default function DataproductDataGrid({
   });
   const [muiDataGridFilterModel, setMuiDataGridFilterModel] = React.useState({});
   const [dataFilterModel, setDataFilterModel] = React.useState({});
+  const [sortModel, setSortModel] = React.useState<GridSortModel>([]);
   const [rows, setRows] = React.useState([]);
   const [isLoading, setIsLoading] = React.useState(false);
   const [loadingMessage, setLoadingMessage] = React.useState('Loading data...');
@@ -91,7 +92,8 @@ export default function DataproductDataGrid({
         const filterModelWithPagination = {
           ...dataFilterModel,
           page: paginationModel.page,
-          pageSize: paginationModel.pageSize
+          pageSize: paginationModel.pageSize,
+          sortModel: sortModel
         };
         const result = await GetMuiDataGridRows(authAxiosClient, filterModelWithPagination);
 
@@ -132,7 +134,7 @@ export default function DataproductDataGrid({
       isCancelled = true;
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [dataFilterModel, refreshTrigger, paginationModel]);
+  }, [dataFilterModel, refreshTrigger, paginationModel, sortModel]);
 
   React.useEffect(() => {
     function handleResize() {
@@ -152,6 +154,10 @@ export default function DataproductDataGrid({
     setMuiDataGridFilterModel({
       filterModel: { ...filterModel }
     });
+  }, []);
+
+  const onSortModelChange = React.useCallback((newSortModel: GridSortModel) => {
+    setSortModel(newSortModel);
   }, []);
 
   React.useEffect(() => {
@@ -281,10 +287,13 @@ export default function DataproductDataGrid({
         rows={rows}
         rowCount={rowCount}
         filterMode="server"
+        sortingMode="server"
         paginationMode="server"
         paginationModel={paginationModel}
         onPaginationModelChange={setPaginationModel}
         pageSizeOptions={[25, 50, 100, 200]}
+        sortModel={sortModel}
+        onSortModelChange={onSortModelChange}
         onFilterModelChange={onFilterChange}
         onRowClick={handleRowClick}
         loading={isLoading}

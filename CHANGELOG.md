@@ -16,6 +16,12 @@
   - [Added] Visual indicator in DataProductsTable showing "Data is being loaded progressively as files are indexed..."
   - [Changed] Modified DataProductDashboard to track indexing progress and pass it to child components
   - [Changed] Enhanced user experience during multi-minute indexing operations with transparent progress feedback
+  - [Added] Implemented server-side sorting for MUI DataGrid following recommended best practices
+  - [Added] Added sortModel state management and onSortModelChange handler to DataGrid component
+  - [Changed] Updated DataGrid component to use sortingMode="server" for proper server-side sorting
+  - [Changed] Modified data fetching to include sortModel in API requests alongside pagination and filtering
+  - [Fixed] Fixed sorting to operate on full dataset instead of only the currently displayed page
+  - [Added] Support for multi-column sorting with proper state propagation to backend
 
 ## v0.14.0
 
