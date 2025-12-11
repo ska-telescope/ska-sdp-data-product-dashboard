@@ -10,17 +10,22 @@ interface IndexingStatusProps {
   indexingProgress?: any;
   isLoading?: boolean;
   apiStatus?: any;
+  apiRunning?: boolean;
 }
 
 function IndexingStatus({
   isIndexing,
   indexingProgress,
   isLoading,
-  apiStatus
+  apiStatus,
+  apiRunning
 }: IndexingStatusProps) {
   const { t } = useTranslation('dpd');
 
   const getStatusLevel = (): number => {
+    if (!apiRunning) {
+      return 1; // Error/fault state
+    }
     if (isIndexing) {
       return 3; // Warning/in-progress state
     }
@@ -31,6 +36,9 @@ function IndexingStatus({
   };
 
   const getStatusLabel = (): string => {
+    if (!apiRunning) {
+      return 'status.error';
+    }
     if (isIndexing && indexingProgress?.in_progress) {
       if (indexingProgress.files_processed > 0) {
         return 'status.indexing';

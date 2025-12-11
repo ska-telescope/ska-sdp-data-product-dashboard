@@ -81,8 +81,10 @@ const DataProductDashboard = () => {
         setDataStoreLastModifiedTime(newTimestamp);
       }
     } else {
+      updateApiRunning(false);
       setDataStoreLastModifiedTime(null);
       setIndexingProgress(null);
+      setApiStatus(null);
     }
   }
 
@@ -367,6 +369,7 @@ const DataProductDashboard = () => {
               indexingProgress={indexingProgress}
               isLoading={isDataLoading}
               apiStatus={apiStatus}
+              apiRunning={apiRunning}
             />
           </Grid>
         </Grid>

@@ -83,10 +83,11 @@
       "status.scanning": "Scanning for files",
       "status.loading": "Loading data",
       "status.ready": "Ready",
+      "status.error": "API Unreachable",
       "apiVersion": "API Version",
       "metadataStore": "Metadata Store",
       "searchStore": "Search Store",
-      "sdpConfig": "SDP Configuration",
+      "sdpConfig": "SDP Configuration DB",
       "sdpConfigConnected": "Connected",
       "sdpConfigDisconnected": "Not Available"
     }
