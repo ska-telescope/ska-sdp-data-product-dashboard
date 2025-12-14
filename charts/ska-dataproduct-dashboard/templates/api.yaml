@@ -55,6 +55,7 @@ spec:
       - name: shared-storage
         persistentVolumeClaim:
           claimName: {{ include "dataProductPVCName" . }}
+          optional: true
       restartPolicy: Always
       terminationGracePeriodSeconds: 10
       containers:
