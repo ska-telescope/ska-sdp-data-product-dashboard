@@ -65,6 +65,7 @@ dashboard:
       memory: 3072Mi
 
 dataProductPVC:
+  enabled: false
   name: shared
   create:
     enabled: false
