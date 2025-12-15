@@ -1,6 +1,6 @@
 import { env } from '../env';
 
-export const VERSION = process.env.REACT_APP_VERSION || 'unknown';
+export const VERSION = env.REACT_APP_VERSION || 'unknown';
 
 export const { NODE_ENV } = process.env;
 export const IS_DEV = NODE_ENV !== 'production';
