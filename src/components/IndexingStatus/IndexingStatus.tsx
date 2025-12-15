@@ -129,6 +129,25 @@ function IndexingStatus({
                       : t('toolTip.indexingStatus.sdpConfigDisconnected')}
                   </Typography>
                 )}
+                {apiStatus.metadata_store_status?.dlm_interface_enabled !== undefined && (
+                  <Typography color="inherit">
+                    <strong>{t('toolTip.indexingStatus.dlmInterface')}:</strong>{' '}
+                    {apiStatus.metadata_store_status.dlm_interface_enabled
+                      ? t('toolTip.indexingStatus.dlmInterfaceEnabled')
+                      : t('toolTip.indexingStatus.dlmInterfaceDisabled')}
+                    {apiStatus.metadata_store_status.dlm_interface_enabled &&
+                      apiStatus.metadata_store_status.dlm_interface_status?.number_of_items !==
+                        null && (
+                        <span>
+                          {' '}
+                          ({
+                            apiStatus.metadata_store_status.dlm_interface_status.number_of_items
+                          }{' '}
+                          {t('toolTip.indexingStatus.dlmItems')})
+                        </span>
+                      )}
+                  </Typography>
+                )}
               </>
             )}
           </>

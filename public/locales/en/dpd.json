@@ -89,7 +89,11 @@
       "searchStore": "Search Store",
       "sdpConfig": "SDP Configuration DB",
       "sdpConfigConnected": "Connected",
-      "sdpConfigDisconnected": "Not Available"
+      "sdpConfigDisconnected": "Not Available",
+      "dlmInterface": "DLM Interface",
+      "dlmInterfaceEnabled": "Enabled",
+      "dlmInterfaceDisabled": "Disabled",
+      "dlmItems": "items"
     }
   }
 }
