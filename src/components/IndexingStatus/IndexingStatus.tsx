@@ -2,53 +2,48 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { Box, IconButton, Tooltip, Typography } from '@mui/material';
 import { ButtonColorTypes, StatusIcon } from '@ska-telescope/ska-gui-components';
+import { useApiStatus } from '@contexts/ApiStatusContext';
 
 const STATUS_SIZE = 20;
 
 interface IndexingStatusProps {
-  isIndexing: boolean;
-  indexingProgress?: any;
   isLoading?: boolean;
-  apiStatus?: any;
-  apiRunning?: boolean;
 }
 
-function IndexingStatus({
-  isIndexing,
-  indexingProgress,
-  isLoading,
-  apiStatus,
-  apiRunning
-}: IndexingStatusProps) {
+function IndexingStatus({ isLoading }: IndexingStatusProps) {
   const { t } = useTranslation('dpd');
+  const {
+    apiRunning,
+    apiIndexing: isIndexing,
+    apiError,
+    apiStatus,
+    indexingProgress
+  } = useApiStatus();
 
   const getStatusLevel = (): number => {
-    if (!apiRunning) {
-      return 1; // Error/fault state
+    // Red: API not running or explicit error
+    if (!apiRunning || apiError) {
+      return 1; // Error/fault state (red square with X)
     }
-    if (isIndexing) {
-      return 3; // Warning/in-progress state
+    // Blue info: Backend healthy but indexing in progress
+    if (isIndexing && indexingProgress?.in_progress) {
+      return 4; // Info state (blue triangle with "i")
     }
-    if (isLoading) {
-      return 3; // Warning/in-progress state
-    }
-    return 0; // Success/ready state
+    // Green: Backend is healthy and idle
+    return 0; // Success/ready state (green circle with tick)
   };
 
   const getStatusLabel = (): string => {
     if (!apiRunning) {
+      return 'status.apiOffline';
+    }
+    if (apiError) {
       return 'status.error';
     }
     if (isIndexing && indexingProgress?.in_progress) {
-      if (indexingProgress.files_processed > 0) {
-        return 'status.indexing';
-      }
-      return 'status.scanning';
+      return 'status.indexing';
     }
-    if (isLoading) {
-      return 'status.loading';
-    }
-    return 'status.ready';
+    return 'status.healthy';
   };
 
   return (
@@ -65,43 +60,24 @@ function IndexingStatus({
               <strong>{t('toolTip.indexingStatus.status')}:</strong>{' '}
               {t(`toolTip.indexingStatus.${getStatusLabel()}`)}
             </Typography>
-            {isIndexing && indexingProgress?.in_progress && (
-              <>
-                {indexingProgress.files_processed > 0 && (
-                  <>
-                    <Typography color="inherit" data-testid="indexing-status-files">
-                      <strong>{t('toolTip.indexingStatus.filesProcessed')}:</strong>{' '}
-                      {indexingProgress.files_processed}
-                      {indexingProgress.total_files > 0 && ` / ${indexingProgress.total_files}`}
-                    </Typography>
-                    {indexingProgress.total_files > 0 && (
-                      <Typography color="inherit" data-testid="indexing-status-progress">
-                        <strong>{t('toolTip.indexingStatus.progress')}:</strong>{' '}
-                        {Math.round(
-                          (indexingProgress.files_processed / indexingProgress.total_files) * 100
-                        )}
-                        %
-                      </Typography>
-                    )}
-                  </>
-                )}
-                {indexingProgress.indexing_step && (
-                  <Typography
-                    color="inherit"
-                    data-testid="indexing-status-step"
-                    sx={{ fontSize: '0.85em', fontStyle: 'italic', mt: 0.5 }}
-                  >
-                    {t('toolTip.indexingStatus.currentStep')}: {indexingProgress.indexing_step}
-                  </Typography>
-                )}
-              </>
-            )}
-            {isLoading && !isIndexing && (
-              <Typography color="inherit" data-testid="loading-status-message">
-                {t('toolTip.indexingStatus.loadingMessage')}
+            {apiError && (
+              <Typography
+                color="inherit"
+                data-testid="api-error-message"
+                sx={{
+                  mt: 0.5,
+                  fontSize: '0.9em',
+                  wordBreak: 'break-word',
+                  backgroundColor: 'rgba(255, 0, 0, 0.1)',
+                  padding: '4px 8px',
+                  borderRadius: '4px',
+                  border: '1px solid rgba(255, 0, 0, 0.3)'
+                }}
+              >
+                <strong>Error:</strong> {apiError}
               </Typography>
             )}
-            {apiStatus && (
+            {!apiError && apiStatus && (
               <>
                 <Typography
                   color="inherit"
@@ -147,6 +123,44 @@ function IndexingStatus({
                         </span>
                       )}
                   </Typography>
+                )}
+                {isIndexing && indexingProgress?.in_progress && (
+                  <>
+                    <Typography
+                      color="inherit"
+                      sx={{ borderTop: '1px solid rgba(255,255,255,0.2)', mt: 1, pt: 1 }}
+                    >
+                      <strong>{t('toolTip.indexingStatus.indexingInProgress')}</strong>
+                    </Typography>
+                    {indexingProgress.files_processed > 0 && (
+                      <>
+                        <Typography color="inherit" data-testid="indexing-status-files">
+                          <strong>{t('toolTip.indexingStatus.filesProcessed')}:</strong>{' '}
+                          {indexingProgress.files_processed}
+                          {indexingProgress.total_files > 0 && ` / ${indexingProgress.total_files}`}
+                        </Typography>
+                        {indexingProgress.total_files > 0 && (
+                          <Typography color="inherit" data-testid="indexing-status-progress">
+                            <strong>{t('toolTip.indexingStatus.progress')}:</strong>{' '}
+                            {Math.round(
+                              (indexingProgress.files_processed / indexingProgress.total_files) *
+                                100
+                            )}
+                            %
+                          </Typography>
+                        )}
+                      </>
+                    )}
+                    {indexingProgress.indexing_step && (
+                      <Typography
+                        color="inherit"
+                        data-testid="indexing-status-step"
+                        sx={{ fontSize: '0.85em', fontStyle: 'italic', mt: 0.5 }}
+                      >
+                        {t('toolTip.indexingStatus.currentStep')}: {indexingProgress.indexing_step}
+                      </Typography>
+                    )}
+                  </>
                 )}
               </>
             )}

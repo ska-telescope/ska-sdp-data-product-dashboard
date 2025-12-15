@@ -41,7 +41,6 @@ export default function DataproductDataGrid({
   const [sortModel, setSortModel] = React.useState<GridSortModel>([]);
   const [rows, setRows] = React.useState([]);
   const [isLoading, setIsLoading] = React.useState(false);
-  const [errorMessage, setErrorMessage] = React.useState<string | null>(null);
   const [refreshTrigger, setRefreshTrigger] = React.useState(0);
   const [tableHeight, setTableHeight] = React.useState(window.innerHeight - shellSize());
   const [paginationModel, setPaginationModel] = React.useState({
@@ -88,26 +87,14 @@ export default function DataproductDataGrid({
         const result = await GetMuiDataGridRows(authAxiosClient, filterModelWithPagination);
 
         if (!isCancelled) {
-          // Check for errors in the response
-          if (result.error) {
-            if (!result.error.indexing) {
-              setErrorMessage(result.error.message);
-            } else {
-              setErrorMessage(null);
-            }
-            // Keep existing rows visible during indexing
-          } else if (result.DataGridRowsData) {
+          if (result.DataGridRowsData) {
             // Always update rows to show progressive data loading
             setRows(result.DataGridRowsData);
             setRowCount(result.total || 0);
-            setErrorMessage(null);
           }
         }
       } catch (error) {
         console.error('Error fetching data grid rows:', error);
-        if (!isCancelled) {
-          setErrorMessage('Failed to fetch data products. Please try again.');
-        }
         // Keep existing rows on error
       } finally {
         if (!isCancelled) {
@@ -245,19 +232,6 @@ export default function DataproductDataGrid({
 
   return (
     <Box data-testid={'availableData'} m={1} sx={{ backgroundColor: 'secondary.contrastText' }}>
-      {errorMessage && (
-        <Box
-          sx={{
-            padding: 2,
-            backgroundColor: 'error.light',
-            color: 'error.contrastText',
-            marginBottom: 1,
-            borderRadius: 1
-          }}
-        >
-          {errorMessage}
-        </Box>
-      )}
       <DataGrid
         {...muiConfigData}
         rows={rows}

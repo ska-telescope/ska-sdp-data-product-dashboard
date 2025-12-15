@@ -15,14 +15,17 @@ import { ButtonVariantTypes } from '@ska-telescope/ska-gui-components';
 import DataProductsTable from '@components/DataProductsTable/DataProductsTable';
 import MetadataCard from '@components/MetadataCard/MetadataCard';
 import IndexingStatus from '@components/IndexingStatus/IndexingStatus';
-import { GetAPIStatus } from '@services/GetAPIStatus/GetAPIStatus';
-import { API_REFRESH_RATE, SKA_DATAPRODUCT_API_URL, FILTERCARDHEIGHT } from '@utils/constants';
+import { useApiStatus } from '@contexts/ApiStatusContext';
+import { SKA_DATAPRODUCT_API_URL, FILTERCARDHEIGHT } from '@utils/constants';
 import DataproductDataGrid from '@components/DataGrid/DataGrid';
 import DataAnnotationsCard from '@components/DataAnnotationsCard/DataAnnotationsCard';
 import { SelectedDataProduct } from 'types/dataproducts/dataproducts';
 
 const DataProductDashboard = () => {
   const { t } = useTranslation('dpd');
+  const { apiRunning, apiIndexing, indexingProgress, dataStoreLastModifiedTime, refreshStatus } =
+    useApiStatus();
+
   const [updating, setUpdating] = React.useState(false);
   const [selectedFileNames, setSelectedFileNames] = React.useState<SelectedDataProduct>({
     execution_block: '',
@@ -32,13 +35,8 @@ const DataProductDashboard = () => {
     data_store: ''
   });
 
-  const [apiRunning, updateApiRunning] = React.useState(false);
-  const [apiIndexing, updateApiIndexing] = React.useState(false);
-  const [indexingProgress, setIndexingProgress] = React.useState<any>(null);
-  const [apiStatus, setApiStatus] = React.useState<any>(null);
   const [isDataLoading, setIsDataLoading] = React.useState(false);
   const [newDataAvailable, updateNewDataAvailable] = React.useState(false);
-  const [dataStoreLastModifiedTime, setDataStoreLastModifiedTime] = React.useState(null);
   const [previousDataStoreLastModifiedTime, setPreviousDataStoreLastModifiedTime] =
     React.useState(null);
   const [initFlag, setInitFlag] = React.useState(true);
@@ -67,44 +65,10 @@ const DataProductDashboard = () => {
     logicOperator: 'and'
   });
 
-  async function CheckForNewData() {
-    const results = await GetAPIStatus();
-    if (results?.data) {
-      updateApiRunning(results.data?.api_running ?? false);
-      updateApiIndexing(results.data?.indexing ?? false);
-      setIndexingProgress(results.data?.indexing_progress || null);
-      setApiStatus(results.data);
-      const newTimestamp = results.data.metadata_store_status?.last_metadata_update_time;
-
-      // Only update if timestamp actually changed (debouncing)
-      if (newTimestamp !== dataStoreLastModifiedTime) {
-        setDataStoreLastModifiedTime(newTimestamp);
-      }
-    } else {
-      updateApiRunning(false);
-      setDataStoreLastModifiedTime(null);
-      setIndexingProgress(null);
-      setApiStatus(null);
-    }
-  }
-
-  async function PeriodicAPIStatusCheck() {
-    React.useEffect(() => {
-      CheckForNewData();
-      const interval = setInterval(async () => {
-        CheckForNewData();
-      }, API_REFRESH_RATE);
-      return () => clearInterval(interval);
-    }, []);
-    return;
-  }
-
-  PeriodicAPIStatusCheck();
-
-  // Debounced effect: Only trigger data refresh when timestamp actually changes
+  // Monitor dataStoreLastModifiedTime for changes to enable reload button
   React.useEffect(() => {
     if (
-      dataStoreLastModifiedTime !== null &&
+      dataStoreLastModifiedTime &&
       dataStoreLastModifiedTime !== previousDataStoreLastModifiedTime
     ) {
       if (!initFlag) {
@@ -115,8 +79,11 @@ const DataProductDashboard = () => {
     }
   }, [dataStoreLastModifiedTime, previousDataStoreLastModifiedTime, initFlag]);
 
+  // Auto-reload when new data becomes available
   React.useEffect(() => {
-    setUpdating(true);
+    if (newDataAvailable) {
+      setUpdating(true);
+    }
   }, [newDataAvailable]);
 
   React.useEffect(() => {
@@ -186,9 +153,8 @@ const DataProductDashboard = () => {
   }
 
   async function OnClickIndexDataProduct() {
-    updateApiIndexing(true);
     indexDataProduct();
-    CheckForNewData();
+    refreshStatus();
   }
 
   function RenderSearchBox() {
@@ -364,13 +330,7 @@ const DataProductDashboard = () => {
             />
           </Grid>
           <Grid item>
-            <IndexingStatus
-              isIndexing={apiIndexing}
-              indexingProgress={indexingProgress}
-              isLoading={isDataLoading}
-              apiStatus={apiStatus}
-              apiRunning={apiRunning}
-            />
+            <IndexingStatus isLoading={isDataLoading} />
           </Grid>
         </Grid>
       </Box>

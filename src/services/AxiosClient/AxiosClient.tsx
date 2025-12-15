@@ -84,9 +84,16 @@ const useAxiosClient = (baseURL: string) => {
         // The request was made and the server responded with a status code
         // that falls out of the range of 2xx
         console.error('Response error:', error.response.status, error.response.data);
-        return Promise.reject(
-          new Error(`Server responded with an error: ${error.response.status}`)
-        ); // More informative error
+
+        // Extract error message (FastAPI uses "detail" field)
+        let errorMessage = error.response.statusText || 'Unknown error';
+        if (error.response.data?.detail) {
+          errorMessage = error.response.data.detail;
+        } else if (typeof error.response.data === 'string') {
+          errorMessage = error.response.data;
+        }
+
+        return Promise.reject(new Error(`Server error ${error.response.status}: ${errorMessage}`));
       } else if (error.request) {
         // The request was made but no response was received
         // `error.request` is an instance of XMLHttpRequest in the browser and an instance of
