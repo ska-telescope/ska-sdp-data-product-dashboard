@@ -4,29 +4,8 @@
 
 - [PHX-123](https://jira.skatelescope.org/browse/PHX-123)
   - [Added] Implemented progressive data loading to display data products as they are indexed, even during long indexing operations
-  - [Added] Auto-refresh functionality during indexing (every 3 seconds) to show newly indexed products immediately
-  - [Added] Retry logic with exponential backoff for failed data fetches (up to 3 retries with 2-second base delay)
-  - [Added] Debounced polling mechanism to prevent unnecessary data refetches when API status timestamp hasn't changed
-  - [Added] Real-time indexing progress display showing "Indexing X of Y files processed (Z%)"
-  - [Changed] Enhanced loading messages to show dynamic progress: "Loading data... (Indexing X of Y files - Z%)"
-  - [Added] Error message banner display with specific error types and indexing status
-  - [Changed] Updated GetMuiDataGridRows to return structured error information including error type and indexing state
-  - [Fixed] Fixed MetadataCard tree component collapsing on API status polls by implementing React.memo and proper component rendering
-  - [Changed] Memoized DataGrid component with isIndexing and indexingProgress props to enable progressive updates
-  - [Added] Visual indicator in DataProductsTable showing "Data is being loaded progressively as files are indexed..."
-  - [Changed] Modified DataProductDashboard to track indexing progress and pass it to child components
-  - [Changed] Enhanced user experience during multi-minute indexing operations with transparent progress feedback
-  - [Added] Implemented server-side sorting for MUI DataGrid following recommended best practices
-  - [Added] Added sortModel state management and onSortModelChange handler to DataGrid component
-  - [Changed] Updated DataGrid component to use sortingMode="server" for proper server-side sorting
-  - [Changed] Modified data fetching to include sortModel in API requests alongside pagination and filtering
-  - [Fixed] Fixed sorting to operate on full dataset instead of only the currently displayed page
-  - [Added] Support for multi-column sorting with proper state propagation to backend
-  - [Added] IndexingStatus component with StatusIcon and tooltip following WebSocket status pattern
-  - [Changed] Replaced text-based indexing/loading messages with icon-based status indicator in toolbar
-  - [Added] Real-time status icon showing indexing progress, scanning state, and data loading with detailed tooltips
-  - [Added] Enhanced IndexingStatus tooltip with API configuration details (version, metadata store, search store, SDP config status)
-  - [Changed] Improved user experience with consistent status visualization across the application
+  - [Added] Implemented server-side sorting for MUI DataGrid.
+  - [Added] IndexingStatus component with StatusIcon and IndexingStatus tooltip with API configuration details (version, metadata store, search store, SDP config status)
 
 ## v0.14.0
 
