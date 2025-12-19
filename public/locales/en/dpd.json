@@ -23,7 +23,13 @@
     "UNDEFINED_ERROR": "Error undefined"
   },
   "info": {
-    "fetching": "Retrieving information from API"
+    "fetching": "Retrieving information from API",
+    "indexingInProgress": "Indexing in progress:",
+    "filesProcessed": "files processed",
+    "dataLoadingProgressively": "Data is being loaded progressively as files are indexed...",
+    "indexingScanning": "Indexing in progress...",
+    "scanningForFiles": "Scanning for data product files. Please wait...",
+    "indexingStatus": "Status:"
   },
   "label": {
     "apiVersion": "API Version",
@@ -43,6 +49,7 @@
     "version": "Version",
     "userPrincipalName": "User",
     "dataProductUUID": "Data Product UUID",
+    "indexingStatus": "Data Processing Status",
     "annotation": {
       "title": "Annotations",
       "noAnnotations": "No Data Annotations found for this Data Product",
@@ -65,6 +72,30 @@
       "docsURL": "https://developer.skao.int/projects/ska-dataproduct-dashboard/en/latest/?badge=latest",
       "dataProductNotAvailable": "Dataproduct not available for download",
       "dataProductAvailable": "Download the selected data product. This will stream the selected data product to a tar file in your default downloads directory."
+    },
+    "indexingStatus": {
+      "status": "Status",
+      "filesProcessed": "Files Processed",
+      "progress": "Progress",
+      "currentStep": "Current Step",
+      "loadingMessage": "Loading data from backend...",
+      "status.indexing": "Indexing Data Products",
+      "status.scanning": "Scanning for files",
+      "status.loading": "Loading backend status",
+      "status.healthy": "DPD API Healthy",
+      "status.apiOffline": "DPD API Offline",
+      "status.error": "DPD API Error",
+      "indexingInProgress": "Indexing Details",
+      "apiVersion": "API Version",
+      "metadataStore": "Metadata Store",
+      "searchStore": "Search Store",
+      "sdpConfig": "SDP Configuration DB",
+      "sdpConfigConnected": "Connected",
+      "sdpConfigDisconnected": "Not Available",
+      "dlmInterface": "DLM Interface",
+      "dlmInterfaceEnabled": "Enabled",
+      "dlmInterfaceDisabled": "Disabled",
+      "dlmItems": "items"
     }
   }
 }

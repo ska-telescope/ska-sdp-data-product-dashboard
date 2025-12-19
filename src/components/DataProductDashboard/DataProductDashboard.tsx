@@ -14,14 +14,18 @@ import { ButtonVariantTypes } from '@ska-telescope/ska-gui-components';
 
 import DataProductsTable from '@components/DataProductsTable/DataProductsTable';
 import MetadataCard from '@components/MetadataCard/MetadataCard';
-import { GetAPIStatus } from '@services/GetAPIStatus/GetAPIStatus';
-import { API_REFRESH_RATE, SKA_DATAPRODUCT_API_URL, FILTERCARDHEIGHT } from '@utils/constants';
+import IndexingStatus from '@components/IndexingStatus/IndexingStatus';
+import { useApiStatus } from '@contexts/ApiStatusContext';
+import { SKA_DATAPRODUCT_API_URL, FILTERCARDHEIGHT } from '@utils/constants';
 import DataproductDataGrid from '@components/DataGrid/DataGrid';
 import DataAnnotationsCard from '@components/DataAnnotationsCard/DataAnnotationsCard';
 import { SelectedDataProduct } from 'types/dataproducts/dataproducts';
 
 const DataProductDashboard = () => {
   const { t } = useTranslation('dpd');
+  const { apiRunning, apiIndexing, indexingProgress, dataStoreLastModifiedTime, refreshStatus } =
+    useApiStatus();
+
   const [updating, setUpdating] = React.useState(false);
   const [selectedFileNames, setSelectedFileNames] = React.useState<SelectedDataProduct>({
     execution_block: '',
@@ -31,10 +35,10 @@ const DataProductDashboard = () => {
     data_store: ''
   });
 
-  const [apiRunning, updateApiRunning] = React.useState(false);
-  const [apiIndexing, updateApiIndexing] = React.useState(false);
+  const [isDataLoading, setIsDataLoading] = React.useState(false);
   const [newDataAvailable, updateNewDataAvailable] = React.useState(false);
-  const [dataStoreLastModifiedTime, setDataStoreLastModifiedTime] = React.useState(null);
+  const [previousDataStoreLastModifiedTime, setPreviousDataStoreLastModifiedTime] =
+    React.useState(null);
   const [initFlag, setInitFlag] = React.useState(true);
 
   const DEF_START_DATE = '1970-01-01';
@@ -61,41 +65,25 @@ const DataProductDashboard = () => {
     logicOperator: 'and'
   });
 
-  async function CheckForNewData() {
-    const results = await GetAPIStatus();
-    if (results?.data) {
-      updateApiRunning(results.data?.api_running ?? false);
-      updateApiIndexing(results.data.metadata_store_status.indexing);
-      setDataStoreLastModifiedTime(results.data.metadata_store_status?.last_metadata_update_time);
-    } else {
-      setDataStoreLastModifiedTime(null);
-    }
-  }
-
-  async function PeriodicAPIStatusCheck() {
-    React.useEffect(() => {
-      CheckForNewData();
-      const interval = setInterval(async () => {
-        CheckForNewData();
-      }, API_REFRESH_RATE);
-      return () => clearInterval(interval);
-    }, []);
-    return;
-  }
-
-  PeriodicAPIStatusCheck();
-
+  // Monitor dataStoreLastModifiedTime for changes to enable reload button
   React.useEffect(() => {
-    if (!initFlag) {
-      updateNewDataAvailable(true);
-    }
-    if (dataStoreLastModifiedTime !== null) {
+    if (
+      dataStoreLastModifiedTime &&
+      dataStoreLastModifiedTime !== previousDataStoreLastModifiedTime
+    ) {
+      if (!initFlag) {
+        updateNewDataAvailable(true);
+      }
+      setPreviousDataStoreLastModifiedTime(dataStoreLastModifiedTime);
       setInitFlag(false);
     }
-  }, [initFlag, dataStoreLastModifiedTime]);
+  }, [dataStoreLastModifiedTime, previousDataStoreLastModifiedTime, initFlag]);
 
+  // Auto-reload when new data becomes available
   React.useEffect(() => {
-    setUpdating(true);
+    if (newDataAvailable) {
+      setUpdating(true);
+    }
   }, [newDataAvailable]);
 
   React.useEffect(() => {
@@ -118,21 +106,37 @@ const DataProductDashboard = () => {
   }, [startDate, endDate, formFields]);
 
   React.useEffect(() => {
-    async function updateSearchResults() {
-      setUpdating(false);
-      updateNewDataAvailable(false);
-    }
-
+    // Reset updating flag after filter changes have been applied
+    // This allows the DataGrid to detect the change and refetch
     if (updating) {
-      updateSearchResults();
+      const timer = setTimeout(() => {
+        setUpdating(false);
+        updateNewDataAvailable(false);
+      }, 100);
+      return () => clearTimeout(timer);
     }
-  }, [endDate, formFields, startDate, updating]);
+  }, [updating, searchPanelOptions]);
 
   const handleRowClick = () => {
     const selectedDataProduct = localStorage.getItem('selectedDataProduct');
     const selectedFileNames = selectedDataProduct ? JSON.parse(selectedDataProduct) : null;
     setSelectedFileNames(selectedFileNames);
   };
+
+  // Memoize the DataGrid to prevent unnecessary re-renders
+  const dataGridComponent = React.useMemo(
+    () => (
+      <DataproductDataGrid
+        handleSelectedNode={handleRowClick}
+        searchPanelOptions={searchPanelOptions}
+        updating={updating}
+        isIndexing={apiIndexing}
+        indexingProgress={indexingProgress}
+        onLoadingChange={setIsDataLoading}
+      />
+    ),
+    [searchPanelOptions, updating, apiIndexing, indexingProgress]
+  );
 
   async function indexDataProduct() {
     const apiUrl = SKA_DATAPRODUCT_API_URL;
@@ -149,9 +153,8 @@ const DataProductDashboard = () => {
   }
 
   async function OnClickIndexDataProduct() {
-    updateApiIndexing(true);
     indexDataProduct();
-    CheckForNewData();
+    refreshStatus();
   }
 
   function RenderSearchBox() {
@@ -295,7 +298,13 @@ const DataProductDashboard = () => {
   function RenderDataStoreBox() {
     return (
       <Box m={1}>
-        <Grid container spacing={1} direction="row" justifyContent="justify-left">
+        <Grid
+          container
+          spacing={1}
+          direction="row"
+          justifyContent="justify-left"
+          alignItems="center"
+        >
           <Grid item>
             <Button
               testId="IndexDataProductsButton"
@@ -320,6 +329,9 @@ const DataProductDashboard = () => {
               variant={ButtonVariantTypes.Outlined}
             />
           </Grid>
+          <Grid item>
+            <IndexingStatus isLoading={isDataLoading} />
+          </Grid>
         </Grid>
       </Box>
     );
@@ -336,16 +348,12 @@ const DataProductDashboard = () => {
         justifyContent="space-between"
       >
         <Grid item xs={9}>
-          {DataProductsTable(
-            updating,
-            apiRunning,
-            DataproductDataGrid(handleRowClick, searchPanelOptions, updating)
-          )}
+          {DataProductsTable(updating, apiRunning, dataGridComponent, indexingProgress)}
         </Grid>
         <Grid item xs={3}>
           <>
             {RenderSearchBox()}
-            {MetadataCard(selectedFileNames)}
+            <MetadataCard {...selectedFileNames} />
             {DataAnnotationsCard(selectedFileNames)}
           </>
         </Grid>

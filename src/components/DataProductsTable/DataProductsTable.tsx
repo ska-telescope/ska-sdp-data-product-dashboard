@@ -14,7 +14,8 @@ type ExtendedColumn = {
 const DataProductsTable = (
   updating: boolean,
   apiRunning: boolean,
-  dataproductDataGrid: React.JSX.Element
+  dataproductDataGrid: React.JSX.Element,
+  indexingProgress?: any
 ) => {
   const { t } = useTranslation('dpd');
   const [columnInfo, setColumnInfo] = React.useState([]);
@@ -85,9 +86,8 @@ const DataProductsTable = (
 
   return (
     <>
-      {apiRunning && updating && RenderInfo(2, 'info.fetching')}
       {!apiRunning && RenderInfo(1, 'error.API_NOT_AVAILABLE')}
-      {apiRunning && !updating && RenderData()}
+      {apiRunning && RenderData()}
     </>
   );
 };

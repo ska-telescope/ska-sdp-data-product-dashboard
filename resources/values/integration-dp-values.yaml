@@ -1,21 +1,15 @@
 ---
 api:
-  version: 0.14.0
   sdpConfigdbHost: "ska-sdp-etcd.dp-shared"
   vault:
     useVault: true
-    pathToSecretVault: phoenix/sdhp-stfc/integration/ska-sdp-dataproduct-api
   postgresql:
     host: "pgdev-lb.cnpgdev.svc.cluster.local"
     user: "sdp_sdp_dataproduct_dashboard_integration"
     dbname: "integration"
     schema: "sdp_sdp_dataproduct_dashboard_integration"
-    metadataTableName: "data_products_metadata_v3"
-    annotationsTableName: "data_products_annotations_v2"
 
 dashboard:
-  version: 0.14.0
   vault:
     useVault: true
-    pathToSecretVault: phoenix/sdhp-stfc/integration/ska-dataproduct-dashboard
 

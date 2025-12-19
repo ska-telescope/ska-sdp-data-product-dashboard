@@ -15,6 +15,8 @@ api:
     path: api
   storagePath: "/mnt/data/product/"
   metadata_file_name: ska-data-product.yaml
+  indexingTimeoutSeconds: 300
+  indexingBatchSize: 10
   sdpConfigdbHost: ""
   vault:
     useVault: false
@@ -52,6 +54,7 @@ dashboard:
   imagePullPolicy: IfNotPresent
   ingress:
     path: dashboard
+  dataGridDefaultPageSize: 25
   vault:
     useVault: false
     engine: "dev"
@@ -69,6 +72,7 @@ dashboard:
       memory: 3072Mi
 
 dataProductPVC:
+  enabled: true
   name: shared
   create:
     enabled: false

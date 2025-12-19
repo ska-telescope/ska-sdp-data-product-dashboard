@@ -1,5 +1,12 @@
 # Changelog
 
+## Development
+
+- [PHX-123](https://jira.skatelescope.org/browse/PHX-123)
+  - [Added] Implemented progressive data loading to display data products as they are indexed, even during long indexing operations
+  - [Added] Implemented server-side sorting for MUI DataGrid.
+  - [Added] IndexingStatus component with StatusIcon and IndexingStatus tooltip with API configuration details (version, metadata store, search store, SDP config status)
+
 ## v0.14.0
 
 - [PHX-68](https://jira.skatelescope.org/browse/PHX-68)

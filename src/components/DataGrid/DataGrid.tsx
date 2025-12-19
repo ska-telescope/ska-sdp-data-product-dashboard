@@ -1,11 +1,11 @@
 import React from 'react';
-import { DataGrid, GridFilterModel, GridColDef } from '@mui/x-data-grid';
+import { DataGrid, GridFilterModel, GridColDef, GridSortModel } from '@mui/x-data-grid';
 import DownloadIcon from '@mui/icons-material/Download';
 import { Box } from '@mui/material';
 import GetMuiDataGridConfig from './GetMuiDataGridConfig';
 import GetMuiDataGridRows from '../../services/GetMuiDataGridRows/GetMuiDataGridRows';
 import useAxiosClient from '@services/AxiosClient/AxiosClient';
-import { shellSize, SKA_DATAPRODUCT_API_URL } from '@utils/constants';
+import { shellSize, SKA_DATAPRODUCT_API_URL, DATAGRID_DEFAULT_PAGE_SIZE } from '@utils/constants';
 import {
   Button,
   ButtonColorTypes,
@@ -16,29 +16,101 @@ import {
 import { useTranslation } from 'react-i18next';
 import dataProductDownloadStream from '@services/GetDownloadStream/GetDownloadStream';
 
-export default function DataproductDataGrid(
-  handleSelectedNode: () => void,
-  searchPanelOptions: {},
-  updating: boolean
-) {
+interface DataproductDataGridProps {
+  handleSelectedNode: () => void;
+  searchPanelOptions: any;
+  updating: boolean;
+  isIndexing?: boolean;
+  indexingProgress?: any;
+  onLoadingChange?: (isLoading: boolean) => void;
+}
+
+export default function DataproductDataGrid({
+  handleSelectedNode,
+  searchPanelOptions,
+  updating,
+  isIndexing,
+  indexingProgress,
+  onLoadingChange
+}: DataproductDataGridProps) {
   const [muiConfigData, setMuiConfigData] = React.useState({
     columns: []
   });
   const [muiDataGridFilterModel, setMuiDataGridFilterModel] = React.useState({});
   const [dataFilterModel, setDataFilterModel] = React.useState({});
+  const [sortModel, setSortModel] = React.useState<GridSortModel>([]);
   const [rows, setRows] = React.useState([]);
+  const [isLoading, setIsLoading] = React.useState(false);
+  const [refreshTrigger, setRefreshTrigger] = React.useState(0);
   const [tableHeight, setTableHeight] = React.useState(window.innerHeight - shellSize());
+  const [paginationModel, setPaginationModel] = React.useState({
+    page: 0,
+    pageSize: DATAGRID_DEFAULT_PAGE_SIZE
+  });
+  const [rowCount, setRowCount] = React.useState(0);
   const { t } = useTranslation('dpd');
   const authAxiosClient = useAxiosClient(SKA_DATAPRODUCT_API_URL);
 
+  // Trigger refresh when updating prop changes
   React.useEffect(() => {
+    if (updating) {
+      setRefreshTrigger((prev: number) => prev + 1);
+    }
+  }, [updating]);
+
+  // Auto-refresh during indexing for progressive data loading
+  React.useEffect(() => {
+    if (isIndexing) {
+      const INDEXING_REFRESH_INTERVAL = 3000; // 3 seconds
+      const interval = setInterval(() => {
+        setRefreshTrigger((prev: number) => prev + 1);
+      }, INDEXING_REFRESH_INTERVAL);
+
+      return () => clearInterval(interval);
+    }
+  }, [isIndexing]);
+
+  React.useEffect(() => {
+    let isCancelled = false;
+
     const fetchData = async () => {
-      const result = await GetMuiDataGridRows(authAxiosClient, dataFilterModel);
-      setRows(result.DataGridRowsData);
+      setIsLoading(true);
+      onLoadingChange?.(true);
+
+      try {
+        const filterModelWithPagination = {
+          ...dataFilterModel,
+          page: paginationModel.page,
+          pageSize: paginationModel.pageSize,
+          sortModel: sortModel
+        };
+        const result = await GetMuiDataGridRows(authAxiosClient, filterModelWithPagination);
+
+        if (!isCancelled) {
+          if (result.DataGridRowsData) {
+            // Always update rows to show progressive data loading
+            setRows(result.DataGridRowsData);
+            setRowCount(result.total || 0);
+          }
+        }
+      } catch (error) {
+        console.error('Error fetching data grid rows:', error);
+        // Keep existing rows on error
+      } finally {
+        if (!isCancelled) {
+          setIsLoading(false);
+          onLoadingChange?.(false);
+        }
+      }
     };
+
     fetchData();
+
+    return () => {
+      isCancelled = true;
+    };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [dataFilterModel, updating]);
+  }, [dataFilterModel, refreshTrigger, paginationModel, sortModel]);
 
   React.useEffect(() => {
     function handleResize() {
@@ -58,6 +130,10 @@ export default function DataproductDataGrid(
     setMuiDataGridFilterModel({
       filterModel: { ...filterModel }
     });
+  }, []);
+
+  const onSortModelChange = React.useCallback((newSortModel: GridSortModel) => {
+    setSortModel(newSortModel);
   }, []);
 
   React.useEffect(() => {
@@ -154,14 +230,20 @@ export default function DataproductDataGrid(
     fetchData();
   }, [fetchData]); // Dependency on fetchData to ensure it runs only once
 
-  const isLoading = false;
-
   return (
     <Box data-testid={'availableData'} m={1} sx={{ backgroundColor: 'secondary.contrastText' }}>
       <DataGrid
         {...muiConfigData}
         rows={rows}
+        rowCount={rowCount}
         filterMode="server"
+        sortingMode="server"
+        paginationMode="server"
+        paginationModel={paginationModel}
+        onPaginationModelChange={setPaginationModel}
+        pageSizeOptions={[25, 50, 100, 200]}
+        sortModel={sortModel}
+        onSortModelChange={onSortModelChange}
         onFilterModelChange={onFilterChange}
         onRowClick={handleRowClick}
         loading={isLoading}

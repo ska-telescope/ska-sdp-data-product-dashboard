@@ -67,6 +67,21 @@ When products are directly loaded onto the shared volume, the user can re-index 
 
 The dashboard will automatically reload after a re-index or when new data is added to its store via the rest API endpoints. The reload button will be deactivated while the dashboard is in sync with the data in the store.
 
+API Status Indicator
+--------------------
+
+The dashboard displays a status icon that provides real-time information about the backend API connection and indexing status. Hovering over the icon displays a tooltip with detailed status information, including:
+
+- Current indexing state
+- Metadata and search store state
+- API availability and connection status
+
+
+.. figure:: /_static/img/api_status.png
+   :width: 90%
+
+   Example of API status indicator with tooltip information.
+
 
 Connecting to an SDP Configuration Database
 ===========================================

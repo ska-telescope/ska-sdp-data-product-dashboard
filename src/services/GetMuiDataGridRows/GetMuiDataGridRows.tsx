@@ -4,13 +4,24 @@ import useAxiosClient from '@services/AxiosClient/AxiosClient';
 
 interface GetMuiDataGridRowsResponse {
   DataGridRowsData: [];
+  total?: number;
+  error?: {
+    type: string;
+    message: string;
+    indexing?: boolean;
+  };
 }
+
+const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 
 const GetMuiDataGridRows = async (
   authAxiosClient: ReturnType<typeof useAxiosClient>,
-  muiDataGridFilterModel: Record<string, string | number> = {}
+  muiDataGridFilterModel: Record<string, string | number> = {},
+  retryCount: number = 0,
+  maxRetries: number = 3
 ): Promise<GetMuiDataGridRowsResponse> => {
   const ENDPOINT: string = '/filterdataproducts';
+  const RETRY_DELAY_MS = 2000; // 2 seconds between retries
 
   // Check if using local mock data
   if (USE_LOCAL_DATA) {
@@ -20,16 +31,59 @@ const GetMuiDataGridRows = async (
 
   try {
     const response = await authAxiosClient.post(ENDPOINT, JSON.stringify(muiDataGridFilterModel));
-    const DataGridRowsData = response.data;
+    const responseData = response.data;
 
-    if (!DataGridRowsData) {
-      console.error('Data product search API response is empty or undefined');
-      return { DataGridRowsData: [] } as GetMuiDataGridRowsResponse;
+    // Handle paginated response format
+    if (responseData && typeof responseData === 'object' && 'data' in responseData) {
+      return {
+        DataGridRowsData: responseData.data || [],
+        total: responseData.total || 0
+      } as GetMuiDataGridRowsResponse;
     }
-    return { DataGridRowsData };
-  } catch (error) {
+
+    // Fallback for non-paginated response (backward compatibility)
+    if (!responseData) {
+      console.error('Data product search API response is empty or undefined');
+      return { DataGridRowsData: [], total: 0 } as GetMuiDataGridRowsResponse;
+    }
+    return { DataGridRowsData: responseData, total: responseData.length };
+  } catch (error: any) {
     console.error('Error in GetMuiDataGridRows:', error);
-    return { DataGridRowsData: [] } as GetMuiDataGridRowsResponse;
+
+    // Check if it's an indexing-related error or 500 error
+    const isRetryable =
+      error?.response?.status === 500 ||
+      error?.response?.status === 503 ||
+      error?.code === 'ECONNABORTED' ||
+      error?.code === 'ETIMEDOUT';
+
+    const errorDetail = error?.response?.data?.detail;
+    const isIndexing = errorDetail?.indexing || false;
+
+    // Retry logic for transient errors during indexing
+    if (isRetryable && retryCount < maxRetries) {
+      console.warn(
+        `Retrying request (${retryCount + 1}/${maxRetries}) after ${RETRY_DELAY_MS}ms...`,
+        isIndexing ? '(API is indexing)' : ''
+      );
+      await delay(RETRY_DELAY_MS * (retryCount + 1)); // Exponential backoff
+      return GetMuiDataGridRows(
+        authAxiosClient,
+        muiDataGridFilterModel,
+        retryCount + 1,
+        maxRetries
+      );
+    }
+
+    // Return error information for the UI to handle
+    return {
+      DataGridRowsData: [],
+      error: {
+        type: errorDetail?.error_type || 'UNKNOWN_ERROR',
+        message: errorDetail?.message || error?.message || 'Failed to fetch data',
+        indexing: isIndexing
+      }
+    } as GetMuiDataGridRowsResponse;
   }
 };
 

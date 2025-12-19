@@ -51,10 +51,12 @@ spec:
       labels:
 {{ include "ska-dataproduct-dashboard.api.labels" . | indent 8 }}
     spec:
+{{- if $.Values.dataProductPVC.enabled }}
       volumes:
       - name: shared-storage
         persistentVolumeClaim:
           claimName: {{ include "dataProductPVCName" . }}
+{{- end }}
       restartPolicy: Always
       terminationGracePeriodSeconds: 10
       containers:
@@ -70,9 +72,11 @@ spec:
             memory: {{ .Values.api.resources.requests.memory }}
         ports:
           - containerPort: 8000
+{{- if $.Values.dataProductPVC.enabled }}
         volumeMounts:
           - mountPath: "/mnt/data"
             name: shared-storage
+{{- end }}
         terminationMessagePath: "/dev/termination-log"
         terminationMessagePolicy: "File"
         env:
@@ -120,6 +124,10 @@ spec:
             value: {{ include "ska-dataproduct-dashboard.api.ingress.path" . }}
           - name: SDP_CONFIG_HOST
             value: {{ .Values.api.sdpConfigdbHost | quote }}
+          - name: INDEXING_TIMEOUT_SECONDS
+            value: "{{ .Values.api.indexingTimeoutSeconds }}"
+          - name: INDEXING_BATCH_SIZE
+            value: "{{ .Values.api.indexingBatchSize }}"
 {{- if $.Values.dashboard.vault.useVault }}
           - name: SKA_DATAPRODUCT_API_POSTGRESQL_PASSWORD
             valueFrom:

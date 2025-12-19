@@ -7,6 +7,7 @@ import DataProductDashboard from '@components/DataProductDashboard/DataProductDa
 import MockStatusAPINotRunning from '@services/Mocking/mockStatusAPINotRunning';
 import { StoreProvider } from '@ska-telescope/ska-gui-local-storage';
 import { AuthProvider } from '@ska-telescope/ska-login-page';
+import { ApiStatusProvider } from '@contexts/ApiStatusContext';
 
 const THEME = [THEME_DARK, THEME_LIGHT];
 
@@ -22,12 +23,14 @@ describe('<DataProductDashboard />', () => {
             MSENTRA_TENANT_ID={'MSENTRA_TENANT_ID'}
             MSENTRA_REDIRECT_URI={'MSENTRA_REDIRECT_URI'}
           >
-            <React.StrictMode>
-              <ThemeProvider theme={theme(theTheme)}>
-                <CssBaseline />
-                <DataProductDashboard data-testid="DataProductDashboardId" />
-              </ThemeProvider>
-            </React.StrictMode>
+            <ApiStatusProvider>
+              <React.StrictMode>
+                <ThemeProvider theme={theme(theTheme)}>
+                  <CssBaseline />
+                  <DataProductDashboard data-testid="DataProductDashboardId" />
+                </ThemeProvider>
+              </React.StrictMode>
+            </ApiStatusProvider>
           </AuthProvider>
         </StoreProvider>
       );
@@ -42,12 +45,14 @@ describe('<DataProductDashboard />', () => {
             MSENTRA_TENANT_ID={'MSENTRA_TENANT_ID'}
             MSENTRA_REDIRECT_URI={'MSENTRA_REDIRECT_URI'}
           >
-            <React.StrictMode>
-              <ThemeProvider theme={theme(theTheme)}>
-                <CssBaseline />
-                <DataProductDashboard data-testid="DataProductDashboardId" />
-              </ThemeProvider>
-            </React.StrictMode>
+            <ApiStatusProvider>
+              <React.StrictMode>
+                <ThemeProvider theme={theme(theTheme)}>
+                  <CssBaseline />
+                  <DataProductDashboard data-testid="DataProductDashboardId" />
+                </ThemeProvider>
+              </React.StrictMode>
+            </ApiStatusProvider>
           </AuthProvider>
         </StoreProvider>
       );
@@ -64,12 +69,14 @@ describe('<DataProductDashboard />', () => {
             MSENTRA_TENANT_ID={'MSENTRA_TENANT_ID'}
             MSENTRA_REDIRECT_URI={'MSENTRA_REDIRECT_URI'}
           >
-            <React.StrictMode>
-              <ThemeProvider theme={theme(theTheme)}>
-                <CssBaseline />
-                <DataProductDashboard data-testid="DataProductDashboardId" />
-              </ThemeProvider>
-            </React.StrictMode>
+            <ApiStatusProvider>
+              <React.StrictMode>
+                <ThemeProvider theme={theme(theTheme)}>
+                  <CssBaseline />
+                  <DataProductDashboard data-testid="DataProductDashboardId" />
+                </ThemeProvider>
+              </React.StrictMode>
+            </ApiStatusProvider>
           </AuthProvider>
         </StoreProvider>
       );
@@ -86,12 +93,14 @@ describe('<DataProductDashboard />', () => {
             MSENTRA_TENANT_ID={'MSENTRA_TENANT_ID'}
             MSENTRA_REDIRECT_URI={'MSENTRA_REDIRECT_URI'}
           >
-            <React.StrictMode>
-              <ThemeProvider theme={theme(theTheme)}>
-                <CssBaseline />
-                <DataProductDashboard data-testid="DataProductDashboardId" />
-              </ThemeProvider>
-            </React.StrictMode>
+            <ApiStatusProvider>
+              <React.StrictMode>
+                <ThemeProvider theme={theme(theTheme)}>
+                  <CssBaseline />
+                  <DataProductDashboard data-testid="DataProductDashboardId" />
+                </ThemeProvider>
+              </React.StrictMode>
+            </ApiStatusProvider>
           </AuthProvider>
         </StoreProvider>
       );
@@ -106,12 +115,14 @@ describe('<DataProductDashboard />', () => {
             MSENTRA_TENANT_ID={'MSENTRA_TENANT_ID'}
             MSENTRA_REDIRECT_URI={'MSENTRA_REDIRECT_URI'}
           >
-            <React.StrictMode>
-              <ThemeProvider theme={theme(theTheme)}>
-                <CssBaseline />
-                <DataProductDashboard data-testid="DataProductDashboardId" />
-              </ThemeProvider>
-            </React.StrictMode>
+            <ApiStatusProvider>
+              <React.StrictMode>
+                <ThemeProvider theme={theme(theTheme)}>
+                  <CssBaseline />
+                  <DataProductDashboard data-testid="DataProductDashboardId" />
+                </ThemeProvider>
+              </React.StrictMode>
+            </ApiStatusProvider>
           </AuthProvider>
         </StoreProvider>
       );
