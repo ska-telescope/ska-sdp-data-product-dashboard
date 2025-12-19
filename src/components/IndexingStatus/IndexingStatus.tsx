@@ -4,7 +4,13 @@ import { Box, IconButton, Tooltip, Typography } from '@mui/material';
 import { ButtonColorTypes, StatusIcon } from '@ska-telescope/ska-gui-components';
 import { useApiStatus } from '@contexts/ApiStatusContext';
 
-const STATUS_SIZE = 20;
+const STATUS_SIZE = 28;
+
+enum StatusLevel {
+  SUCCESS = 0,  // Green circle- healthy and ready
+  ERROR = 1,    // Red square - offline or error
+  INFO = 4      // Pink kite - indexing in progress
+}
 
 interface IndexingStatusProps {
   isLoading?: boolean;
@@ -20,17 +26,17 @@ function IndexingStatus({ isLoading }: IndexingStatusProps) {
     indexingProgress
   } = useApiStatus();
 
-  const getStatusLevel = (): number => {
+  const getStatusLevel = (): StatusLevel => {
     // Red: API not running or explicit error
     if (!apiRunning || apiError) {
-      return 1; // Error/fault state (red square with X)
+      return StatusLevel.ERROR;
     }
     // Blue info: Backend healthy but indexing in progress
-    if (isIndexing && indexingProgress?.in_progress) {
-      return 4; // Info state (blue triangle with "i")
+    if (isIndexing || indexingProgress?.in_progress) {
+      return StatusLevel.INFO;
     }
     // Green: Backend is healthy and idle
-    return 0; // Success/ready state (green circle with tick)
+    return StatusLevel.SUCCESS;
   };
 
   const getStatusLabel = (): string => {
@@ -40,7 +46,7 @@ function IndexingStatus({ isLoading }: IndexingStatusProps) {
     if (apiError) {
       return 'status.error';
     }
-    if (isIndexing && indexingProgress?.in_progress) {
+    if (isIndexing || indexingProgress?.in_progress) {
       return 'status.indexing';
     }
     return 'status.healthy';
@@ -124,7 +130,7 @@ function IndexingStatus({ isLoading }: IndexingStatusProps) {
                       )}
                   </Typography>
                 )}
-                {isIndexing && indexingProgress?.in_progress && (
+                {(isIndexing || indexingProgress?.in_progress) && (
                   <>
                     <Typography
                       color="inherit"
@@ -132,7 +138,7 @@ function IndexingStatus({ isLoading }: IndexingStatusProps) {
                     >
                       <strong>{t('toolTip.indexingStatus.indexingInProgress')}</strong>
                     </Typography>
-                    {indexingProgress.files_processed > 0 && (
+                    {indexingProgress && indexingProgress.files_processed > 0 && (
                       <>
                         <Typography color="inherit" data-testid="indexing-status-files">
                           <strong>{t('toolTip.indexingStatus.filesProcessed')}:</strong>{' '}
@@ -151,7 +157,7 @@ function IndexingStatus({ isLoading }: IndexingStatusProps) {
                         )}
                       </>
                     )}
-                    {indexingProgress.indexing_step && (
+                    {indexingProgress?.indexing_step && (
                       <Typography
                         color="inherit"
                         data-testid="indexing-status-step"
@@ -172,7 +178,13 @@ function IndexingStatus({ isLoading }: IndexingStatusProps) {
           sx={{ '&:hover': { backgroundColor: 'primary.dark' }, p: 1.3 }}
           color={ButtonColorTypes.Inherit}
         >
-          <StatusIcon testId="indexing-status-icon" level={getStatusLevel()} size={STATUS_SIZE} />
+          <StatusIcon 
+            testId="indexing-status-icon" 
+            level={getStatusLevel()} 
+            size={STATUS_SIZE} 
+            icon={true}
+            iconSizingFactor={0.75}
+          />
         </IconButton>
       </Tooltip>
     </Box>
