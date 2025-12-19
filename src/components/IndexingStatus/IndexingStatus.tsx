@@ -7,9 +7,9 @@ import { useApiStatus } from '@contexts/ApiStatusContext';
 const STATUS_SIZE = 28;
 
 enum StatusLevel {
-  SUCCESS = 0,  // Green circle- healthy and ready
-  ERROR = 1,    // Red square - offline or error
-  INFO = 4      // Pink kite - indexing in progress
+  SUCCESS = 0, // Green circle- healthy and ready
+  ERROR = 1, // Red square - offline or error
+  INFO = 4 // Pink kite - indexing in progress
 }
 
 interface IndexingStatusProps {
@@ -178,10 +178,10 @@ function IndexingStatus({ isLoading }: IndexingStatusProps) {
           sx={{ '&:hover': { backgroundColor: 'primary.dark' }, p: 1.3 }}
           color={ButtonColorTypes.Inherit}
         >
-          <StatusIcon 
-            testId="indexing-status-icon" 
-            level={getStatusLevel()} 
-            size={STATUS_SIZE} 
+          <StatusIcon
+            testId="indexing-status-icon"
+            level={getStatusLevel()}
+            size={STATUS_SIZE}
             icon={true}
             iconSizingFactor={0.75}
           />
