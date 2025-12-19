@@ -1,73 +1,23 @@
 ---
-ingress:
-  enabled: true
-  namespaced: true
-  hostname: "https://sdhp.stfc.skao.int"
-
 api:
-  enabled: true
   container: registry.gitlab.com/ska-telescope/ska-dataproduct-api/ska-dataproduct-api
   version: 0.14.0-dev.c0de3c525
   imagePullPolicy: Always
-  verbose: false
-  dateFromat: "%Y-%m-%d"
-  ingress:
-    path: api
-  storagePath: "/mnt/data/product/"
-  metadata_file_name: ska-data-product.yaml
-  indexingTimeoutSeconds: 300
-  indexingBatchSize: 10
   sdpConfigdbHost: "ska-sdp-etcd.dp-shared"
   vault:
     useVault: true
-    pathToSecretVault: phoenix/sdhp-stfc/integration/ska-sdp-dataproduct-api
-  permissionsapi:
-    serviceUrl: https://sdhp.stfc.skao.int/integration-ska-permissions-api
   postgresql:
     host: "pgdev-lb.cnpgdev.svc.cluster.local"
-    port: 5432
     user: "sdp_sdp_dataproduct_dashboard_integration"
     dbname: "integration"
     schema: "sdp_sdp_dataproduct_dashboard_integration"
-    metadataTableName: "data_products_metadata_v3"
-    annotationsTableName: "data_products_annotations_v2"
     dlmInterfaceEnabled: true
-    dlmSchema: "dlm"
-    dlmMetadataTableName: "data_item"
-    querySizeLimit: 10000
-  stream_chunk_size: 65536
-  resources:
-    requests:
-      cpu: 200m
-      memory: 200Mi
-    limits:
-      cpu: 1000m
-      memory: 600Mi
 
 dashboard:
-  enabled: true
   container: registry.gitlab.com/ska-telescope/ska-dataproduct-dashboard/ska-dataproduct-dashboard
   version: 0.14.0-dev.cee6d2a4f
   imagePullPolicy: Always
-  ingress:
-    path: dashboard
-  dataGridDefaultPageSize: 25
   vault:
     useVault: true
     pathToSecretVault: phoenix/sdhp-stfc/integration/ska-dataproduct-dashboard
-  apiRefreshRate: 10000
-  resources:
-    requests:
-      cpu: 1000m
-      memory: 2048Mi
-    limits:
-      cpu: 2000m
-      memory: 3072Mi
 
-dataProductPVC:
-  enabled: false
-  name: shared
-  create:
-    enabled: false
-    size: 5Gi
-    storageClassName: nfss1
