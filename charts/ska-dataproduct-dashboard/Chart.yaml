@@ -8,4 +8,10 @@ maintainers:
     name: NALEDI
 name: ska-dataproduct-dashboard
 version: 0.14.0
+
+dependencies:
+  - name: vault-secret-sync
+    version: 0.1.0
+    repository: "file://../vault-secret-sync"
+    condition: vault-secret-sync.enabled
     

@@ -95,18 +95,9 @@ This section details the configuration options available when deploying the Data
     * - ``api.sdpConfigdbHost``
       - ``""``
       - Host path to an SDP Configuration DB. Example: "ska-sdp-etcd.dp-shared"
-    * - ``api.vault.useVault``
-      - ``true``
-      - Enables the deployment to retrieve SPA registration details from the SKAO vault.
-    * - ``api.vault.pathToSecretVault``
-      - ``phoenix/sdhp-stfc/integration/ska-sdp-dataproduct-api``
-      - Path to the secrets in the vault.
-    * - ``api.vault.refreshAfter``
-      - ``360s``
-      - The amount of time between refreshing the data.
-    * - ``api.vault.engine``
-      - ``dev``
-      - The base engine in which the secrets are stored.
+    * - ``api.vault.useExistingSecret``
+      - ``false``
+      - If true, expects an externally managed Kubernetes secret. If false, creates a secret from values.
     * - ``api.postgresql.host``
       - ``https://localhost``
       - The PostgreSQL host.
@@ -148,18 +139,16 @@ This section details the configuration options available when deploying the Data
       - The maximum memory usage of the api.
 
 
-**Data product API secrets**:
-
-The following secrets are expected in the file mapped into the API container by the vault:
+**Required API secrets**:
 
 .. list-table::
     :widths: 50, 50
     :header-rows: 1
 
-    * - Secret
-      - Comment
+    * - Secret Key
+      - Description
     * - ``SKA_DATAPRODUCT_API_POSTGRESQL_PASSWORD``
-      - The PostgreSQL password.
+      - PostgreSQL database password
 
 
 
@@ -187,24 +176,15 @@ The following secrets are expected in the file mapped into the API container by 
     * - ``dashboard.ingress.path``
       - ``"dashboard"``
       - What the prefix for the ska-dataproduct-dashboard path should be.
-    * - ``dashboard.vault.useVault``
-      - ``true``
-      - Enables the deployment to retrieve SPA registration details from the SKAO vault.
-    * - ``dashboard.vault.pathToSecretVault``
-      - ``phoenix/sdhp-stfc/integration/ska-dataproduct-dashboard``
-      - Path to the secrets in the vault.
+    * - ``dashboard.vault.useExistingSecret``
+      - ``false``
+      - If true, expects an externally managed Kubernetes secret. If false, creates a secret from values below.
     * - ``dashboard.vault.client_id``
-      - ``abcde``
-      - Placeholder env variable for MS Entra application registration client ID.
+      - ``placeholder_for_client_id``
+      - MS Entra application registration client ID. Used only when useExistingSecret is false.
     * - ``dashboard.vault.tenant_id``
-      - ``abcde``
-      - Placeholder env variable for MS Entra application registration tenant ID.
-    * - ``dashboard.vault.refreshAfter``
-      - ``360s``
-      - The amount of time between refreshing the data.
-    * - ``dashboard.vault.engine``
-      - ``dev``
-      - The base engine in which the secrets are stored.
+      - ``placeholder_for_tenant_id``
+      - MS Entra application registration tenant ID. Used only when useExistingSecret is false.
     * - ``dashboard.apiRefreshRate``
       - ``10000``
       - The polling rate for new data from the API.
@@ -222,33 +202,205 @@ The following secrets are expected in the file mapped into the API container by 
       - The maximum memory usage of the dashboard.
 
 
-**Shared persistent volume**:
-
-.. note:: Only enable the creation of a PVC here when running the application locally or in tests where the shared PCV is not used.
+**Required Dashboard secrets**:
 
 .. list-table::
-    :widths: 20, 20, 60
+    :widths: 50, 50
+    :header-rows: 1
+
+    * - Secret Key
+      - Description
+    * - ``REACT_APP_MSENTRA_CLIENT_ID``
+      - Microsoft Entra application registration client ID
+    * - ``REACT_APP_MSENTRA_TENANT_ID``
+      - Microsoft Entra application registration tenant ID
+
+
+Secret Management
+=================
+
+The chart supports three modes for managing application secrets (both API and Dashboard):
+
+**Mode 1: Values-based secrets (Development/Testing only)**
+
+Secrets are created directly by the chart using values from the values file. This mode stores sensitive data in plain text configuration files and should only be used for local development or testing.
+
+Configuration:
+  - Set ``*.vault.useExistingSecret: false``
+  - Provide secret values in the values file (e.g., ``dashboard.vault.client_id``, ``api.postgresql.password``)
+
+**Mode 2: Manual Kubernetes secrets**
+
+You manage secrets externally using ``kubectl``, External Secrets Operator, Sealed Secrets, or any other secret management tool. The chart expects these secrets to exist before deployment.
+
+Configuration:
+  - Set ``*.vault.useExistingSecret: true``
+  - Set ``vault-secret-sync.enabled: false``
+  - Create secrets manually with the correct names and keys
+
+Required secret names:
+  - Dashboard: ``ska-dataproduct-dashboard-dashboard-secret``
+  - API: ``ska-dataproduct-dashboard-api-secret``
+
+**Mode 3: Vault-synced secrets (Production)**
+
+Secrets are automatically synchronized from HashiCorp Vault using the vault-secret-sync subchart. This requires the Vault Secrets Operator to be installed in the cluster.
+
+Configuration:
+  - Set ``*.vault.useExistingSecret: true``
+  - Set ``vault-secret-sync.enabled: true``
+  - Enable specific secret syncs (``vault-secret-sync.secrets.dashboard.enabled``, ``vault-secret-sync.secrets.api.enabled``)
+
+Prerequisites:
+  - HashiCorp Vault Secrets Operator installed in cluster
+  - Vault properly configured with authentication
+  - Service account has permissions to access Vault paths
+
+
+Vault Secret Synchronization Subchart
+--------------------------------------
+
+The vault-secret-sync subchart is an optional helper that automatically syncs secrets from HashiCorp Vault to Kubernetes. It creates VaultStaticSecret custom resources that are managed by the Vault Secrets Operator.
+
+**Configuration options**:
+
+.. list-table::
+    :widths: 30, 20, 50
     :header-rows: 1
 
     * - Value
       - Default
-      - Comment
+      - Description
+    * - ``vault-secret-sync.enabled``
+      - ``false``
+      - Master switch to enable/disable the subchart
+    * - ``vault-secret-sync.vault.engine``
+      - ``dev``
+      - Vault KV engine mount point
+    * - ``vault-secret-sync.vault.refreshAfter``
+      - ``360s``
+      - How often to refresh secrets from Vault
+    * - ``vault-secret-sync.secrets.dashboard.enabled``
+      - ``false``
+      - Enable dashboard secret synchronization
+    * - ``vault-secret-sync.secrets.dashboard.vaultPath``
+      - ``phoenix/sdhp-stfc/integration/ska-dataproduct-dashboard``
+      - Vault path to dashboard secrets
+    * - ``vault-secret-sync.secrets.dashboard.secretName``
+      - ``ska-dataproduct-dashboard-dashboard-secret``
+      - Kubernetes secret name for dashboard
+    * - ``vault-secret-sync.secrets.api.enabled``
+      - ``false``
+      - Enable API secret synchronization
+    * - ``vault-secret-sync.secrets.api.vaultPath``
+      - ``phoenix/sdhp-stfc/integration/ska-sdp-dataproduct-api``
+      - Vault path to API secrets
+    * - ``vault-secret-sync.secrets.api.secretName``
+      - ``ska-dataproduct-dashboard-api-secret``
+      - Kubernetes secret name for API
+
+**How it works**:
+
+The main application always references standard Kubernetes secrets. The vault-secret-sync subchart acts as a bridge between Vault and these Kubernetes secrets, keeping them synchronized. This design decouples the application from Vault-specific dependencies, making it portable across different secret management strategies.
+
+
+Persistent Volume Configuration
+--------------------------------
+
+.. note:: Only enable PVC creation for local development or testing. In production, use a pre-configured shared PVC.
+
+.. list-table::
+    :widths: 30, 20, 50
+    :header-rows: 1
+
+    * - Value
+      - Default
+      - Description
     * - ``dataProductPVC.name``
       - ``shared``
-      - This is the name of the PVC that is shared between the namespace used by the pipeline that create data products and the namespace where the Data Product Dashboard is deployed.
+      - Name of the PVC shared between pipeline and dashboard namespaces
     * - ``dataProductPVC.create.enabled``
       - ``false``
-      - Enable the creation of a PVC when running the application locally or in tests where the shared PCV is not used.
+      - Create a new PVC (only for local/test environments)
     * - ``dataProductPVC.create.size``
-      - ``false``
-      - The size of the requested PVC.
+      - ``5Gi``
+      - Size of the PVC to create
     * - ``dataProductPVC.create.storageClassName``
-      - ``false``
-      - The storage class of the requested PVC.
+      - ``nfss1``
+      - Storage class for the PVC
 
 
-Deployment from GitLab pipelines
---------------------------------
+Deployment Examples
+===================
+
+Development (Values-based Secrets)
+-----------------------------------
+
+For local development and testing only. Secrets are stored in plain text in values files.
+
+.. code-block:: bash
+
+    helm install ska-dataproduct-dashboard charts/ska-dataproduct-dashboard \
+      --set dashboard.vault.useExistingSecret=false \
+      --set dashboard.vault.client_id="your-dev-client-id" \
+      --set dashboard.vault.tenant_id="your-dev-tenant-id" \
+      --set api.vault.useExistingSecret=false \
+      --set api.postgresql.password="your-db-password" \
+      --set vault-secret-sync.enabled=false
+
+Production (Vault-Synced Secrets)
+----------------------------------
+
+For production deployments with HashiCorp Vault. Secrets are automatically synchronized from Vault.
+
+First, update Helm dependencies:
+
+.. code-block:: bash
+
+    helm dependency update charts/ska-dataproduct-dashboard
+
+Then deploy with Vault synchronization:
+
+.. code-block:: bash
+
+    helm install ska-dataproduct-dashboard charts/ska-dataproduct-dashboard \
+      --set dashboard.vault.useExistingSecret=true \
+      --set api.vault.useExistingSecret=true \
+      --set vault-secret-sync.enabled=true \
+      --set vault-secret-sync.secrets.dashboard.enabled=true \
+      --set vault-secret-sync.secrets.api.enabled=true \
+      --set vault-secret-sync.vault.engine="prod" \
+      --set vault-secret-sync.secrets.dashboard.vaultPath="phoenix/sdhp-stfc/production/ska-dataproduct-dashboard" \
+      --set vault-secret-sync.secrets.api.vaultPath="phoenix/sdhp-stfc/production/ska-sdp-dataproduct-api"
+
+Manual Secret Management
+-------------------------
+
+For environments using external secret management tools (External Secrets Operator, Sealed Secrets, etc.).
+
+Create secrets manually:
+
+.. code-block:: bash
+
+    kubectl create secret generic ska-dataproduct-dashboard-dashboard-secret \
+      --from-literal=REACT_APP_MSENTRA_CLIENT_ID="your-client-id" \
+      --from-literal=REACT_APP_MSENTRA_TENANT_ID="your-tenant-id"
+    
+    kubectl create secret generic ska-dataproduct-dashboard-api-secret \
+      --from-literal=SKA_DATAPRODUCT_API_POSTGRESQL_PASSWORD="your-db-password"
+
+Then deploy the chart:
+
+.. code-block:: bash
+
+    helm install ska-dataproduct-dashboard charts/ska-dataproduct-dashboard \
+      --set dashboard.vault.useExistingSecret=true \
+      --set api.vault.useExistingSecret=true \
+      --set vault-secret-sync.enabled=false
+
+
+CI/CD Pipeline Deployments
+===========================
 
 If configured, the deployment can be done with GitLab pipelines, deploying into pre-configured environments to one of three namespaces (ci-dev, integration or staging)
 

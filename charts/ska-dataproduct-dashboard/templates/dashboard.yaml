@@ -14,26 +14,18 @@ spec:
   clusterIP: None
   selector:
 {{ include "ska-dataproduct-dashboard.dashboard.labels" . | indent 4 }}
-{{- if $.Values.dashboard.vault.useVault }}
+{{- if not $.Values.dashboard.vault.useExistingSecret }}
 ---
-apiVersion: secrets.hashicorp.com/v1beta1
-kind: VaultStaticSecret
+apiVersion: v1
+kind: Secret
 metadata:
   name: {{ $.Chart.Name }}-dashboard-secret
-spec:
-  type: kv-v2
-  mount: "{{ .Values.dashboard.vault.engine }}"
-  path: "{{ .Values.dashboard.vault.pathToSecretVault }}"
-  refreshAfter: "{{ .Values.dashboard.vault.refreshAfter }}"
-  destination:
-    name: {{ $.Chart.Name }}-dashboard-secret
-    create: true
-    overwrite: true
-    transformation:
-      excludeRaw: true
-      includes:
-        - REACT_APP_MSENTRA_CLIENT_ID
-        - REACT_APP_MSENTRA_TENANT_ID
+  labels:
+{{ include "ska-dataproduct-dashboard.dashboard.labels" . | indent 4 }}
+type: Opaque
+stringData:
+  REACT_APP_MSENTRA_CLIENT_ID: "{{ .Values.dashboard.vault.client_id }}"
+  REACT_APP_MSENTRA_TENANT_ID: "{{ .Values.dashboard.vault.tenant_id }}"
 {{- end }}
 ---
 apiVersion: apps/v1
@@ -78,7 +70,6 @@ spec:
               value: "{{ .Values.dashboard.version }}"
             - name: REACT_APP_MSENTRA_REDIRECT_URI
               value: "{{ .Values.ingress.hostname }}{{ include "ska-dataproduct-dashboard.dashboard.ingress.path" . }}/"
-{{- if $.Values.dashboard.vault.useVault }}
             - name: REACT_APP_MSENTRA_CLIENT_ID
               valueFrom:
                 secretKeyRef:
@@ -89,12 +80,6 @@ spec:
                 secretKeyRef:
                   name: {{ $.Chart.Name }}-dashboard-secret
                   key: REACT_APP_MSENTRA_TENANT_ID
-{{- else }}
-            - name: REACT_APP_MSENTRA_CLIENT_ID
-              value: "{{ .Values.dashboard.vault.client_id }}"
-            - name: REACT_APP_MSENTRA_TENANT_ID
-              value: "{{ .Values.dashboard.vault.tenant_id }}"
-{{- end }}
           livenessProbe:
             httpGet:
               path: /
