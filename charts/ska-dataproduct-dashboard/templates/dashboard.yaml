@@ -60,12 +60,12 @@ spec:
             - name: REACT_APP_MSENTRA_CLIENT_ID
               valueFrom:
                 secretKeyRef:
-                  name: {{ $.Chart.Name }}-dashboard-secret
+                  name: {{ .Values.dashboard.secretName }}
                   key: REACT_APP_MSENTRA_CLIENT_ID
             - name: REACT_APP_MSENTRA_TENANT_ID
               valueFrom:
                 secretKeyRef:
-                  name: {{ $.Chart.Name }}-dashboard-secret
+                  name: {{ .Values.dashboard.secretName }}
                   key: REACT_APP_MSENTRA_TENANT_ID
           livenessProbe:
             httpGet:

@@ -111,6 +111,6 @@ spec:
           - name: SKA_DATAPRODUCT_API_POSTGRESQL_PASSWORD
             valueFrom:
               secretKeyRef:
-                name: {{ $.Chart.Name }}-api-secret
+                name: {{ .Values.api.secretName }}
                 key: SKA_DATAPRODUCT_API_POSTGRESQL_PASSWORD
 {{- end }}

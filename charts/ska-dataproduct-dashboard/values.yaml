@@ -9,6 +9,7 @@ api:
   container: artefact.skao.int/ska-dataproduct-api
   version: 0.14.0
   imagePullPolicy: IfNotPresent
+  secretName: ska-dataproduct-dashboard-api-secret
   verbose: false
   dateFromat: "%Y-%m-%d"
   ingress:
@@ -47,6 +48,7 @@ dashboard:
   container: artefact.skao.int/ska-dataproduct-dashboard
   version: 0.14.0
   imagePullPolicy: IfNotPresent
+  secretName: ska-dataproduct-dashboard-dashboard-secret
   ingress:
     path: dashboard
   dataGridDefaultPageSize: 25
