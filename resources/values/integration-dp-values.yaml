@@ -1,7 +1,7 @@
 ---
 api:
   sdpConfigdbHost: "ska-sdp-etcd.dp-shared"
-  vault:
+  secrets:
     useExistingSecret: true
   postgresql:
     host: "pgdev-lb.cnpgdev.svc.cluster.local"
@@ -10,7 +10,7 @@ api:
     schema: "sdp_sdp_dataproduct_dashboard_integration"
 
 dashboard:
-  vault:
+  secrets:
     useExistingSecret: true
 
 vault-secret-sync:

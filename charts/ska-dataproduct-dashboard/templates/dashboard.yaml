@@ -14,7 +14,7 @@ spec:
   clusterIP: None
   selector:
 {{ include "ska-dataproduct-dashboard.dashboard.labels" . | indent 4 }}
-{{- if not $.Values.dashboard.vault.useExistingSecret }}
+{{- if not $.Values.dashboard.secrets.useExistingSecret }}
 ---
 apiVersion: v1
 kind: Secret

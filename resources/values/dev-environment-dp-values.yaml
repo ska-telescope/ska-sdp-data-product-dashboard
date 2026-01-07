@@ -4,7 +4,7 @@ api:
   version: 0.14.0-dev.c0de3c525
   imagePullPolicy: Always
   sdpConfigdbHost: "ska-sdp-etcd.dp-shared"
-  vault:
+  secrets:
     useExistingSecret: true
   postgresql:
     host: "pgdev-lb.cnpgdev.svc.cluster.local"
@@ -17,7 +17,7 @@ dashboard:
   container: registry.gitlab.com/ska-telescope/ska-dataproduct-dashboard/ska-dataproduct-dashboard
   version: 0.14.0-dev.cee6d2a4f
   imagePullPolicy: Always
-  vault:
+  secrets:
     useExistingSecret: true
 
 vault-secret-sync:

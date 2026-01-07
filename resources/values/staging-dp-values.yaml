@@ -1,7 +1,7 @@
 ---
 api:
   sdpConfigdbHost: "ska-sdp-etcd.dp-shared"
-  vault:
+  secrets:
     useExistingSecret: true
     pathToSecretVault: phoenix/sdhp-stfc/staging/ska-sdp-dataproduct-api
   postgresql:
@@ -11,7 +11,7 @@ api:
     schema: "sdp_sdp_dataproduct_dashboard_staging"
 
 dashboard:
-  vault:
+  secrets:
     useExistingSecret: true
 
 vault-secret-sync:
