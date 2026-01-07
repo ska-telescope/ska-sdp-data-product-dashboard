@@ -14,19 +14,6 @@ spec:
   clusterIP: None
   selector:
 {{ include "ska-dataproduct-dashboard.dashboard.labels" . | indent 4 }}
-{{- if not $.Values.dashboard.secrets.useExistingSecret }}
----
-apiVersion: v1
-kind: Secret
-metadata:
-  name: {{ $.Chart.Name }}-dashboard-secret
-  labels:
-{{ include "ska-dataproduct-dashboard.dashboard.labels" . | indent 4 }}
-type: Opaque
-stringData:
-  REACT_APP_MSENTRA_CLIENT_ID: "{{ .Values.dashboard.vault.client_id }}"
-  REACT_APP_MSENTRA_TENANT_ID: "{{ .Values.dashboard.vault.tenant_id }}"
-{{- end }}
 ---
 apiVersion: apps/v1
 kind: Deployment

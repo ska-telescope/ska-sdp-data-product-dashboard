@@ -14,18 +14,6 @@ spec:
   clusterIP: None
   selector:
 {{ include "ska-dataproduct-dashboard.api.labels" . | indent 4 }}
-{{- if not $.Values.api.secrets.useExistingSecret }}
----
-apiVersion: v1
-kind: Secret
-metadata:
-  name: {{ $.Chart.Name }}-api-secret
-  labels:
-{{ include "ska-dataproduct-dashboard.api.labels" . | indent 4 }}
-type: Opaque
-stringData:
-  SKA_DATAPRODUCT_API_POSTGRESQL_PASSWORD: "{{ .Values.api.postgresql.password }}"
-{{- end }}
 ---
 apiVersion: apps/v1
 kind: Deployment

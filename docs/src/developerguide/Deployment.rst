@@ -95,9 +95,6 @@ This section details the configuration options available when deploying the Data
     * - ``api.sdpConfigdbHost``
       - ``""``
       - Host path to an SDP Configuration DB. Example: "ska-sdp-etcd.dp-shared"
-    * - ``api.secrets.useExistingSecret``
-      - ``false``
-      - If true, expects an externally managed Kubernetes secret. If false, creates a secret from values.
     * - ``api.postgresql.host``
       - ``https://localhost``
       - The PostgreSQL host.
@@ -176,15 +173,6 @@ This section details the configuration options available when deploying the Data
     * - ``dashboard.ingress.path``
       - ``"dashboard"``
       - What the prefix for the ska-dataproduct-dashboard path should be.
-    * - ``dashboard.secrets.useExistingSecret``
-      - ``false``
-      - If true, expects an externally managed Kubernetes secret. If false, creates a secret from values below.
-    * - ``dashboard.vault.client_id``
-      - ``placeholder_for_client_id``
-      - MS Entra application registration client ID. Used only when useExistingSecret is false.
-    * - ``dashboard.vault.tenant_id``
-      - ``placeholder_for_tenant_id``
-      - MS Entra application registration tenant ID. Used only when useExistingSecret is false.
     * - ``dashboard.apiRefreshRate``
       - ``10000``
       - The polling rate for new data from the API.
@@ -219,42 +207,32 @@ This section details the configuration options available when deploying the Data
 Secret Management
 =================
 
-The chart supports three modes for managing application secrets (both API and Dashboard):
+The chart supports two modes for managing application secrets (both API and Dashboard):
 
-**Mode 1: Values-based secrets (Development/Testing only)**
+**Option 1: Vault-synced secrets (Recommended for Production)**
 
-Secrets are created directly by the chart using values from the values file. This mode stores sensitive data in plain text configuration files and should only be used for local development or testing.
+Secrets are automatically synchronized from HashiCorp Vault using the vault-secret-sync subchart. This requires the Vault Secrets Operator to be installed in the cluster.
 
 Configuration:
-  - Set ``*.secrets.useExistingSecret: false``
-  - Provide secret values in the values file (e.g., ``dashboard.vault.client_id``, ``api.postgresql.password``)
+  - Set ``vault-secret-sync.enabled: true``
+  - Enable specific secret syncs (``vault-secret-sync.secrets.dashboard.enabled: true``, ``vault-secret-sync.secrets.api.enabled: true``)
 
-**Mode 2: Manual Kubernetes secrets**
+Prerequisites:
+  - HashiCorp Vault Secrets Operator installed in cluster
+  - Vault properly configured with authentication
+  - Service account has permissions to access Vault paths
+
+**Option 2: User-managed Kubernetes secrets**
 
 You manage secrets externally using ``kubectl``, External Secrets Operator, Sealed Secrets, or any other secret management tool. The chart expects these secrets to exist before deployment.
 
 Configuration:
-  - Set ``*.secrets.useExistingSecret: true``
   - Set ``vault-secret-sync.enabled: false``
   - Create secrets manually with the correct names and keys
 
 Required secret names:
   - Dashboard: ``ska-dataproduct-dashboard-dashboard-secret``
   - API: ``ska-dataproduct-dashboard-api-secret``
-
-**Mode 3: Vault-synced secrets (Production)**
-
-Secrets are automatically synchronized from HashiCorp Vault using the vault-secret-sync subchart. This requires the Vault Secrets Operator to be installed in the cluster.
-
-Configuration:
-  - Set ``*.secrets.useExistingSecret: true``
-  - Set ``vault-secret-sync.enabled: true``
-  - Enable specific secret syncs (``vault-secret-sync.secrets.dashboard.enabled``, ``vault-secret-sync.secrets.api.enabled``)
-
-Prerequisites:
-  - HashiCorp Vault Secrets Operator installed in cluster
-  - Vault properly configured with authentication
-  - Service account has permissions to access Vault paths
 
 
 Vault Secret Synchronization Subchart
@@ -301,10 +279,10 @@ The vault-secret-sync subchart is an optional helper that automatically syncs se
 
 **How it works**:
 
-The main application always references standard Kubernetes secrets. The vault-secret-sync subchart acts as a bridge between Vault and these Kubernetes secrets, keeping them synchronized. This design decouples the application from Vault-specific dependencies, making it portable across different secret management strategies.
+When enabled, the subchart creates VaultStaticSecret custom resources that the Vault Secrets Operator monitors. The operator automatically fetches secrets from the specified Vault paths and creates/updates the corresponding Kubernetes secrets. The main application always references standard Kubernetes secrets, making it portable across different secret management strategies.
 
 
-Persistent Volume Configuration
+Deployment Examples
 --------------------------------
 
 .. note:: Only enable PVC creation for local development or testing. In production, use a pre-configured shared PVC.
@@ -333,22 +311,10 @@ Persistent Volume Configuration
 Deployment Examples
 ===================
 
-Development (Values-based Secrets)
------------------------------------
+Vault-synced Secrets (Production)
+----------------------------------
 
-For local development and testing only. Secrets are stored in plain text in values files.
-
-.. code-block:: bash
-
-    helm install ska-dataproduct-dashboard charts/ska-dataproduct-dashboard \
-      --set dashboard.secrets.useExistingSecret=false \
-      --set dashboard.vault.client_id="your-dev-client-id" \
-      --set dashboard.vault.tenant_id="your-dev-tenant-id" \
-      --set api.secrets.useExistingSecret=false \
-      --set api.postgresql.password="your-db-password" \
-      --set vault-secret-sync.enabled=false
-
-Production (Vault-Synced Secrets)
+Secrets are automatically synchronized from HashiCorp Vault.
 ----------------------------------
 
 For production deployments with HashiCorp Vault. Secrets are automatically synchronized from Vault.
@@ -364,8 +330,6 @@ Then deploy with Vault synchronization:
 .. code-block:: bash
 
     helm install ska-dataproduct-dashboard charts/ska-dataproduct-dashboard \
-      --set dashboard.secrets.useExistingSecret=true \
-      --set api.secrets.useExistingSecret=true \
       --set vault-secret-sync.enabled=true \
       --set vault-secret-sync.secrets.dashboard.enabled=true \
       --set vault-secret-sync.secrets.api.enabled=true \
@@ -394,8 +358,6 @@ Then deploy the chart:
 .. code-block:: bash
 
     helm install ska-dataproduct-dashboard charts/ska-dataproduct-dashboard \
-      --set dashboard.secrets.useExistingSecret=true \
-      --set api.secrets.useExistingSecret=true \
       --set vault-secret-sync.enabled=false
 
 

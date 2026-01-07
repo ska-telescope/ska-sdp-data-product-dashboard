@@ -1,5 +1,7 @@
 ---
 # Enable/disable the Vault secret synchronization
+# When enabled: secrets are synced from Vault using VaultStaticSecret resources
+# When disabled: secrets must be managed externally (manually created or via other tools)
 enabled: false
 
 # Vault configuration
@@ -12,8 +14,9 @@ secrets:
   dashboard:
     enabled: false
     vaultPath: "phoenix/sdhp-stfc/integration/ska-dataproduct-dashboard"
-    # Name of the Kubernetes secret to create
+    # Name of the Kubernetes secret that will be created/synced
     secretName: "ska-dataproduct-dashboard-dashboard-secret"
+    # Keys to extract from Vault secret
     keys:
       - REACT_APP_MSENTRA_CLIENT_ID
       - REACT_APP_MSENTRA_TENANT_ID
@@ -21,6 +24,8 @@ secrets:
   api:
     enabled: false
     vaultPath: "phoenix/sdhp-stfc/integration/ska-sdp-dataproduct-api"
+    # Name of the Kubernetes secret that will be created/synced
     secretName: "ska-dataproduct-dashboard-api-secret"
+    # Keys to extract from Vault secret
     keys:
-      - REACT_APP_API_KEY
+      - SKA_DATAPRODUCT_API_POSTGRESQL_PASSWORD

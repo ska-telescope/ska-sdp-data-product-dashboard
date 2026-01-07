@@ -18,8 +18,6 @@ api:
   indexingTimeoutSeconds: 300
   indexingBatchSize: 10
   sdpConfigdbHost: ""
-  secrets:
-    useExistingSecret: false
   permissionsapi:
     serviceUrl: https://sdhp.stfc.skao.int/integration-ska-permissions-api
   postgresql:
@@ -52,12 +50,6 @@ dashboard:
   ingress:
     path: dashboard
   dataGridDefaultPageSize: 25
-  secrets:
-    # Set to true if you want to manage the secret externally (e.g., via External Secrets Operator, Vault injector, or manual creation)
-    useExistingSecret: false
-    # Values below are used only when useExistingSecret is false
-    client_id: placeholder_for_client_id
-    tenant_id: placeholder_for_tenant_id
   apiRefreshRate: 10000
   resources:
     requests:
