@@ -2,6 +2,13 @@
 
 ## Development
 
+- [PHX-325](https://jira.skatelescope.org/browse/PHX-325)
+
+  - [Changed] Refactored Helm chart to remove direct HashiCorp Vault dependencies from main application charts
+  - [Added] Created vault-secret-sync subchart for optional Vault integration via Vault Secrets Operator
+  - [Changed] Updated API and Dashboard to always use standard Kubernetes secrets instead of VaultStaticSecret CRDs
+  - [Added] Simplified secret management to two options: Vault-synced secrets (via vault-secret-sync subchart) or user-managed Kubernetes secrets
+
 - [PHX-123](https://jira.skatelescope.org/browse/PHX-123)
   - [Added] Implemented progressive data loading to display data products as they are indexed, even during long indexing operations
   - [Added] Implemented server-side sorting for MUI DataGrid.

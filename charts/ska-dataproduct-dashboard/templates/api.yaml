@@ -14,26 +14,6 @@ spec:
   clusterIP: None
   selector:
 {{ include "ska-dataproduct-dashboard.api.labels" . | indent 4 }}
-{{- if $.Values.api.vault.useVault }}
----
-apiVersion: secrets.hashicorp.com/v1beta1
-kind: VaultStaticSecret
-metadata:
-  name: {{ $.Chart.Name }}-api-secret
-spec:
-  type: kv-v2
-  mount: "{{ .Values.api.vault.engine }}"
-  path: "{{ .Values.api.vault.pathToSecretVault }}"
-  refreshAfter: "{{ .Values.api.vault.refreshAfter }}"
-  destination:
-    name: {{ $.Chart.Name }}-api-secret
-    create: true
-    overwrite: true
-    transformation:
-      excludeRaw: true
-      includes:
-        - SKA_DATAPRODUCT_API_POSTGRESQL_PASSWORD
-{{- end }}
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -128,14 +108,9 @@ spec:
             value: "{{ .Values.api.indexingTimeoutSeconds }}"
           - name: INDEXING_BATCH_SIZE
             value: "{{ .Values.api.indexingBatchSize }}"
-{{- if $.Values.dashboard.vault.useVault }}
           - name: SKA_DATAPRODUCT_API_POSTGRESQL_PASSWORD
             valueFrom:
               secretKeyRef:
-                name: {{ $.Chart.Name }}-api-secret
+                name: {{ .Values.api.secretName }}
                 key: SKA_DATAPRODUCT_API_POSTGRESQL_PASSWORD
-{{- else }}
-          - name: SKA_DATAPRODUCT_API_POSTGRESQL_PASSWORD
-            value: "{{ .Values.api.postgresql.password }}"
-{{- end }}
 {{- end }}
