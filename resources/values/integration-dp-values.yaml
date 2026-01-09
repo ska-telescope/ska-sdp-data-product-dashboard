@@ -1,17 +1,11 @@
 ---
 api:
   sdpConfigdbHost: "ska-sdp-etcd.dp-shared"
-  secrets:
-    useExistingSecret: true
   postgresql:
     host: "pgdev-lb.cnpgdev.svc.cluster.local"
     user: "sdp_sdp_dataproduct_dashboard_integration"
     dbname: "integration"
     schema: "sdp_sdp_dataproduct_dashboard_integration"
-
-dashboard:
-  secrets:
-    useExistingSecret: true
 
 vault-secret-sync:
   enabled: true
@@ -20,14 +14,12 @@ vault-secret-sync:
     refreshAfter: 360s
   secrets:
     dashboard:
-      enabled: true
       vaultPath: "phoenix/sdhp-stfc/integration/ska-dataproduct-dashboard"
       secretName: "ska-dataproduct-dashboard-dashboard-secret"
       keys:
         - REACT_APP_MSENTRA_CLIENT_ID
         - REACT_APP_MSENTRA_TENANT_ID
     api:
-      enabled: true
       vaultPath: "phoenix/sdhp-stfc/integration/ska-sdp-dataproduct-api"
       secretName: "ska-dataproduct-dashboard-api-secret"
       keys:

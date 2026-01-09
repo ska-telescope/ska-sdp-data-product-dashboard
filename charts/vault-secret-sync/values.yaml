@@ -12,7 +12,6 @@ vault:
 # Secrets to sync from Vault
 secrets:
   dashboard:
-    enabled: false
     vaultPath: "phoenix/sdhp-stfc/integration/ska-dataproduct-dashboard"
     # Name of the Kubernetes secret that will be created/synced
     secretName: "ska-dataproduct-dashboard-dashboard-secret"
@@ -22,7 +21,6 @@ secrets:
       - REACT_APP_MSENTRA_TENANT_ID
   
   api:
-    enabled: false
     vaultPath: "phoenix/sdhp-stfc/integration/ska-sdp-dataproduct-api"
     # Name of the Kubernetes secret that will be created/synced
     secretName: "ska-dataproduct-dashboard-api-secret"

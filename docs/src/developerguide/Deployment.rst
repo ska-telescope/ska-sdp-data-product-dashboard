@@ -215,7 +215,6 @@ Secrets are automatically synchronized from HashiCorp Vault using the vault-secr
 
 Configuration:
   - Set ``vault-secret-sync.enabled: true``
-  - Enable specific secret syncs (``vault-secret-sync.secrets.dashboard.enabled: true``, ``vault-secret-sync.secrets.api.enabled: true``)
 
 Prerequisites:
   - HashiCorp Vault Secrets Operator installed in cluster
@@ -258,18 +257,12 @@ The vault-secret-sync subchart is an optional helper that automatically syncs se
     * - ``vault-secret-sync.vault.refreshAfter``
       - ``360s``
       - How often to refresh secrets from Vault
-    * - ``vault-secret-sync.secrets.dashboard.enabled``
-      - ``false``
-      - Enable dashboard secret synchronization
     * - ``vault-secret-sync.secrets.dashboard.vaultPath``
       - ``phoenix/sdhp-stfc/integration/ska-dataproduct-dashboard``
       - Vault path to dashboard secrets
     * - ``vault-secret-sync.secrets.dashboard.secretName``
       - ``ska-dataproduct-dashboard-dashboard-secret``
       - Kubernetes secret name for dashboard
-    * - ``vault-secret-sync.secrets.api.enabled``
-      - ``false``
-      - Enable API secret synchronization
     * - ``vault-secret-sync.secrets.api.vaultPath``
       - ``phoenix/sdhp-stfc/integration/ska-sdp-dataproduct-api``
       - Vault path to API secrets
@@ -282,8 +275,8 @@ The vault-secret-sync subchart is an optional helper that automatically syncs se
 When enabled, the subchart creates VaultStaticSecret custom resources that the Vault Secrets Operator monitors. The operator automatically fetches secrets from the specified Vault paths and creates/updates the corresponding Kubernetes secrets. The main application always references standard Kubernetes secrets, making it portable across different secret management strategies.
 
 
-Deployment Examples
---------------------------------
+Shared Persistent Volume Configuration
+---------------------------------------
 
 .. note:: Only enable PVC creation for local development or testing. In production, use a pre-configured shared PVC.
 
@@ -314,10 +307,7 @@ Deployment Examples
 Vault-synced Secrets (Production)
 ----------------------------------
 
-Secrets are automatically synchronized from HashiCorp Vault.
-----------------------------------
-
-For production deployments with HashiCorp Vault. Secrets are automatically synchronized from Vault.
+For production deployments with HashiCorp Vault, secrets are automatically synchronized from Vault.
 
 First, update Helm dependencies:
 
@@ -331,8 +321,6 @@ Then deploy with Vault synchronization:
 
     helm install ska-dataproduct-dashboard charts/ska-dataproduct-dashboard \
       --set vault-secret-sync.enabled=true \
-      --set vault-secret-sync.secrets.dashboard.enabled=true \
-      --set vault-secret-sync.secrets.api.enabled=true \
       --set vault-secret-sync.vault.engine="prod" \
       --set vault-secret-sync.secrets.dashboard.vaultPath="phoenix/sdhp-stfc/production/ska-dataproduct-dashboard" \
       --set vault-secret-sync.secrets.api.vaultPath="phoenix/sdhp-stfc/production/ska-sdp-dataproduct-api"
