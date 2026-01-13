@@ -209,7 +209,15 @@ Secret Management
 
 The chart supports two modes for managing application secrets (both API and Dashboard):
 
-**Option 1: Vault-synced secrets (Recommended for Production)**
+**Option 1: User-managed Kubernetes secrets (Default)**
+
+You manage secrets externally using ``kubectl``, External Secrets Operator, Sealed Secrets, or any other secret management tool. The chart expects these secrets to exist before deployment.
+
+Configuration:
+  - ``vault-secret-sync.enabled: false`` (default)
+  - Create secrets manually with the required names and keys (see below)
+
+**Option 2: Vault-synced secrets**
 
 Secrets are automatically synchronized from HashiCorp Vault using the vault-secret-sync subchart. This requires the Vault Secrets Operator to be installed in the cluster.
 
@@ -221,17 +229,23 @@ Prerequisites:
   - Vault properly configured with authentication
   - Service account has permissions to access Vault paths
 
-**Option 2: User-managed Kubernetes secrets**
+Required Secrets for Both Options
+----------------------------------
 
-You manage secrets externally using ``kubectl``, External Secrets Operator, Sealed Secrets, or any other secret management tool. The chart expects these secrets to exist before deployment.
+The following Kubernetes secrets must exist (either created manually or synced from Vault).
 
-Configuration:
-  - Set ``vault-secret-sync.enabled: false``
-  - Create secrets manually with the correct names and keys
+.. note:: The secret names shown below are the default values and can be customized via ``vault-secret-sync.secrets.dashboard.secretName`` and ``vault-secret-sync.secrets.api.secretName`` configuration options.
 
-Required secret names:
-  - Dashboard: ``ska-dataproduct-dashboard-dashboard-secret``
-  - API: ``ska-dataproduct-dashboard-api-secret``
+**Dashboard secret** (default name: ``ska-dataproduct-dashboard-dashboard-secret``)
+
+  Required keys:
+    - ``REACT_APP_MSENTRA_CLIENT_ID`` - Microsoft Entra application registration client ID
+    - ``REACT_APP_MSENTRA_TENANT_ID`` - Microsoft Entra application registration tenant ID
+
+**API secret** (default name: ``ska-dataproduct-dashboard-api-secret``)
+
+  Required keys:
+    - ``SKA_DATAPRODUCT_API_POSTGRESQL_PASSWORD`` - PostgreSQL database password
 
 
 Vault Secret Synchronization Subchart
