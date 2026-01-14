@@ -1,6 +1,6 @@
 # Changelog
 
-## Development
+## v0.15.0
 
 - [PHX-325](https://jira.skatelescope.org/browse/PHX-325)
 
