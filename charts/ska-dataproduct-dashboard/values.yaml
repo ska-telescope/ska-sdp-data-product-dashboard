@@ -16,7 +16,7 @@ api:
     path: api
   storagePath: "/mnt/data/product/"
   metadata_file_name: ska-data-product.yaml
-  indexingTimeoutSeconds: 300
+  indexingTimeoutSeconds: 21600
   indexingBatchSize: 10
   sdpConfigdbHost: ""
   permissionsapi:
