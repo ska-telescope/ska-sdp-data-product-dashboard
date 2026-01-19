@@ -50,6 +50,7 @@
     "userPrincipalName": "User",
     "dataProductUUID": "Data Product UUID",
     "indexingStatus": "Data Processing Status",
+    "leaveFeedback": "Feedback",
     "annotation": {
       "title": "Annotations",
       "noAnnotations": "No Data Annotations found for this Data Product",
