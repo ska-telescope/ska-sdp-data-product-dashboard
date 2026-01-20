@@ -1,13 +1,13 @@
 ---
 apiVersion: v2
-appVersion: 0.15.0
+appVersion: 0.15.1
 description: A Helm chart to deploy the Data Product Dashboard
 home: https://gitlab.com/ska-telescope/ska-dataproduct-dashboard
 maintainers:
   - email: naledi@sarao.ac.za
     name: NALEDI
 name: ska-dataproduct-dashboard
-version: 0.15.0
+version: 0.15.1
 
 dependencies:
   - name: vault-secret-sync
