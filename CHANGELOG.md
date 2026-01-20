@@ -1,5 +1,15 @@
 # Changelog
 
+## v0.15.1
+
+- [PHX-320](https://jira.skatelescope.org/browse/PHX-320)
+
+  - [Added] Added feedback button
+
+- [PHX-353](https://jira.skatelescope.org/browse/PHX-353)
+
+  - [Changed] Adjusted default indexing time out and pageSizeOptions
+
 ## v0.15.0
 
 - [PHX-325](https://jira.skatelescope.org/browse/PHX-325)
