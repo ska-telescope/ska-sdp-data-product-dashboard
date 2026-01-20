@@ -8,6 +8,7 @@
 # - number
 # - boolean
 
+REACT_APP_FEEDBACK_FORM_URL:string:https://forms.gle/JPnGvYsPLWiaGeQ37
 SKIP_PREFLIGHT_CHECK:boolean
 REACT_APP_ALLOW_MOCK_AUTH:boolean
 REACT_APP_API_REFRESH_RATE:number

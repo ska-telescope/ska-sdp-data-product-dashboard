@@ -12,6 +12,7 @@ declare global {
 }
 
 type EnvType = {
+  REACT_APP_FEEDBACK_FORM_URL: string;
   SKIP_PREFLIGHT_CHECK: boolean;
   REACT_APP_API_REFRESH_RATE: number;
   REACT_APP_DATAGRID_DEFAULT_PAGE_SIZE: string;

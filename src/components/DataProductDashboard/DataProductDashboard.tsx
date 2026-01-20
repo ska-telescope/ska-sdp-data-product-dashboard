@@ -20,6 +20,8 @@ import { SKA_DATAPRODUCT_API_URL, FILTERCARDHEIGHT } from '@utils/constants';
 import DataproductDataGrid from '@components/DataGrid/DataGrid';
 import DataAnnotationsCard from '@components/DataAnnotationsCard/DataAnnotationsCard';
 import { SelectedDataProduct } from 'types/dataproducts/dataproducts';
+import FeedbackButton from '@components/FeedbackButton/FeedbackButton';
+import { FEEDBACK_URL } from '@utils/constants';
 
 const DataProductDashboard = () => {
   const { t } = useTranslation('dpd');
@@ -331,6 +333,9 @@ const DataProductDashboard = () => {
           </Grid>
           <Grid item>
             <IndexingStatus isLoading={isDataLoading} />
+          </Grid>
+          <Grid item sx={{ ml: 'auto' }}>
+            <FeedbackButton href={FEEDBACK_URL} />
           </Grid>
         </Grid>
       </Box>
