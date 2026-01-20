@@ -22,7 +22,7 @@ const FeedbackButton: React.FC<FeedbackButtonProps> = ({ href }) => {
         textTransform: 'none',
         color: 'white',
         bgcolor: 'success.main',
-        '&:hover': { bgcolor: 'success.dark' },
+        '&:hover': { bgcolor: 'success.dark' }
       }}
     >
       {t('label.leaveFeedback')}
