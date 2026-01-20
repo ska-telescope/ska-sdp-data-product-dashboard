@@ -21,6 +21,7 @@ import DataproductDataGrid from '@components/DataGrid/DataGrid';
 import DataAnnotationsCard from '@components/DataAnnotationsCard/DataAnnotationsCard';
 import { SelectedDataProduct } from 'types/dataproducts/dataproducts';
 import FeedbackButton from '@components/FeedbackButton/FeedbackButton';
+import { FEEDBACK_URL } from '@utils/constants';
 
 const DataProductDashboard = () => {
   const { t } = useTranslation('dpd');
@@ -334,7 +335,7 @@ const DataProductDashboard = () => {
             <IndexingStatus isLoading={isDataLoading} />
           </Grid>
           <Grid item>
-            <FeedbackButton href="https://docs.google.com/forms/d/1KrrQloQH-1lGBaPEI7EL7r_9AbUMKpUMnRGeI6KDsE4/edit" />
+            <FeedbackButton href={FEEDBACK_URL} />
           </Grid>
         </Grid>
       </Box>

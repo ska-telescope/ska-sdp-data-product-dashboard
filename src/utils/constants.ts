@@ -7,6 +7,7 @@ export const IS_DEV = NODE_ENV !== 'production';
 export const USE_LOCAL_DATA = env.REACT_APP_USE_LOCAL_DATA;
 export const API_REFRESH_RATE = env.REACT_APP_API_REFRESH_RATE;
 export const SKA_DATAPRODUCT_API_URL = env.REACT_APP_SKA_DATAPRODUCT_API_URL;
+export const FEEDBACK_URL = env.REACT_APP_FEEDBACK_FORM_URL || 'https://forms.gle/RvKT9NrHRsmCsw9T6';
 export const DATAGRID_DEFAULT_PAGE_SIZE = parseInt(
   env.REACT_APP_DATAGRID_DEFAULT_PAGE_SIZE || '25',
   10
