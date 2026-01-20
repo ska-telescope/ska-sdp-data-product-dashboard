@@ -241,7 +241,7 @@ export default function DataproductDataGrid({
         paginationMode="server"
         paginationModel={paginationModel}
         onPaginationModelChange={setPaginationModel}
-        pageSizeOptions={[25, 50, 100, 200]}
+        pageSizeOptions={[25, 50, 100]}
         sortModel={sortModel}
         onSortModelChange={onSortModelChange}
         onFilterModelChange={onFilterChange}
