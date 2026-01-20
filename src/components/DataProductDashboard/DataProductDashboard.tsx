@@ -334,7 +334,7 @@ const DataProductDashboard = () => {
           <Grid item>
             <IndexingStatus isLoading={isDataLoading} />
           </Grid>
-          <Grid item>
+          <Grid item sx={{ ml: 'auto' }}>
             <FeedbackButton href={FEEDBACK_URL} />
           </Grid>
         </Grid>
