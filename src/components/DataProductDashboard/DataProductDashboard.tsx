@@ -45,8 +45,8 @@ const DataProductDashboard = () => {
 
   const DEF_START_DATE = '1970-01-01';
   const DEF_END_DATE = '2070-12-31';
-  const [startDate, updateStartDate] = React.useState('');
-  const [endDate, updateEndDate] = React.useState('');
+  const [startDate, updateStartDate] = React.useState(DEF_START_DATE);
+  const [endDate, updateEndDate] = React.useState(DEF_END_DATE);
   const [formFields, setFormFields] = React.useState([
     { field: '', operator: 'contains', value: '' }
   ]);
@@ -66,6 +66,34 @@ const DataProductDashboard = () => {
     ],
     logicOperator: 'and'
   });
+
+  // Get any pre filled in form values from the URL using ?key=value&key=value
+  React.useEffect(() => {
+    const queryString = window.location.search;
+
+    const params = new URLSearchParams(queryString);
+
+    // Handle all other search options
+    const localSearch = [];
+    params.forEach((value, key) => {
+      if (key === 'start_date') {
+        updateStartDate(value);
+      } else if (key === 'end_date') {
+        updateEndDate(value);
+      } else {
+        localSearch.push({
+          field: key,
+          operator: 'contains',
+          value: value
+        });
+      }
+    });
+
+    if (localSearch.length > 0) {
+      // Putting search options before any current form options
+      setFormFields([...localSearch, ...formFields]);
+    }
+  }, []);
 
   // Monitor dataStoreLastModifiedTime for changes to enable reload button
   React.useEffect(() => {
