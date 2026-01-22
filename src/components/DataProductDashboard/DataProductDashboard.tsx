@@ -91,7 +91,14 @@ const DataProductDashboard = () => {
 
     if (localSearch.length > 0) {
       // Putting search options before any current form options
-      setFormFields([...localSearch, ...formFields]);
+      setFormFields(
+        (URLParamFunction: Array<{ field: string; operator: string; value: string }>) => {
+          // Only add items that don't already exist (check by field name)
+          const existingFields = URLParamFunction.map((f) => f.field);
+          const newItems = localSearch.filter((item) => !existingFields.includes(item.field));
+          return [...newItems, ...URLParamFunction];
+        }
+      );
     }
   }, []);
 
