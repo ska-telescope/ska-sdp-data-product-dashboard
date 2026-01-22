@@ -79,7 +79,6 @@ dev-start:
 		-p 8100:8100 \
 		-v $(shell pwd):/data \
 		-v $(shell pwd)/.cache:/.cache \
-		-e REACT_APP_USE_LOCAL_DATA=true \
 		--user 1000:1000 \
 		-w /data \
 		artefact.skao.int/ska-build-node:0.1.4 \

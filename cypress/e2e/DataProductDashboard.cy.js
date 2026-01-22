@@ -45,6 +45,18 @@ context('Select and download data product', () => {
     })
   })
 
+  describe('url parameters are set', () => {
+    beforeEach(() => {
+      setUpForTests();
+      cy.visit(LOCAL_HOST + '?execution_block=eb-test-20260101-1234')
+    })
+
+    it('Verify form is filled correct', () => {
+      cy.findByTestId("DateEntryKeyPair").contains("execution_block").should("be.visible");
+      cy.findByTestId("DateEntryValuePair").contains("eb-test-20260101-1234").should("be.visible");
+    })
+  })
+
   describe('data product service is available with search functionality', () => {
     beforeEach(() => {
       setUpForTests();
