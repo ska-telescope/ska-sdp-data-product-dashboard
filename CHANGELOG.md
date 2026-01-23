@@ -1,5 +1,11 @@
 # Changelog
 
+## Development
+
+- [PHX-354](https://jira.skatelescope.org/browse/PHX-354)
+
+  - [Added] Allow for URL parameters to populate the search form on startup
+
 ## v0.15.1
 
 - [PHX-320](https://jira.skatelescope.org/browse/PHX-320)
