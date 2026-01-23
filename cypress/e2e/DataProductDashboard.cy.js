@@ -53,8 +53,8 @@ context('Select and download data product', () => {
     })
 
     it('Verify form is filled correct', () => {
-      cy.findAllByTestId("DateEntryKeyPair").contains("execution_block").should("be.visible");
-      cy.findAllByTestId("DateEntryValuePair").contains("eb-test-20260101-1234").should("be.visible");
+      cy.findAllByTestId("textEntry-Key").contains("execution_block").scrollIntoView().should("be.visible");
+      cy.findAllByTestId("textEntry-Value").contains("eb-test-20260101-1234").scrollIntoView().should("be.visible");
     })
   })
 

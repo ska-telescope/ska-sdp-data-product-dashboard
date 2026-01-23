@@ -265,7 +265,6 @@ const DataProductDashboard = () => {
                     <Grid item xs={12}>
                       <TextEntry
                         ariaTitle="field"
-                        testId="DateEntryKeyPair"
                         label={t('label.key')}
                         setValue={(event: any) => handleKeyPairChange(event, index)}
                         value={form.field}
@@ -275,7 +274,6 @@ const DataProductDashboard = () => {
                     <Grid item xs={12}>
                       <TextEntry
                         ariaTitle="value"
-                        testId="DateEntryValuePair"
                         label={t('label.value')}
                         setValue={(event: any) => handleValuePairChange(event, index)}
                         value={form.value}
