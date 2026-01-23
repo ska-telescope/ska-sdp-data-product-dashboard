@@ -55,3 +55,32 @@ k8s-pre-install-chart:
 	elif [[ "$(CI_RUNNER_TAGS)" == *"k8srunner"* ]] || [[ "$(CI_RUNNER_TAGS)" == *"k8srunner-gpu-v100"* ]] ; then \
 		echo "techops not implemented yet!" ;\
 	fi
+
+
+
+dev-setup:
+	docker run \
+		--rm \
+		--name dpd-display-dev \
+		-it \
+		-p 8100:8100 \
+		-v $(shell pwd):/data \
+		-v $(shell pwd)/.cache:/.cache \
+		--user 1000:1000 \
+		-w /data \
+		artefact.skao.int/ska-build-node:0.1.4 \
+		yarn install --frozen-lockfile
+
+dev-start:
+	docker run \
+		--rm \
+		--name dpd-display-dev \
+		-it \
+		-p 8100:8100 \
+		-v $(shell pwd):/data \
+		-v $(shell pwd)/.cache:/.cache \
+		--user 1000:1000 \
+		-w /data \
+		artefact.skao.int/ska-build-node:0.1.4 \
+		yarn start
+

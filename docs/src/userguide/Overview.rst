@@ -58,6 +58,27 @@ The data annotations associated with the selected data product can be viewed on 
 
    Example of data annotations panel.
 
+Pre-populating Form Entries
+===========================
+
+It is possible to create links that will pre-populate the search form.
+
+Example links:
+
+* ``https://<url>/?start_date=2026-01-01&end_date=2026-03-31`` - will search
+  for all Data Products between ``2026-01-01`` and ``2026-03-31``
+* ``https://<url>/?execution_block=<eb-id>`` - will search for any execution
+  block with that ``<eb-id>`` string in it.
+
+It is possible to combine any search term like this, but note that all search
+terms will be combined. So using dates and an execution block ID will cause the
+search to look for any execution block with that ID that is within that date
+criteria. Any ``Key`` from the form can be used in the URL.
+
+.. figure:: /_static/img/pre_populated_form_from_url.png
+   :width: 90%
+
+   Example of pre-populating the form from the URL.
 
 Data Product Index
 ==================
