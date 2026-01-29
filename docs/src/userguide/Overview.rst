@@ -65,7 +65,7 @@ It is possible to create links that will pre-populate the search form.
 
 Example links:
 
-* ``https://<url>/?date_start=2026-01-01&date_end=2026-03-31`` - will search
+* ``https://<url>/?start_date=2026-01-01&end_date=2026-03-31`` - will search
   for all Data Products between ``2026-01-01`` and ``2026-03-31``
 * ``https://<url>/?execution_block=<eb-id>`` - will search for any execution
   block with that ``<eb-id>`` string in it.
