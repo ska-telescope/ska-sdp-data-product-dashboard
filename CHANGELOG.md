@@ -1,6 +1,6 @@
 # Changelog
 
-## Development
+## v0.16.0
 
 - [PHX-354](https://jira.skatelescope.org/browse/PHX-354)
 
