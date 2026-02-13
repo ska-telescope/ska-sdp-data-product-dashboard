@@ -6,6 +6,8 @@
 
   - [Added] Allow for URL parameters to populate the search form on startup
 
+- [PHX-369]
+
 ## v0.15.1
 
 - [PHX-320](https://jira.skatelescope.org/browse/PHX-320)
