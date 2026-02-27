@@ -24,6 +24,9 @@ import FeedbackButton from '@components/FeedbackButton/FeedbackButton';
 import { FEEDBACK_URL } from '@utils/constants';
 
 const DataProductDashboard = () => {
+  // State for data_source filter
+  const [dataSourceFilter, setDataSourceFilter] = React.useState('all');
+  const [availableDataSources, setAvailableDataSources] = React.useState<string[]>([]);
   const { t } = useTranslation('dpd');
   const { apiRunning, apiIndexing, indexingProgress, dataStoreLastModifiedTime, refreshStatus } =
     useApiStatus();
@@ -34,7 +37,7 @@ const DataProductDashboard = () => {
     relativePathName: '',
     metaDataFile: '',
     uid: '',
-    data_store: ''
+    data_source: ''
   });
 
   const [isDataLoading, setIsDataLoading] = React.useState(false);
@@ -124,9 +127,19 @@ const DataProductDashboard = () => {
   }, [newDataAvailable]);
 
   React.useEffect(() => {
+    // Add data_source filter if not 'all'
+    let items = [...formFields];
+    if (dataSourceFilter && dataSourceFilter !== 'all') {
+      // Remove any previous data_source filter
+      items = items.filter((item) => item.field !== 'data_source');
+      items.push({ field: 'data_source', operator: 'equals', value: dataSourceFilter });
+    } else {
+      // Remove any previous data_source filter
+      items = items.filter((item) => item.field !== 'data_source');
+    }
     setSearchPanelOptions({
       items: [
-        ...formFields,
+        ...items,
         {
           field: 'date_created',
           operator: 'greaterThan',
@@ -140,7 +153,7 @@ const DataProductDashboard = () => {
       ],
       logicOperator: 'and'
     });
-  }, [startDate, endDate, formFields]);
+  }, [startDate, endDate, formFields, dataSourceFilter]);
 
   React.useEffect(() => {
     // Reset updating flag after filter changes have been applied
@@ -161,8 +174,9 @@ const DataProductDashboard = () => {
   };
 
   // Memoize the DataGrid to prevent unnecessary re-renders
-  const dataGridComponent = React.useMemo(
-    () => (
+  // Wrap the DataGrid to extract available data sources from rows
+  const dataGridComponent = React.useMemo(() => {
+    return (
       <DataproductDataGrid
         handleSelectedNode={handleRowClick}
         searchPanelOptions={searchPanelOptions}
@@ -170,10 +184,10 @@ const DataProductDashboard = () => {
         isIndexing={apiIndexing}
         indexingProgress={indexingProgress}
         onLoadingChange={setIsDataLoading}
+        setAvailableDataSources={setAvailableDataSources}
       />
-    ),
-    [searchPanelOptions, updating, apiIndexing, indexingProgress]
-  );
+    );
+  }, [searchPanelOptions, updating, apiIndexing, indexingProgress]);
 
   async function indexDataProduct() {
     const apiUrl = SKA_DATAPRODUCT_API_URL;
@@ -340,6 +354,26 @@ const DataProductDashboard = () => {
           justifyContent="justify-left"
           alignItems="center"
         >
+          <Grid item>
+            <Box mb={2}>
+              <label htmlFor="data-source-select" style={{ marginRight: 8 }}>
+                Data Source:
+              </label>
+              <select
+                id="data-source-select"
+                value={dataSourceFilter}
+                onChange={(e) => setDataSourceFilter(e.target.value)}
+                style={{ minWidth: 120 }}
+              >
+                <option value="all">All</option>
+                {availableDataSources.map((ds) => (
+                  <option key={ds} value={ds}>
+                    {ds}
+                  </option>
+                ))}
+              </select>
+            </Box>
+          </Grid>
           <Grid item>
             <Button
               testId="IndexDataProductsButton"

@@ -25,14 +25,20 @@ interface DataproductDataGridProps {
   onLoadingChange?: (isLoading: boolean) => void;
 }
 
+// Add setAvailableDataSources prop
+interface DataproductDataGridPropsWithSources extends DataproductDataGridProps {
+  setAvailableDataSources?: (sources: string[]) => void;
+}
+
 export default function DataproductDataGrid({
   handleSelectedNode,
   searchPanelOptions,
   updating,
   isIndexing,
   indexingProgress,
-  onLoadingChange
-}: DataproductDataGridProps) {
+  onLoadingChange,
+  setAvailableDataSources
+}: DataproductDataGridPropsWithSources) {
   const [muiConfigData, setMuiConfigData] = React.useState({
     columns: []
   });
@@ -88,9 +94,15 @@ export default function DataproductDataGrid({
 
         if (!isCancelled) {
           if (result.DataGridRowsData) {
-            // Always update rows to show progressive data loading
             setRows(result.DataGridRowsData);
             setRowCount(result.total || 0);
+            // Extract unique data_source values for dropdown
+            if (setAvailableDataSources) {
+              const sources = Array.from(
+                new Set(result.DataGridRowsData.map((row: any) => row.data_source).filter(Boolean))
+              );
+              setAvailableDataSources(sources);
+            }
           }
         }
       } catch (error) {
@@ -110,7 +122,7 @@ export default function DataproductDataGrid({
       isCancelled = true;
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [dataFilterModel, refreshTrigger, paginationModel, sortModel]);
+  }, [dataFilterModel, refreshTrigger, paginationModel, sortModel, setAvailableDataSources]);
 
   React.useEffect(() => {
     function handleResize() {
@@ -150,7 +162,7 @@ export default function DataproductDataGrid({
       dataproduct_file: any;
       metadata_file: any;
       uid: any;
-      data_store: any;
+      data_source: any;
     };
   }) => {
     const saveData = () => {
@@ -161,7 +173,7 @@ export default function DataproductDataGrid({
           relativePathName: params.row.dataproduct_file,
           metaDataFile: params.row.metadata_file,
           uid: params.row.uid,
-          data_store: params.row.data_store
+          data_source: params.row.data_source
         })
       );
     };
@@ -185,7 +197,7 @@ export default function DataproductDataGrid({
           });
         };
 
-        if (params.row.data_store !== 'dlm' && params.row.dataproduct_file !== 'None') {
+        if (params.row.data_source !== 'dlm' && params.row.dataproduct_file !== 'None') {
           return (
             <Button
               testId="downloadButton"
