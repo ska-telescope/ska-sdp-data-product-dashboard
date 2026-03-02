@@ -2,7 +2,17 @@ import React from 'react';
 import axios from 'axios';
 import { useTranslation } from 'react-i18next';
 
-import { Box, Card, CardContent, Grid, Typography } from '@mui/material';
+import {
+  Box,
+  Card,
+  CardContent,
+  FormControl,
+  Grid,
+  InputLabel,
+  MenuItem,
+  Select,
+  Typography
+} from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
 import LibraryAddOutlinedIcon from '@mui/icons-material/LibraryAddOutlined';
 import IndeterminateCheckBoxOutlinedIcon from '@mui/icons-material/IndeterminateCheckBoxOutlined';
@@ -26,11 +36,18 @@ import { FEEDBACK_URL } from '@utils/constants';
 const DataProductDashboard = () => {
   // State for data_source filter
   const [dataSourceFilter, setDataSourceFilter] = React.useState('all');
-  const [availableDataSources, setAvailableDataSources] = React.useState<string[]>([]);
   const { t } = useTranslation('dpd');
-  const { apiRunning, apiIndexing, indexingProgress, dataStoreLastModifiedTime, refreshStatus } =
-    useApiStatus();
+  const {
+    apiRunning,
+    apiIndexing,
+    apiStatus,
+    indexingProgress,
+    dataStoreLastModifiedTime,
+    refreshStatus
+  } = useApiStatus();
 
+  const availableDataSources: string[] =
+    apiStatus?.search_store_status?.available_data_sources ?? [];
   const [updating, setUpdating] = React.useState(false);
   const [selectedFileNames, setSelectedFileNames] = React.useState<SelectedDataProduct>({
     execution_block: '',
@@ -77,7 +94,7 @@ const DataProductDashboard = () => {
     const params = new URLSearchParams(queryString);
 
     // Handle all other search options
-    const localSearch = [];
+    const localSearch: Array<{ field: string; operator: string; value: string }> = [];
     params.forEach((value, key) => {
       if (key === 'start_date') {
         updateStartDate(value);
@@ -174,7 +191,6 @@ const DataProductDashboard = () => {
   };
 
   // Memoize the DataGrid to prevent unnecessary re-renders
-  // Wrap the DataGrid to extract available data sources from rows
   const dataGridComponent = React.useMemo(() => {
     return (
       <DataproductDataGrid
@@ -184,7 +200,6 @@ const DataProductDashboard = () => {
         isIndexing={apiIndexing}
         indexingProgress={indexingProgress}
         onLoadingChange={setIsDataLoading}
-        setAvailableDataSources={setAvailableDataSources}
       />
     );
   }, [searchPanelOptions, updating, apiIndexing, indexingProgress]);
@@ -273,42 +288,44 @@ const DataProductDashboard = () => {
                 />
               </Grid>
 
-              {formFields.map((form, index) => {
-                return (
-                  <>
-                    <Grid item xs={12}>
-                      <TextEntry
-                        ariaTitle="field"
-                        label={t('label.key')}
-                        setValue={(event: any) => handleKeyPairChange(event, index)}
-                        value={form.field}
-                      />
-                    </Grid>
+              {formFields.map(
+                (form: { field: string; operator: string; value: string }, index: number) => {
+                  return (
+                    <>
+                      <Grid item xs={12}>
+                        <TextEntry
+                          ariaTitle="field"
+                          label={t('label.key')}
+                          setValue={(event: any) => handleKeyPairChange(event, index)}
+                          value={form.field}
+                        />
+                      </Grid>
 
-                    <Grid item xs={12}>
-                      <TextEntry
-                        ariaTitle="value"
-                        label={t('label.value')}
-                        setValue={(event: any) => handleValuePairChange(event, index)}
-                        value={form.value}
-                      />
-                    </Grid>
+                      <Grid item xs={12}>
+                        <TextEntry
+                          ariaTitle="value"
+                          label={t('label.value')}
+                          setValue={(event: any) => handleValuePairChange(event, index)}
+                          value={form.value}
+                        />
+                      </Grid>
 
-                    <Grid item xs={-4}>
-                      <Button
-                        testId="RemoveKeyValuePairButton"
-                        color={ButtonColorTypes.Secondary}
-                        disabled={updating}
-                        icon={<IndeterminateCheckBoxOutlinedIcon />}
-                        label="Remove"
-                        onClick={() => removeFields(index)}
-                        toolTip="Remove Key/Value pair"
-                        variant={ButtonVariantTypes.Outlined}
-                      />
-                    </Grid>
-                  </>
-                );
-              })}
+                      <Grid item xs={-4}>
+                        <Button
+                          testId="RemoveKeyValuePairButton"
+                          color={ButtonColorTypes.Secondary}
+                          disabled={updating}
+                          icon={<IndeterminateCheckBoxOutlinedIcon />}
+                          label="Remove"
+                          onClick={() => removeFields(index)}
+                          toolTip="Remove Key/Value pair"
+                          variant={ButtonVariantTypes.Outlined}
+                        />
+                      </Grid>
+                    </>
+                  );
+                }
+              )}
 
               <Grid item xs={4}>
                 <Button
@@ -355,24 +372,35 @@ const DataProductDashboard = () => {
           alignItems="center"
         >
           <Grid item>
-            <Box mb={2}>
-              <label htmlFor="data-source-select" style={{ marginRight: 8 }}>
-                Data Source:
-              </label>
-              <select
+            <FormControl
+              size="small"
+              sx={{
+                minWidth: 180,
+                bgcolor: 'background.paper',
+                '& .MuiOutlinedInput-notchedOutline': { borderColor: 'text.disabled' },
+                '&:hover .MuiOutlinedInput-notchedOutline': { borderColor: 'text.primary' },
+                '& .Mui-focused .MuiOutlinedInput-notchedOutline': {
+                  borderColor: 'text.primary',
+                  borderWidth: 1
+                }
+              }}
+            >
+              <InputLabel id="data-source-select-label">Data Source</InputLabel>
+              <Select
+                labelId="data-source-select-label"
                 id="data-source-select"
                 value={dataSourceFilter}
-                onChange={(e) => setDataSourceFilter(e.target.value)}
-                style={{ minWidth: 120 }}
+                label="Data Source"
+                onChange={(e) => setDataSourceFilter(e.target.value as string)}
               >
-                <option value="all">All</option>
-                {availableDataSources.map((ds) => (
-                  <option key={ds} value={ds}>
+                <MenuItem value="all">All</MenuItem>
+                {availableDataSources.map((ds: string) => (
+                  <MenuItem key={ds} value={ds}>
                     {ds}
-                  </option>
+                  </MenuItem>
                 ))}
-              </select>
-            </Box>
+              </Select>
+            </FormControl>
           </Grid>
           <Grid item>
             <Button
