@@ -13,7 +13,7 @@ api:
 
 dashboard:
   container: registry.gitlab.com/ska-telescope/ska-dataproduct-dashboard/ska-dataproduct-dashboard
-  version: 0.16.0-dev.c3b2603e1
+  version: 0.16.0-dev.c6c1de48e
   imagePullPolicy: Always
 
 vault-secret-sync:
