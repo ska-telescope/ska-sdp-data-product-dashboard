@@ -46,8 +46,7 @@ const DataProductDashboard = () => {
     refreshStatus
   } = useApiStatus();
 
-  const availableDataSources: string[] =
-    apiStatus?.search_store_status?.available_data_sources ?? [];
+  const availableDataSources: string[] = apiStatus?.available_data_stores ?? [];
   const [updating, setUpdating] = React.useState(false);
   const [selectedFileNames, setSelectedFileNames] = React.useState<SelectedDataProduct>({
     execution_block: '',
