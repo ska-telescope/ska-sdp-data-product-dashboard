@@ -149,7 +149,7 @@ export default function DataproductDataGrid({
       dataproduct_file: any;
       metadata_file: any;
       uid: any;
-      data_source: any;
+      metadata_store: any;
     };
   }) => {
     const saveData = () => {
@@ -160,7 +160,7 @@ export default function DataproductDataGrid({
           relativePathName: params.row.dataproduct_file,
           metaDataFile: params.row.metadata_file,
           uid: params.row.uid,
-          data_source: params.row.data_source
+          metadata_store: params.row.metadata_store
         })
       );
     };
@@ -184,7 +184,7 @@ export default function DataproductDataGrid({
           });
         };
 
-        const isFromDlm = String(params.row.data_source ?? '').toLowerCase() === 'dlm';
+        const isFromDlm = String(params.row.metadata_store ?? '').toLowerCase() === 'dlm';
         if (!isFromDlm && params.row.dataproduct_file !== 'None') {
           return (
             <Button

@@ -34,7 +34,7 @@ import FeedbackButton from '@components/FeedbackButton/FeedbackButton';
 import { FEEDBACK_URL } from '@utils/constants';
 
 const DataProductDashboard = () => {
-  // State for data_source filter
+  // State for metadata_store filter
   const [dataSourceFilter, setDataSourceFilter] = React.useState('all');
   const { t } = useTranslation('dpd');
   const {
@@ -54,7 +54,7 @@ const DataProductDashboard = () => {
     relativePathName: '',
     metaDataFile: '',
     uid: '',
-    data_source: ''
+    metadata_store: ''
   });
 
   const [isDataLoading, setIsDataLoading] = React.useState(false);
@@ -144,15 +144,15 @@ const DataProductDashboard = () => {
   }, [newDataAvailable]);
 
   React.useEffect(() => {
-    // Add data_source filter if not 'all'
+    // Add metadata_store filter if not 'all'
     let items = [...formFields];
     if (dataSourceFilter && dataSourceFilter !== 'all') {
-      // Remove any previous data_source filter
-      items = items.filter((item) => item.field !== 'data_source');
-      items.push({ field: 'data_source', operator: 'equals', value: dataSourceFilter });
+      // Remove any previous metadata_store filter
+      items = items.filter((item) => item.field !== 'metadata_store');
+      items.push({ field: 'metadata_store', operator: 'equals', value: dataSourceFilter });
     } else {
-      // Remove any previous data_source filter
-      items = items.filter((item) => item.field !== 'data_source');
+      // Remove any previous metadata_store filter
+      items = items.filter((item) => item.field !== 'metadata_store');
     }
     setSearchPanelOptions({
       items: [
@@ -385,15 +385,15 @@ const DataProductDashboard = () => {
                 }
               }}
             >
-              <InputLabel id="data-source-select-label">Data Source</InputLabel>
+              <InputLabel id="data-source-select-label">{t('label.metadataStore')}</InputLabel>
               <Select
                 labelId="data-source-select-label"
                 id="data-source-select"
                 value={dataSourceFilter}
-                label="Data Source"
+                label={t('label.metadataStore')}
                 onChange={(e) => setDataSourceFilter(e.target.value as string)}
               >
-                <MenuItem value="all">All</MenuItem>
+                <MenuItem value="all">{t('label.all')}</MenuItem>
                 {availableDataSources.map((ds: string) => (
                   <MenuItem key={ds} value={ds}>
                     {ds}

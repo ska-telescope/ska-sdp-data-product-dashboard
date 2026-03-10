@@ -57,7 +57,9 @@
       "placeholderText": "Add information on data product here.",
       "error": "Error Saving Data Annotation",
       "errorMessage": "Error Message"
-    }
+    },
+    "metadataStore": "Metadata Store",
+    "all": "All"
   },
   "prompt": {
     "filter": "Filter data products based on metadata:",
@@ -88,7 +90,6 @@
       "status.error": "DPD API Error",
       "indexingInProgress": "Indexing Details",
       "apiVersion": "API Version",
-      "metadataStore": "Metadata Store",
       "searchStore": "Search Store",
       "sdpConfig": "SDP Configuration DB",
       "sdpConfigConnected": "Connected",
