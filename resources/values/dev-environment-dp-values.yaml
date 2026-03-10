@@ -10,6 +10,7 @@ api:
     dbname: "ska_dlm_meta"
     schema: "sdp_sdp_dataproduct_dashboard_integration"
     metadataTableName: "dpd_metadata_ci_dev"
+    annotationsTableName: "dpd_annotations_ci_dev"
     dlmInterfaceEnabled: true
 
 dashboard:
