@@ -3,5 +3,5 @@ export interface SelectedDataProduct {
   relativePathName: string;
   metaDataFile: string;
   uid: string;
-  metadata_store: string;
+  metadata_store_name: string;
 }

@@ -34,7 +34,7 @@ import FeedbackButton from '@components/FeedbackButton/FeedbackButton';
 import { FEEDBACK_URL } from '@utils/constants';
 
 const DataProductDashboard = () => {
-  // State for metadata_store filter
+  // State for metadata_store_name filter
   const [dataSourceFilter, setDataSourceFilter] = React.useState('all');
   const { t } = useTranslation('dpd');
   const {
@@ -53,7 +53,7 @@ const DataProductDashboard = () => {
     relativePathName: '',
     metaDataFile: '',
     uid: '',
-    metadata_store: ''
+    metadata_store_name: ''
   });
 
   const [isDataLoading, setIsDataLoading] = React.useState(false);
@@ -143,15 +143,15 @@ const DataProductDashboard = () => {
   }, [newDataAvailable]);
 
   React.useEffect(() => {
-    // Add metadata_store filter if not 'all'
+    // Add metadata_store_name filter if not 'all'
     let items = [...formFields];
     if (dataSourceFilter && dataSourceFilter !== 'all') {
-      // Remove any previous metadata_store filter
-      items = items.filter((item) => item.field !== 'metadata_store');
-      items.push({ field: 'metadata_store', operator: 'equals', value: dataSourceFilter });
+      // Remove any previous metadata_store_name filter
+      items = items.filter((item) => item.field !== 'metadata_store_name');
+      items.push({ field: 'metadata_store_name', operator: 'equals', value: dataSourceFilter });
     } else {
-      // Remove any previous metadata_store filter
-      items = items.filter((item) => item.field !== 'metadata_store');
+      // Remove any previous metadata_store_name filter
+      items = items.filter((item) => item.field !== 'metadata_store_name');
     }
     setSearchPanelOptions({
       items: [
