@@ -146,11 +146,9 @@ const DataProductDashboard = () => {
     // Add metadata_store_name filter if not 'all'
     let items = [...formFields];
     if (dataSourceFilter && dataSourceFilter !== 'all') {
-      // Remove any previous metadata_store_name filter
       items = items.filter((item) => item.field !== 'metadata_store_name');
       items.push({ field: 'metadata_store_name', operator: 'equals', value: dataSourceFilter });
     } else {
-      // Remove any previous metadata_store_name filter
       items = items.filter((item) => item.field !== 'metadata_store_name');
     }
     setSearchPanelOptions({
