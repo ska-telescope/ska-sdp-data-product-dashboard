@@ -30,7 +30,27 @@ const GetMuiDataGridRows = async (
   }
 
   try {
-    const response = await authAxiosClient.post(ENDPOINT, JSON.stringify(muiDataGridFilterModel));
+    // Extract expected fields from muiDataGridFilterModel if present
+    const {
+      filterModel = {},
+      searchPanelOptions = {},
+      sortModel = [],
+      page = 0,
+      pageSize = 25,
+      ...rest
+    } = muiDataGridFilterModel || {};
+
+    // Compose the request body as expected by the backend
+    const requestBody = {
+      filterModel,
+      searchPanelOptions,
+      sortModel,
+      page,
+      pageSize,
+      ...rest
+    };
+
+    const response = await authAxiosClient.post(ENDPOINT, JSON.stringify(requestBody));
     const responseData = response.data;
 
     // Handle paginated response format

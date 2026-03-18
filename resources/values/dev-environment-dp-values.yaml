@@ -1,19 +1,21 @@
 ---
 api:
   container: registry.gitlab.com/ska-telescope/ska-dataproduct-api/ska-dataproduct-api
-  version: 0.15.1-dev.cb58c3b42
+  version: 0.15.1-dev.cc6faed72
   imagePullPolicy: Always
   sdpConfigdbHost: "ska-sdp-etcd.dp-shared"
   postgresql:
-    host: "pgdev-lb.cnpgdev.svc.cluster.local"
+    host: "pgdp.pgprod.svc.cluster.local"
     user: "sdp_sdp_dataproduct_dashboard_integration"
-    dbname: "integration"
+    dbname: "ska_dlm_meta"
     schema: "sdp_sdp_dataproduct_dashboard_integration"
+    metadataTableName: "dpd_metadata_ci_dev"
+    annotationsTableName: "dpd_annotations_ci_dev"
     dlmInterfaceEnabled: true
 
 dashboard:
   container: registry.gitlab.com/ska-telescope/ska-dataproduct-dashboard/ska-dataproduct-dashboard
-  version: 0.15.1-dev.c7dbb91b5
+  version: 0.16.0-dev.c0b1de96d
   imagePullPolicy: Always
 
 vault-secret-sync:

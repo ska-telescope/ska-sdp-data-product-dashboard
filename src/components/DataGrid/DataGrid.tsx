@@ -88,7 +88,6 @@ export default function DataproductDataGrid({
 
         if (!isCancelled) {
           if (result.DataGridRowsData) {
-            // Always update rows to show progressive data loading
             setRows(result.DataGridRowsData);
             setRowCount(result.total || 0);
           }
@@ -150,7 +149,7 @@ export default function DataproductDataGrid({
       dataproduct_file: any;
       metadata_file: any;
       uid: any;
-      data_store: any;
+      metadata_store_name: any;
     };
   }) => {
     const saveData = () => {
@@ -161,7 +160,7 @@ export default function DataproductDataGrid({
           relativePathName: params.row.dataproduct_file,
           metaDataFile: params.row.metadata_file,
           uid: params.row.uid,
-          data_store: params.row.data_store
+          metadata_store_name: params.row.metadata_store_name
         })
       );
     };
@@ -185,7 +184,8 @@ export default function DataproductDataGrid({
           });
         };
 
-        if (params.row.data_store !== 'dlm' && params.row.dataproduct_file !== 'None') {
+        const isFromDlm = String(params.row.metadata_store_name ?? '').toLowerCase() === 'dlm';
+        if (!isFromDlm && params.row.dataproduct_file !== 'None') {
           return (
             <Button
               testId="downloadButton"
