@@ -35,6 +35,18 @@ The user can also give a time range and list key value pairs as search parameter
 
    Example Data Product Dashboard search with time range and key value pair.
 
+On initial load the table presents only default columns. Additional columns can be selected or selected columns deselected.
+This is can be done by selecting or deselecting columns in the `Manage Columns` modal.
+
+.. figure:: /_static/img/manageColumns.png
+   :width: 45%
+
+.. figure:: /_static/img/selectColumns.png
+   :width: 45%
+
+Once the selection has been made, this selection is set as a new default. On subsequent loads this default is presented.
+
+
 
 When a data product is selected, its metadata is displayed on a panel on the right.
 
