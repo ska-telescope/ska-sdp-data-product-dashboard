@@ -266,7 +266,7 @@ export default function DataproductDataGrid({
         rowHeight={35}
         style={{ height: tableHeight!, width: '100%' }}
         columnVisibilityModel={defaultColumns}
-        onColumnVisibilityModelChange={(newDefaultColumns) => setHiddenColumns(newDefaultColumns)}
+        onColumnVisibilityModelChange={(newDefaultColumns) => setDefaultColumns(newDefaultColumns)}
         sx={{
           '& .MuiDataGrid-row.Mui-selected': {
             backgroundColor: 'primary.dark',
