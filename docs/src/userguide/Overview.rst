@@ -44,7 +44,7 @@ This is can be done by selecting or deselecting columns in the `Manage Columns` 
 .. figure:: /_static/img/selectColumns.png
    :width: 45%
 
-Once the selection has been made, this selection is set as a new default. On subsequent loads this default is presented.
+Once the selection has been made, this selection is set as a new default. On subsequent loads this default is presented in this browser.
 
 
 
