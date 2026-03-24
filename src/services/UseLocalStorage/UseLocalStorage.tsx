@@ -9,6 +9,8 @@ function useLocalStorage(key, initialValue) {
         const item = window.localStorage.getItem(key);
         // Parse stored json or if none return initialValue
         return item ? JSON.parse(item) : initialValue;
+      } else {
+        return initialValue;
       }
     } catch (error) {
       // If error, return initialValue
@@ -23,6 +25,8 @@ function useLocalStorage(key, initialValue) {
       if (typeof window !== 'undefined') {
         // localStorage values must be strings, so we JSON.stringify the value
         window.localStorage.setItem(key, JSON.stringify(value));
+      } else {
+        return initialValue;
       }
     } catch (error) {
       console.log(error);
