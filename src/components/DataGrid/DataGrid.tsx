@@ -15,6 +15,8 @@ import {
 } from '@ska-telescope/ska-gui-components';
 import { useTranslation } from 'react-i18next';
 import dataProductDownloadStream from '@services/GetDownloadStream/GetDownloadStream';
+import GetLayout from '@services/GetLayout/GetLayout';
+import useLocalStorage from '@services/UseLocalStorage/UseLocalStorage';
 
 interface DataproductDataGridProps {
   handleSelectedNode: () => void;
@@ -38,6 +40,7 @@ export default function DataproductDataGrid({
   });
   const [muiDataGridFilterModel, setMuiDataGridFilterModel] = React.useState({});
   const [dataFilterModel, setDataFilterModel] = React.useState({});
+  const [defaultColumns, setDefaultColumns] = useLocalStorage('defaultColumns', {});
   const [sortModel, setSortModel] = React.useState<GridSortModel>([]);
   const [rows, setRows] = React.useState([]);
   const [isLoading, setIsLoading] = React.useState(false);
@@ -222,6 +225,19 @@ export default function DataproductDataGrid({
     const newData = {
       columns: [...columns, ...response.columns]
     };
+    if (Object.keys(defaultColumns).length === 0) {
+      const layout = await GetLayout();
+      if (layout?.data && layout?.data.length > 0) {
+        const hiddenColumns = response.columns.filter((obj) => !layout.data.includes(obj.field));
+        setDefaultColumns(
+          hiddenColumns
+            .map((obj) => ({
+              [obj.field]: false
+            }))
+            .reduce((acc, obj) => ({ ...acc, ...obj }), {})
+        );
+      }
+    }
     setMuiConfigData(newData);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -249,6 +265,8 @@ export default function DataproductDataGrid({
         loading={isLoading}
         rowHeight={35}
         style={{ height: tableHeight!, width: '100%' }}
+        columnVisibilityModel={defaultColumns}
+        onColumnVisibilityModelChange={(newDefaultColumns) => setDefaultColumns(newDefaultColumns)}
         sx={{
           '& .MuiDataGrid-row.Mui-selected': {
             backgroundColor: 'primary.dark',
