@@ -52,6 +52,7 @@ export default function DataproductDataGrid({
   });
   const [rowCount, setRowCount] = React.useState(0);
   const { t } = useTranslation('dpd');
+  const { t: tColumns } = useTranslation('humanreadable');
   const authAxiosClient = useAxiosClient(SKA_DATAPRODUCT_API_URL);
 
   // Trigger refresh when updating prop changes
@@ -238,7 +239,9 @@ export default function DataproductDataGrid({
         );
       }
     }
-    setMuiConfigData(newData);
+    setMuiConfigData({
+      columns: newData.columns.map((item) => ({ ...item, headerName: tColumns(item.field) }))
+    });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
