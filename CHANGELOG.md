@@ -1,6 +1,8 @@
 # Changelog
 
-## development
+## Unreleased
+
+## v0.17.0
 
 - [PHX-403](https://jira.skatelescope.org/browse/PHX-403)
   - [Added] Use selected columns default. The default is loaded from the API. Once updated locally, the updated defaults are used.
