@@ -1,8 +1,19 @@
 import i18n from 'i18next';
 import { initReactI18next } from 'react-i18next';
 import LanguageDetector from 'i18next-browser-languagedetector';
+import { SKA_DATAPRODUCT_API_URL } from '@utils/constants';
 import Backend from 'i18next-http-backend';
 import moment from 'moment';
+
+
+const constructLoadPath = (lng, ns) => {
+  if(ns[0] === 'humanreadable'){
+    let humanreadable = SKA_DATAPRODUCT_API_URL + '/{{lng}}/{{ns}}';
+    return humanreadable;
+  } else {
+    return './locales/{{lng}}/{{ns}}.json';
+  }
+}
 
 i18n
   .use(Backend)
@@ -11,11 +22,11 @@ i18n
   .init({
     backend: {
       // http backend options
-      loadPath: './locales/{{lng}}/{{ns}}.json'
+      loadPath: constructLoadPath,
     },
     fallbackLng: 'en',
     lng: 'en',
-    ns: ['dpd', 'ivoa', 'login', 'authentication'],
+    ns: ['dpd', 'ivoa', 'login', 'authentication', 'humanreadable'],
     defaultNS: 'dpd',
     initImmediate: false,
     useSuspense: true,
