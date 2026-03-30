@@ -93,7 +93,7 @@ function IndexingStatus({ isLoading }: IndexingStatusProps) {
                 </Typography>
                 {apiStatus.metadata_store_status && (
                   <Typography color="inherit">
-                    <strong>{t('toolTip.indexingStatus.metadataStore')}:</strong>{' '}
+                    <strong>{t('label.metadataStore')}:</strong>{' '}
                     {apiStatus.metadata_store_status.store_type}
                   </Typography>
                 )}

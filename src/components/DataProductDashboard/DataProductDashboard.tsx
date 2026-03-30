@@ -2,7 +2,17 @@ import React from 'react';
 import axios from 'axios';
 import { useTranslation } from 'react-i18next';
 
-import { Box, Card, CardContent, Grid, Typography } from '@mui/material';
+import {
+  Box,
+  Card,
+  CardContent,
+  FormControl,
+  Grid,
+  InputLabel,
+  MenuItem,
+  Select,
+  Typography
+} from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
 import LibraryAddOutlinedIcon from '@mui/icons-material/LibraryAddOutlined';
 import IndeterminateCheckBoxOutlinedIcon from '@mui/icons-material/IndeterminateCheckBoxOutlined';
@@ -24,17 +34,26 @@ import FeedbackButton from '@components/FeedbackButton/FeedbackButton';
 import { FEEDBACK_URL } from '@utils/constants';
 
 const DataProductDashboard = () => {
+  // State for metadata_store_name filter
+  const [dataSourceFilter, setDataSourceFilter] = React.useState('all');
   const { t } = useTranslation('dpd');
-  const { apiRunning, apiIndexing, indexingProgress, dataStoreLastModifiedTime, refreshStatus } =
-    useApiStatus();
+  const {
+    apiRunning,
+    apiIndexing,
+    apiStatus,
+    indexingProgress,
+    dataStoreLastModifiedTime,
+    refreshStatus
+  } = useApiStatus();
 
+  const availableDataSources: string[] = apiStatus?.available_data_stores ?? [];
   const [updating, setUpdating] = React.useState(false);
   const [selectedFileNames, setSelectedFileNames] = React.useState<SelectedDataProduct>({
     execution_block: '',
     relativePathName: '',
     metaDataFile: '',
     uid: '',
-    data_store: ''
+    metadata_store_name: ''
   });
 
   const [isDataLoading, setIsDataLoading] = React.useState(false);
@@ -74,7 +93,7 @@ const DataProductDashboard = () => {
     const params = new URLSearchParams(queryString);
 
     // Handle all other search options
-    const localSearch = [];
+    const localSearch: Array<{ field: string; operator: string; value: string }> = [];
     params.forEach((value, key) => {
       if (key === 'start_date') {
         updateStartDate(value);
@@ -124,9 +143,17 @@ const DataProductDashboard = () => {
   }, [newDataAvailable]);
 
   React.useEffect(() => {
+    // Add metadata_store_name filter if not 'all'
+    let items = [...formFields];
+    if (dataSourceFilter && dataSourceFilter !== 'all') {
+      items = items.filter((item) => item.field !== 'metadata_store_name');
+      items.push({ field: 'metadata_store_name', operator: 'equals', value: dataSourceFilter });
+    } else {
+      items = items.filter((item) => item.field !== 'metadata_store_name');
+    }
     setSearchPanelOptions({
       items: [
-        ...formFields,
+        ...items,
         {
           field: 'date_created',
           operator: 'greaterThan',
@@ -140,7 +167,7 @@ const DataProductDashboard = () => {
       ],
       logicOperator: 'and'
     });
-  }, [startDate, endDate, formFields]);
+  }, [startDate, endDate, formFields, dataSourceFilter]);
 
   React.useEffect(() => {
     // Reset updating flag after filter changes have been applied
@@ -161,8 +188,8 @@ const DataProductDashboard = () => {
   };
 
   // Memoize the DataGrid to prevent unnecessary re-renders
-  const dataGridComponent = React.useMemo(
-    () => (
+  const dataGridComponent = React.useMemo(() => {
+    return (
       <DataproductDataGrid
         handleSelectedNode={handleRowClick}
         searchPanelOptions={searchPanelOptions}
@@ -171,9 +198,8 @@ const DataProductDashboard = () => {
         indexingProgress={indexingProgress}
         onLoadingChange={setIsDataLoading}
       />
-    ),
-    [searchPanelOptions, updating, apiIndexing, indexingProgress]
-  );
+    );
+  }, [searchPanelOptions, updating, apiIndexing, indexingProgress]);
 
   async function indexDataProduct() {
     const apiUrl = SKA_DATAPRODUCT_API_URL;
@@ -259,42 +285,44 @@ const DataProductDashboard = () => {
                 />
               </Grid>
 
-              {formFields.map((form, index) => {
-                return (
-                  <>
-                    <Grid item xs={12}>
-                      <TextEntry
-                        ariaTitle="field"
-                        label={t('label.key')}
-                        setValue={(event: any) => handleKeyPairChange(event, index)}
-                        value={form.field}
-                      />
-                    </Grid>
+              {formFields.map(
+                (form: { field: string; operator: string; value: string }, index: number) => {
+                  return (
+                    <>
+                      <Grid item xs={12}>
+                        <TextEntry
+                          ariaTitle="field"
+                          label={t('label.key')}
+                          setValue={(event: any) => handleKeyPairChange(event, index)}
+                          value={form.field}
+                        />
+                      </Grid>
 
-                    <Grid item xs={12}>
-                      <TextEntry
-                        ariaTitle="value"
-                        label={t('label.value')}
-                        setValue={(event: any) => handleValuePairChange(event, index)}
-                        value={form.value}
-                      />
-                    </Grid>
+                      <Grid item xs={12}>
+                        <TextEntry
+                          ariaTitle="value"
+                          label={t('label.value')}
+                          setValue={(event: any) => handleValuePairChange(event, index)}
+                          value={form.value}
+                        />
+                      </Grid>
 
-                    <Grid item xs={-4}>
-                      <Button
-                        testId="RemoveKeyValuePairButton"
-                        color={ButtonColorTypes.Secondary}
-                        disabled={updating}
-                        icon={<IndeterminateCheckBoxOutlinedIcon />}
-                        label="Remove"
-                        onClick={() => removeFields(index)}
-                        toolTip="Remove Key/Value pair"
-                        variant={ButtonVariantTypes.Outlined}
-                      />
-                    </Grid>
-                  </>
-                );
-              })}
+                      <Grid item xs={-4}>
+                        <Button
+                          testId="RemoveKeyValuePairButton"
+                          color={ButtonColorTypes.Secondary}
+                          disabled={updating}
+                          icon={<IndeterminateCheckBoxOutlinedIcon />}
+                          label="Remove"
+                          onClick={() => removeFields(index)}
+                          toolTip="Remove Key/Value pair"
+                          variant={ButtonVariantTypes.Outlined}
+                        />
+                      </Grid>
+                    </>
+                  );
+                }
+              )}
 
               <Grid item xs={4}>
                 <Button
@@ -340,6 +368,37 @@ const DataProductDashboard = () => {
           justifyContent="justify-left"
           alignItems="center"
         >
+          <Grid item>
+            <FormControl
+              size="small"
+              sx={{
+                minWidth: 180,
+                bgcolor: 'background.paper',
+                '& .MuiOutlinedInput-notchedOutline': { borderColor: 'text.disabled' },
+                '&:hover .MuiOutlinedInput-notchedOutline': { borderColor: 'text.primary' },
+                '& .Mui-focused .MuiOutlinedInput-notchedOutline': {
+                  borderColor: 'text.primary',
+                  borderWidth: 1
+                }
+              }}
+            >
+              <InputLabel id="data-source-select-label">{t('label.metadataStore')}</InputLabel>
+              <Select
+                labelId="data-source-select-label"
+                id="data-source-select"
+                value={dataSourceFilter}
+                label={t('label.metadataStore')}
+                onChange={(e) => setDataSourceFilter(e.target.value as string)}
+              >
+                <MenuItem value="all">{t('label.all')}</MenuItem>
+                {availableDataSources.map((ds: string) => (
+                  <MenuItem key={ds} value={ds}>
+                    {ds}
+                  </MenuItem>
+                ))}
+              </Select>
+            </FormControl>
+          </Grid>
           <Grid item>
             <Button
               testId="IndexDataProductsButton"
