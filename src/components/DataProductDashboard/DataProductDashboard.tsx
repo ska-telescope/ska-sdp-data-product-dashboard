@@ -300,7 +300,7 @@ const DataProductDashboard = () => {
                           options={availableKeys}
                           value={form.field || null}
                           onChange={(_, newValue) => handleKeyPairChange(newValue || '', index)}
-                          freeSolo={false}
+                          freeSolo={true}
                           renderInput={(params) => (
                             <TextField
                               {...params}
