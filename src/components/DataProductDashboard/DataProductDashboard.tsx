@@ -11,9 +11,7 @@ import {
   InputLabel,
   MenuItem,
   Select,
-  Typography,
-  Autocomplete,
-  TextField
+  Typography
 } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
 import LibraryAddOutlinedIcon from '@mui/icons-material/LibraryAddOutlined';
@@ -295,23 +293,21 @@ const DataProductDashboard = () => {
                   return (
                     <>
                       <Grid item xs={12}>
-                        <Autocomplete
-                          data-testid="key-autocomplete"
-                          options={availableKeys}
-                          value={form.field || null}
-                          onChange={(_, newValue) => handleKeyPairChange(newValue || '', index)}
-                          freeSolo={true}
-                          renderInput={(params) => (
-                            <TextField
-                              {...params}
-                              label={t('label.key')}
-                              inputProps={{
-                                ...params.inputProps,
-                                'data-testid': 'textEntry-Key'
-                              }}
-                            />
-                          )}
-                        />
+                        <FormControl fullWidth>
+                          <InputLabel>{t('label.key')}</InputLabel>
+                          <Select
+                            value={form.field}
+                            label={t('label.key')}
+                            onChange={(e) => handleKeyPairChange(e.target.value, index)}
+                            data-testid="textEntry-Key"
+                          >
+                            {availableKeys.map((key) => (
+                              <MenuItem key={key} value={key}>
+                                {key}
+                              </MenuItem>
+                            ))}
+                          </Select>
+                        </FormControl>
                       </Grid>
 
                       <Grid item xs={12}>
