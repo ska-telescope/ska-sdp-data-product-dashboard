@@ -11,7 +11,9 @@ import {
   InputLabel,
   MenuItem,
   Select,
-  Typography
+  Typography,
+  Autocomplete,
+  TextField
 } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
 import LibraryAddOutlinedIcon from '@mui/icons-material/LibraryAddOutlined';
@@ -85,6 +87,8 @@ const DataProductDashboard = () => {
     ],
     logicOperator: 'and'
   });
+
+  const [availableKeys, setAvailableKeys] = React.useState<string[]>([]);
 
   // Get any pre filled in form values from the URL using ?key=value&key=value
   React.useEffect(() => {
@@ -197,6 +201,7 @@ const DataProductDashboard = () => {
         isIndexing={apiIndexing}
         indexingProgress={indexingProgress}
         onLoadingChange={setIsDataLoading}
+        onColumnsChange={setAvailableKeys}
       />
     );
   }, [searchPanelOptions, updating, apiIndexing, indexingProgress]);
@@ -290,11 +295,14 @@ const DataProductDashboard = () => {
                   return (
                     <>
                       <Grid item xs={12}>
-                        <TextEntry
-                          ariaTitle="field"
-                          label={t('label.key')}
-                          setValue={(event: any) => handleKeyPairChange(event, index)}
-                          value={form.field}
+                        <Autocomplete
+                          options={availableKeys}
+                          value={form.field || null}
+                          onChange={(_, newValue) => handleKeyPairChange(newValue || '', index)}
+                          freeSolo={false} 
+                          renderInput={(params) => (
+                            <TextField {...params} label={t('label.key')} />
+                          )}
                         />
                       </Grid>
 
