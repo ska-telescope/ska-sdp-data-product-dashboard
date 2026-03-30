@@ -54,12 +54,15 @@ context('Select and download data product', () => {
 
     it('Verify form is filled correct', () => {
       cy.findAllByTestId('textEntry-Key')
+        .eq(0) 
         .should('be.visible')
-        .should(($input) => {
-          expect($input.val()).to.eq('execution_block');
-        });
-      cy.findAllByTestId('textEntry-Value').should('have.value', 'eb-test-20260101-1234').should('be.visible');
-    })
+        .should('have.value', 'execution_block');
+
+      cy.findAllByTestId('textEntry-Value')
+        .eq(0)
+        .should('be.visible')
+        .should('have.value', 'eb-test-20260101-1234');
+    });
   })
 
   describe('data product service is available with search functionality', () => {
