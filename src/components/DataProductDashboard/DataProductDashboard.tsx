@@ -190,19 +190,17 @@ const DataProductDashboard = () => {
   };
 
   // Memoize the DataGrid to prevent unnecessary re-renders
-  const dataGridComponent = React.useMemo(() => {
-    return (
-      <DataproductDataGrid
-        handleSelectedNode={handleRowClick}
-        searchPanelOptions={searchPanelOptions}
-        updating={updating}
-        isIndexing={apiIndexing}
-        indexingProgress={indexingProgress}
-        onLoadingChange={setIsDataLoading}
-        onColumnsChange={setAvailableKeys}
-      />
-    );
-  }, [searchPanelOptions, updating, apiIndexing, indexingProgress]);
+  const dataGridComponent = (
+    <DataproductDataGrid
+      handleSelectedNode={handleRowClick}
+      searchPanelOptions={searchPanelOptions}
+      updating={updating}
+      isIndexing={apiIndexing}
+      indexingProgress={indexingProgress}
+      onLoadingChange={setIsDataLoading}
+      onColumnsChange={setAvailableKeys}
+    />
+  );
 
   async function indexDataProduct() {
     const apiUrl = SKA_DATAPRODUCT_API_URL;
