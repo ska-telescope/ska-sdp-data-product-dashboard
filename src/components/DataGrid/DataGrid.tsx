@@ -225,7 +225,7 @@ export default function DataproductDataGrid({
   const fetchData = React.useCallback(async () => {
     const response = await GetMuiDataGridConfig();
     const newData = {
-      columns: [...columns, ...response.columns]
+      columns: response.columns
     };
     const fields = newData.columns.map((col) => col.field);
     onColumnsChange?.(fields);
