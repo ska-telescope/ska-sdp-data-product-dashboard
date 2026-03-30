@@ -25,6 +25,7 @@ interface DataproductDataGridProps {
   isIndexing?: boolean;
   indexingProgress?: any;
   onLoadingChange?: (isLoading: boolean) => void;
+  onColumnsChange?: (fields: string[]) => void;
 }
 
 export default function DataproductDataGrid({
@@ -33,7 +34,8 @@ export default function DataproductDataGrid({
   updating,
   isIndexing,
   indexingProgress,
-  onLoadingChange
+  onLoadingChange,
+  onColumnsChange
 }: DataproductDataGridProps) {
   const [muiConfigData, setMuiConfigData] = React.useState({
     columns: []
@@ -225,6 +227,9 @@ export default function DataproductDataGrid({
     const newData = {
       columns: [...columns, ...response.columns]
     };
+    const fields = newData.columns.map((col) => col.field);
+    onColumnsChange?.(fields);
+
     if (Object.keys(defaultColumns).length === 0) {
       const layout = await GetLayout();
       if (layout?.data && layout?.data.length > 0) {

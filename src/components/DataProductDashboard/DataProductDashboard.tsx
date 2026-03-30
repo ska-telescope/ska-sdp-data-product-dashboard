@@ -86,6 +86,8 @@ const DataProductDashboard = () => {
     logicOperator: 'and'
   });
 
+  const [availableKeys, setAvailableKeys] = React.useState<string[]>([]);
+
   // Get any pre filled in form values from the URL using ?key=value&key=value
   React.useEffect(() => {
     const queryString = window.location.search;
@@ -197,6 +199,7 @@ const DataProductDashboard = () => {
         isIndexing={apiIndexing}
         indexingProgress={indexingProgress}
         onLoadingChange={setIsDataLoading}
+        onColumnsChange={setAvailableKeys}
       />
     );
   }, [searchPanelOptions, updating, apiIndexing, indexingProgress]);
@@ -290,12 +293,21 @@ const DataProductDashboard = () => {
                   return (
                     <>
                       <Grid item xs={12}>
-                        <TextEntry
-                          ariaTitle="field"
-                          label={t('label.key')}
-                          setValue={(event: any) => handleKeyPairChange(event, index)}
-                          value={form.field}
-                        />
+                        <FormControl fullWidth>
+                          <InputLabel>{t('label.key')}</InputLabel>
+                          <Select
+                            value={form.field}
+                            label={t('label.key')}
+                            onChange={(e) => handleKeyPairChange(e.target.value, index)}
+                            data-testid="textEntry-Key"
+                          >
+                            {availableKeys.map((key) => (
+                              <MenuItem key={key} value={key}>
+                                {key}
+                              </MenuItem>
+                            ))}
+                          </Select>
+                        </FormControl>
                       </Grid>
 
                       <Grid item xs={12}>
