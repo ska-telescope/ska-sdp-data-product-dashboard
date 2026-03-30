@@ -299,10 +299,8 @@ const DataProductDashboard = () => {
                           options={availableKeys}
                           value={form.field || null}
                           onChange={(_, newValue) => handleKeyPairChange(newValue || '', index)}
-                          freeSolo={false} 
-                          renderInput={(params) => (
-                            <TextField {...params} label={t('label.key')} />
-                          )}
+                          freeSolo={false}
+                          renderInput={(params) => <TextField {...params} label={t('label.key')} />}
                         />
                       </Grid>
 
