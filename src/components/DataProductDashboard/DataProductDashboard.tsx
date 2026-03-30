@@ -316,6 +316,7 @@ const DataProductDashboard = () => {
 
                       <Grid item xs={12}>
                         <TextEntry
+                          testId="textEntry-Value"
                           ariaTitle="value"
                           label={t('label.value')}
                           setValue={(event: any) => handleValuePairChange(event, index)}
