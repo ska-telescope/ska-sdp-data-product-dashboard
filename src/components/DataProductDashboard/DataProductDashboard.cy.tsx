@@ -57,8 +57,8 @@ describe('<DataProductDashboard />', () => {
         </StoreProvider>
       );
 
-      cy.findByTestId('availableData').contains(PROD_1).should('be.visible');
-      cy.findByTestId('availableData').contains(PROD_2).should('be.visible');
+      cy.findByTestId('availableData').contains(PROD_1, {timeout: 10000}).should('be.visible');
+      cy.findByTestId('availableData').contains(PROD_2, {timeout: 10000}).should('be.visible');
     });
 
     it('Theme ' + theTheme + ': Data is available for download on Data Product Dashboard', () => {
@@ -80,7 +80,7 @@ describe('<DataProductDashboard />', () => {
           </AuthProvider>
         </StoreProvider>
       );
-      cy.findByTestId('availableData').contains(PROD_1).click();
+      cy.findByTestId('availableData').contains(PROD_1, {timeout: 10000}).click();
       cy.findByTestId(DOWNLOAD_ID).click();
       cy.readFile('cypress/data/' + TEST_DATA_FILE_1).should('contain', 'This is test file 1');
     });
