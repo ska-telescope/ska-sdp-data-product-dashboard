@@ -296,11 +296,21 @@ const DataProductDashboard = () => {
                     <>
                       <Grid item xs={12}>
                         <Autocomplete
+                          data-testid="key-autocomplete"
                           options={availableKeys}
                           value={form.field || null}
                           onChange={(_, newValue) => handleKeyPairChange(newValue || '', index)}
                           freeSolo={false}
-                          renderInput={(params) => <TextField {...params} label={t('label.key')} />}
+                          renderInput={(params) => (
+                            <TextField
+                              {...params}
+                              label={t('label.key')}
+                              inputProps={{
+                                ...params.inputProps,
+                                'data-testid': 'textEntry-Key'
+                              }}
+                            />
+                          )}
                         />
                       </Grid>
 
