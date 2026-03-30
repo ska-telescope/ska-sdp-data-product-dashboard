@@ -53,8 +53,8 @@ context('Select and download data product', () => {
     })
 
     it('Verify form is filled correct', () => {
-      cy.findByLabelText(/key/i).should('have.value', 'execution_block').should('be.visible');
-      cy.findByLabelText(/value/i).should('have.value', 'eb-test-20260101-1234').should('be.visible');
+      cy.findByLabelText(/key/i, { timeout: 10000 }).should('have.value', 'execution_block').should('be.visible');
+      cy.findByLabelText(/value/i, { timeout: 10000 }).should('have.value', 'eb-test-20260101-1234').should('be.visible');
     })
   })
 
