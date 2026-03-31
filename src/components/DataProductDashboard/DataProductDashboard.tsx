@@ -21,6 +21,7 @@ import RefreshIcon from '@mui/icons-material/Refresh';
 
 import { Button, DateEntry, TextEntry, ButtonColorTypes } from '@ska-telescope/ska-gui-components';
 import { ButtonVariantTypes } from '@ska-telescope/ska-gui-components';
+import { GridColDef } from '@mui/x-data-grid';
 
 import DataProductsTable from '@components/DataProductsTable/DataProductsTable';
 import MetadataCard from '@components/MetadataCard/MetadataCard';
@@ -86,7 +87,7 @@ const DataProductDashboard = () => {
     logicOperator: 'and'
   });
 
-  const [availableKeys, setAvailableKeys] = React.useState<string[]>([]);
+  const [availableColumns, setAvailableColumns] = React.useState<GridColDef[]>([]);
 
   // Get any pre filled in form values from the URL using ?key=value&key=value
   React.useEffect(() => {
@@ -198,7 +199,7 @@ const DataProductDashboard = () => {
       isIndexing={apiIndexing}
       indexingProgress={indexingProgress}
       onLoadingChange={setIsDataLoading}
-      onColumnsChange={setAvailableKeys}
+      onColumnsChange={setAvailableColumns}
     />
   );
 
@@ -299,9 +300,9 @@ const DataProductDashboard = () => {
                             onChange={(e) => handleKeyPairChange(e.target.value, index)}
                             data-testid="textEntry-Key"
                           >
-                            {availableKeys.map((key) => (
-                              <MenuItem key={key} value={key}>
-                                {key}
+                            {availableColumns.map((col) => (
+                              <MenuItem key={col.field} value={col.field}>
+                                {col.headerName || col.field}
                               </MenuItem>
                             ))}
                           </Select>

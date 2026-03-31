@@ -25,7 +25,7 @@ interface DataproductDataGridProps {
   isIndexing?: boolean;
   indexingProgress?: any;
   onLoadingChange?: (isLoading: boolean) => void;
-  onColumnsChange?: (fields: string[]) => void;
+  onColumnsChange?: (columns: GridColDef[]) => void;
 }
 
 export default function DataproductDataGrid({
@@ -235,8 +235,7 @@ export default function DataproductDataGrid({
       const newData = { columns: newColumns };
 
       // Notify parent of available fields
-      const fields = newColumns.map((col) => col.headerName);
-      onColumnsChange?.(fields);
+      onColumnsChange?.(newColumns);
 
       // Build visibility model
       const visibilityModel = apiColumns.reduce(
