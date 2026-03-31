@@ -305,9 +305,11 @@ const DataProductDashboard = () => {
                             <TextField
                               {...params}
                               label={t('label.key')}
-                              inputProps={{
-                                ...params.inputProps,
-                                'data-testid': 'textEntry-Key'
+                              slotProps={{
+                                input: {
+                                  ...params.inputProps,
+                                  'data-testid': 'textEntry-Key'
+                                }
                               }}
                             />
                           )}
