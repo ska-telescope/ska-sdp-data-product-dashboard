@@ -235,7 +235,7 @@ export default function DataproductDataGrid({
       const newData = { columns: newColumns };
 
       // Notify parent of available fields
-      const fields = newColumns.map((col) => col.field);
+      const fields = newColumns.map((col) => col.headerName);
       onColumnsChange?.(fields);
 
       // Build visibility model
