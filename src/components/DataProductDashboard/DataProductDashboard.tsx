@@ -11,7 +11,9 @@ import {
   InputLabel,
   MenuItem,
   Select,
-  Typography
+  Typography,
+  Autocomplete,
+  TextField
 } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
 import LibraryAddOutlinedIcon from '@mui/icons-material/LibraryAddOutlined';
@@ -292,21 +294,16 @@ const DataProductDashboard = () => {
                   return (
                     <>
                       <Grid item xs={12}>
-                        <FormControl fullWidth>
-                          <InputLabel>{t('label.key')}</InputLabel>
-                          <Select
-                            value={form.field}
-                            label={t('label.key')}
-                            onChange={(e) => handleKeyPairChange(e.target.value, index)}
-                            data-testid="textEntry-Key"
-                          >
-                            {availableColumns.map((col) => (
-                              <MenuItem key={col.field} value={col.field}>
-                                {col.headerName || col.field}
-                              </MenuItem>
-                            ))}
-                          </Select>
-                        </FormControl>
+                        <Autocomplete
+                          options={availableColumns}
+                          getOptionLabel={(option) => option.headerName || option.field}
+                          value={availableColumns.find((col) => col.field === form.field) || null}
+                          onChange={(_, newValue) => {
+                            handleKeyPairChange(newValue?.field || '', index);
+                          }}
+                          renderInput={(params) => <TextField {...params} label={t('label.key')} />}
+                          fullWidth
+                        />
                       </Grid>
 
                       <Grid item xs={12}>
