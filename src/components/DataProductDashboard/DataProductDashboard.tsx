@@ -288,8 +288,8 @@ const DataProductDashboard = () => {
                               {...params}
                               label={t('label.key')}
                               inputProps={{
-                                  ...params.inputProps,
-                                  'data-testid': 'textEntry-Key'
+                                ...params.inputProps,
+                                'data-testid': 'textEntry-Key'
                               }}
                             />
                           )}
