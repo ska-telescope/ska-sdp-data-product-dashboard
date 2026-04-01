@@ -90,9 +90,9 @@ export default function DataproductDataGrid({
         const result = await GetMuiDataGridRows(authAxiosClient, filterModelWithPagination);
 
         if (!isCancelled) {
-          if (result.DataGridRowsData) {
+          if (Array.isArray(result.DataGridRowsData)) {
             setRows(result.DataGridRowsData);
-            setRowCount(result.total || 0);
+            setRowCount(result.total ?? 0);
           }
         }
       } catch (error) {
@@ -129,6 +129,7 @@ export default function DataproductDataGrid({
   }, []);
 
   const onFilterChange = React.useCallback((filterModel: GridFilterModel) => {
+    setPaginationModel((prev: any) => ({ ...prev, page: 0 }));
     setMuiDataGridFilterModel({
       filterModel: { ...filterModel }
     });
@@ -139,6 +140,7 @@ export default function DataproductDataGrid({
   }, []);
 
   React.useEffect(() => {
+    setPaginationModel((prev: any) => ({ ...prev, page: 0 }));
     setDataFilterModel({
       ...muiDataGridFilterModel,
       searchPanelOptions: { ...searchPanelOptions }
@@ -261,12 +263,13 @@ export default function DataproductDataGrid({
         sortModel={sortModel}
         onSortModelChange={onSortModelChange}
         onFilterModelChange={onFilterChange}
+        getRowId={(row: { uid: any; }) => row.uid}
         onRowClick={handleRowClick}
         loading={isLoading}
         rowHeight={35}
         style={{ height: tableHeight!, width: '100%' }}
         columnVisibilityModel={defaultColumns}
-        onColumnVisibilityModelChange={(newDefaultColumns) => setDefaultColumns(newDefaultColumns)}
+        onColumnVisibilityModelChange={(newDefaultColumns: any) => setDefaultColumns(newDefaultColumns)}
         sx={{
           '& .MuiDataGrid-row.Mui-selected': {
             backgroundColor: 'primary.dark',
