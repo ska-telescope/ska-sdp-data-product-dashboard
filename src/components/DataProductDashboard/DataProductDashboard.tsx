@@ -65,27 +65,14 @@ const DataProductDashboard = () => {
     React.useState(null);
   const [initFlag, setInitFlag] = React.useState(true);
 
-  const DEF_START_DATE = '1970-01-01';
-  const DEF_END_DATE = '2070-12-31';
-  const [startDate, updateStartDate] = React.useState(DEF_START_DATE);
-  const [endDate, updateEndDate] = React.useState(DEF_END_DATE);
+  const [startDate, updateStartDate] = React.useState('');
+  const [endDate, updateEndDate] = React.useState('');
   const [formFields, setFormFields] = React.useState([
     { field: '', operator: 'contains', value: '' }
   ]);
 
   const [searchPanelOptions, setSearchPanelOptions] = React.useState({
-    items: [
-      {
-        field: 'date_created',
-        operator: 'greaterThan',
-        value: DEF_START_DATE
-      },
-      {
-        field: 'date_created',
-        operator: 'lessThan',
-        value: DEF_END_DATE
-      }
-    ],
+    items: [],
     logicOperator: 'and'
   });
 
@@ -156,20 +143,15 @@ const DataProductDashboard = () => {
     } else {
       items = items.filter((item) => item.field !== 'metadata_store_name');
     }
+    const dateItems: Array<{ field: string; operator: string; value: string }> = [];
+    if (startDate) {
+      dateItems.push({ field: 'date_created', operator: 'greaterThan', value: startDate });
+    }
+    if (endDate) {
+      dateItems.push({ field: 'date_created', operator: 'lessThan', value: endDate });
+    }
     setSearchPanelOptions({
-      items: [
-        ...items,
-        {
-          field: 'date_created',
-          operator: 'greaterThan',
-          value: startDate
-        },
-        {
-          field: 'date_created',
-          operator: 'lessThan',
-          value: endDate
-        }
-      ],
+      items: [...items, ...dateItems],
       logicOperator: 'and'
     });
   }, [startDate, endDate, formFields, dataSourceFilter]);
