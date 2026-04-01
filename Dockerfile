@@ -1,5 +1,5 @@
 # pull the base image
-FROM node:20.11.1 as base
+FROM node:20.11.1 AS base
 
 # # set the working direction
 WORKDIR /app
@@ -13,7 +13,7 @@ EXPOSE 8100
 # start app
 CMD ["yarn", "start"]
 
-FROM base as builder
+FROM base AS builder
 
 RUN ENV_TYPE_FILE=env_scripts/env_config \
     ENV_JS_OUTPUT_LOCATION=src/env.ts \
@@ -26,7 +26,7 @@ RUN ENV_TYPE_FILE=env_scripts/env_config \
     --output-path /dist/ && \
     npx react-inject-env set -d /dist/
 
-FROM nginx:1.27.0 as final
+FROM nginx:1.27.0 AS final
 
 # Copy built files
 COPY env_scripts/env_config /env_config

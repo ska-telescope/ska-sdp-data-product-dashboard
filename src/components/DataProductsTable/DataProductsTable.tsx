@@ -3,13 +3,6 @@ import { useTranslation } from 'react-i18next';
 import { Box, Grid } from '@mui/material';
 import { Alert, Progress, AlertColorTypes } from '@ska-telescope/ska-gui-components';
 
-// Derive the type for each object in `extendedColumns`
-type ExtendedColumn = {
-  field: string;
-  headerName: string;
-  width: number;
-};
-
 const DataProductsTable = (
   updating: boolean,
   apiRunning: boolean,
@@ -17,17 +10,6 @@ const DataProductsTable = (
   indexingProgress?: any
 ) => {
   const { t } = useTranslation('dpd');
-  const [columnInfo, setColumnInfo] = React.useState([]);
-
-  // Create Header name from column_name
-  const headerText = (key: string) => {
-    const tmp = key?.split('.');
-    const lowerCaseKey = tmp[tmp?.length - 1]?.toLowerCase(); // Convert key to lowercase
-    return t(lowerCaseKey, { ns: 'ivoa' });
-  };
-
-  // Create the array of column names and html from /layout call
-  const extendedColumns: ExtendedColumn[] = [];
 
   function RenderInfo(value: number, msg: string) {
     return (
