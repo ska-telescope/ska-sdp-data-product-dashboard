@@ -263,13 +263,15 @@ export default function DataproductDataGrid({
         sortModel={sortModel}
         onSortModelChange={onSortModelChange}
         onFilterModelChange={onFilterChange}
-        getRowId={(row: { uid: any; }) => row.uid}
+        getRowId={(row: { uid: any }) => row.uid}
         onRowClick={handleRowClick}
         loading={isLoading}
         rowHeight={35}
         style={{ height: tableHeight!, width: '100%' }}
         columnVisibilityModel={defaultColumns}
-        onColumnVisibilityModelChange={(newDefaultColumns: any) => setDefaultColumns(newDefaultColumns)}
+        onColumnVisibilityModelChange={(newDefaultColumns: any) =>
+          setDefaultColumns(newDefaultColumns)
+        }
         sx={{
           '& .MuiDataGrid-row.Mui-selected': {
             backgroundColor: 'primary.dark',

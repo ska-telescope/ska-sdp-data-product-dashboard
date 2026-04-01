@@ -3,6 +3,7 @@
 ## development
 
 - [PHX-424](https://jira.skatelescope.org/browse/PHX-424)
+
   - [Fixed] Fixing issues with inconsistent pagination.
 
 - [PHX-403](https://jira.skatelescope.org/browse/PHX-403)
