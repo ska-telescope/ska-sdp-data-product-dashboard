@@ -29,9 +29,7 @@ const SECTION_ORDER: ReadonlyArray<string> = ['context', 'obscore', 'config', 'f
 // Adding exection block to config
 const MERGE_INTO_CONFIG: ReadonlySet<string> = new Set(['execution_block']);
 
-function prepareMetadata(
-  raw: Record<string, unknown>
-): Array<[string, unknown]> {
+function prepareMetadata(raw: Record<string, unknown>): Array<[string, unknown]> {
   const data = { ...raw };
 
   // Merge keys into config
@@ -74,9 +72,7 @@ function prepareMetadata(
 }
 
 function formatLabel(key: string): string {
-  return key
-    .replace(/_/g, ' ')
-    .replace(/\b\w/g, (c) => c.toUpperCase());
+  return key.replace(/_/g, ' ').replace(/\b\w/g, (c) => c.toUpperCase());
 }
 
 function renderValue(value: unknown): React.ReactNode {
@@ -179,9 +175,7 @@ function renderSection(key: string, value: unknown) {
   // Render as key-value table
   const obj = value as Record<string, unknown>;
   // Check if all values in the object are primitives
-  const allPrimitive = Object.values(obj).every(
-    (v) => typeof v !== 'object' || v === null
-  );
+  const allPrimitive = Object.values(obj).every((v) => typeof v !== 'object' || v === null);
 
   if (allPrimitive) {
     return (
