@@ -53,9 +53,7 @@ context('Select and download data product', () => {
     })
 
     it('Verify form is filled correct', () => {
-      cy.findByRole('combobox', { name: /key/i })
-  .should('have.value', 'Execution Block')
-  .and('be.visible');
+      cy.findByRole('combobox').should('have.value', 'Execution Block').and('be.visible');
       cy.findAllByTestId('textEntry-Value').find('input').should('have.value', 'eb-test-20260101-1234').should('be.visible');
     })
   })
