@@ -275,7 +275,7 @@ const DataProductDashboard = () => {
                 (form: { field: string; operator: string; value: string }, index: number) => {
                   return (
                     <>
-                      <Grid item xs={12}>
+                      <Grid item xs={12} data-testid={`key-field-${index}`}>
                         <Autocomplete
                           options={availableColumns}
                           getOptionLabel={(option) => option.headerName || option.field}
