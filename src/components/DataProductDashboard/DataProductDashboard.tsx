@@ -283,16 +283,20 @@ const DataProductDashboard = () => {
                           onChange={(_, newValue) => {
                             handleKeyPairChange(newValue?.field || '', index);
                           }}
-                          renderInput={(params) => (
-                            <TextField
-                              {...params}
-                              label={t('label.key')}
-                              inputProps={{
-                                ...params.inputProps,
-                                'data-testid': 'textEntry-Key'
-                              }}
-                            />
-                          )}
+                          renderInput={(params) => {
+                            const { inputProps, ...rest } = params;
+
+                            return (
+                              <TextField
+                                {...rest}
+                                label={t('label.key')}
+                                inputProps={{
+                                  ...inputProps,
+                                  'data-testid': 'textEntry-Key'
+                                }}
+                              />
+                            );
+                          }}
                           fullWidth
                         />
                       </Grid>
