@@ -53,7 +53,14 @@ context('Select and download data product', () => {
     })
 
     it('Verify form is filled correct', () => {
-      cy.findAllByTestId('textEntry-Key').eq(0).find('input').should('have.value', 'Execution Block');
+      cy.findAllByTestId('textEntry-Key')
+        .should('have.length.at.least', 1)
+
+      cy.findAllByTestId('textEntry-Key')
+        .eq(0)
+        .find('input')
+        .should('not.have.value', '')
+        .and('have.value', 'Execution Block')
       cy.findAllByTestId('textEntry-Value').find('input').should('have.value', 'eb-test-20260101-1234').should('be.visible');
     })
   })
