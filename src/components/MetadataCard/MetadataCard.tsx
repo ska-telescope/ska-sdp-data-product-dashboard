@@ -21,13 +21,13 @@ import { useTranslation } from 'react-i18next';
 import { SelectedDataProduct } from 'types/dataproducts/dataproducts';
 
 // Keys listed here will never be rendered. Add or remove entries as requirements
-const HIDDEN_KEYS: ReadonlySet<string> = new Set(['interface']);
+const HIDDEN_KEYS: readonly string[] = ['interface'];
 
 // Display order
 const SECTION_ORDER: ReadonlyArray<string> = ['context', 'obscore', 'config', 'files'];
 
 // Adding exection block to config
-const MERGE_INTO_CONFIG: ReadonlySet<string> = new Set(['execution_block']);
+const MERGE_INTO_CONFIG: readonly string[] = ['execution_block'];
 
 function prepareMetadata(raw: Record<string, unknown>): Array<[string, unknown]> {
   const data = { ...raw };
@@ -39,7 +39,7 @@ function prepareMetadata(raw: Record<string, unknown>): Array<[string, unknown]>
       : {};
 
   let configModified = false;
-  for (const key of MERGE_INTO_CONFIG) {
+  for (const key of Array.from(MERGE_INTO_CONFIG)) {
     if (key in data) {
       config[key] = data[key];
       delete data[key];
@@ -51,7 +51,7 @@ function prepareMetadata(raw: Record<string, unknown>): Array<[string, unknown]>
   }
 
   // Remove hidden keys
-  for (const key of HIDDEN_KEYS) {
+  for (const key of Array.from(HIDDEN_KEYS)) {
     delete data[key];
   }
 
@@ -78,6 +78,12 @@ function formatLabel(key: string): string {
 function renderValue(value: unknown): React.ReactNode {
   if (value === null || value === undefined) return '';
   if (typeof value === 'boolean') return value ? 'true' : 'false';
+  if (Array.isArray(value)) return value.map((v) => renderValue(v)).join(', ');
+  if (typeof value === 'object') {
+    return Object.entries(value as Record<string, unknown>)
+      .map(([k, v]) => `${formatLabel(k)}: ${renderValue(v)}`)
+      .join(', ');
+  }
   return String(value);
 }
 
@@ -152,6 +158,25 @@ function renderSection(key: string, value: unknown) {
 
   // Render as a table
   if (Array.isArray(value)) {
+    // Primitive arrays (e.g. [0, 8000, 1]) — show as compact comma-separated string
+    const allPrimitiveItems = value.every((v) => typeof v !== 'object' || v === null);
+    if (allPrimitiveItems) {
+      return (
+        <Accordion key={key} defaultExpanded data-testid={`metadata-section-${key}`}>
+          <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+            <Typography variant="subtitle2">
+              {`${formatLabel(key)} (${value.length} ${value.length === 1 ? 'item' : 'items'})`}
+            </Typography>
+          </AccordionSummary>
+          <AccordionDetails>
+            <Typography variant="body2" sx={{ wordBreak: 'break-all' }}>
+              {value.map((v) => renderValue(v)).join(', ')}
+            </Typography>
+          </AccordionDetails>
+        </Accordion>
+      );
+    }
+
     const objectItems = value.filter((v) => typeof v === 'object' && v !== null);
     const label = `${formatLabel(key)} (${value.length} ${value.length === 1 ? 'item' : 'items'})`;
     return (
@@ -160,13 +185,7 @@ function renderSection(key: string, value: unknown) {
           <Typography variant="subtitle2">{label}</Typography>
         </AccordionSummary>
         <AccordionDetails>
-          {objectItems.length > 0
-            ? renderArrayTable(objectItems as Array<Record<string, unknown>>)
-            : value.map((v, i) => (
-                <Typography key={i} variant="body2">
-                  {renderValue(v)}
-                </Typography>
-              ))}
+          {renderArrayTable(objectItems as Array<Record<string, unknown>>)}
         </AccordionDetails>
       </Accordion>
     );
@@ -192,7 +211,13 @@ function renderSection(key: string, value: unknown) {
   const primitiveEntries: Record<string, unknown> = {};
   const nestedEntries: Array<[string, unknown]> = [];
   Object.entries(obj).forEach(([k, v]) => {
-    if (typeof v === 'object' && v !== null) {
+    // Primitive arrays go inline in the table
+    if (
+      Array.isArray(v) &&
+      (v as unknown[]).every((item) => typeof item !== 'object' || item === null)
+    ) {
+      primitiveEntries[k] = v;
+    } else if (typeof v === 'object' && v !== null) {
       nestedEntries.push([k, v]);
     } else {
       primitiveEntries[k] = v;
@@ -210,6 +235,41 @@ function renderSection(key: string, value: unknown) {
       </AccordionDetails>
     </Accordion>
   );
+}
+
+function renderMetadataSections(entries: Array<[string, unknown]>): React.ReactNode[] {
+  const elements: React.ReactNode[] = [];
+  let primitiveGroup: Record<string, unknown> = {};
+
+  function flushPrimitives() {
+    if (Object.keys(primitiveGroup).length > 0) {
+      elements.push(
+        <Accordion
+          key={`primitive-group-${Object.keys(primitiveGroup)[0]}`}
+          defaultExpanded
+          data-testid="metadata-section-overview"
+        >
+          <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+            <Typography variant="subtitle2">Overview</Typography>
+          </AccordionSummary>
+          <AccordionDetails>{renderKeyValueTable(primitiveGroup)}</AccordionDetails>
+        </Accordion>
+      );
+      primitiveGroup = {};
+    }
+  }
+
+  for (const [key, value] of entries) {
+    if (value !== null && value !== undefined && typeof value === 'object') {
+      flushPrimitives();
+      elements.push(renderSection(key, value));
+    } else {
+      primitiveGroup[key] = value;
+    }
+  }
+  flushPrimitives();
+
+  return elements;
 }
 
 function MetadataCard(selectedDataProduct: SelectedDataProduct) {
@@ -256,7 +316,7 @@ function MetadataCard(selectedDataProduct: SelectedDataProduct) {
         <CardHeader title={t('label.metaData')} />
         <CardContent sx={{ overflow: 'auto', maxHeight: cardHeight - 80 }}>
           {metaData ? (
-            prepareMetadata(metaData).map(([key, value]) => renderSection(key, value))
+            renderMetadataSections(prepareMetadata(metaData))
           ) : (
             <Typography variant="body2" color="text.secondary">
               {t('prompt.selectDataProduct', 'Select a data product to view its metadata.')}
