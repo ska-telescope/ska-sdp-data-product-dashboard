@@ -48,12 +48,12 @@ context('Select and download data product', () => {
   describe('url parameters are set', () => {
     beforeEach(() => {
       setUpForTests();
-      cy.intercept('GET', "http://localhost:8000/muidatagridconfig", {})
+      cy.intercept('GET', "http://localhost:8000/muidatagridconfig", {"columns":[{"field":"execution_block","headerName":"Execution Block","width":250,"hide":false}]})
       cy.visit(LOCAL_HOST + '?execution_block=eb-test-20260101-1234')
     })
 
     it('Verify form is filled correct', () => {
-      // cy.findAllByTestId('textEntry-Key').should('contain', 'execution_block').should('be.visible');
+      cy.findAllByTestId('textEntry-Key').find('input').should('have.value', 'Execution Block').should('be.visible');
       cy.findAllByTestId('textEntry-Value').find('input').should('have.value', 'eb-test-20260101-1234').should('be.visible');
     })
   })
