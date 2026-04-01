@@ -5,6 +5,9 @@
 - [PHX-403](https://jira.skatelescope.org/browse/PHX-403)
   - [Added] Use selected columns default. The default is loaded from the API. Once updated locally, the updated defaults are used.
 
+- [PHX-369](https://jira.skatelescope.org/browse/PHX-369)
+  - [Added] Autocomplete for keys in search field.
+
 ## v0.16.0
 
 - [PHX-354](https://jira.skatelescope.org/browse/PHX-354)
