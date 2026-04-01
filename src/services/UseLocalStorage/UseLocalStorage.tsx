@@ -25,8 +25,6 @@ function useLocalStorage(key, initialValue) {
       if (typeof window !== 'undefined') {
         // localStorage values must be strings, so we JSON.stringify the value
         window.localStorage.setItem(key, JSON.stringify(value));
-      } else {
-        return initialValue;
       }
     } catch (error) {
       console.log(error);
