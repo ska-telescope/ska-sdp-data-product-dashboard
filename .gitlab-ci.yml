@@ -9,31 +9,31 @@ variables:
   K8SRUNNER_PSI_LOW: k8srunner-psi-low
 
 include:
-- template: Code-Quality.gitlab-ci.yml
-- project: 'ska-telescope/templates-repository'
-  file:
-  - 'gitlab-ci/includes/docs.gitlab-ci.yml'
-  - 'gitlab-ci/includes/oci-image.gitlab-ci.yml'
-  - 'gitlab-ci/includes/release.gitlab-ci.yml'
-  - 'gitlab-ci/includes/finaliser.gitlab-ci.yml'
-  - 'gitlab-ci/includes/helm-chart.gitlab-ci.yml'
-  - 'gitlab-ci/includes/deploy.gitlab-ci.yml'
+  - template: Code-Quality.gitlab-ci.yml
+  - project: 'ska-telescope/templates-repository'
+    file:
+      - 'gitlab-ci/includes/docs.gitlab-ci.yml'
+      - 'gitlab-ci/includes/oci-image.gitlab-ci.yml'
+      - 'gitlab-ci/includes/release.gitlab-ci.yml'
+      - 'gitlab-ci/includes/finaliser.gitlab-ci.yml'
+      - 'gitlab-ci/includes/helm-chart.gitlab-ci.yml'
+      - 'gitlab-ci/includes/deploy.gitlab-ci.yml'
 
 stages:
-- dependencies
-- lint
-- test
-- build
-- scan
-- pages
-- publish
-- deploy
-- deploy-dp
-- integration
-- integration-dp
-- staging
-- staging-dp
-- integration-psi-low
+  - dependencies
+  - lint
+  - test
+  - build
+  - scan
+  - pages
+  - publish
+  - deploy
+  - deploy-dp
+  - integration
+  - integration-dp
+  - staging
+  - staging-dp
+  - integration-psi-low
 
 ########################## JOB SPECIFIC STUFF BELOW HERE #################################
 
@@ -41,124 +41,124 @@ stages:
 install_dependencies:
   stage: dependencies
   tags:
-  - ${SKA_DEFAULT_RUNNER}
+    - ${SKA_DEFAULT_RUNNER}
   before_script:
-  - rm -rf node_modules
+    - rm -rf node_modules
   script:
-  - npm config set registry https://registry.npmjs.org/
-  - yarn install --immutable
+    - npm config set registry https://registry.npmjs.org/
+    - yarn install --immutable
   cache:
     paths:
-    - node_modules/
+      - node_modules/
     policy: push
 
 #Run the static code analysis
 code_analysis:
   stage: lint
   tags:
-  - ${SKA_DEFAULT_RUNNER}
+    - ${SKA_DEFAULT_RUNNER}
   dependencies:
-  - install_dependencies
+    - install_dependencies
   cache:
     paths:
-    - node_modules/
+      - node_modules/
     policy: pull
   before_script:
-  - mkdir -p build/reports
+    - mkdir -p build/reports
   script:
-  - yarn prettier
-  - yarn lint
-  - yarn code-analysis
-  - mv linting.xml build/reports/linting.xml
+    - yarn prettier
+    - yarn lint
+    - yarn code-analysis
+    - mv linting.xml build/reports/linting.xml
   artifacts:
     paths:
-    - build/
+      - build/
 
 # run the cypress test coverage reports
 test_and_coverage:
   image: cypress/browsers:node-20.11.1-chrome-123.0.6312.58-1-ff-124.0-edge-122.0.2365.92-1
   stage: test
   tags:
-  - ${SKA_DEFAULT_RUNNER}
+    - ${SKA_DEFAULT_RUNNER}
   dependencies:
-  - install_dependencies
+    - install_dependencies
   cache:
     paths:
-    - node_modules/
+      - node_modules/
     policy: pull
   before_script:
-  - mkdir -p build/reports
-  - yarn cypress install
+    - mkdir -p build/reports
+    - yarn cypress install
   script:
-  - yarn test:cypress:component:ci
-  - yarn start &
-  - npx wait-on http://localhost:8100/ --timeout 120000
-  - yarn test:cypress:e2e:ci
-  - yarn test:coverage:report:ci
-  - cp build/reports/cobertura-coverage.xml build/reports/code-coverage.xml
+    - yarn test:cypress:component:ci
+    - yarn start &
+    - npx wait-on http://localhost:8100/ --timeout 120000
+    - yarn test:cypress:e2e:ci
+    - yarn test:coverage:report:ci
+    - cp build/reports/cobertura-coverage.xml build/reports/code-coverage.xml
   artifacts:
     when: always
     paths:
-    - build/
-    - cypress/screenshots/
-    - cypress/videos/
+      - build/
+      - cypress/screenshots/
+      - cypress/videos/
     expire_in: 1 week
 
 # Build the application
 build:
   stage: build
   tags:
-  - ${SKA_DEFAULT_RUNNER}
+    - ${SKA_DEFAULT_RUNNER}
   dependencies:
-  - install_dependencies
+    - install_dependencies
   cache:
     paths:
-    - node_modules/
+      - node_modules/
     policy: pull
   script:
-  - yarn build
+    - yarn build
 
 # list the current top level dependencies for the project
 list_dependencies:
   stage: test
   tags:
-  - ${SKA_DEFAULT_RUNNER}
+    - ${SKA_DEFAULT_RUNNER}
   dependencies:
-  - install_dependencies
+    - install_dependencies
   allow_failure: true
   cache:
     paths:
-    - node_modules/
+      - node_modules/
     policy: pull
   before_script:
-  - mkdir -p build/tests
-  - yarn cypress install
+    - mkdir -p build/tests
+    - yarn cypress install
   script:
-  - yarn list --depth=0 --json >> npm_deps.json
-  - yarn list --depth=0  >> npm_deps.txt
-  - mkdir .public
-  - cp npm_deps.txt .public/
-  - cp npm_deps.json .public/
+    - yarn list --depth=0 --json >> npm_deps.json
+    - yarn list --depth=0  >> npm_deps.txt
+    - mkdir .public
+    - cp npm_deps.txt .public/
+    - cp npm_deps.json .public/
   artifacts:
     paths:
-    - .public
+      - .public
 
 # export the report
 pages:
   stage: pages
   tags:
-  - ${SKA_DEFAULT_RUNNER}
+    - ${SKA_DEFAULT_RUNNER}
   dependencies:
-  - test_and_coverage
-  - list_dependencies
-  - code_quality
+    - test_and_coverage
+    - list_dependencies
+    - code_quality
   script:
-  - mv public/* .
-  - cp -r build/* public
-  - cp -r .public/* public
+    - mv public/* .
+    - cp -r build/* public
+    - cp -r .public/* public
   artifacts:
     paths:
-    - public
+      - public
     expire_in: 30 days
 
 # Deploy the application
@@ -177,7 +177,7 @@ deploy-dev-environment-dp:
   extends: deploy-dev-environment
   when: manual
   tags:
-  - ${SKA_DP_DEFAULT_RUNNER}
+    - ${SKA_DP_DEFAULT_RUNNER}
   variables:
     K8S_CHART_PARAMS: --values resources/values/dev-environment-dp-values.yaml
 
@@ -186,30 +186,30 @@ test-dev-environment-dp:
   extends: test-dev-environment
   when: manual
   tags:
-  - ${SKA_DP_DEFAULT_RUNNER}
+    - ${SKA_DP_DEFAULT_RUNNER}
   needs:
-  - deploy-dev-environment-dp
+    - deploy-dev-environment-dp
 
 info-dev-environment-dp:
   stage: deploy-dp
   extends: info-dev-environment
   tags:
-  - ${SKA_DP_DEFAULT_RUNNER}
+    - ${SKA_DP_DEFAULT_RUNNER}
   script:
-  - *info_script
+    - *info_script
 
 stop-dev-environment-dp:
   stage: deploy-dp
   extends: stop-dev-environment
   tags:
-  - ${SKA_DP_DEFAULT_RUNNER}
+    - ${SKA_DP_DEFAULT_RUNNER}
 
 deploy-integration-dp:
   stage: integration-dp
   extends: deploy-integration
   when: manual
   tags:
-  - ${SKA_DP_DEFAULT_RUNNER}
+    - ${SKA_DP_DEFAULT_RUNNER}
   variables:
     K8S_CHART_PARAMS: --values resources/values/integration-dp-values.yaml
 
@@ -217,15 +217,15 @@ info-integration-dp:
   stage: integration-dp
   extends: info-integration
   tags:
-  - ${SKA_DP_DEFAULT_RUNNER}
+    - ${SKA_DP_DEFAULT_RUNNER}
   script:
-  - *info_script
+    - *info_script
 
 redeploy-integration-dp:
   stage: integration-dp
   extends: redeploy-integration
   tags:
-  - ${SKA_DP_DEFAULT_RUNNER}
+    - ${SKA_DP_DEFAULT_RUNNER}
   variables:
     K8S_CHART_PARAMS: --values resources/values/integration-dp-values.yaml
 
@@ -233,16 +233,16 @@ stop-integration-dp:
   stage: integration-dp
   extends: stop-integration
   tags:
-  - ${SKA_DP_DEFAULT_RUNNER}
+    - ${SKA_DP_DEFAULT_RUNNER}
   needs:
-  - deploy-integration-dp
+    - deploy-integration-dp
 
 deploy-staging-dp:
   stage: staging-dp
   extends: deploy-staging
   when: manual
   tags:
-  - ${SKA_DP_DEFAULT_RUNNER}
+    - ${SKA_DP_DEFAULT_RUNNER}
   variables:
     K8S_CHART_PARAMS: --values resources/values/staging-dp-values.yaml
 
@@ -250,15 +250,15 @@ info-staging-dp:
   stage: staging-dp
   extends: info-staging
   tags:
-  - ${SKA_DP_DEFAULT_RUNNER}
+    - ${SKA_DP_DEFAULT_RUNNER}
   script:
-  - *info_script
+    - *info_script
 
 redeploy-staging-dp:
   stage: staging-dp
   extends: redeploy-staging
   tags:
-  - ${SKA_DP_DEFAULT_RUNNER}
+    - ${SKA_DP_DEFAULT_RUNNER}
   variables:
     K8S_CHART_PARAMS: --values resources/values/staging-dp-values.yaml
 
@@ -266,9 +266,9 @@ stop-staging-dp:
   stage: staging-dp
   extends: stop-staging
   tags:
-  - ${SKA_DP_DEFAULT_RUNNER}
+    - ${SKA_DP_DEFAULT_RUNNER}
   needs:
-  - deploy-staging-dp
+    - deploy-staging-dp
 
 # psi-low
 deploy-integration-psi-low:
@@ -276,26 +276,26 @@ deploy-integration-psi-low:
   extends: deploy-integration
   when: manual
   tags:
-  - ${K8SRUNNER_PSI_LOW}
+    - ${K8SRUNNER_PSI_LOW}
 
 info-integration-psi-low:
   stage: integration-psi-low
   extends: info-integration
   tags:
-  - ${K8SRUNNER_PSI_LOW}
+    - ${K8SRUNNER_PSI_LOW}
   script:
-  - *info_script
+    - *info_script
 
 redeploy-integration-psi-low:
   stage: integration-psi-low
   extends: redeploy-integration
   tags:
-  - ${K8SRUNNER_PSI_LOW}
+    - ${K8SRUNNER_PSI_LOW}
 
 stop-integration-psi-low:
   stage: integration-psi-low
   extends: stop-integration
   tags:
-  - ${K8SRUNNER_PSI_LOW}
+    - ${K8SRUNNER_PSI_LOW}
   needs:
-  - deploy-integration-psi-low
+    - deploy-integration-psi-low
