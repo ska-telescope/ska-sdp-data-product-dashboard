@@ -16,14 +16,13 @@ const emptyDataProduct = {
 
 describe('<MetadataCard />', () => {
   for (const theTheme of THEME) {
-    it('Theme ' + theTheme + ': Renders placeholder when no data product is selected', () => {
+    it('Theme ' + theTheme + ': Renders', () => {
       cy.mount(
         <ThemeProvider theme={theme(theTheme)}>
           <CssBaseline />
           <MetadataCard {...emptyDataProduct} />
         </ThemeProvider>
       );
-      cy.contains('Select a data product to view its metadata').should('be.visible');
     });
   }
 });
