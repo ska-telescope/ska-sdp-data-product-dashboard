@@ -49,16 +49,23 @@ context('Select and download data product', () => {
   describe('url parameters are set', () => {
     beforeEach(() => {
       setUpForTests();
-      cy.intercept('GET', `${API_URL}/muidatagridconfig`, {"columns":[{"field":"execution_block","headerName":"Execution Block","width":250,"hide":false}]})
-      cy.visit(LOCAL_HOST + '?execution_block=eb-test-20260101-1234')
+      cy.intercept('GET', `${API_URL}/muidatagridconfig`, {
+        "columns": [{"field": "execution_block", "headerName": "Execution Block", "width": 250, "hide": false}]
+      }).as('gridConfig');
+      cy.visit(LOCAL_HOST + '?execution_block=eb-test-20260101-1234');
+      cy.wait('@gridConfig');
     })
 
     it('Verify form is filled correct', () => {
       cy.get('[data-testid="key-field-0"]')
-  .findByRole('combobox')
-  .should('have.value', 'Execution Block')
-  .and('be.visible');
-      cy.findAllByTestId('textEntry-Value').find('input').should('have.value', 'eb-test-20260101-1234').should('be.visible');
+        .find('[role="combobox"]')
+        .should('have.value', 'Execution Block')
+        .and('be.visible');
+      cy.get('[data-testid="key-field-0"]')
+        .next()
+        .find('input')
+        .should('have.value', 'eb-test-20260101-1234')
+        .and('be.visible');
     })
   })
 
