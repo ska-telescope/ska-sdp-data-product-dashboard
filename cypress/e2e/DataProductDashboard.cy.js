@@ -6,14 +6,15 @@ import ExampleDataProductStatusAvailableWithSearch from '../data/ExampleDataProd
 
 // Cloned FROM the constants file in the src directory. Linking to that directly is bad practice.
 const LOCAL_HOST = "http://localhost:8100/";
+const API_URL = "http://localhost:8001";
 
 context('Select and download data product', () => {
 
   function setUpForTests() {
     Cypress.env('REACT_APP_USE_LOCAL_DATA', false);
-    cy.intercept('POST', "http://localhost:8000/filterdataproducts", ExampleDataProductList);
-    cy.intercept('GET', 'http://localhost:8000/status', ExampleDataProductStatus)
-    cy.intercept('POST', "http://localhost:8000/dataproductmetadata", {
+    cy.intercept('POST', `${API_URL}/filterdataproducts`, ExampleDataProductList);
+    cy.intercept('GET', `${API_URL}/status`, ExampleDataProductStatus)
+    cy.intercept('POST', `${API_URL}/dataproductmetadata`, {
       statusCode: 200,
       body: ExampleMetadata,
       headers: {
@@ -21,7 +22,7 @@ context('Select and download data product', () => {
         "content-type": "application/json"
       }
     });
-    cy.intercept('POST', "http://localhost:8000/download", {
+    cy.intercept('POST', `${API_URL}/download`, {
       statusCode: 200,
       body: "This is test file 1",
       headers: {
@@ -35,8 +36,8 @@ context('Select and download data product', () => {
   describe('data product service is unavailable', () => {
     beforeEach(() => {
       setUpForTests();
-      cy.intercept('POST', "http://localhost:8000/filterdataproducts", {});
-      cy.intercept('GET', 'http://localhost:8000/status', ExampleDataProductStatusUnavailable)
+      cy.intercept('POST', `${API_URL}/filterdataproducts`, {});
+      cy.intercept('GET', `${API_URL}/status`, ExampleDataProductStatusUnavailable)
       cy.visit(LOCAL_HOST)
     })
 
@@ -48,12 +49,15 @@ context('Select and download data product', () => {
   describe('url parameters are set', () => {
     beforeEach(() => {
       setUpForTests();
-      cy.intercept('GET', "http://localhost:8000/muidatagridconfig", {})
+      cy.intercept('GET', `${API_URL}/muidatagridconfig`, {"columns":[{"field":"execution_block","headerName":"Execution Block","width":250,"hide":false}]})
       cy.visit(LOCAL_HOST + '?execution_block=eb-test-20260101-1234')
     })
 
     it('Verify form is filled correct', () => {
-      cy.findAllByTestId('textEntry-Key').find('input').should('have.value', 'execution_block').should('be.visible');
+      cy.get('[data-testid="key-field-0"]')
+  .findByRole('combobox')
+  .should('have.value', 'Execution Block')
+  .and('be.visible');
       cy.findAllByTestId('textEntry-Value').find('input').should('have.value', 'eb-test-20260101-1234').should('be.visible');
     })
   })
@@ -61,7 +65,7 @@ context('Select and download data product', () => {
   describe('data product service is available with search functionality', () => {
     beforeEach(() => {
       setUpForTests();
-      cy.intercept('GET', 'http://localhost:8000/status', ExampleDataProductStatusAvailableWithSearch)
+      cy.intercept('GET', `${API_URL}/status`, ExampleDataProductStatusAvailableWithSearch)
       cy.visit(LOCAL_HOST)
     })
 

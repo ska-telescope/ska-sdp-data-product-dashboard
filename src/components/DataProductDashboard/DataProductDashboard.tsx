@@ -11,7 +11,9 @@ import {
   InputLabel,
   MenuItem,
   Select,
-  Typography
+  Typography,
+  Autocomplete,
+  TextField
 } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
 import LibraryAddOutlinedIcon from '@mui/icons-material/LibraryAddOutlined';
@@ -21,6 +23,7 @@ import RefreshIcon from '@mui/icons-material/Refresh';
 
 import { Button, DateEntry, TextEntry, ButtonColorTypes } from '@ska-telescope/ska-gui-components';
 import { ButtonVariantTypes } from '@ska-telescope/ska-gui-components';
+import { GridColDef } from '@mui/x-data-grid';
 
 import DataProductsTable from '@components/DataProductsTable/DataProductsTable';
 import MetadataCard from '@components/MetadataCard/MetadataCard';
@@ -72,6 +75,8 @@ const DataProductDashboard = () => {
     items: [],
     logicOperator: 'and'
   });
+
+  const [availableColumns, setAvailableColumns] = React.useState<GridColDef[]>([]);
 
   // Get any pre filled in form values from the URL using ?key=value&key=value
   React.useEffect(() => {
@@ -170,18 +175,17 @@ const DataProductDashboard = () => {
   };
 
   // Memoize the DataGrid to prevent unnecessary re-renders
-  const dataGridComponent = React.useMemo(() => {
-    return (
-      <DataproductDataGrid
-        handleSelectedNode={handleRowClick}
-        searchPanelOptions={searchPanelOptions}
-        updating={updating}
-        isIndexing={apiIndexing}
-        indexingProgress={indexingProgress}
-        onLoadingChange={setIsDataLoading}
-      />
-    );
-  }, [searchPanelOptions, updating, apiIndexing, indexingProgress]);
+  const dataGridComponent = (
+    <DataproductDataGrid
+      handleSelectedNode={handleRowClick}
+      searchPanelOptions={searchPanelOptions}
+      updating={updating}
+      isIndexing={apiIndexing}
+      indexingProgress={indexingProgress}
+      onLoadingChange={setIsDataLoading}
+      onColumnsChange={setAvailableColumns}
+    />
+  );
 
   async function indexDataProduct() {
     const apiUrl = SKA_DATAPRODUCT_API_URL;
@@ -271,12 +275,29 @@ const DataProductDashboard = () => {
                 (form: { field: string; operator: string; value: string }, index: number) => {
                   return (
                     <>
-                      <Grid item xs={12}>
-                        <TextEntry
-                          ariaTitle="field"
-                          label={t('label.key')}
-                          setValue={(event: any) => handleKeyPairChange(event, index)}
-                          value={form.field}
+                      <Grid item xs={12} data-testid={`key-field-${index}`}>
+                        <Autocomplete
+                          options={availableColumns}
+                          getOptionLabel={(option) => option.headerName || option.field}
+                          value={availableColumns.find((col) => col.field === form.field) || null}
+                          onChange={(_, newValue) => {
+                            handleKeyPairChange(newValue?.field || '', index);
+                          }}
+                          renderInput={(params) => {
+                            const { inputProps, ...rest } = params;
+
+                            return (
+                              <TextField
+                                {...rest}
+                                label={t('label.key')}
+                                inputProps={{
+                                  ...inputProps,
+                                  'data-testid': 'textEntry-Key'
+                                }}
+                              />
+                            );
+                          }}
+                          fullWidth
                         />
                       </Grid>
 
