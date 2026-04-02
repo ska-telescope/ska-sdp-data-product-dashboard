@@ -319,7 +319,7 @@ function MetadataCard(selectedDataProduct: SelectedDataProduct) {
             renderMetadataSections(prepareMetadata(metaData))
           ) : (
             <Typography variant="body2" color="text.secondary">
-              {t('prompt.selectDataProduct', 'Select a data product to view its metadata.')}
+              {t('prompt.selectDataProduct')}
             </Typography>
           )}
         </CardContent>

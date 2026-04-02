@@ -63,7 +63,8 @@
   },
   "prompt": {
     "filter": "Filter data products based on metadata:",
-    "selectedProduct": "Selected Data Product:"
+    "selectedProduct": "Selected Data Product:",
+    "selectDataProduct": "Select a data product to view its metadata."
   },
   "toolTip": {
     "button": {
