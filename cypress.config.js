@@ -7,6 +7,7 @@ module.exports = defineConfig({
   video: false,
   env: {
     REACT_APP_USE_LOCAL_DATA: true,
+    REACT_APP_API_REFRESH_RATE: 30000,
   },
   component: {
     devServer: {

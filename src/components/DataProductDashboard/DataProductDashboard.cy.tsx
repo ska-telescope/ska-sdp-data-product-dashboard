@@ -5,6 +5,7 @@ import theme from '@services/theme/theme';
 import { DOWNLOAD_ID, PROD_1, PROD_2, TEST_DATA_FILE_1, TEXT_NO_API } from '@utils/constants';
 import DataProductDashboard from '@components/DataProductDashboard/DataProductDashboard';
 import MockStatusAPINotRunning from '@services/Mocking/mockStatusAPINotRunning';
+import MockStatus from '@services/Mocking/mockStatus';
 import { StoreProvider } from '@ska-telescope/ska-gui-local-storage';
 import { AuthProvider } from '@ska-telescope/ska-login-page';
 import { ApiStatusProvider } from '@contexts/ApiStatusContext';
@@ -14,8 +15,6 @@ const THEME = [THEME_DARK, THEME_LIGHT];
 describe('<DataProductDashboard />', () => {
   for (const theTheme of THEME) {
     it('Theme ' + theTheme + ': Renders correctly when data is unavailable', () => {
-      const stub = cy.stub().resolves(MockStatusAPINotRunning);
-      cy.window().then((win) => (win.GetAPIStatus = stub));
       cy.mount(
         <StoreProvider>
           <AuthProvider
@@ -23,7 +22,7 @@ describe('<DataProductDashboard />', () => {
             MSENTRA_TENANT_ID={'MSENTRA_TENANT_ID'}
             MSENTRA_REDIRECT_URI={'MSENTRA_REDIRECT_URI'}
           >
-            <ApiStatusProvider>
+            <ApiStatusProvider getStatus={() => Promise.resolve(MockStatusAPINotRunning)}>
               <React.StrictMode>
                 <ThemeProvider theme={theme(theTheme)}>
                   <CssBaseline />
@@ -45,7 +44,7 @@ describe('<DataProductDashboard />', () => {
             MSENTRA_TENANT_ID={'MSENTRA_TENANT_ID'}
             MSENTRA_REDIRECT_URI={'MSENTRA_REDIRECT_URI'}
           >
-            <ApiStatusProvider>
+            <ApiStatusProvider getStatus={() => Promise.resolve(MockStatus)}>
               <React.StrictMode>
                 <ThemeProvider theme={theme(theTheme)}>
                   <CssBaseline />
@@ -69,7 +68,7 @@ describe('<DataProductDashboard />', () => {
             MSENTRA_TENANT_ID={'MSENTRA_TENANT_ID'}
             MSENTRA_REDIRECT_URI={'MSENTRA_REDIRECT_URI'}
           >
-            <ApiStatusProvider>
+            <ApiStatusProvider getStatus={() => Promise.resolve(MockStatus)}>
               <React.StrictMode>
                 <ThemeProvider theme={theme(theTheme)}>
                   <CssBaseline />
