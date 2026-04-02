@@ -12,8 +12,12 @@ context('Select and download data product', () => {
 
   function setUpForTests() {
     Cypress.env('REACT_APP_USE_LOCAL_DATA', false);
+    cy.intercept('GET', `${API_URL}/status`, ExampleDataProductStatus);
+    cy.intercept('GET', `${API_URL}/layout`, { data: ['execution_block', 'date_created', 'observer', 'processing_block'] });
+    cy.intercept('GET', `${API_URL}/muidatagridconfig`, {
+      columns: [{ field: 'execution_block', headerName: 'Execution Block', width: 250, hide: false }]
+    });
     cy.intercept('POST', `${API_URL}/filterdataproducts`, ExampleDataProductList);
-    cy.intercept('GET', `${API_URL}/status`, ExampleDataProductStatus)
     cy.intercept('POST', `${API_URL}/dataproductmetadata`, {
       statusCode: 200,
       body: ExampleMetadata,
@@ -49,9 +53,7 @@ context('Select and download data product', () => {
   describe('url parameters are set', () => {
     beforeEach(() => {
       setUpForTests();
-      cy.intercept('GET', `${API_URL}/muidatagridconfig`, {
-        "columns": [{"field": "execution_block", "headerName": "Execution Block", "width": 250, "hide": false}]
-      }).as('gridConfig');
+      cy.intercept('GET', `${API_URL}/muidatagridconfig`).as('gridConfig');
       cy.visit(LOCAL_HOST + '?execution_block=eb-test-20260101-1234');
       cy.wait('@gridConfig');
     })

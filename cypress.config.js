@@ -4,7 +4,7 @@ require('dotenv').config()
 module.exports = defineConfig({
   viewportWidth: 1440,
   viewportHeight: 900,
-  video: false,
+  video: true,
   env: {
     REACT_APP_USE_LOCAL_DATA: true,
     REACT_APP_API_REFRESH_RATE: 30000,

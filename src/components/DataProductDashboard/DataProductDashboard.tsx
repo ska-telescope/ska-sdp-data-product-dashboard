@@ -274,7 +274,7 @@ const DataProductDashboard = () => {
               {formFields.map(
                 (form: { field: string; operator: string; value: string }, index: number) => {
                   return (
-                    <>
+                    <React.Fragment key={index}>
                       <Grid item xs={12} data-testid={`key-field-${index}`}>
                         <Autocomplete
                           options={availableColumns}
@@ -322,7 +322,7 @@ const DataProductDashboard = () => {
                           variant={ButtonVariantTypes.Outlined}
                         />
                       </Grid>
-                    </>
+                    </React.Fragment>
                   );
                 }
               )}
