@@ -292,7 +292,7 @@ export default function DataproductDataGrid({
         sortModel={sortModel}
         onSortModelChange={onSortModelChange}
         onFilterModelChange={onFilterChange}
-        getRowId={(row: { uid: any }) => row.uid}
+        getRowId={(row: { id: any }) => row.id}
         onRowClick={handleRowClick}
         loading={isLoading}
         rowHeight={35}

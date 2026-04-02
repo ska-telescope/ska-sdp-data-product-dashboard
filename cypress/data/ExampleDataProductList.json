@@ -1,7 +1,6 @@
 [
   {
-    "id": 1,
-    "uid": "a629847a-42e5-4c41-b902-7de488462e8d",
+    "id": "a629847a-42e5-4c41-b902-7de488462e8d",
     "execution_block": "eb-test-20200325-00001",
     "interface": "http://schema.skao.int/ska-data-product-meta/0.1",
     "date_created": "2020-03-25",
@@ -9,8 +8,7 @@
     "metadata_file": "product/eb-test-20200325-00001/ska-data-product.yaml"
   },
   {
-    "id": 2,
-    "uid": "320585fc-26be-43d0-8c38-ce2bf014e09b",
+    "id": "320585fc-26be-43d0-8c38-ce2bf014e09b",
     "interface": "http://schema.skao.int/ska-data-product-meta/0.1",
     "execution_block": "eb-m001-20191031-12345",
     "date_created": "2019-10-31",
@@ -18,8 +16,7 @@
     "metadata_file": "product/eb-m001-20221212-12345/ska-data-product.yaml"
   },
   {
-    "id": 3,
-    "uid": "df4cef2b-090f-49b2-a04e-5aa9f8ba838a",
+    "id": "df4cef2b-090f-49b2-a04e-5aa9f8ba838a",
     "interface": "http://schema.skao.int/ska-data-product-meta/0.1",
     "execution_block": "eb-m003-20191131-12345",
     "date_created": "2023-04-14",
@@ -27,8 +24,7 @@
     "metadata_file": "product/eb-m003-20191131-12345/ska-data-product.yaml"
   },
   {
-    "id": 4,
-    "uid": "ce7b6f3a-0205-404f-b2ba-f3444a3776ba",
+    "id": "ce7b6f3a-0205-404f-b2ba-f3444a3776ba",
     "interface": "http://schema.skao.int/ska-data-product-meta/0.1",
     "execution_block": "eb-m002-20221212-12345",
     "date_created": "2022-12-12",
@@ -36,8 +32,7 @@
     "metadata_file": "product/eb-m002-20221212-12345/ska-data-product.yaml"
   },
   {
-    "id": 5,
-    "uid": "12399646-7736-4ee8-b171-cfc37d51c9a0",
+    "id": "12399646-7736-4ee8-b171-cfc37d51c9a0",
     "execution_block": "eb-test-20230214-07904",
     "interface": "http://schema.skao.int/ska-data-product-meta/0.1",
     "date_created": "2023-02-14",
@@ -45,8 +40,7 @@
     "metadata_file": "product/eb-test-20230214-07904/ska-data-product.yaml"
   },
   {
-    "id": 6,
-    "uid": "b2024922-cd69-462f-a0a9-dadbf14726a6",
+    "id": "b2024922-cd69-462f-a0a9-dadbf14726a6",
     "interface": "http://schema.skao.int/ska-data-product-meta/0.1",
     "execution_block": "eb-m004-20191031-12345",
     "date_created": "2019-10-31",
