@@ -25,6 +25,7 @@ interface DataproductDataGridProps {
   isIndexing?: boolean;
   indexingProgress?: any;
   onLoadingChange?: (isLoading: boolean) => void;
+  onColumnsChange?: (columns: GridColDef[]) => void;
 }
 
 export default function DataproductDataGrid({
@@ -33,7 +34,8 @@ export default function DataproductDataGrid({
   updating,
   isIndexing,
   indexingProgress,
-  onLoadingChange
+  onLoadingChange,
+  onColumnsChange
 }: DataproductDataGridProps) {
   const [muiConfigData, setMuiConfigData] = React.useState({
     columns: []
@@ -221,24 +223,51 @@ export default function DataproductDataGrid({
   ];
 
   const fetchData = React.useCallback(async () => {
-    const response = await GetMuiDataGridConfig();
-    const newData = {
-      columns: [...columns, ...response.columns]
-    };
-    if (Object.keys(defaultColumns).length === 0) {
+    try {
+      const response = await GetMuiDataGridConfig();
       const layout = await GetLayout();
-      if (layout?.data && layout?.data.length > 0) {
-        const hiddenColumns = response.columns.filter((obj) => !layout.data.includes(obj.field));
-        setDefaultColumns(
-          hiddenColumns
-            .map((obj) => ({
-              [obj.field]: false
-            }))
-            .reduce((acc, obj) => ({ ...acc, ...obj }), {})
-        );
+
+      const apiColumns = response?.columns ?? [];
+      const layoutFields = layout?.data ?? [];
+
+      // Merge static + API columns
+      const newColumns = [...columns, ...apiColumns];
+      const newData = { columns: newColumns };
+
+      // Notify parent of available fields
+      onColumnsChange?.(newColumns);
+
+      // Build visibility model
+      const visibilityModel = apiColumns.reduce(
+        (acc, col) => {
+          if (defaultColumns && col.field in defaultColumns) {
+            acc[col.field] = defaultColumns[col.field];
+          } else if (layoutFields.length > 0) {
+            acc[col.field] = layoutFields.includes(col.field);
+          } else if (typeof col.hide === 'boolean') {
+            acc[col.field] = !col.hide;
+          } else {
+            acc[col.field] = true;
+          }
+
+          return acc;
+        },
+        {} as Record<string, boolean>
+      );
+
+      // Only initialise if no valid saved preferences exist
+      const hasValidPreferences =
+        defaultColumns &&
+        Object.keys(defaultColumns).some((key) => apiColumns.some((col) => col.field === key));
+
+      if (!hasValidPreferences) {
+        setDefaultColumns(visibilityModel);
       }
+
+      setMuiConfigData(newData);
+    } catch (error) {
+      console.error('Error fetching DataGrid config:', error);
     }
-    setMuiConfigData(newData);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -265,7 +294,7 @@ export default function DataproductDataGrid({
         loading={isLoading}
         rowHeight={35}
         style={{ height: tableHeight!, width: '100%' }}
-        columnVisibilityModel={defaultColumns}
+        columnVisibilityModel={defaultColumns ?? {}}
         onColumnVisibilityModelChange={(newDefaultColumns) => setDefaultColumns(newDefaultColumns)}
         sx={{
           '& .MuiDataGrid-row.Mui-selected': {
