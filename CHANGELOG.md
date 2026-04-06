@@ -2,6 +2,10 @@
 
 ## development
 
+- [PHX-421](https://jira.skatelescope.org/browse/PHX-421)
+
+  - [Changed] Re-organised metadata panel with collapsible sections, configurable ordering, and always visible display
+
 - [PHX-403](https://jira.skatelescope.org/browse/PHX-403)
 
   - [Added] Use selected columns default. The default is loaded from the API. Once updated locally, the updated defaults are used.
