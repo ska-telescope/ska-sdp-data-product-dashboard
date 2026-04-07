@@ -241,7 +241,7 @@ export default function DataproductDataGrid({
       // Passing our custom operator list (which has no InputComponent) would
       // override that and leave the value field blank in the filter popup.
       // The full operator list from the API is still available on `apiColumns`
-      // for the future search-panel autocomplete (MR 3).
+      // for the search-panel autocomplete.
       const processedApiColumns = apiColumns.map((col) => {
         if (col.type === 'date' || col.type === 'dateTime') {
           // eslint-disable-next-line @typescript-eslint/no-unused-vars
