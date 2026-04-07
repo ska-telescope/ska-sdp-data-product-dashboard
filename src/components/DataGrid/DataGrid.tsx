@@ -248,8 +248,7 @@ export default function DataproductDataGrid({
           const { filterOperators: _unused, ...rest } = col;
           return {
             ...rest,
-            valueGetter: (value: string | null | undefined) =>
-              value ? new Date(value) : null
+            valueGetter: (value: string | null | undefined) => (value ? new Date(value) : null)
           };
         }
         return col;

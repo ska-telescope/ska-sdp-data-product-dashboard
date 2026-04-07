@@ -5,7 +5,7 @@
 - [PHX-424](https://jira.skatelescope.org/browse/PHX-424)
 
   - [Added] `MuiColumnConfig` and `MuiFilterOperator` TypeScript interfaces exported from `GetMuiDataGridConfig`, matching the enriched `/muidatagridconfig` response (`type`, `filterable`, `filterOperators` per column).
-  - [Fixed] Date and dateTime columns returned by the API now have a `valueGetter` injected that coerces ISO-8601 strings to `Date` objects, resolving the MUI DataGrid runtime error *"date column type only accepts Date objects as values"*.
+  - [Fixed] Date and dateTime columns returned by the API now have a `valueGetter` injected that coerces ISO-8601 strings to `Date` objects, resolving the MUI DataGrid runtime error _"date column type only accepts Date objects as values"_.
 
   - [Fixed] Fixing issues with inconsistent pagination.
 
