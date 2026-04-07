@@ -97,8 +97,13 @@ test_and_coverage:
     - yarn test:coverage:report:ci
     - cp build/reports/cobertura-coverage.xml build/reports/code-coverage.xml
   artifacts:
+    when: always
     paths:
       - build/
+      - cypress/screenshots/
+      - cypress/videos/
+    reports:
+      junit: build/tests/e2e-tests*.xml
 
 # Build the application
 build:

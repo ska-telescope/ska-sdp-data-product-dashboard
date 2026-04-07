@@ -70,7 +70,7 @@ const mockDataGridRowsData = {
       'obscore.t_min': null,
       'obscore.t_resolution': null,
       'obscore.target_name': null,
-      id: 1
+      id: 'df4cef2b-090f-49b2-a04e-5aa9f8ba838a'
     },
     {
       execution_block: 'eb-m002-20221212-12345',
@@ -142,7 +142,7 @@ const mockDataGridRowsData = {
       'obscore.t_min': null,
       'obscore.t_resolution': null,
       'obscore.target_name': null,
-      id: 2
+      id: 'ce7b6f3a-0205-404f-b2ba-f3444a3776ba'
     }
   ]
 };
