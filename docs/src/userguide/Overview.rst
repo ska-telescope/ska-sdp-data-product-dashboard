@@ -48,12 +48,13 @@ Once the selection has been made, this selection is set as a new default. On sub
 
 
 
-When a data product is selected, its metadata is displayed on a panel on the right.
+The metadata panel is always visible on the right side of the table. When no data product is selected, it displays a prompt to select one.
+When a data product is selected, its metadata is displayed in expandable/collapsible sections grouped by category (context, obscore, config and files).
 
 .. figure:: /_static/img/dataproductdashboardMetadata.png
    :width: 90%
 
-   Example of selected data product metadata.
+   Example of selected data product metadata with collapsible sections.
 
 The download functionality for these items will depend if the product is accessible on the shared data volume. If available the user will be able to stream the data product to disk as a .tar archive with the browser download manager.
 

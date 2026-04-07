@@ -41,7 +41,7 @@
     "interface": "Interface",
     "key": "Key",
     "lastModified": "Last Modified",
-    "metaData": "Meta Data",
+    "metaData": "Metadata",
     "selectFile": "Selected File",
     "startDate": "Start date",
     "statusCode": "Status Code",
@@ -63,7 +63,8 @@
   },
   "prompt": {
     "filter": "Filter data products based on metadata:",
-    "selectedProduct": "Selected Data Product:"
+    "selectedProduct": "Selected Data Product:",
+    "selectDataProduct": "Select a data product to view its metadata."
   },
   "toolTip": {
     "button": {

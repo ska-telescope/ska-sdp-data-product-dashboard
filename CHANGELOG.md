@@ -5,6 +5,10 @@
 - [PHX-424](https://jira.skatelescope.org/browse/PHX-424)
 
   - [Fixed] Fixing issues with inconsistent pagination.
+  
+- [PHX-421](https://jira.skatelescope.org/browse/PHX-421)
+
+  - [Changed] Re-organised metadata panel with collapsible sections, configurable ordering, and always visible display
 
 - [PHX-403](https://jira.skatelescope.org/browse/PHX-403)
 
