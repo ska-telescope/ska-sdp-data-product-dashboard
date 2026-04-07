@@ -11,7 +11,7 @@ export interface MuiFilterOperator {
 /**
  * Full column definition returned by `GET /muidatagridconfig`.
  *
- * The enriched response (MR 2) adds `type`, `filterable`, and
+ * The enriched response adds `type`, `filterable`, and
  * `filterOperators` so the frontend can drive field autocomplete, operator
  * selection, and value-input type without any additional API calls.
  */
