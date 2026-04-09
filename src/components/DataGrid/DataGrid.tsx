@@ -232,15 +232,40 @@ export default function DataproductDataGrid({
       const apiColumns = response?.columns ?? [];
       const layoutFields = layout?.data ?? [];
 
+      // MUI DataGrid's `date` column type requires actual Date objects.
+      // The API returns ISO-8601 strings, so we inject a valueGetter for
+      // every date column that coerces the string to a Date at render time.
+      //
+      // We also strip `filterOperators` for date/dateTime columns: MUI's
+      // built-in date operators include a proper date-picker InputComponent.
+      // Passing our custom operator list (which has no InputComponent) would
+      // override that and leave the value field blank in the filter popup.
+      // The full operator list from the API is still available on `apiColumns`
+      // for the search-panel autocomplete.
+      const processedApiColumns = apiColumns.map((col) => {
+        if (col.type === 'date' || col.type === 'dateTime') {
+          // eslint-disable-next-line @typescript-eslint/no-unused-vars
+          const { filterOperators: _unused, ...rest } = col;
+          return {
+            ...rest,
+            valueGetter: (value: string | null | undefined) => (value ? new Date(value) : null)
+          };
+        }
+        return col;
+      });
+
       // Merge static + API columns
-      const newColumns = [...columns, ...apiColumns];
+      const newColumns = [...columns, ...processedApiColumns];
       const newData = { columns: newColumns };
 
-      // Notify parent of available fields
-      onColumnsChange?.(newColumns);
+      // Notify parent of available fields.
+      // MuiColumnConfig is structurally compatible with GridColDef at runtime;
+      // the cast is needed because MUI's GridColDef is a discriminated union
+      // whose individual variants impose stricter type constraints than GridBaseColDef.
+      onColumnsChange?.(newColumns as GridColDef[]);
 
       // Build visibility model
-      const visibilityModel = apiColumns.reduce(
+      const visibilityModel = processedApiColumns.reduce(
         (acc, col) => {
           if (defaultColumns && col.field in defaultColumns) {
             acc[col.field] = defaultColumns[col.field];
@@ -260,7 +285,9 @@ export default function DataproductDataGrid({
       // Only initialise if no valid saved preferences exist
       const hasValidPreferences =
         defaultColumns &&
-        Object.keys(defaultColumns).some((key) => apiColumns.some((col) => col.field === key));
+        Object.keys(defaultColumns).some((key) =>
+          processedApiColumns.some((col) => col.field === key)
+        );
 
       if (!hasValidPreferences) {
         setDefaultColumns(visibilityModel);
