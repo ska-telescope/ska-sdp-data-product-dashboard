@@ -23,7 +23,7 @@ import RefreshIcon from '@mui/icons-material/Refresh';
 
 import { Button, DateEntry, TextEntry, ButtonColorTypes } from '@ska-telescope/ska-gui-components';
 import { ButtonVariantTypes } from '@ska-telescope/ska-gui-components';
-import { GridColDef } from '@mui/x-data-grid';
+import GetMuiDataGridConfig, { MuiColumnConfig } from '@components/DataGrid/GetMuiDataGridConfig';
 
 import DataProductsTable from '@components/DataProductsTable/DataProductsTable';
 import MetadataCard from '@components/MetadataCard/MetadataCard';
@@ -65,18 +65,21 @@ const DataProductDashboard = () => {
     React.useState(null);
   const [initFlag, setInitFlag] = React.useState(true);
 
-  const [startDate, updateStartDate] = React.useState('');
-  const [endDate, updateEndDate] = React.useState('');
-  const [formFields, setFormFields] = React.useState([
-    { field: '', operator: 'contains', value: '' }
-  ]);
+  const [formFields, setFormFields] = React.useState([{ field: '', operator: '', value: '' }]);
 
   const [searchPanelOptions, setSearchPanelOptions] = React.useState({
     items: [],
     logicOperator: 'and'
   });
 
-  const [availableColumns, setAvailableColumns] = React.useState<GridColDef[]>([]);
+  const [availableColumns, setAvailableColumns] = React.useState<MuiColumnConfig[]>([]);
+
+  // Load column metadata for the search panel field/operator selectors
+  React.useEffect(() => {
+    GetMuiDataGridConfig().then((config) => {
+      setAvailableColumns(config.columns.filter((col) => col.filterable !== false));
+    });
+  }, []);
 
   // Get any pre filled in form values from the URL using ?key=value&key=value
   React.useEffect(() => {
@@ -84,19 +87,17 @@ const DataProductDashboard = () => {
 
     const params = new URLSearchParams(queryString);
 
-    // Handle all other search options
+    // Handle all search options, including legacy date-range params.
+    // Legacy: ?start_date=YYYY-MM-DD / ?end_date=YYYY-MM-DD  →  date_created onOrAfter/before rows
+    // Current: ?key=value  →  key contains value rows
     const localSearch: Array<{ field: string; operator: string; value: string }> = [];
     params.forEach((value, key) => {
       if (key === 'start_date') {
-        updateStartDate(value);
+        localSearch.push({ field: 'date_created', operator: 'onOrAfter', value });
       } else if (key === 'end_date') {
-        updateEndDate(value);
+        localSearch.push({ field: 'date_created', operator: 'before', value });
       } else {
-        localSearch.push({
-          field: key,
-          operator: 'contains',
-          value: value
-        });
+        localSearch.push({ field: key, operator: 'contains', value });
       }
     });
 
@@ -143,18 +144,11 @@ const DataProductDashboard = () => {
     } else {
       items = items.filter((item) => item.field !== 'metadata_store_name');
     }
-    const dateItems: Array<{ field: string; operator: string; value: string }> = [];
-    if (startDate) {
-      dateItems.push({ field: 'date_created', operator: 'greaterThan', value: startDate });
-    }
-    if (endDate) {
-      dateItems.push({ field: 'date_created', operator: 'lessThan', value: endDate });
-    }
     setSearchPanelOptions({
-      items: [...items, ...dateItems],
+      items,
       logicOperator: 'and'
     });
-  }, [startDate, endDate, formFields, dataSourceFilter]);
+  }, [formFields, dataSourceFilter]);
 
   React.useEffect(() => {
     // Reset updating flag after filter changes have been applied
@@ -183,7 +177,6 @@ const DataProductDashboard = () => {
       isIndexing={apiIndexing}
       indexingProgress={indexingProgress}
       onLoadingChange={setIsDataLoading}
-      onColumnsChange={setAvailableColumns}
     />
   );
 
@@ -207,27 +200,35 @@ const DataProductDashboard = () => {
   }
 
   function RenderSearchBox() {
-    const handleKeyPairChange = (event: string, index: number) => {
-      let data = [...formFields];
-      data[index]['field'] = event;
+    const handleKeyPairChange = (field: string, index: number) => {
+      const col = availableColumns.find((c) => c.field === field);
+      const defaultOperator = col?.filterOperators?.[0]?.value ?? 'contains';
+      const data = [...formFields];
+      data[index].field = field;
+      data[index].operator = defaultOperator;
+      data[index].value = '';
+      setFormFields(data);
+    };
+
+    const handleOperatorChange = (operator: string, index: number) => {
+      const col = availableColumns.find((c) => c.field === formFields[index].field);
+      const op = col?.filterOperators?.find((o) => o.value === operator);
+      const data = [...formFields];
+      data[index].operator = operator;
+      if (op?.requiresFilterValue === false) {
+        data[index].value = '';
+      }
       setFormFields(data);
     };
 
     const handleValuePairChange = (event: string, index: number) => {
-      let data = [...formFields];
-      data[index]['operator'] = 'contains';
-      data[index]['value'] = event;
+      const data = [...formFields];
+      data[index].value = event;
       setFormFields(data);
     };
 
     const addFields = () => {
-      let object = {
-        field: '',
-        operator: 'contains',
-        value: ''
-      };
-
-      setFormFields([...formFields, object]);
+      setFormFields([...formFields, { field: '', operator: '', value: '' }]);
     };
 
     const removeFields = (index: number) => {
@@ -254,23 +255,6 @@ const DataProductDashboard = () => {
               justifyContent="space-between"
               alignItems="center"
             >
-              <Grid item xs={12} md={6}>
-                <DateEntry
-                  testId="DateEntryStartdate"
-                  label={t('label.startDate')}
-                  setValue={(e: React.SetStateAction<string>) => updateStartDate(e)}
-                  value={startDate}
-                />
-              </Grid>
-              <Grid item xs={12} md={6}>
-                <DateEntry
-                  testId="DateEntryEndDate"
-                  label={t('label.endDate')}
-                  setValue={(e: React.SetStateAction<string>) => updateEndDate(e)}
-                  value={endDate}
-                />
-              </Grid>
-
               {formFields.map(
                 (form: { field: string; operator: string; value: string }, index: number) => {
                   return (
@@ -285,7 +269,6 @@ const DataProductDashboard = () => {
                           }}
                           renderInput={(params) => {
                             const { inputProps, ...rest } = params;
-
                             return (
                               <TextField
                                 {...rest}
@@ -301,14 +284,67 @@ const DataProductDashboard = () => {
                         />
                       </Grid>
 
-                      <Grid item xs={12}>
-                        <TextEntry
-                          ariaTitle="value"
-                          label={t('label.value')}
-                          setValue={(event: any) => handleValuePairChange(event, index)}
-                          value={form.value}
-                        />
-                      </Grid>
+                      {(() => {
+                        const col = availableColumns.find((c) => c.field === form.field);
+                        const operators = col?.filterOperators ?? [];
+                        return operators.length > 0 ? (
+                          <Grid item xs={12}>
+                            <FormControl
+                              fullWidth
+                              size="small"
+                              data-testid={`operator-select-${index}`}
+                            >
+                              <InputLabel id={`operator-label-${index}`}>
+                                {t('label.operator')}
+                              </InputLabel>
+                              <Select
+                                labelId={`operator-label-${index}`}
+                                value={form.operator}
+                                label={t('label.operator')}
+                                onChange={(e) =>
+                                  handleOperatorChange(e.target.value as string, index)
+                                }
+                              >
+                                {operators.map((op) => (
+                                  <MenuItem key={op.value} value={op.value}>
+                                    {op.value}
+                                  </MenuItem>
+                                ))}
+                              </Select>
+                            </FormControl>
+                          </Grid>
+                        ) : null;
+                      })()}
+
+                      {(() => {
+                        const col = availableColumns.find((c) => c.field === form.field);
+                        const op = col?.filterOperators?.find((o) => o.value === form.operator);
+                        if (op?.requiresFilterValue === false) return null;
+                        if (col?.type === 'date') {
+                          return (
+                            <Grid item xs={12} data-testid={`value-field-${index}`}>
+                              <DateEntry
+                                testId={`dateEntry-value-${index}`}
+                                label={t('label.value')}
+                                setValue={(event: React.SetStateAction<string>) =>
+                                  handleValuePairChange(event as string, index)
+                                }
+                                value={form.value}
+                              />
+                            </Grid>
+                          );
+                        }
+                        return (
+                          <Grid item xs={12} data-testid={`value-field-${index}`}>
+                            <TextEntry
+                              ariaTitle="value"
+                              label={t('label.value')}
+                              setValue={(event: any) => handleValuePairChange(event, index)}
+                              value={form.value}
+                            />
+                          </Grid>
+                        );
+                      })()}
 
                       <Grid item xs={-4}>
                         <Button

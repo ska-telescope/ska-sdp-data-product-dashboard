@@ -1,56 +1,115 @@
+const STRING_OPERATORS = [
+  { value: 'contains' },
+  { value: 'equals' },
+  { value: 'startsWith' },
+  { value: 'endsWith' },
+  { value: 'isEmpty', requiresFilterValue: false },
+  { value: 'isNotEmpty', requiresFilterValue: false },
+  { value: 'isAnyOf' }
+];
+
+const NUMBER_OPERATORS = [
+  { value: '=' },
+  { value: '!=' },
+  { value: '>' },
+  { value: '>=' },
+  { value: '<' },
+  { value: '<=' },
+  { value: 'isEmpty', requiresFilterValue: false },
+  { value: 'isNotEmpty', requiresFilterValue: false }
+];
+
+const DATE_OPERATORS = [
+  { value: 'is' },
+  { value: 'not' },
+  { value: 'after' },
+  { value: 'onOrAfter' },
+  { value: 'before' },
+  { value: 'onOrBefore' },
+  { value: 'isEmpty', requiresFilterValue: false },
+  { value: 'isNotEmpty', requiresFilterValue: false }
+];
+
 const mockMuiDataGridConfig = {
   columns: [
     {
       field: 'id',
-      hide: true
+      hide: true,
+      type: 'string',
+      filterable: false,
+      filterOperators: STRING_OPERATORS
     },
     {
       field: 'execution_block',
-      headerName: 'execution_block',
+      headerName: 'Execution Block',
       width: 250,
-      hide: false
+      hide: false,
+      type: 'string',
+      filterable: true,
+      filterOperators: STRING_OPERATORS
     },
     {
       field: 'date_created',
-      headerName: 'date_created',
+      headerName: 'Date Created',
       width: 150,
-      hide: false
+      hide: false,
+      type: 'date',
+      filterable: true,
+      filterOperators: DATE_OPERATORS
     },
     {
       field: 'context.observer',
-      headerName: 'observer',
+      headerName: 'Observer',
       width: 150,
-      hide: false
+      hide: false,
+      type: 'string',
+      filterable: true,
+      filterOperators: STRING_OPERATORS
     },
     {
       field: 'config.processing_block',
-      headerName: 'processing_block',
+      headerName: 'Processing Block',
       width: 250,
-      hide: false
+      hide: false,
+      type: 'string',
+      filterable: true,
+      filterOperators: STRING_OPERATORS
     },
     {
       field: 'context.intent',
       headerName: 'Intent',
       width: 300,
-      hide: false
+      hide: false,
+      type: 'string',
+      filterable: true,
+      filterOperators: STRING_OPERATORS
     },
     {
       field: 'context.notes',
-      headerName: 'notes',
+      headerName: 'Notes',
       width: 500,
-      hide: false
+      hide: false,
+      type: 'string',
+      filterable: true,
+      filterOperators: STRING_OPERATORS
     },
     {
       field: 'size',
-      headerName: 'file_size',
+      headerName: 'File Size',
       width: 80,
-      hide: false
+      hide: false,
+      type: 'number',
+      filterable: true,
+      filterOperators: NUMBER_OPERATORS
     },
     {
       field: 'status',
-      headerName: 'status',
+      headerName: 'Status',
       width: 80,
-      hide: false
+      hide: false,
+      type: 'string',
+      filterable: true,
+      filterOperators: STRING_OPERATORS
     }
   ],
   columnsWithDefaultColDef: [

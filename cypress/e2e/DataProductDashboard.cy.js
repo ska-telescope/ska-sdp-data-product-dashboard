@@ -14,8 +14,65 @@ context('Select and download data product', () => {
     Cypress.env('REACT_APP_USE_LOCAL_DATA', false);
     cy.intercept('GET', `${API_URL}/status`, ExampleDataProductStatus);
     cy.intercept('GET', `${API_URL}/layout`, { data: ['execution_block', 'date_created', 'observer', 'processing_block'] });
+    const STRING_OPERATORS = [
+      { value: 'contains' },
+      { value: 'equals' },
+      { value: 'startsWith' },
+      { value: 'endsWith' },
+      { value: 'isEmpty', requiresFilterValue: false },
+      { value: 'isNotEmpty', requiresFilterValue: false },
+      { value: 'isAnyOf' }
+    ];
+    const DATE_OPERATORS = [
+      { value: 'is' },
+      { value: 'not' },
+      { value: 'after' },
+      { value: 'onOrAfter' },
+      { value: 'before' },
+      { value: 'onOrBefore' },
+      { value: 'isEmpty', requiresFilterValue: false },
+      { value: 'isNotEmpty', requiresFilterValue: false }
+    ];
+    const NUMBER_OPERATORS = [
+      { value: '=' },
+      { value: '!=' },
+      { value: '>' },
+      { value: '>=' },
+      { value: '<' },
+      { value: '<=' },
+      { value: 'isEmpty', requiresFilterValue: false },
+      { value: 'isNotEmpty', requiresFilterValue: false }
+    ];
     cy.intercept('GET', `${API_URL}/muidatagridconfig`, {
-      columns: [{ field: 'execution_block', headerName: 'Execution Block', width: 250, hide: false }]
+      columns: [
+        {
+          field: 'execution_block',
+          headerName: 'Execution Block',
+          width: 250,
+          hide: false,
+          type: 'string',
+          filterable: true,
+          filterOperators: STRING_OPERATORS
+        },
+        {
+          field: 'date_created',
+          headerName: 'Date Created',
+          width: 150,
+          hide: false,
+          type: 'date',
+          filterable: true,
+          filterOperators: DATE_OPERATORS
+        },
+        {
+          field: 'size',
+          headerName: 'File Size',
+          width: 80,
+          hide: false,
+          type: 'number',
+          filterable: true,
+          filterOperators: NUMBER_OPERATORS
+        }
+      ]
     });
     cy.intercept('POST', `${API_URL}/filterdataproducts`, ExampleDataProductList);
     cy.intercept('POST', `${API_URL}/dataproductmetadata`, {
@@ -63,11 +120,84 @@ context('Select and download data product', () => {
         .find('[role="combobox"]')
         .should('have.value', 'Execution Block')
         .and('be.visible');
-      cy.get('[data-testid="key-field-0"]')
-        .next()
+      cy.get('[data-testid="value-field-0"]')
         .find('input')
         .should('have.value', 'eb-test-20260101-1234')
         .and('be.visible');
+      // operator select should be visible and default to 'contains' (from URL param)
+      cy.get('[data-testid="operator-select-0"]').should('be.visible');
+      cy.get('[data-testid="operator-select-0"]').find('input').should('have.value', 'contains');
+    })
+
+    it('dedicated start/end date pickers are removed from the panel', () => {
+      cy.get('[data-testid="DateEntryStartdate"]').should('not.exist');
+      cy.get('[data-testid="DateEntryEndDate"]').should('not.exist');
+    })
+  })
+
+  describe('legacy start_date / end_date URL parameters', () => {
+    beforeEach(() => {
+      setUpForTests();
+      cy.intercept('GET', `${API_URL}/muidatagridconfig`).as('gridConfig');
+      cy.visit(LOCAL_HOST + '?start_date=2024-01-01&end_date=2024-06-01');
+      cy.wait('@gridConfig');
+    })
+
+    it('start_date maps to a date_created onOrAfter row', () => {
+      cy.get('[data-testid="key-field-0"]')
+        .find('[role="combobox"]')
+        .should('have.value', 'Date Created')
+        .and('be.visible');
+      cy.get('[data-testid="operator-select-0"]').should('be.visible');
+      cy.get('[data-testid="operator-select-0"]').find('input').should('have.value', 'onOrAfter');
+    })
+
+    it('end_date maps to a date_created before row', () => {
+      // end_date is the second row
+      cy.get('[data-testid="key-field-1"]')
+        .find('[role="combobox"]')
+        .should('have.value', 'Date Created')
+        .and('be.visible');
+      cy.get('[data-testid="operator-select-1"]').should('be.visible');
+      cy.get('[data-testid="operator-select-1"]').find('input').should('have.value', 'before');
+    })
+  })
+
+  describe('operator selection in search panel', () => {
+    beforeEach(() => {
+      setUpForTests();
+      cy.intercept('GET', `${API_URL}/muidatagridconfig`).as('gridConfig');
+      cy.visit(LOCAL_HOST);
+      cy.wait('@gridConfig');
+    })
+
+    it('operator dropdown appears after selecting a field and reflects column type', () => {
+      // Select 'Execution Block' (string type)
+      cy.get('[data-testid="key-field-0"]').find('input').type('Execution Block', { force: true });
+      cy.get('[role="option"]').contains('Execution Block').click();
+      cy.get('[data-testid="operator-select-0"]').should('be.visible');
+      // 'contains' is the first string operator — check via the hidden native input
+      cy.get('[data-testid="operator-select-0"]').find('input').should('have.value', 'contains');
+      // Change operator to 'equals'
+      cy.get('[data-testid="operator-select-0"]').click();
+      cy.get('[role="option"]').contains('equals').click();
+      cy.get('[data-testid="operator-select-0"]').find('input').should('have.value', 'equals');
+    })
+
+    it('date-picker renders when selected column has type date', () => {
+      cy.get('[data-testid="key-field-0"]').find('input').type('Date', { force: true });
+      cy.get('[role="option"]').contains('Date Created').click();
+      // value input should be a DateEntry (contains an input with type date or text used by DateEntry)
+      cy.get('[data-testid="dateEntry-value-0"]').should('exist');
+    })
+
+    it('value input is hidden for isEmpty operator', () => {
+      cy.get('[data-testid="key-field-0"]').find('input').type('Execution Block', { force: true });
+      cy.get('[role="option"]').contains('Execution Block').click();
+      cy.get('[data-testid="operator-select-0"]').click();
+      cy.get('[role="option"]').contains('isEmpty').click();
+      // The value input Grid item should not be present
+      cy.get('[data-testid="value-field-0"]').should('not.exist');
     })
   })
 
@@ -79,7 +209,7 @@ context('Select and download data product', () => {
     })
 
     it('Search for data product', () => {
-      cy.findByTestId("metaDataDescription").contains("Filter data products based on metadata:").should("be.visible");
+      cy.findByTestId("metaDataDescription").contains("Filter data products:").should("be.visible");
       cy.findByTestId("SearchIcon").click()
     })
 

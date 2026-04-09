@@ -2,6 +2,16 @@
 
 ## development
 
+- [PHX-453](https://jira.skatelescope.org/browse/PHX-453)
+
+  - [Added] Operator `Select` dropdown in the search panel, populated from the selected column's `filterOperators`; available operators automatically reflect the column type (string, number, date).
+  - [Added] Value input in the search panel is now type-aware: a `DateEntry` date-picker renders for `type: "date"` columns; the value field is hidden entirely for no-value operators (`isEmpty`, `isNotEmpty`).
+  - [Changed] Selecting a new field in the search panel now resets the operator to the column's default and clears the value, preventing stale state from the previous field type.
+  - [Changed] `availableColumns` for the search panel is now sourced directly from `GetMuiDataGridConfig()` rather than via `DataGrid.tsx`'s `onColumnsChange` callback, which strips `filterOperators` from date columns for the DataGrid's own filter UI.
+  - [Changed] `mockMuiDataGridConfig` enriched with `type`, `filterable`, and `filterOperators` on every column entry, matching the live API response shape.
+  - [Removed] Dedicated Start Date / End Date `DateEntry` pickers removed from the search panel. Date range filters are now represented as two standard field / operator / value rows using the `date_created` field.
+  - [Changed] Legacy `?start_date=` / `?end_date=` URL parameters are automatically migrated on load to `date_created onOrAfter` / `date_created before` rows, preserving backward compatibility with existing links.
+
 - [PHX-424](https://jira.skatelescope.org/browse/PHX-424)
 
   - [Added] `MuiColumnConfig` and `MuiFilterOperator` TypeScript interfaces exported from `GetMuiDataGridConfig`, matching the enriched `/muidatagridconfig` response (`type`, `filterable`, `filterOperators` per column).

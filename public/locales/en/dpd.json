@@ -59,10 +59,11 @@
       "errorMessage": "Error Message"
     },
     "metadataStore": "Metadata Store",
-    "all": "All"
+    "all": "All",
+    "operator": "Operator"
   },
   "prompt": {
-    "filter": "Filter data products based on metadata:",
+    "filter": "Filter data products:",
     "selectedProduct": "Selected Data Product:",
     "selectDataProduct": "Select a data product to view its metadata."
   },
