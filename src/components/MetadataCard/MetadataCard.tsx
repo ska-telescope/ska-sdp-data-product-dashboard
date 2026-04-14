@@ -21,7 +21,7 @@ import { useTranslation } from 'react-i18next';
 import { SelectedDataProduct } from 'types/dataproducts/dataproducts';
 
 // Keys listed here will never be rendered. Add or remove entries as requirements
-const HIDDEN_KEYS: readonly string[] = ['interface'];
+const HIDDEN_KEYS: readonly string[] = ['interface', 'sdp_flow', 'sdp_flow_status', 'sdp_flow_placeholder'];
 
 // Display order
 const SECTION_ORDER: ReadonlyArray<string> = ['context', 'obscore', 'config', 'files'];
@@ -237,6 +237,75 @@ function renderSection(key: string, value: unknown) {
   );
 }
 
+/**
+ * Normalise sdp_flow / sdp_flow_status into a row array that can be rendered
+ * as a table regardless of whether the values are strings (PV single-flow) or
+ * JSON arrays (DLM multi-flow from the LATERAL join).
+ */
+function normaliseSdpFlows(
+  raw: Record<string, unknown>
+): Array<{ pb_id: string; flow: string; status: string }> | null {
+  const flowVal = raw['sdp_flow'];
+  const statusVal = raw['sdp_flow_status'];
+  if (flowVal === null || flowVal === undefined) return null;
+
+  const flows: string[] = Array.isArray(flowVal)
+    ? (flowVal as string[]).map(String)
+    : [String(flowVal)];
+  const statuses: string[] = Array.isArray(statusVal)
+    ? (statusVal as string[]).map(String)
+    : statusVal !== null && statusVal !== undefined
+      ? [String(statusVal)]
+      : [];
+
+  return flows.map((f, i) => {
+    // Flow key format: "{pb_id}:{kind}:{name}"
+    const parts = f.split(':');
+    const pb_id = parts[0] ?? '';
+    const flowLabel = parts.length > 1 ? parts.slice(1).join(':') : f;
+    return { pb_id, flow: flowLabel, status: statuses[i] ?? '' };
+  });
+}
+
+/**
+ * Renders a dedicated "SDP Flows" accordion section when the data product has
+ * flow data.  Works for both single-flow (PV) and multi-flow (DLM) cases.
+ */
+function SdpFlowsSection({ raw }: { raw: Record<string, unknown> }): React.ReactElement | null {
+  const rows = normaliseSdpFlows(raw);
+  if (!rows || rows.length === 0) return null;
+
+  return (
+    <Accordion defaultExpanded data-testid="metadata-section-sdp-flows">
+      <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+        <Typography variant="subtitle2">
+          {`SDP Flows (${rows.length} ${rows.length === 1 ? 'flow' : 'flows'})`}
+        </Typography>
+      </AccordionSummary>
+      <AccordionDetails>
+        <Table size="small">
+          <TableHead>
+            <TableRow>
+              <TableCell sx={{ fontWeight: 'bold' }}>Processing Block</TableCell>
+              <TableCell sx={{ fontWeight: 'bold' }}>Flow</TableCell>
+              <TableCell sx={{ fontWeight: 'bold' }}>Status</TableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {rows.map((row, i) => (
+              <TableRow key={i}>
+                <TableCell sx={{ wordBreak: 'break-all' }}>{row.pb_id}</TableCell>
+                <TableCell sx={{ wordBreak: 'break-all' }}>{row.flow}</TableCell>
+                <TableCell>{row.status}</TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </AccordionDetails>
+    </Accordion>
+  );
+}
+
 function renderMetadataSections(entries: Array<[string, unknown]>): React.ReactNode[] {
   const elements: React.ReactNode[] = [];
   let primitiveGroup: Record<string, unknown> = {};
@@ -316,7 +385,10 @@ function MetadataCard(selectedDataProduct: SelectedDataProduct) {
         <CardHeader title={t('label.metaData')} />
         <CardContent sx={{ overflow: 'auto', maxHeight: cardHeight - 80 }}>
           {metaData ? (
-            renderMetadataSections(prepareMetadata(metaData))
+            <>
+              <SdpFlowsSection raw={metaData} />
+              {renderMetadataSections(prepareMetadata(metaData))}
+            </>
           ) : (
             <Typography variant="body2" color="text.secondary">
               {t('prompt.selectDataProduct')}

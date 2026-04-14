@@ -11,6 +11,7 @@
   - [Changed] `mockMuiDataGridConfig` enriched with `type`, `filterable`, and `filterOperators` on every column entry, matching the live API response shape.
   - [Removed] Dedicated Start Date / End Date `DateEntry` pickers removed from the search panel. Date range filters are now represented as two standard field / operator / value rows using the `date_created` field.
   - [Changed] Legacy `?start_date=` / `?end_date=` URL parameters are automatically migrated on load to `date_created onOrAfter` / `date_created before` rows, preserving backward compatibility with existing links.
+  - [Added] Metadata panel now shows a dedicated **SDP Flows** accordion section when the selected data product has flow data.
 
 - [PHX-424](https://jira.skatelescope.org/browse/PHX-424)
 
