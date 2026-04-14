@@ -297,7 +297,6 @@ export default function DataproductDataGrid({
       setMuiConfigData({
         columns: newData.columns.map((item) => ({ ...item, headerName: tColumns(item.field) }))
       });
-
     } catch (error) {
       console.error('Error fetching DataGrid config:', error);
     }
