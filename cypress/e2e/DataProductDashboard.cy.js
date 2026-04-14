@@ -3,6 +3,7 @@ import ExampleDataProductList from '../data/ExampleDataProductList.json';
 import ExampleDataProductStatus from '../data/ExampleDataProductStatus.json';
 import ExampleDataProductStatusUnavailable from '../data/ExampleDataProductStatusAPIUnavailable.json';
 import ExampleDataProductStatusAvailableWithSearch from '../data/ExampleDataProductStatusAvailableWithSearch.json';
+import ExampleHumanReadable from '../data/ExampleHumanReadable.json';
 
 // Cloned FROM the constants file in the src directory. Linking to that directly is bad practice.
 const LOCAL_HOST = "http://localhost:8100/";
@@ -13,6 +14,7 @@ context('Select and download data product', () => {
   function setUpForTests() {
     Cypress.env('REACT_APP_USE_LOCAL_DATA', false);
     cy.intercept('GET', `${API_URL}/status`, ExampleDataProductStatus);
+    cy.intercept('GET', `${API_URL}/en/humanreadable`, ExampleHumanReadable);
     cy.intercept('GET', `${API_URL}/layout`, { data: ['execution_block', 'date_created', 'observer', 'processing_block'] });
     cy.intercept('GET', `${API_URL}/muidatagridconfig`, {
       columns: [{ field: 'execution_block', headerName: 'Execution Block', width: 250, hide: false }]
