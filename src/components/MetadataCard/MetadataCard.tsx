@@ -21,7 +21,12 @@ import { useTranslation } from 'react-i18next';
 import { SelectedDataProduct } from 'types/dataproducts/dataproducts';
 
 // Keys listed here will never be rendered. Add or remove entries as requirements
-const HIDDEN_KEYS: readonly string[] = ['interface', 'sdp_flow', 'sdp_flow_status', 'sdp_flow_placeholder'];
+const HIDDEN_KEYS: readonly string[] = [
+  'interface',
+  'sdp_flow',
+  'sdp_flow_status',
+  'sdp_flow_placeholder'
+];
 
 // Display order
 const SECTION_ORDER: ReadonlyArray<string> = ['context', 'obscore', 'config', 'files'];
