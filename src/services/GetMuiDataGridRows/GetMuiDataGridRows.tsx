@@ -18,13 +18,14 @@ const GetMuiDataGridRows = async (
   authAxiosClient: ReturnType<typeof useAxiosClient>,
   muiDataGridFilterModel: Record<string, string | number> = {},
   retryCount: number = 0,
-  maxRetries: number = 3
+  maxRetries: number = 3,
+  _useLocalData: boolean = USE_LOCAL_DATA
 ): Promise<GetMuiDataGridRowsResponse> => {
   const ENDPOINT: string = '/filterdataproducts';
   const RETRY_DELAY_MS = 2000; // 2 seconds between retries
 
   // Check if using local mock data
-  if (USE_LOCAL_DATA) {
+  if (_useLocalData) {
     console.log('USE_LOCAL_DATA: Loading mockDataGridRowsData');
     return mockDataGridRowsData as GetMuiDataGridRowsResponse;
   }
@@ -91,7 +92,8 @@ const GetMuiDataGridRows = async (
         authAxiosClient,
         muiDataGridFilterModel,
         retryCount + 1,
-        maxRetries
+        maxRetries,
+        _useLocalData
       );
     }
 

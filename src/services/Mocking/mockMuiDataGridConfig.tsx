@@ -1,6 +1,8 @@
 const STRING_OPERATORS = [
   { value: 'contains' },
+  { value: 'doesNotContain' },
   { value: 'equals' },
+  { value: 'doesNotEqual' },
   { value: 'startsWith' },
   { value: 'endsWith' },
   { value: 'isEmpty', requiresFilterValue: false },

@@ -1,5 +1,13 @@
 import React from 'react';
-import { DataGrid, GridFilterModel, GridColDef, GridSortModel } from '@mui/x-data-grid';
+import {
+  DataGrid,
+  GridFilterModel,
+  GridColDef,
+  GridSortModel,
+  getGridStringOperators,
+  getGridNumericOperators,
+  getGridDateOperators
+} from '@mui/x-data-grid';
 import DownloadIcon from '@mui/icons-material/Download';
 import { Box } from '@mui/material';
 import GetMuiDataGridConfig from './GetMuiDataGridConfig';
@@ -180,6 +188,7 @@ export default function DataproductDataGrid({
       field: 'download',
       headerName: 'Download',
       sortable: false,
+      filterable: false,
       width: 150,
       renderCell: (params) => {
         const onClick = () => {
@@ -236,22 +245,35 @@ export default function DataproductDataGrid({
       // The API returns ISO-8601 strings, so we inject a valueGetter for
       // every date column that coerces the string to a Date at render time.
       //
-      // We also strip `filterOperators` for date/dateTime columns: MUI's
-      // built-in date operators include a proper date-picker InputComponent.
-      // Passing our custom operator list (which has no InputComponent) would
-      // override that and leave the value field blank in the filter popup.
-      // The full operator list from the API is still available on `apiColumns`
-      // for the search-panel autocomplete.
+      // We also restrict `filterOperators` to MUI's built-in operators
+      // (which have working InputComponents) filtered to the backend-supported
+      // set returned by the API.  Passing the raw API operators (bare { value }
+      // objects with no InputComponent) overrides MUI's built-ins and removes
+      // the value input field entirely, so we use MUI's implementations instead.
       const processedApiColumns = apiColumns.map((col) => {
+        const supportedValues = new Set((col.filterOperators ?? []).map((o) => o.value));
+        let builtInOperators;
+        if (col.type === 'number') {
+          builtInOperators = getGridNumericOperators();
+        } else if (col.type === 'date' || col.type === 'dateTime') {
+          builtInOperators = getGridDateOperators();
+        } else {
+          builtInOperators = getGridStringOperators();
+        }
+        const filteredOperators =
+          supportedValues.size > 0
+            ? builtInOperators.filter((op) => supportedValues.has(op.value))
+            : builtInOperators;
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+        const { filterOperators: _unused, ...rest } = col;
         if (col.type === 'date' || col.type === 'dateTime') {
-          // eslint-disable-next-line @typescript-eslint/no-unused-vars
-          const { filterOperators: _unused, ...rest } = col;
           return {
             ...rest,
+            filterOperators: filteredOperators,
             valueGetter: (value: string | null | undefined) => (value ? new Date(value) : null)
           };
         }
-        return col;
+        return { ...rest, filterOperators: filteredOperators };
       });
 
       // Merge static + API columns
