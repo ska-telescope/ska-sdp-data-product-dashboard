@@ -234,25 +234,28 @@ export default function DataproductDataGrid({
       const layoutFields = layout?.data ?? [];
 
       // MUI DataGrid's `date` column type requires actual Date objects.
-      // The API returns ISO-8601 strings, so we inject a valueGetter for
-      // every date column that coerces the string to a Date at render time.
-      //
-      // We also strip `filterOperators` for date/dateTime columns: MUI's
-      // built-in date operators include a proper date-picker InputComponent.
-      // Passing our custom operator list (which has no InputComponent) would
-      // override that and leave the value field blank in the filter popup.
+      // Strip `filterOperators` from all columns before passing to the DataGrid.
+      // The API's operator objects are plain `{ value: '...' }` entries with no
+      // `InputComponent`, so passing them overrides MUI's built-in operators and
+      // leaves the value field blank in the column filter popup for every type.
       // The full operator list from the API is still available on `apiColumns`
-      // for the search-panel autocomplete.
+      // for the search-panel autocomplete in DataProductDashboard.
       const processedApiColumns = apiColumns.map((col) => {
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+        const { filterOperators: _unused, ...rest } = col;
+
         if (col.type === 'date' || col.type === 'dateTime') {
-          // eslint-disable-next-line @typescript-eslint/no-unused-vars
-          const { filterOperators: _unused, ...rest } = col;
           return {
             ...rest,
             valueGetter: (value: string | null | undefined) => (value ? new Date(value) : null)
           };
         }
-        return col;
+        // singleSelect without valueOptions can't render a useful dropdown;
+        // fall back to string so MUI shows a plain text input.
+        if (col.type === 'singleSelect' && !(col as any).valueOptions?.length) {
+          return { ...rest, type: 'string' as const };
+        }
+        return rest;
       });
 
       // Merge static + API columns

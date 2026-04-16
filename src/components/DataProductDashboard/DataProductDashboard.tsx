@@ -142,8 +142,6 @@ const DataProductDashboard = () => {
     if (dataSourceFilter && dataSourceFilter !== 'all') {
       items = items.filter((item) => item.field !== 'metadata_store_name');
       items.push({ field: 'metadata_store_name', operator: 'equals', value: dataSourceFilter });
-    } else {
-      items = items.filter((item) => item.field !== 'metadata_store_name');
     }
     setSearchPanelOptions({
       items,
