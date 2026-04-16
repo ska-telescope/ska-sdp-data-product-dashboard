@@ -40,6 +40,7 @@ const DataProductDashboard = () => {
   // State for metadata_store_name filter
   const [dataSourceFilter, setDataSourceFilter] = React.useState('all');
   const { t } = useTranslation('dpd');
+  const { t: tColumns } = useTranslation('humanreadable');
   const {
     apiRunning,
     apiIndexing,
@@ -262,7 +263,7 @@ const DataProductDashboard = () => {
                       <Grid item xs={12} data-testid={`key-field-${index}`}>
                         <Autocomplete
                           options={availableColumns}
-                          getOptionLabel={(option) => option.headerName || option.field}
+                          getOptionLabel={(option) => tColumns(option.field)}
                           value={availableColumns.find((col) => col.field === form.field) || null}
                           onChange={(_, newValue) => {
                             handleKeyPairChange(newValue?.field || '', index);
