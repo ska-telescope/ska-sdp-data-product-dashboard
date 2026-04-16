@@ -1,0 +1,9 @@
+{
+  "execution_block": "Execution Block",
+  "date_created": "Date Created",
+  "observer": "Observer",
+  "processing_block": "Processing Block",
+  "interface": "Interface",
+  "dataproduct_file": "Data Product File",
+  "metadata_file": "Metadata File"
+}
