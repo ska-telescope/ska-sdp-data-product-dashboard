@@ -23,7 +23,7 @@ import { SelectedDataProduct } from 'types/dataproducts/dataproducts';
 // Keys listed here will never be rendered. Add or remove entries as requirements
 const HIDDEN_KEYS: readonly string[] = [
   'interface',
-  'sdp_flow',
+  'sdp_flows',
   'sdp_flow_status',
   'sdp_flow_placeholder'
 ];
@@ -243,32 +243,24 @@ function renderSection(key: string, value: unknown) {
 }
 
 /**
- * Normalise sdp_flow / sdp_flow_status into a row array that can be rendered
- * as a table regardless of whether the values are strings (PV single-flow) or
- * JSON arrays (DLM multi-flow from the LATERAL join).
+ * Normalise the sdp_flows array into a row array that can be rendered as a
+ * table.  Each element of sdp_flows has the shape
+ * ``{ sdp_flow: string, sdp_flow_status: string }``.
  */
 function normaliseSdpFlows(
   raw: Record<string, unknown>
 ): Array<{ pb_id: string; flow: string; status: string }> | null {
-  const flowVal = raw['sdp_flow'];
-  const statusVal = raw['sdp_flow_status'];
-  if (flowVal === null || flowVal === undefined) return null;
+  const flows = raw['sdp_flows'];
+  if (!flows || !Array.isArray(flows) || flows.length === 0) return null;
 
-  const flows: string[] = Array.isArray(flowVal)
-    ? (flowVal as string[]).map(String)
-    : [String(flowVal)];
-  const statuses: string[] = Array.isArray(statusVal)
-    ? (statusVal as string[]).map(String)
-    : statusVal !== null && statusVal !== undefined
-      ? [String(statusVal)]
-      : [];
-
-  return flows.map((f, i) => {
+  return (flows as Array<Record<string, unknown>>).map((item) => {
+    const f = String(item['sdp_flow'] ?? '');
+    const status = String(item['sdp_flow_status'] ?? '');
     // Flow key format: "{pb_id}:{kind}:{name}"
     const parts = f.split(':');
     const pb_id = parts[0] ?? '';
     const flowLabel = parts.length > 1 ? parts.slice(1).join(':') : f;
-    return { pb_id, flow: flowLabel, status: statuses[i] ?? '' };
+    return { pb_id, flow: flowLabel, status };
   });
 }
 

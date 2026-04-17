@@ -24,6 +24,7 @@ import RefreshIcon from '@mui/icons-material/Refresh';
 import { Button, DateEntry, TextEntry, ButtonColorTypes } from '@ska-telescope/ska-gui-components';
 import { ButtonVariantTypes } from '@ska-telescope/ska-gui-components';
 import GetMuiDataGridConfig, { MuiColumnConfig } from '@components/DataGrid/GetMuiDataGridConfig';
+import { getSearchOperatorsForType } from '@utils/columnOperators';
 
 import DataProductsTable from '@components/DataProductsTable/DataProductsTable';
 import MetadataCard from '@components/MetadataCard/MetadataCard';
@@ -40,6 +41,7 @@ const DataProductDashboard = () => {
   // State for metadata_store_name filter
   const [dataSourceFilter, setDataSourceFilter] = React.useState('all');
   const { t } = useTranslation('dpd');
+  const { t: tColumns } = useTranslation('humanreadable');
   const {
     apiRunning,
     apiIndexing,
@@ -141,8 +143,6 @@ const DataProductDashboard = () => {
     if (dataSourceFilter && dataSourceFilter !== 'all') {
       items = items.filter((item) => item.field !== 'metadata_store_name');
       items.push({ field: 'metadata_store_name', operator: 'equals', value: dataSourceFilter });
-    } else {
-      items = items.filter((item) => item.field !== 'metadata_store_name');
     }
     setSearchPanelOptions({
       items,
@@ -202,7 +202,7 @@ const DataProductDashboard = () => {
   function RenderSearchBox() {
     const handleKeyPairChange = (field: string, index: number) => {
       const col = availableColumns.find((c) => c.field === field);
-      const defaultOperator = col?.filterOperators?.[0]?.value ?? 'contains';
+      const defaultOperator = getSearchOperatorsForType(col?.type)[0]?.value ?? 'contains';
       const data = [...formFields];
       data[index].field = field;
       data[index].operator = defaultOperator;
@@ -212,7 +212,7 @@ const DataProductDashboard = () => {
 
     const handleOperatorChange = (operator: string, index: number) => {
       const col = availableColumns.find((c) => c.field === formFields[index].field);
-      const op = col?.filterOperators?.find((o) => o.value === operator);
+      const op = getSearchOperatorsForType(col?.type).find((o) => o.value === operator);
       const data = [...formFields];
       data[index].operator = operator;
       if (op?.requiresFilterValue === false) {
@@ -262,7 +262,7 @@ const DataProductDashboard = () => {
                       <Grid item xs={12} data-testid={`key-field-${index}`}>
                         <Autocomplete
                           options={availableColumns}
-                          getOptionLabel={(option) => option.headerName || option.field}
+                          getOptionLabel={(option) => tColumns(option.field)}
                           value={availableColumns.find((col) => col.field === form.field) || null}
                           onChange={(_, newValue) => {
                             handleKeyPairChange(newValue?.field || '', index);
@@ -286,7 +286,7 @@ const DataProductDashboard = () => {
 
                       {(() => {
                         const col = availableColumns.find((c) => c.field === form.field);
-                        const operators = col?.filterOperators ?? [];
+                        const operators = getSearchOperatorsForType(col?.type);
                         return operators.length > 0 ? (
                           <Grid item xs={12}>
                             <FormControl
@@ -318,7 +318,9 @@ const DataProductDashboard = () => {
 
                       {(() => {
                         const col = availableColumns.find((c) => c.field === form.field);
-                        const op = col?.filterOperators?.find((o) => o.value === form.operator);
+                        const op = getSearchOperatorsForType(col?.type).find(
+                          (o) => o.value === form.operator
+                        );
                         if (op?.requiresFilterValue === false) return null;
                         if (col?.type === 'date') {
                           return (

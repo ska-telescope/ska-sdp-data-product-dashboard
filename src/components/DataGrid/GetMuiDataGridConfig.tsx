@@ -11,9 +11,10 @@ export interface MuiFilterOperator {
 /**
  * Full column definition returned by `GET /muidatagridconfig`.
  *
- * The enriched response adds `type`, `filterable`, and
- * `filterOperators` so the frontend can drive field autocomplete, operator
- * selection, and value-input type without any additional API calls.
+ * The enriched response adds `type` and `filterable` so the frontend can
+ * drive field autocomplete and value-input type without any additional API
+ * calls.  Filter operators are derived on the frontend from `type` via MUI
+ * factory helpers in `columnOperators.ts`.
  */
 export interface MuiColumnConfig {
   field: string;
@@ -26,7 +27,6 @@ export interface MuiColumnConfig {
    */
   type?: 'string' | 'number' | 'date' | 'dateTime' | 'boolean' | 'singleSelect' | 'actions';
   filterable: boolean;
-  filterOperators: MuiFilterOperator[];
 }
 
 interface GetMuiDataGridConfigResponse {

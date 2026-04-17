@@ -1,13 +1,6 @@
 import React from 'react';
-import {
-  DataGrid,
-  GridFilterModel,
-  GridColDef,
-  GridSortModel,
-  getGridStringOperators,
-  getGridNumericOperators,
-  getGridDateOperators
-} from '@mui/x-data-grid';
+import { DataGrid, GridFilterModel, GridColDef, GridSortModel } from '@mui/x-data-grid';
+import { getMuiOperatorsForType } from '@utils/columnOperators';
 import DownloadIcon from '@mui/icons-material/Download';
 import { Box } from '@mui/material';
 import GetMuiDataGridConfig from './GetMuiDataGridConfig';
@@ -62,6 +55,7 @@ export default function DataproductDataGrid({
   });
   const [rowCount, setRowCount] = React.useState(0);
   const { t } = useTranslation('dpd');
+  const { t: tColumns } = useTranslation('humanreadable');
   const authAxiosClient = useAxiosClient(SKA_DATAPRODUCT_API_URL);
 
   // Trigger refresh when updating prop changes
@@ -245,35 +239,30 @@ export default function DataproductDataGrid({
       // The API returns ISO-8601 strings, so we inject a valueGetter for
       // every date column that coerces the string to a Date at render time.
       //
-      // We also restrict `filterOperators` to MUI's built-in operators
-      // (which have working InputComponents) filtered to the backend-supported
-      // set returned by the API.  Passing the raw API operators (bare { value }
-      // objects with no InputComponent) overrides MUI's built-ins and removes
-      // the value input field entirely, so we use MUI's implementations instead.
+      // Operators are derived from the column `type` via getMuiOperatorsForType,
+      // which returns full MUI GridFilterOperator objects (with InputComponent).
+      // This approach uses `type` as the single source of truth, so the DataGrid
+      // column filter and the custom search panel always show the same operators.
       const processedApiColumns = apiColumns.map((col) => {
-        const supportedValues = new Set((col.filterOperators ?? []).map((o) => o.value));
-        let builtInOperators;
-        if (col.type === 'number') {
-          builtInOperators = getGridNumericOperators();
-        } else if (col.type === 'date' || col.type === 'dateTime') {
-          builtInOperators = getGridDateOperators();
-        } else {
-          builtInOperators = getGridStringOperators();
-        }
-        const filteredOperators =
-          supportedValues.size > 0
-            ? builtInOperators.filter((op) => supportedValues.has(op.value))
-            : builtInOperators;
-        // eslint-disable-next-line @typescript-eslint/no-unused-vars
-        const { filterOperators: _unused, ...rest } = col;
-        if (col.type === 'date' || col.type === 'dateTime') {
+        // singleSelect without valueOptions can't render a useful dropdown;
+        // fall back to string so MUI shows a plain text input.
+        const effectiveType =
+          col.type === 'singleSelect' && !(col as any).valueOptions?.length
+            ? ('string' as const)
+            : col.type;
+
+        const muiOperators = getMuiOperatorsForType(effectiveType);
+
+        if (effectiveType === 'date' || effectiveType === 'dateTime') {
           return {
-            ...rest,
-            filterOperators: filteredOperators,
+            ...col,
+            type: effectiveType,
+            filterOperators: muiOperators,
             valueGetter: (value: string | null | undefined) => (value ? new Date(value) : null)
           };
         }
-        return { ...rest, filterOperators: filteredOperators };
+
+        return { ...col, type: effectiveType, filterOperators: muiOperators };
       });
 
       // Merge static + API columns
@@ -315,7 +304,9 @@ export default function DataproductDataGrid({
         setDefaultColumns(visibilityModel);
       }
 
-      setMuiConfigData(newData);
+      setMuiConfigData({
+        columns: newData.columns.map((item) => ({ ...item, headerName: tColumns(item.field) }))
+      });
     } catch (error) {
       console.error('Error fetching DataGrid config:', error);
     }
