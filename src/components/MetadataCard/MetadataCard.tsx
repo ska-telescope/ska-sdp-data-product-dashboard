@@ -250,7 +250,16 @@ function renderSection(key: string, value: unknown) {
 function normaliseSdpFlows(
   raw: Record<string, unknown>
 ): Array<{ pb_id: string; flow: string; status: string }> | null {
-  const flows = raw['sdp_flows'];
+  let flows: unknown = raw['sdp_flows'];
+  // Both paths (in-memory and PostgreSQL) serialise sdp_flows to a JSON string
+  // via flatten_dict / json.dumps.  Parse it here before processing.
+  if (typeof flows === 'string') {
+    try {
+      flows = JSON.parse(flows);
+    } catch {
+      return null;
+    }
+  }
   if (!flows || !Array.isArray(flows) || flows.length === 0) return null;
 
   return (flows as Array<Record<string, unknown>>).map((item) => {
