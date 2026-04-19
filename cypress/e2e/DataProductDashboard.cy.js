@@ -15,7 +15,6 @@ context('Select and download data product', () => {
     Cypress.env('REACT_APP_USE_LOCAL_DATA', false);
     cy.intercept('GET', `${API_URL}/status`, ExampleDataProductStatus);
     cy.intercept('GET', `${API_URL}/en/humanreadable`, ExampleHumanReadable);
-    cy.intercept('GET', `${API_URL}/layout`, { data: ['execution_block', 'date_created', 'observer', 'processing_block'] });
     const STRING_OPERATORS = [
       { value: 'contains' },
       { value: 'equals' },
