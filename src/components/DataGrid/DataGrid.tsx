@@ -1,5 +1,6 @@
 import React from 'react';
 import { DataGrid, GridFilterModel, GridColDef, GridSortModel } from '@mui/x-data-grid';
+import { getMuiOperatorsForType } from '@utils/columnOperators';
 import DownloadIcon from '@mui/icons-material/Download';
 import { Box } from '@mui/material';
 import GetMuiDataGridConfig from './GetMuiDataGridConfig';
@@ -15,7 +16,6 @@ import {
 } from '@ska-telescope/ska-gui-components';
 import { useTranslation } from 'react-i18next';
 import dataProductDownloadStream from '@services/GetDownloadStream/GetDownloadStream';
-import GetLayout from '@services/GetLayout/GetLayout';
 import useLocalStorage from '@services/UseLocalStorage/UseLocalStorage';
 
 interface DataproductDataGridProps {
@@ -25,6 +25,7 @@ interface DataproductDataGridProps {
   isIndexing?: boolean;
   indexingProgress?: any;
   onLoadingChange?: (isLoading: boolean) => void;
+  onColumnsChange?: (columns: GridColDef[]) => void;
 }
 
 export default function DataproductDataGrid({
@@ -33,7 +34,8 @@ export default function DataproductDataGrid({
   updating,
   isIndexing,
   indexingProgress,
-  onLoadingChange
+  onLoadingChange,
+  onColumnsChange
 }: DataproductDataGridProps) {
   const [muiConfigData, setMuiConfigData] = React.useState({
     columns: []
@@ -41,6 +43,8 @@ export default function DataproductDataGrid({
   const [muiDataGridFilterModel, setMuiDataGridFilterModel] = React.useState({});
   const [dataFilterModel, setDataFilterModel] = React.useState({});
   const [defaultColumns, setDefaultColumns] = useLocalStorage('defaultColumns', {});
+  const [storedFields, setStoredFields] = useLocalStorage('defaultColumnsFields', '');
+  const processedApiColumnsRef = React.useRef<any[]>([]);
   const [sortModel, setSortModel] = React.useState<GridSortModel>([]);
   const [rows, setRows] = React.useState([]);
   const [isLoading, setIsLoading] = React.useState(false);
@@ -52,6 +56,7 @@ export default function DataproductDataGrid({
   });
   const [rowCount, setRowCount] = React.useState(0);
   const { t } = useTranslation('dpd');
+  const { t: tColumns } = useTranslation('humanreadable');
   const authAxiosClient = useAxiosClient(SKA_DATAPRODUCT_API_URL);
 
   // Trigger refresh when updating prop changes
@@ -90,9 +95,9 @@ export default function DataproductDataGrid({
         const result = await GetMuiDataGridRows(authAxiosClient, filterModelWithPagination);
 
         if (!isCancelled) {
-          if (result.DataGridRowsData) {
+          if (Array.isArray(result.DataGridRowsData)) {
             setRows(result.DataGridRowsData);
-            setRowCount(result.total || 0);
+            setRowCount(result.total ?? 0);
           }
         }
       } catch (error) {
@@ -129,6 +134,7 @@ export default function DataproductDataGrid({
   }, []);
 
   const onFilterChange = React.useCallback((filterModel: GridFilterModel) => {
+    setPaginationModel((prev: any) => ({ ...prev, page: 0 }));
     setMuiDataGridFilterModel({
       filterModel: { ...filterModel }
     });
@@ -139,6 +145,7 @@ export default function DataproductDataGrid({
   }, []);
 
   React.useEffect(() => {
+    setPaginationModel((prev: any) => ({ ...prev, page: 0 }));
     setDataFilterModel({
       ...muiDataGridFilterModel,
       searchPanelOptions: { ...searchPanelOptions }
@@ -176,6 +183,7 @@ export default function DataproductDataGrid({
       field: 'download',
       headerName: 'Download',
       sortable: false,
+      filterable: false,
       width: 150,
       renderCell: (params) => {
         const onClick = () => {
@@ -221,24 +229,106 @@ export default function DataproductDataGrid({
   ];
 
   const fetchData = React.useCallback(async () => {
-    const response = await GetMuiDataGridConfig();
-    const newData = {
-      columns: [...columns, ...response.columns]
-    };
-    if (Object.keys(defaultColumns).length === 0) {
-      const layout = await GetLayout();
-      if (layout?.data && layout?.data.length > 0) {
-        const hiddenColumns = response.columns.filter((obj) => !layout.data.includes(obj.field));
-        setDefaultColumns(
-          hiddenColumns
-            .map((obj) => ({
-              [obj.field]: false
-            }))
-            .reduce((acc, obj) => ({ ...acc, ...obj }), {})
+    try {
+      const response = await GetMuiDataGridConfig();
+
+      const apiColumns = response?.columns ?? [];
+
+      // MUI DataGrid's `date` column type requires actual Date objects.
+      // The API returns ISO-8601 strings, so we inject a valueGetter for
+      // every date column that coerces the string to a Date at render time.
+      //
+      // Operators are derived from the column `type` via getMuiOperatorsForType,
+      // which returns full MUI GridFilterOperator objects (with InputComponent).
+      // This approach uses `type` as the single source of truth, so the DataGrid
+      // column filter and the custom search panel always show the same operators.
+      const processedApiColumns = apiColumns.map((col) => {
+        // singleSelect without valueOptions can't render a useful dropdown;
+        // fall back to string so MUI shows a plain text input.
+        const effectiveType =
+          col.type === 'singleSelect' && !(col as any).valueOptions?.length
+            ? ('string' as const)
+            : col.type;
+
+        const muiOperators = getMuiOperatorsForType(effectiveType);
+
+        if (effectiveType === 'date' || effectiveType === 'dateTime') {
+          return {
+            ...col,
+            type: effectiveType,
+            filterOperators: muiOperators,
+            valueGetter: (value: string | null | undefined) => (value ? new Date(value) : null)
+          };
+        }
+
+        if (effectiveType === 'number') {
+          return {
+            ...col,
+            type: effectiveType,
+            filterOperators: muiOperators,
+            // Prevent MUI from rounding/reformatting numeric values — display
+            // the raw stored value so that what the user sees matches what they
+            // can search for with the = operator.
+            valueFormatter: (value: number | null | undefined) =>
+              value == null ? '' : String(value)
+          };
+        }
+
+        return { ...col, type: effectiveType, filterOperators: muiOperators };
+      });
+
+      // Merge static + API columns
+      const newColumns = [...columns, ...processedApiColumns];
+      const newData = { columns: newColumns };
+
+      // Notify parent of available fields.
+      // MuiColumnConfig is structurally compatible with GridColDef at runtime;
+      // the cast is needed because MUI's GridColDef is a discriminated union
+      // whose individual variants impose stricter type constraints than GridBaseColDef.
+      onColumnsChange?.(newColumns as GridColDef[]);
+
+      // Build visibility model from col.hide (single source of truth after /layout removal).
+      // DEFAULT_COLUMNS drives col.hide on the API side; the frontend simply reads it.
+      const visibilityModel = processedApiColumns.reduce(
+        (acc, col) => {
+          acc[col.field] = typeof col.hide === 'boolean' ? !col.hide : true;
+          return acc;
+        },
+        {} as Record<string, boolean>
+      );
+
+      processedApiColumnsRef.current = processedApiColumns;
+
+      // Compare the sorted set of field names against what was stored last time.
+      // If the field set has changed (new columns added / removed by the API), discard
+      // the user's saved preferences and re-seed from the current API defaults.
+      const currentFields = processedApiColumns
+        .map((c) => c.field)
+        .sort()
+        .join(',');
+
+      const hasValidPreferences =
+        defaultColumns &&
+        storedFields === currentFields &&
+        Object.keys(defaultColumns).some((key) =>
+          processedApiColumns.some((col) => col.field === key)
         );
+
+      if (!hasValidPreferences) {
+        setDefaultColumns(visibilityModel);
+        setStoredFields(currentFields);
       }
+
+      setMuiConfigData({
+        columns: newData.columns.map((item) => ({
+          ...item,
+          headerName: tColumns(item.field),
+          description: tColumns(`description.${item.field}`) || undefined
+        }))
+      });
+    } catch (error) {
+      console.error('Error fetching DataGrid config:', error);
     }
-    setMuiConfigData(newData);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -261,12 +351,27 @@ export default function DataproductDataGrid({
         sortModel={sortModel}
         onSortModelChange={onSortModelChange}
         onFilterModelChange={onFilterChange}
+        getRowId={(row: { id: any }) => row.id}
         onRowClick={handleRowClick}
         loading={isLoading}
         rowHeight={35}
         style={{ height: tableHeight!, width: '100%' }}
-        columnVisibilityModel={defaultColumns}
-        onColumnVisibilityModelChange={(newDefaultColumns) => setDefaultColumns(newDefaultColumns)}
+        columnVisibilityModel={defaultColumns ?? {}}
+        onColumnVisibilityModelChange={(newDefaultColumns: Record<string, boolean>) => {
+          if (Object.keys(newDefaultColumns).length === 0) {
+            // MUI fires {} when the "Show all" toggle is clicked. Show all columns.
+            const allVisible = processedApiColumnsRef.current.reduce(
+              (acc, col) => {
+                acc[col.field] = true;
+                return acc;
+              },
+              {} as Record<string, boolean>
+            );
+            setDefaultColumns(allVisible);
+          } else {
+            setDefaultColumns(newDefaultColumns);
+          }
+        }}
         sx={{
           '& .MuiDataGrid-row.Mui-selected': {
             backgroundColor: 'primary.dark',

@@ -1,0 +1,15 @@
+{
+  "execution_block": "Execution Block",
+  "date_created": "Date Created",
+  "observer": "Observer",
+  "processing_block": "Processing Block",
+  "interface": "Interface",
+  "dataproduct_file": "Data Product File",
+  "metadata_file": "Metadata File",
+  "description": {
+    "execution_block": "Unique identifier for the execution block that produced this data product.",
+    "date_created": "Date and time at which this data product was created by the pipeline.",
+    "dataproduct_file": "Relative path to the primary data product file within the persistent storage volume.",
+    "metadata_file": "Relative path to the YAML metadata file that describes this data product."
+  }
+}

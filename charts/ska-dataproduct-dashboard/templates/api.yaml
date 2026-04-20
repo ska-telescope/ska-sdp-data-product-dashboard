@@ -22,7 +22,7 @@ metadata:
   labels:
 {{ include "ska-dataproduct-dashboard.api.labels" . | indent 4 }}
 spec:
-  replicas: 1
+  replicas: {{ .Values.api.replicas | default 1 }}
   selector:
     matchLabels:
 {{ include "ska-dataproduct-dashboard.api.labels" . | indent 6 }}
@@ -68,12 +68,34 @@ spec:
             value: "{{ .Values.dataProductPVC.name }}"
           - name: REACT_APP_SKA_DATAPRODUCT_DASHBOARD_URL
             value: {{ include "ska-dataproduct-dashboard.dashboard.ingress.path" . }}
+          - name: REACT_APP_SKA_DATAPRODUCT_DASHBOARD_PORT
+            value: "{{ .Values.api.dashboardPort | default "8100" }}"
           - name: METADATA_FILE_NAME
-            value: "{{ .Values.api.metadata_file_name }}"
+            value: "{{ .Values.api.metadataFileName }}"
           - name: SKA_DATAPRODUCT_API_VERSION
             value: "{{ .Values.api.version }}"
           - name: STREAM_CHUNK_SIZE
-            value: "{{ .Values.api.stream_chunk_size }}"
+            value: "{{ .Values.api.streamChunkSize | default 65536 }}"
+          - name: DATE_FORMAT
+            value: "{{ .Values.api.dateFormat }}"
+          - name: API_ROOT_PATH
+            value: {{ include "ska-dataproduct-dashboard.api.ingress.path" . }}
+          - name: SDP_CONFIG_HOST
+            value: {{ .Values.api.sdpConfigdbHost | quote }}
+          - name: SKA_DATAPRODUCT_API_SDP_WATCHER_TIMEOUT_SECONDS
+            value: "{{ .Values.api.sdpWatcherTimeoutSeconds | default 30.0 }}"
+          - name: SKA_DATAPRODUCT_API_SDP_WATCHER_RECONNECT_DELAY_SECONDS
+            value: "{{ .Values.api.sdpWatcherReconnectDelaySeconds | default 10.0 }}"
+          - name: USE_LOCAL_TEST_DATA
+            value: "{{ .Values.api.useLocalTestData | default false }}"
+          - name: INDEXING_TIMEOUT_SECONDS
+            value: "{{ .Values.api.indexingTimeoutSeconds }}"
+          - name: INDEXING_BATCH_SIZE
+            value: "{{ .Values.api.indexingBatchSize }}"
+          - name: INDEXING_PARALLEL_WORKERS
+            value: "{{ .Values.api.indexingParallelWorkers | default 8 }}"
+          - name: SKA_PERMISSIONS_API_HOST
+            value: "{{ .Values.api.permissionsapi.serviceUrl }}"
           - name: SKA_DATAPRODUCT_API_POSTGRESQL_HOST
             value: "{{ .Values.api.postgresql.host }}"
           - name: SKA_DATAPRODUCT_API_POSTGRESQL_PORT
@@ -88,6 +110,8 @@ spec:
             value: "{{ .Values.api.postgresql.metadataTableName }}"
           - name: SKA_DATAPRODUCT_API_POSTGRESQL_ANNOTATIONS_TABLE_NAME
             value: "{{ .Values.api.postgresql.annotationsTableName }}"
+          - name: SKA_DATAPRODUCT_API_DPD_SDP_FLOWS_TABLE_NAME
+            value: "{{ .Values.api.postgresql.sdpFlowsTableName | default "dpd_sdp_flows_table" }}"
           - name: SKA_DATAPRODUCT_API_POSTGRESQL_QUERY_SIZE_LIMIT
             value: "{{ .Values.api.postgresql.querySizeLimit }}"
           - name: SKA_DATAPRODUCT_DLM_INTERFACE_ENABLED
@@ -96,21 +120,34 @@ spec:
             value: "{{ .Values.api.postgresql.dlmSchema }}"
           - name: SKA_DATAPRODUCT_API_POSTGRESQL_DLM_METADATA_TABLE_NAME
             value: "{{ .Values.api.postgresql.dlmMetadataTableName }}"
-          - name: SKA_PERMISSIONS_API_HOST
-            value: "{{ .Values.api.permissionsapi.serviceUrl }}"
-          - name: DATE_FORMAT
-            value: "{{ .Values.api.dateFromat }}"
-          - name: API_ROOT_PATH
-            value: {{ include "ska-dataproduct-dashboard.api.ingress.path" . }}
-          - name: SDP_CONFIG_HOST
-            value: {{ .Values.api.sdpConfigdbHost | quote }}
-          - name: INDEXING_TIMEOUT_SECONDS
-            value: "{{ .Values.api.indexingTimeoutSeconds }}"
-          - name: INDEXING_BATCH_SIZE
-            value: "{{ .Values.api.indexingBatchSize }}"
           - name: SKA_DATAPRODUCT_API_POSTGRESQL_PASSWORD
             valueFrom:
               secretKeyRef:
                 name: {{ .Values.api.secretName }}
                 key: SKA_DATAPRODUCT_API_POSTGRESQL_PASSWORD
+        # The API is immediately available after startup even while indexing runs in the
+        # background. A short startup delay avoids premature liveness failures on pods
+        # with large PVCs where uvicorn takes a moment to bind.
+        startupProbe:
+          httpGet:
+            path: /status
+            port: 8000
+          failureThreshold: 12
+          periodSeconds: 5
+        livenessProbe:
+          httpGet:
+            path: /status
+            port: 8000
+          initialDelaySeconds: 10
+          periodSeconds: 30
+          timeoutSeconds: 5
+          failureThreshold: 3
+        readinessProbe:
+          httpGet:
+            path: /status
+            port: 8000
+          initialDelaySeconds: 5
+          periodSeconds: 10
+          timeoutSeconds: 5
+          failureThreshold: 3
 {{- end }}

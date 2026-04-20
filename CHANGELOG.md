@@ -4,8 +4,33 @@
 
 ## v0.17.0
 
+- [PHX-453](https://jira.skatelescope.org/browse/PHX-453)
+
+  - [Added] Operator `Select` dropdown in the search panel, populated from the selected column's `filterOperators`; available operators automatically reflect the column type (string, number, date).
+  - [Added] Value input in the search panel is now type-aware: a `DateEntry` date-picker renders for `type: "date"` columns; the value field is hidden entirely for no-value operators (`isEmpty`, `isNotEmpty`).
+  - [Removed] Dedicated Start Date / End Date `DateEntry` pickers removed from the search panel. Date range filters are now represented as two standard field / operator / value rows using the `date_created` field.
+  - [Added] Metadata panel now shows a dedicated **SDP Flows** accordion section when the selected data product has flow data.
+
+- [PHX-441](https://jira.skatelescope.org/browse/PHX-441)
+
+  - [Changed] Column header tooltips: the `description` property is now injected into each `GridColDef` from the new `description` sub-object in the `/en/humanreadable` response. MUI renders built-in tooltips on hover for any column that carries a description — no custom `renderHeader` is needed.
+
+- [PHX-424](https://jira.skatelescope.org/browse/PHX-424)
+
+  - [Added] `MuiColumnConfig` and `MuiFilterOperator` TypeScript interfaces exported from `GetMuiDataGridConfig`, matching the enriched `/muidatagridconfig` response (`type`, `filterable`, `filterOperators` per column).
+  - [Fixed] Date and dateTime columns returned by the API now have a `valueGetter` injected that coerces ISO-8601 strings to `Date` objects, resolving the MUI DataGrid runtime error _"date column type only accepts Date objects as values"_.
+  - [Fixed] Fixing issues with inconsistent pagination.
+
+- [PHX-421](https://jira.skatelescope.org/browse/PHX-421)
+
+  - [Changed] Re-organised metadata panel with collapsible sections, configurable ordering, and always visible display
+
 - [PHX-403](https://jira.skatelescope.org/browse/PHX-403)
+
   - [Added] Use selected columns default. The default is loaded from the API. Once updated locally, the updated defaults are used.
+
+- [PHX-369](https://jira.skatelescope.org/browse/PHX-369)
+  - [Added] Autocomplete for keys in search field.
 
 ## v0.16.0
 

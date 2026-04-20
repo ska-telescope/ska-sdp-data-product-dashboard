@@ -41,7 +41,7 @@
     "interface": "Interface",
     "key": "Key",
     "lastModified": "Last Modified",
-    "metaData": "Meta Data",
+    "metaData": "Metadata",
     "selectFile": "Selected File",
     "startDate": "Start date",
     "statusCode": "Status Code",
@@ -59,11 +59,13 @@
       "errorMessage": "Error Message"
     },
     "metadataStore": "Metadata Store",
-    "all": "All"
+    "all": "All",
+    "operator": "Operator"
   },
   "prompt": {
-    "filter": "Filter data products based on metadata:",
-    "selectedProduct": "Selected Data Product:"
+    "filter": "Filter data products:",
+    "selectedProduct": "Selected Data Product:",
+    "selectDataProduct": "Select a data product to view its metadata."
   },
   "toolTip": {
     "button": {
@@ -94,6 +96,9 @@
       "sdpConfig": "SDP Configuration DB",
       "sdpConfigConnected": "Connected",
       "sdpConfigDisconnected": "Not Available",
+      "sdpFlowWatcher": "Flow Watcher",
+      "sdpFlowWatcherActive": "Active (real-time updates)",
+      "sdpFlowWatcherInactive": "Inactive",
       "dlmInterface": "DLM Interface",
       "dlmInterfaceEnabled": "Enabled",
       "dlmInterfaceDisabled": "Disabled",

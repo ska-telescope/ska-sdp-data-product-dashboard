@@ -17,9 +17,10 @@ const ApiStatusContext = createContext<ApiStatusContextType | undefined>(undefin
 
 interface ApiStatusProviderProps {
   children: ReactNode;
+  getStatus?: () => Promise<any>;
 }
 
-export function ApiStatusProvider({ children }: ApiStatusProviderProps) {
+export function ApiStatusProvider({ children, getStatus = GetAPIStatus }: ApiStatusProviderProps) {
   const [apiRunning, setApiRunning] = useState(false);
   const [apiIndexing, setApiIndexing] = useState(false);
   const [apiError, setApiError] = useState<string | null>(null);
@@ -30,7 +31,7 @@ export function ApiStatusProvider({ children }: ApiStatusProviderProps) {
 
   const refreshStatus = async () => {
     try {
-      const results = await GetAPIStatus();
+      const results = await getStatus();
       if (results?.data) {
         setApiRunning(results.data?.api_running ?? false);
         setApiIndexing(results.data?.indexing ?? false);

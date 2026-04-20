@@ -111,6 +111,14 @@ function IndexingStatus({ isLoading }: IndexingStatusProps) {
                       : t('toolTip.indexingStatus.sdpConfigDisconnected')}
                   </Typography>
                 )}
+                {apiStatus.sdp_config_db && (
+                  <Typography color="inherit">
+                    <strong>{t('toolTip.indexingStatus.sdpFlowWatcher')}:</strong>{' '}
+                    {apiStatus.sdp_config_db.watcher_connected
+                      ? t('toolTip.indexingStatus.sdpFlowWatcherActive')
+                      : t('toolTip.indexingStatus.sdpFlowWatcherInactive')}
+                  </Typography>
+                )}
                 {apiStatus.metadata_store_status?.dlm_interface_enabled !== undefined && (
                   <Typography color="inherit">
                     <strong>{t('toolTip.indexingStatus.dlmInterface')}:</strong>{' '}

@@ -219,3 +219,114 @@ the DPD with the following value set in ``values.yaml``
       sdpConfigdbHost: "ska-sdp-etcd.<namespace>"
 
 Replace ``<namespace>`` with the SDP control system namespace where its Configuration DB is running.
+
+Column Header Labels, Descriptions, and Default Visibility
+===========================================================
+
+This section documents how column headers with tooltips are rendered in the DataGrid,
+how default column visibility is controlled and persisted, and how to extend either.
+
+Column header tooltip flow
+--------------------------
+
+The frontend resolves column labels and tooltip descriptions from a single i18next
+namespace (``humanreadable``) loaded from ``GET /en/humanreadable``:
+
+.. code-block:: text
+
+    GET /en/humanreadable
+        │
+        ├─ top-level keys  →  tColumns(item.field)        →  GridColDef.headerName
+        └─ "description"   →  tColumns(`description.${item.field}`)  →  GridColDef.description
+
+When ``GridColDef.description`` is set to a non-empty string, MUI DataGrid renders
+a built-in tooltip on column header hover with no additional code required.
+
+If a field has no description in the API response, ``tColumns(...)`` returns the raw
+key string, which is then coerced to ``undefined`` by ``|| undefined`` in
+``DataGrid.tsx``.  MUI shows no tooltip for ``undefined`` descriptions.
+
+How ``DataGrid.tsx`` injects descriptions
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+In ``fetchData``, after ``/muidatagridconfig`` columns are processed:
+
+.. code-block:: tsx
+
+    setMuiConfigData({
+      columns: newData.columns.map((item) => ({
+        ...item,
+        headerName: tColumns(item.field),
+        description: tColumns(`description.${item.field}`) || undefined,
+      }))
+    });
+
+The same ``tColumns`` hook and namespace are used for both label and description.
+No extra HTTP requests are made.
+
+Default visible columns
+-----------------------
+
+Default column visibility is driven entirely by ``DEFAULT_COLUMNS`` on the API side,
+communicated to the frontend through the ``col.hide`` field in ``/muidatagridconfig``.
+
+Priority chain on first load
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. code-block:: text
+
+    1. localStorage "defaultColumns"  (if field set matches current API — see below)
+           │
+    2. col.hide from /muidatagridconfig  (API default — stored on first load)
+
+On first load (or after field-set invalidation), ``visibilityModel`` is built from
+``col.hide``, stored to ``localStorage`` as ``defaultColumns``, and used immediately.
+On subsequent loads the stored preferences take priority.
+
+localStorage field-set invalidation
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+The key ``defaultColumnsFields`` in ``localStorage`` contains a sorted, comma-joined
+list of all field names from the last ``/muidatagridconfig`` response.
+
+On each load, this stored list is compared to the current API field set.  If they
+differ, ``defaultColumns`` is discarded and re-seeded from ``col.hide``.  This
+automatically resets saved preferences when columns are added or removed in an
+API upgrade — silently, without prompting the user.
+
+MUI column panel Reset button
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Clicking MUI's built-in "Reset" button fires ``onColumnVisibilityModelChange``
+with an empty object ``{}``.  The handler in ``DataGrid.tsx`` detects this and
+restores the API-derived defaults from ``apiDerivedVisibilityRef`` (populated
+from ``col.hide`` during ``fetchData``) without re-fetching from the API:
+
+.. code-block:: tsx
+
+    onColumnVisibilityModelChange={(newDefaultColumns) => {
+      if (Object.keys(newDefaultColumns).length === 0) {
+        // Reset button clicked — restore API defaults
+        setDefaultColumns(apiDerivedVisibilityRef.current);
+      } else {
+        setDefaultColumns(newDefaultColumns);
+      }
+    }}
+
+After clicking Reset, ``localStorage`` is overwritten with the API defaults so the
+next page reload also shows the correct initial state.
+
+How to change the default visible set
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Edit ``DEFAULT_COLUMNS`` in
+``ska-dataproduct-api/src/ska_dataproduct_api/configuration/settings.py``.
+The list order also controls the column display order in the DataGrid.
+
+To override per deployment without a code change, set the environment variable:
+
+.. code-block:: bash
+
+    SKA_DATAPRODUCT_API_DEFAULT_COLUMNS='["execution_block","date_created","obscore.s_ra"]'
+
+The value must be a valid JSON array of field-name strings.

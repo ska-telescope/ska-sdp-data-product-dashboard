@@ -2,55 +2,73 @@ const mockMuiDataGridConfig = {
   columns: [
     {
       field: 'id',
-      hide: true
+      hide: true,
+      type: 'string',
+      filterable: false
     },
     {
       field: 'execution_block',
-      headerName: 'execution_block',
+      headerName: 'Execution Block',
       width: 250,
-      hide: false
+      hide: false,
+      type: 'string',
+      filterable: true
     },
     {
       field: 'date_created',
-      headerName: 'date_created',
+      headerName: 'Date Created',
       width: 150,
-      hide: false
+      hide: false,
+      type: 'date',
+      filterable: true
     },
     {
       field: 'context.observer',
-      headerName: 'observer',
+      headerName: 'Observer',
       width: 150,
-      hide: false
+      hide: false,
+      type: 'string',
+      filterable: true
     },
     {
       field: 'config.processing_block',
-      headerName: 'processing_block',
+      headerName: 'Processing Block',
       width: 250,
-      hide: false
+      hide: false,
+      type: 'string',
+      filterable: true
     },
     {
       field: 'context.intent',
       headerName: 'Intent',
       width: 300,
-      hide: false
+      hide: false,
+      type: 'string',
+      filterable: true
     },
     {
       field: 'context.notes',
-      headerName: 'notes',
+      headerName: 'Notes',
       width: 500,
-      hide: false
+      hide: false,
+      type: 'string',
+      filterable: true
     },
     {
       field: 'size',
-      headerName: 'file_size',
+      headerName: 'File Size',
       width: 80,
-      hide: false
+      hide: false,
+      type: 'number',
+      filterable: true
     },
     {
       field: 'status',
-      headerName: 'status',
+      headerName: 'Status',
       width: 80,
-      hide: false
+      hide: false,
+      type: 'string',
+      filterable: true
     }
   ],
   columnsWithDefaultColDef: [
@@ -68,31 +86,6 @@ const mockMuiDataGridConfig = {
       editable: false,
       type: 'string',
       align: 'left',
-      filterOperators: [
-        {
-          value: 'contains'
-        },
-        {
-          value: 'equals'
-        },
-        {
-          value: 'startsWith'
-        },
-        {
-          value: 'endsWith'
-        },
-        {
-          value: 'isEmpty',
-          requiresFilterValue: false
-        },
-        {
-          value: 'isNotEmpty',
-          requiresFilterValue: false
-        },
-        {
-          value: 'isAnyOf'
-        }
-      ],
       field: 'id',
       hide: true
     },
@@ -110,31 +103,6 @@ const mockMuiDataGridConfig = {
       editable: false,
       type: 'string',
       align: 'left',
-      filterOperators: [
-        {
-          value: 'contains'
-        },
-        {
-          value: 'equals'
-        },
-        {
-          value: 'startsWith'
-        },
-        {
-          value: 'endsWith'
-        },
-        {
-          value: 'isEmpty',
-          requiresFilterValue: false
-        },
-        {
-          value: 'isNotEmpty',
-          requiresFilterValue: false
-        },
-        {
-          value: 'isAnyOf'
-        }
-      ],
       field: 'execution_block',
       headerName: 'execution_block',
       hide: false
@@ -153,31 +121,6 @@ const mockMuiDataGridConfig = {
       editable: false,
       type: 'string',
       align: 'left',
-      filterOperators: [
-        {
-          value: 'contains'
-        },
-        {
-          value: 'equals'
-        },
-        {
-          value: 'startsWith'
-        },
-        {
-          value: 'endsWith'
-        },
-        {
-          value: 'isEmpty',
-          requiresFilterValue: false
-        },
-        {
-          value: 'isNotEmpty',
-          requiresFilterValue: false
-        },
-        {
-          value: 'isAnyOf'
-        }
-      ],
       field: 'date_created',
       headerName: 'date_created',
       hide: false
@@ -196,31 +139,6 @@ const mockMuiDataGridConfig = {
       editable: false,
       type: 'string',
       align: 'left',
-      filterOperators: [
-        {
-          value: 'contains'
-        },
-        {
-          value: 'equals'
-        },
-        {
-          value: 'startsWith'
-        },
-        {
-          value: 'endsWith'
-        },
-        {
-          value: 'isEmpty',
-          requiresFilterValue: false
-        },
-        {
-          value: 'isNotEmpty',
-          requiresFilterValue: false
-        },
-        {
-          value: 'isAnyOf'
-        }
-      ],
       field: 'context.observer',
       headerName: 'observer',
       hide: false
@@ -239,31 +157,6 @@ const mockMuiDataGridConfig = {
       editable: false,
       type: 'string',
       align: 'left',
-      filterOperators: [
-        {
-          value: 'contains'
-        },
-        {
-          value: 'equals'
-        },
-        {
-          value: 'startsWith'
-        },
-        {
-          value: 'endsWith'
-        },
-        {
-          value: 'isEmpty',
-          requiresFilterValue: false
-        },
-        {
-          value: 'isNotEmpty',
-          requiresFilterValue: false
-        },
-        {
-          value: 'isAnyOf'
-        }
-      ],
       field: 'config.processing_block',
       headerName: 'processing_block',
       hide: false
@@ -282,31 +175,6 @@ const mockMuiDataGridConfig = {
       editable: false,
       type: 'string',
       align: 'left',
-      filterOperators: [
-        {
-          value: 'contains'
-        },
-        {
-          value: 'equals'
-        },
-        {
-          value: 'startsWith'
-        },
-        {
-          value: 'endsWith'
-        },
-        {
-          value: 'isEmpty',
-          requiresFilterValue: false
-        },
-        {
-          value: 'isNotEmpty',
-          requiresFilterValue: false
-        },
-        {
-          value: 'isAnyOf'
-        }
-      ],
       field: 'context.intent',
       headerName: 'Intent',
       hide: false
@@ -325,31 +193,6 @@ const mockMuiDataGridConfig = {
       editable: false,
       type: 'string',
       align: 'left',
-      filterOperators: [
-        {
-          value: 'contains'
-        },
-        {
-          value: 'equals'
-        },
-        {
-          value: 'startsWith'
-        },
-        {
-          value: 'endsWith'
-        },
-        {
-          value: 'isEmpty',
-          requiresFilterValue: false
-        },
-        {
-          value: 'isNotEmpty',
-          requiresFilterValue: false
-        },
-        {
-          value: 'isAnyOf'
-        }
-      ],
       field: 'context.notes',
       headerName: 'notes',
       hide: false
@@ -368,31 +211,6 @@ const mockMuiDataGridConfig = {
       editable: false,
       type: 'string',
       align: 'left',
-      filterOperators: [
-        {
-          value: 'contains'
-        },
-        {
-          value: 'equals'
-        },
-        {
-          value: 'startsWith'
-        },
-        {
-          value: 'endsWith'
-        },
-        {
-          value: 'isEmpty',
-          requiresFilterValue: false
-        },
-        {
-          value: 'isNotEmpty',
-          requiresFilterValue: false
-        },
-        {
-          value: 'isAnyOf'
-        }
-      ],
       field: 'size',
       headerName: 'file_size',
       hide: false
@@ -411,31 +229,6 @@ const mockMuiDataGridConfig = {
       editable: false,
       type: 'string',
       align: 'left',
-      filterOperators: [
-        {
-          value: 'contains'
-        },
-        {
-          value: 'equals'
-        },
-        {
-          value: 'startsWith'
-        },
-        {
-          value: 'endsWith'
-        },
-        {
-          value: 'isEmpty',
-          requiresFilterValue: false
-        },
-        {
-          value: 'isNotEmpty',
-          requiresFilterValue: false
-        },
-        {
-          value: 'isAnyOf'
-        }
-      ],
       field: 'status',
       headerName: 'status',
       hide: false
