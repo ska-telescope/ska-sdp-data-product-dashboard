@@ -9,6 +9,10 @@
   - [Removed] Dedicated Start Date / End Date `DateEntry` pickers removed from the search panel. Date range filters are now represented as two standard field / operator / value rows using the `date_created` field.
   - [Added] Metadata panel now shows a dedicated **SDP Flows** accordion section when the selected data product has flow data.
 
+- [PHX-441](https://jira.skatelescope.org/browse/PHX-441)
+
+  - [Changed] Column header tooltips: the `description` property is now injected into each `GridColDef` from the new `description` sub-object in the `/en/humanreadable` response. MUI renders built-in tooltips on hover for any column that carries a description — no custom `renderHeader` is needed.
+
 - [PHX-424](https://jira.skatelescope.org/browse/PHX-424)
 
   - [Added] `MuiColumnConfig` and `MuiFilterOperator` TypeScript interfaces exported from `GetMuiDataGridConfig`, matching the enriched `/muidatagridconfig` response (`type`, `filterable`, `filterOperators` per column).
