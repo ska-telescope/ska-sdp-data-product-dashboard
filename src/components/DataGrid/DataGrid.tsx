@@ -1,5 +1,6 @@
 import React from 'react';
 import { DataGrid, GridFilterModel, GridColDef, GridSortModel } from '@mui/x-data-grid';
+import { getMuiOperatorsForType } from '@utils/columnOperators';
 import DownloadIcon from '@mui/icons-material/Download';
 import { Box } from '@mui/material';
 import GetMuiDataGridConfig from './GetMuiDataGridConfig';
@@ -181,6 +182,7 @@ export default function DataproductDataGrid({
       field: 'download',
       headerName: 'Download',
       sortable: false,
+      filterable: false,
       width: 150,
       renderCell: (params) => {
         const onClick = () => {
@@ -237,22 +239,43 @@ export default function DataproductDataGrid({
       // The API returns ISO-8601 strings, so we inject a valueGetter for
       // every date column that coerces the string to a Date at render time.
       //
-      // We also strip `filterOperators` for date/dateTime columns: MUI's
-      // built-in date operators include a proper date-picker InputComponent.
-      // Passing our custom operator list (which has no InputComponent) would
-      // override that and leave the value field blank in the filter popup.
-      // The full operator list from the API is still available on `apiColumns`
-      // for the search-panel autocomplete.
+      // Operators are derived from the column `type` via getMuiOperatorsForType,
+      // which returns full MUI GridFilterOperator objects (with InputComponent).
+      // This approach uses `type` as the single source of truth, so the DataGrid
+      // column filter and the custom search panel always show the same operators.
       const processedApiColumns = apiColumns.map((col) => {
-        if (col.type === 'date' || col.type === 'dateTime') {
-          // eslint-disable-next-line @typescript-eslint/no-unused-vars
-          const { filterOperators: _unused, ...rest } = col;
+        // singleSelect without valueOptions can't render a useful dropdown;
+        // fall back to string so MUI shows a plain text input.
+        const effectiveType =
+          col.type === 'singleSelect' && !(col as any).valueOptions?.length
+            ? ('string' as const)
+            : col.type;
+
+        const muiOperators = getMuiOperatorsForType(effectiveType);
+
+        if (effectiveType === 'date' || effectiveType === 'dateTime') {
           return {
-            ...rest,
+            ...col,
+            type: effectiveType,
+            filterOperators: muiOperators,
             valueGetter: (value: string | null | undefined) => (value ? new Date(value) : null)
           };
         }
-        return col;
+
+        if (effectiveType === 'number') {
+          return {
+            ...col,
+            type: effectiveType,
+            filterOperators: muiOperators,
+            // Prevent MUI from rounding/reformatting numeric values — display
+            // the raw stored value so that what the user sees matches what they
+            // can search for with the = operator.
+            valueFormatter: (value: number | null | undefined) =>
+              value == null ? '' : String(value)
+          };
+        }
+
+        return { ...col, type: effectiveType, filterOperators: muiOperators };
       });
 
       // Merge static + API columns

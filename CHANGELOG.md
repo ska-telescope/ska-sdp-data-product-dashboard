@@ -2,6 +2,13 @@
 
 ## development
 
+- [PHX-453](https://jira.skatelescope.org/browse/PHX-453)
+
+  - [Added] Operator `Select` dropdown in the search panel, populated from the selected column's `filterOperators`; available operators automatically reflect the column type (string, number, date).
+  - [Added] Value input in the search panel is now type-aware: a `DateEntry` date-picker renders for `type: "date"` columns; the value field is hidden entirely for no-value operators (`isEmpty`, `isNotEmpty`).
+  - [Removed] Dedicated Start Date / End Date `DateEntry` pickers removed from the search panel. Date range filters are now represented as two standard field / operator / value rows using the `date_created` field.
+  - [Added] Metadata panel now shows a dedicated **SDP Flows** accordion section when the selected data product has flow data.
+
 - [PHX-424](https://jira.skatelescope.org/browse/PHX-424)
 
   - [Added] `MuiColumnConfig` and `MuiFilterOperator` TypeScript interfaces exported from `GetMuiDataGridConfig`, matching the enriched `/muidatagridconfig` response (`type`, `filterable`, `filterOperators` per column).

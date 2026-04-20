@@ -9,16 +9,32 @@ api:
   container: artefact.skao.int/ska-dataproduct-api
   version: 0.15.1
   imagePullPolicy: IfNotPresent
+  replicas: 1
   secretName: ska-dataproduct-dashboard-api-secret
   verbose: false
-  dateFromat: "%Y-%m-%d"
+  dateFormat: "%Y-%m-%d"
   ingress:
     path: api
   storagePath: "/mnt/data/product/"
-  metadata_file_name: ska-data-product.yaml
+  metadataFileName: ska-data-product.yaml
+  # Indexing tuning
   indexingTimeoutSeconds: 21600
   indexingBatchSize: 10
+  # Number of threads for the parallel YAML read phase. Increase on high-latency NFS storage.
+  indexingParallelWorkers: 8
+  # SDP config database (etcd) host.  Leave empty to disable SDP flow enrichment.
   sdpConfigdbHost: ""
+  # Seconds the SDP flow watcher waits for an etcd event before looping (heartbeat).
+  sdpWatcherTimeoutSeconds: 30.0
+  # Seconds to wait before reconnecting after an unexpected SDP flow watcher error.
+  sdpWatcherReconnectDelaySeconds: 10.0
+  # When true, mock SDP flow data is loaded on startup without a live etcd connection.
+  # For development/testing only — never enable in production.
+  useLocalTestData: false
+  # Chunk size in bytes for streaming file downloads.
+  streamChunkSize: 65536
+  # Dashboard port used to build CORS allowed origins.
+  dashboardPort: "8100"
   permissionsapi:
     serviceUrl: https://sdhp.stfc.skao.int/integration-ska-permissions-api
   postgresql:
@@ -28,13 +44,13 @@ api:
     password: ""
     dbname: ""
     schema: ""
-    metadataTableName: "data_products_metadata_v3"
-    annotationsTableName: "data_products_annotations_v2"
+    metadataTableName: "dpd_metadata_table"
+    annotationsTableName: "dpd_annotations_table"
+    sdpFlowsTableName: "dpd_sdp_flows_table"
     dlmInterfaceEnabled: false
     dlmSchema: "dlm"
     dlmMetadataTableName: "data_item"
     querySizeLimit: 10000
-  stream_chunk_size: 65536
   resources:
     requests:
       cpu: 200m
