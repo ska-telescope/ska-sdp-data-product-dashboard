@@ -126,7 +126,7 @@ spec:
                 name: {{ .Values.api.secretName }}
                 key: SKA_DATAPRODUCT_API_POSTGRESQL_PASSWORD
         # The API is immediately available after startup even while indexing runs in the
-        # background.  A short startup delay avoids premature liveness failures on pods
+        # background. A short startup delay avoids premature liveness failures on pods
         # with large PVCs where uvicorn takes a moment to bind.
         startupProbe:
           httpGet:

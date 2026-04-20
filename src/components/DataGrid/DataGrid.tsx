@@ -261,6 +261,19 @@ export default function DataproductDataGrid({
           };
         }
 
+        if (effectiveType === 'number') {
+          return {
+            ...col,
+            type: effectiveType,
+            filterOperators: muiOperators,
+            // Prevent MUI from rounding/reformatting numeric values — display
+            // the raw stored value so that what the user sees matches what they
+            // can search for with the = operator.
+            valueFormatter: (value: number | null | undefined) =>
+              value == null ? '' : String(value)
+          };
+        }
+
         return { ...col, type: effectiveType, filterOperators: muiOperators };
       });
 
