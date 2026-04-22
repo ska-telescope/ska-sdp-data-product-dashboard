@@ -7,7 +7,7 @@ ingress:
 api:
   enabled: true
   container: artefact.skao.int/ska-dataproduct-api
-  version: 0.15.1
+  version: 0.16.0
   imagePullPolicy: IfNotPresent
   replicas: 1
   secretName: ska-dataproduct-dashboard-api-secret
@@ -62,7 +62,7 @@ api:
 dashboard:
   enabled: true
   container: artefact.skao.int/ska-dataproduct-dashboard
-  version: 0.16.0
+  version: 0.17.0
   imagePullPolicy: IfNotPresent
   secretName: ska-dataproduct-dashboard-dashboard-secret
   ingress:

@@ -62,11 +62,14 @@ spec:
                 secretKeyRef:
                   name: {{ .Values.dashboard.secretName }}
                   key: REACT_APP_MSENTRA_CLIENT_ID
+                  optional: true
+
             - name: REACT_APP_MSENTRA_TENANT_ID
               valueFrom:
                 secretKeyRef:
                   name: {{ .Values.dashboard.secretName }}
                   key: REACT_APP_MSENTRA_TENANT_ID
+                  optional: true
           livenessProbe:
             httpGet:
               path: /
