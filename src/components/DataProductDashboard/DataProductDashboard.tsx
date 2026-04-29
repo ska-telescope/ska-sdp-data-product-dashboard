@@ -36,6 +36,7 @@ import DataAnnotationsCard from '@components/DataAnnotationsCard/DataAnnotations
 import { SelectedDataProduct } from 'types/dataproducts/dataproducts';
 import FeedbackButton from '@components/FeedbackButton/FeedbackButton';
 import { FEEDBACK_URL } from '@utils/constants';
+import SearchBox from '@components/SearchComponent/SearchComponent';
 
 const DataProductDashboard = () => {
   // State for metadata_store_name filter
@@ -67,7 +68,7 @@ const DataProductDashboard = () => {
     React.useState(null);
   const [initFlag, setInitFlag] = React.useState(true);
 
-  const [formFields, setFormFields] = React.useState([{ field: '', operator: '', value: '' }]);
+  const [formFields, setFormFields] = React.useState([]);
 
   const [searchPanelOptions, setSearchPanelOptions] = React.useState({
     items: [],
@@ -478,6 +479,9 @@ const DataProductDashboard = () => {
   return (
     <Box sx={{ height: '100%' }}>
       {RenderDataStoreBox()}
+      <Box sx={{ height: '100%' }}>
+        {SearchBox(t, tColumns, availableColumns, formFields, setFormFields)}
+      </Box>
       <Grid
         sx={{ height: '100%' }}
         container
@@ -485,12 +489,11 @@ const DataProductDashboard = () => {
         direction="row"
         justifyContent="space-between"
       >
-        <Grid item xs={9}>
+        <Grid item xs={8}>
           {DataProductsTable(updating, apiRunning, dataGridComponent, indexingProgress)}
         </Grid>
-        <Grid item xs={3}>
+        <Grid item xs={4}>
           <>
-            {RenderSearchBox()}
             <MetadataCard {...selectedFileNames} />
             {DataAnnotationsCard(selectedFileNames)}
           </>
