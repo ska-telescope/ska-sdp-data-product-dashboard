@@ -2,19 +2,7 @@ import React, { useState } from 'react';
 import SearchOption from '@components/SearchComponent/SearchOption';
 import SearchIcon from '@mui/icons-material/Search';
 
-import {
-  InputLabel,
-  MenuItem,
-  Select,
-  Typography,
-  Autocomplete,
-  TextField
-} from '@mui/material';
-
-import { ButtonVariantTypes } from '@ska-telescope/ska-gui-components';
-import IndeterminateCheckBoxOutlinedIcon from '@mui/icons-material/IndeterminateCheckBoxOutlined';
 import Chip from '@mui/material/Chip';
-import { Button, DateEntry, TextEntry, ButtonColorTypes } from '@ska-telescope/ska-gui-components';
 
 const SearchBox = (t, tColumns, availableColumns, formFields, setFormFields) => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
@@ -23,8 +11,6 @@ const SearchBox = (t, tColumns, availableColumns, formFields, setFormFields) => 
     operator: '>',
     value: 'string'
   });
-
-  const addOption = () => {};
 
   const removeField = (opt) => {
     setFormFields(formFields.filter((o) => o !== opt));
@@ -62,7 +48,7 @@ const SearchBox = (t, tColumns, availableColumns, formFields, setFormFields) => 
           zIndex: 1000
         }}
       >
-      <SearchIcon/>
+        <SearchIcon />
         {renderSelectedOptions()}
       </div>
 

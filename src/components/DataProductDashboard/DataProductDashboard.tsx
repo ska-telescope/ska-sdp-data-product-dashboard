@@ -2,35 +2,19 @@ import React from 'react';
 import axios from 'axios';
 import { useTranslation } from 'react-i18next';
 
-import {
-  Box,
-  Card,
-  CardContent,
-  FormControl,
-  Grid,
-  InputLabel,
-  MenuItem,
-  Select,
-  Typography,
-  Autocomplete,
-  TextField
-} from '@mui/material';
-import SearchIcon from '@mui/icons-material/Search';
-import LibraryAddOutlinedIcon from '@mui/icons-material/LibraryAddOutlined';
-import IndeterminateCheckBoxOutlinedIcon from '@mui/icons-material/IndeterminateCheckBoxOutlined';
+import { Box, FormControl, Grid, InputLabel, MenuItem, Select } from '@mui/material';
 import CachedIcon from '@mui/icons-material/Cached';
 import RefreshIcon from '@mui/icons-material/Refresh';
 
-import { Button, DateEntry, TextEntry, ButtonColorTypes } from '@ska-telescope/ska-gui-components';
+import { Button, ButtonColorTypes } from '@ska-telescope/ska-gui-components';
 import { ButtonVariantTypes } from '@ska-telescope/ska-gui-components';
 import GetMuiDataGridConfig, { MuiColumnConfig } from '@components/DataGrid/GetMuiDataGridConfig';
-import { getSearchOperatorsForType } from '@utils/columnOperators';
 
 import DataProductsTable from '@components/DataProductsTable/DataProductsTable';
 import MetadataCard from '@components/MetadataCard/MetadataCard';
 import IndexingStatus from '@components/IndexingStatus/IndexingStatus';
 import { useApiStatus } from '@contexts/ApiStatusContext';
-import { SKA_DATAPRODUCT_API_URL, FILTERCARDHEIGHT } from '@utils/constants';
+import { SKA_DATAPRODUCT_API_URL } from '@utils/constants';
 import DataproductDataGrid from '@components/DataGrid/DataGrid';
 import DataAnnotationsCard from '@components/DataAnnotationsCard/DataAnnotationsCard';
 import { SelectedDataProduct } from 'types/dataproducts/dataproducts';
@@ -198,206 +182,6 @@ const DataProductDashboard = () => {
   async function OnClickIndexDataProduct() {
     indexDataProduct();
     refreshStatus();
-  }
-
-  function RenderSearchBox() {
-    const handleKeyPairChange = (field: string, index: number) => {
-      const col = availableColumns.find((c) => c.field === field);
-      const defaultOperator = getSearchOperatorsForType(col?.type)[0]?.value ?? 'contains';
-      const data = [...formFields];
-      data[index].field = field;
-      data[index].operator = defaultOperator;
-      data[index].value = '';
-      setFormFields(data);
-    };
-
-    const handleOperatorChange = (operator: string, index: number) => {
-      const col = availableColumns.find((c) => c.field === formFields[index].field);
-      const op = getSearchOperatorsForType(col?.type).find((o) => o.value === operator);
-      const data = [...formFields];
-      data[index].operator = operator;
-      if (op?.requiresFilterValue === false) {
-        data[index].value = '';
-      }
-      setFormFields(data);
-    };
-
-    const handleValuePairChange = (event: string, index: number) => {
-      const data = [...formFields];
-      data[index].value = event;
-      setFormFields(data);
-    };
-
-    const addFields = () => {
-      setFormFields([...formFields, { field: '', operator: '', value: '' }]);
-    };
-
-    const removeFields = (index: number) => {
-      let data = [...formFields];
-      data.splice(index, 1);
-      setFormFields(data);
-    };
-    return (
-      <Box m={1}>
-        <Card variant="outlined" sx={{ maxHeight: FILTERCARDHEIGHT, overflow: 'auto' }}>
-          <CardContent>
-            <Typography
-              data-testid={'metaDataDescription'}
-              sx={{ fontSize: 14 }}
-              color="text.secondary"
-              gutterBottom
-            >
-              {t('prompt.filter')}
-            </Typography>
-            <Grid
-              container
-              direction="row"
-              spacing={1}
-              justifyContent="space-between"
-              alignItems="center"
-            >
-              {formFields.map(
-                (form: { field: string; operator: string; value: string }, index: number) => {
-                  return (
-                    <React.Fragment key={index}>
-                      <Grid item xs={12} data-testid={`key-field-${index}`}>
-                        <Autocomplete
-                          options={availableColumns}
-                          getOptionLabel={(option) => tColumns(option.field)}
-                          value={availableColumns.find((col) => col.field === form.field) || null}
-                          onChange={(_, newValue) => {
-                            handleKeyPairChange(newValue?.field || '', index);
-                          }}
-                          renderInput={(params) => {
-                            const { inputProps, ...rest } = params;
-                            return (
-                              <TextField
-                                {...rest}
-                                label={t('label.key')}
-                                inputProps={{
-                                  ...inputProps,
-                                  'data-testid': 'textEntry-Key'
-                                }}
-                              />
-                            );
-                          }}
-                          fullWidth
-                        />
-                      </Grid>
-
-                      {(() => {
-                        const col = availableColumns.find((c) => c.field === form.field);
-                        const operators = getSearchOperatorsForType(col?.type);
-                        return operators.length > 0 ? (
-                          <Grid item xs={12}>
-                            <FormControl
-                              fullWidth
-                              size="small"
-                              data-testid={`operator-select-${index}`}
-                            >
-                              <InputLabel id={`operator-label-${index}`}>
-                                {t('label.operator')}
-                              </InputLabel>
-                              <Select
-                                labelId={`operator-label-${index}`}
-                                value={form.operator}
-                                label={t('label.operator')}
-                                onChange={(e) =>
-                                  handleOperatorChange(e.target.value as string, index)
-                                }
-                              >
-                                {operators.map((op) => (
-                                  <MenuItem key={op.value} value={op.value}>
-                                    {op.value}
-                                  </MenuItem>
-                                ))}
-                              </Select>
-                            </FormControl>
-                          </Grid>
-                        ) : null;
-                      })()}
-
-                      {(() => {
-                        const col = availableColumns.find((c) => c.field === form.field);
-                        const op = getSearchOperatorsForType(col?.type).find(
-                          (o) => o.value === form.operator
-                        );
-                        if (op?.requiresFilterValue === false) return null;
-                        if (col?.type === 'date') {
-                          return (
-                            <Grid item xs={12} data-testid={`value-field-${index}`}>
-                              <DateEntry
-                                testId={`dateEntry-value-${index}`}
-                                label={t('label.value')}
-                                setValue={(event: React.SetStateAction<string>) =>
-                                  handleValuePairChange(event as string, index)
-                                }
-                                value={form.value}
-                              />
-                            </Grid>
-                          );
-                        }
-                        return (
-                          <Grid item xs={12} data-testid={`value-field-${index}`}>
-                            <TextEntry
-                              ariaTitle="value"
-                              label={t('label.value')}
-                              setValue={(event: any) => handleValuePairChange(event, index)}
-                              value={form.value}
-                            />
-                          </Grid>
-                        );
-                      })()}
-
-                      <Grid item xs={-4}>
-                        <Button
-                          testId="RemoveKeyValuePairButton"
-                          color={ButtonColorTypes.Secondary}
-                          disabled={updating}
-                          icon={<IndeterminateCheckBoxOutlinedIcon />}
-                          label="Remove"
-                          onClick={() => removeFields(index)}
-                          toolTip="Remove Key/Value pair"
-                          variant={ButtonVariantTypes.Outlined}
-                        />
-                      </Grid>
-                    </React.Fragment>
-                  );
-                }
-              )}
-
-              <Grid item xs={4}>
-                <Button
-                  testId="AddKeyValuePairButton"
-                  color={ButtonColorTypes.Secondary}
-                  disabled={updating}
-                  icon={<LibraryAddOutlinedIcon />}
-                  label="Add"
-                  onClick={addFields}
-                  toolTip="Add Key/Value pair"
-                  variant={ButtonVariantTypes.Outlined}
-                />
-              </Grid>
-            </Grid>
-
-            <br />
-
-            <Grid item xs={4}>
-              <Button
-                testId="SubmitSearchButton"
-                color={ButtonColorTypes.Secondary}
-                disabled={updating}
-                icon={<SearchIcon />}
-                label={t('button.search')}
-                onClick={() => setUpdating(true)}
-                toolTip="Submit search"
-                variant={ButtonVariantTypes.Outlined}
-              />
-            </Grid>
-          </CardContent>
-        </Card>
-      </Box>
-    );
   }
 
   function RenderDataStoreBox() {

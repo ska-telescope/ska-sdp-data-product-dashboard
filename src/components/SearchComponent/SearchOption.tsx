@@ -1,15 +1,11 @@
-import React, { useState } from 'react';
-import { useTranslation } from 'react-i18next';
+import React from 'react';
 import LibraryAddOutlinedIcon from '@mui/icons-material/LibraryAddOutlined';
 import {
-  Box,
-  CardContent,
   FormControl,
   Grid,
   InputLabel,
   MenuItem,
   Select,
-  Typography,
   Autocomplete,
   TextField
 } from '@mui/material';
