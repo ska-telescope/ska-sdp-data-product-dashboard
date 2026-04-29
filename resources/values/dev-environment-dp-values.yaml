@@ -1,7 +1,7 @@
 ---
 api:
   container: registry.gitlab.com/ska-telescope/ska-dataproduct-api/ska-dataproduct-api
-  version: 0.16.0-dev.cbb8f2826
+  version: 0.16.0-dev.cccc5e712
   imagePullPolicy: Always
   sdpConfigdbHost: "ska-sdp-etcd.dp-shared"
   postgresql:
