@@ -17,15 +17,20 @@ const SearchBox = (t, tColumns, availableColumns, formFields, setFormFields) => 
     setSearchSelection(opt);
     setIsDropdownOpen(true);
   };
+  const deleteField = (opt) => {
+    setFormFields(formFields.filter((o) => o !== opt));
+  };
 
   const renderSelectedOptions = () => (
     <div>
+      <SearchIcon />
       {formFields.map((opt) => (
         <Chip
           key={`${opt.field}-${opt.operator}-${opt.value}`}
           id={`${opt.field}-${opt.operator}-${opt.value}`}
           label={`${opt.field}  ${opt.operator}  ${opt.value}`}
           onClick={() => removeField(opt)}
+          onDelete={() => deleteField(opt)}
           variant="outlined"
         />
       ))}
@@ -48,7 +53,6 @@ const SearchBox = (t, tColumns, availableColumns, formFields, setFormFields) => 
           zIndex: 1000
         }}
       >
-        <SearchIcon />
         {renderSelectedOptions()}
       </div>
 

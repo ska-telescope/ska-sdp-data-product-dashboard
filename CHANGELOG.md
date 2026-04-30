@@ -2,6 +2,10 @@
 
 ## Unreleased
 
+- [PHX-452](https://jira.skatelescope.org/browse/PHX-452)
+
+  - [Changed] Search is no longer in the side panel, but above the table.
+
 ## v0.17.0
 
 - [PHX-453](https://jira.skatelescope.org/browse/PHX-453)

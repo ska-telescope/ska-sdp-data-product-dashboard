@@ -15,7 +15,7 @@ import {
   Typography
 } from '@mui/material';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import { shellSize, FILTERCARDHEIGHT } from '@utils/constants';
+import { ANNOTATIONS_CARD_HEIGHT, tableHeight } from '@utils/constants';
 import getMetaData from '@services/GetMetaData/GetMetaData';
 import { useTranslation } from 'react-i18next';
 import { SelectedDataProduct } from 'types/dataproducts/dataproducts';
@@ -350,9 +350,7 @@ function renderMetadataSections(entries: Array<[string, unknown]>): React.ReactN
 function MetadataCard(selectedDataProduct: SelectedDataProduct) {
   const [metaData, setMetaData] = React.useState<Record<string, unknown> | null>(null);
   const [oldFilename, setOldFilename] = React.useState(null);
-  const [cardHeight, setCardHeight] = React.useState(
-    window.innerHeight - shellSize() - FILTERCARDHEIGHT
-  );
+  const [cardHeight, setCardHeight] = React.useState(tableHeight() - ANNOTATIONS_CARD_HEIGHT);
   const { t } = useTranslation('dpd');
 
   React.useEffect(() => {
@@ -376,7 +374,7 @@ function MetadataCard(selectedDataProduct: SelectedDataProduct) {
 
   React.useEffect(() => {
     function handleResize() {
-      setCardHeight(window.innerHeight - shellSize() - FILTERCARDHEIGHT);
+      setCardHeight(tableHeight() - ANNOTATIONS_CARD_HEIGHT);
     }
 
     window.addEventListener('resize', handleResize);
@@ -387,7 +385,7 @@ function MetadataCard(selectedDataProduct: SelectedDataProduct) {
 
   return (
     <Box m={1}>
-      <Card variant="outlined" sx={{ maxHeight: cardHeight }}>
+      <Card variant="outlined" sx={{ maxHeight: cardHeight! }}>
         <CardHeader title={t('label.metaData')} />
         <CardContent sx={{ overflow: 'auto', maxHeight: cardHeight - 80 }}>
           {metaData ? (
