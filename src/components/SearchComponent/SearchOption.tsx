@@ -95,7 +95,7 @@ const SearchOption = (
                     ...inputProps,
                     'data-testid': 'textEntry-Key'
                   }}
-                  style={{background: 'white',}}
+                  style={{ background: 'white' }}
                 />
               );
             }}
@@ -120,7 +120,7 @@ const SearchOption = (
                   value={searchSelection.operator}
                   label={t('label.operator')}
                   onChange={(e) => handleOperatorChange(e.target.value as string)}
-                  style={{background: 'white',}}
+                  style={{ background: 'white' }}
                 >
                   {operators.map((op) => (
                     <MenuItem key={op.value} value={op.value}>
