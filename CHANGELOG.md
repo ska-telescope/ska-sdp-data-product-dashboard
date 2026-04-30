@@ -5,6 +5,7 @@
 - [PHX-452](https://jira.skatelescope.org/browse/PHX-452)
 
   - [Changed] Search is no longer in the side panel, but above the table.
+  - [Changed] Updated docs images according to new layout.
 
 ## v0.17.0
 
