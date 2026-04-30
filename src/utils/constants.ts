@@ -56,7 +56,7 @@ export const shellSize = (): any => {
   return calculatedHeight;
 };
 
-export const ANNOTATIONS_CARD_HEIGHT = 240;
+export const ANNOTATIONS_CARD_HEIGHT = 300;
 
 export const USERS = [
   { label: 'AIV', value: 'aiv' },

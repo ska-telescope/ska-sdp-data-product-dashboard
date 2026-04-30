@@ -106,7 +106,7 @@ function DataAnnotationsCard(selectedDataProduct: SelectedDataProduct) {
           </Modal>
           <Card
             variant="outlined"
-            sx={{ minHeight: cardHeight, minHeight: cardHeight, overflow: { overflowY: 'scroll' } }}
+            sx={{ minHeight: cardHeight, maxHeight: cardHeight, overflow: { overflowY: 'scroll' } }}
           >
             <CardHeader
               title={t('label.annotation.title')}
