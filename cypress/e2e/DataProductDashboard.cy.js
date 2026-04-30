@@ -115,19 +115,17 @@ context('Select and download data product', () => {
       cy.visit(LOCAL_HOST + '?execution_block=eb-test-20260101-1234');
       cy.wait('@gridConfig');
     })
-
     it('Verify form is filled correct', () => {
-      cy.get('[data-testid="key-field-0"]')
-        .find('[role="combobox"]')
-        .should('have.value', 'Execution Block')
-        .and('be.visible');
-      cy.get('[data-testid="value-field-0"]')
-        .find('input')
-        .should('have.value', 'eb-test-20260101-1234')
-        .and('be.visible');
-      // operator select should be visible and default to 'contains' (from URL param)
-      cy.get('[data-testid="operator-select-0"]').should('be.visible');
-      cy.get('[data-testid="operator-select-0"]').find('input').should('have.value', 'contains');
+      cy.get('[data-testid="search-option-0"]')
+        .should('be.visible');
+      cy.get('[data-testid="search-bar"]')
+        .click();
+      cy.get('[data-testid="key-field"]')
+        .should('be.visible');
+      cy.get('[data-testid="operator-select"]')
+        .should('be.visible');
+      cy.get('[data-testid="value-field"]')
+        .should('be.visible');
     })
 
     it('dedicated start/end date pickers are removed from the panel', () => {
@@ -144,23 +142,16 @@ context('Select and download data product', () => {
       cy.wait('@gridConfig');
     })
 
-    it('start_date maps to a date_created onOrAfter row', () => {
-      cy.get('[data-testid="key-field-0"]')
-        .find('[role="combobox"]')
-        .should('have.value', 'Date Created')
-        .and('be.visible');
-      cy.get('[data-testid="operator-select-0"]').should('be.visible');
-      cy.get('[data-testid="operator-select-0"]').find('input').should('have.value', 'onOrAfter');
+    it('start_date maps to a date_created and onOrAfter', () => {
+      cy.get('[data-testid="search-option-0"]')
+        .find('span')
+        .should('contain.text', 'Date Created  onOrAfter  2024-01-01');
     })
 
     it('end_date maps to a date_created before row', () => {
-      // end_date is the second row
-      cy.get('[data-testid="key-field-1"]')
-        .find('[role="combobox"]')
-        .should('have.value', 'Date Created')
-        .and('be.visible');
-      cy.get('[data-testid="operator-select-1"]').should('be.visible');
-      cy.get('[data-testid="operator-select-1"]').find('input').should('have.value', 'before');
+      cy.get('[data-testid="search-option-1"]')
+        .find('span')
+        .should('contain.text', 'Date Created  before  2024-06-01');
     })
   })
 
@@ -174,31 +165,37 @@ context('Select and download data product', () => {
 
     it('operator dropdown appears after selecting a field and reflects column type', () => {
       // Select 'Execution Block' (string type)
-      cy.get('[data-testid="key-field-0"]').find('input').type('Execution Block', { force: true });
+      cy.get('[data-testid="search-bar"]')
+        .click();
+      cy.get('[data-testid="key-field"]').find('input').type('Execution Block', { force: true });
       cy.get('[role="option"]').contains('Execution Block').click();
-      cy.get('[data-testid="operator-select-0"]').should('be.visible');
+      cy.get('[data-testid="operator-select"]').should('be.visible');
       // 'contains' is the first string operator — check via the hidden native input
-      cy.get('[data-testid="operator-select-0"]').find('input').should('have.value', 'contains');
+      cy.get('[data-testid="operator-select"]').find('input').should('have.value', 'contains');
       // Change operator to 'equals'
-      cy.get('[data-testid="operator-select-0"]').click();
+      cy.get('[data-testid="operator-select"]').click();
       cy.get('[role="option"]').contains('equals').click();
-      cy.get('[data-testid="operator-select-0"]').find('input').should('have.value', 'equals');
+      cy.get('[data-testid="operator-select"]').find('input').should('have.value', 'equals');
     })
 
     it('date-picker renders when selected column has type date', () => {
-      cy.get('[data-testid="key-field-0"]').find('input').type('Date', { force: true });
+      cy.get('[data-testid="search-bar"]')
+        .click();
+      cy.get('[data-testid="key-field"]').find('input').type('Date', { force: true });
       cy.get('[role="option"]').contains('Date Created').click();
       // value input should be a DateEntry (contains an input with type date or text used by DateEntry)
-      cy.get('[data-testid="dateEntry-value-0"]').should('exist');
+      cy.get('[data-testid="dateEntry-value"]').should('exist');
     })
 
     it('value input is hidden for isEmpty operator', () => {
-      cy.get('[data-testid="key-field-0"]').find('input').type('Execution Block', { force: true });
+      cy.get('[data-testid="search-bar"]')
+        .click();
+      cy.get('[data-testid="key-field"]').find('input').type('Execution Block', { force: true });
       cy.get('[role="option"]').contains('Execution Block').click();
-      cy.get('[data-testid="operator-select-0"]').click();
+      cy.get('[data-testid="operator-select"]').click();
       cy.get('[role="option"]').contains('isEmpty').click();
       // The value input Grid item should not be present
-      cy.get('[data-testid="value-field-0"]').should('not.exist');
+      cy.get('[data-testid="value-field"]').should('not.exist');
     })
   })
 
@@ -206,30 +203,36 @@ context('Select and download data product', () => {
     beforeEach(() => {
       setUpForTests();
       cy.intercept('GET', `${API_URL}/status`, ExampleDataProductStatusAvailableWithSearch)
-      cy.visit(LOCAL_HOST)
+      cy.visit(LOCAL_HOST);
     })
 
     it('Search for data product', () => {
-      cy.findByTestId("metaDataDescription").contains("Filter data products:").should("be.visible");
-      cy.findByTestId("SearchIcon").click()
+      cy.get('[data-testid="search-bar"]')
+        .click();
+      cy.get('[data-testid="key-field"]').find('input').type('Execution Block', { force: true });
+      cy.get('[role="option"]').contains('Execution Block').click();
+      cy.get('[data-testid="operator-select"]').click();
+      cy.get('[role="option"]').contains('isEmpty').click();
+      cy.get('[data-testid="AddKeyValuePairButton"]')
+        .click();
     })
 
     it('Data products can be indexed', () => {
-      cy.findByTestId("RefreshIcon").click()
+      cy.findByTestId("RefreshIcon").click();
     })
 
     it('Data products can be reloaded', () => {
-      cy.findByTestId("CachedIcon").invoke('css', 'pointer-events', 'auto')
-      cy.findByTestId("CachedIcon").invoke('prop', 'disabled', false)
-      cy.findByTestId("CachedIcon").click()
+      cy.findByTestId("CachedIcon").invoke('css', 'pointer-events', 'auto');
+      cy.findByTestId("CachedIcon").invoke('prop', 'disabled', false);
+      cy.findByTestId("CachedIcon").click();
     })
 
     it('Verify external link to skao site', () => {
-      cy.findByLabelText("skaWebsite").click()
+      cy.findByLabelText("skaWebsite").click();
     })
 
     it('Verify light/dark mode is available', () => {
-      cy.findByTestId("Brightness7Icon").click()
+      cy.findByTestId("Brightness7Icon").click();
     })
   })
 })

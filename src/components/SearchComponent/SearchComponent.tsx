@@ -26,12 +26,13 @@ const SearchBox = (t, tColumns, availableColumns, formFields, setFormFields) => 
       <SearchIcon />
       {formFields.map((opt) => (
         <Chip
-          key={`${opt.field}-${opt.operator}-${opt.value}`}
-          id={`${opt.field}-${opt.operator}-${opt.value}`}
-          label={`${opt.field}  ${opt.operator}  ${opt.value}`}
+          key={`search-option-${formFields.indexOf(opt)}`}
+          id={`search-option-${formFields.indexOf(opt)}`}
+          label={`${tColumns(opt.field)}  ${t(opt.operator)}  ${opt.value}`}
           onClick={() => removeField(opt)}
           onDelete={() => deleteField(opt)}
           variant="outlined"
+          data-testid={`search-option-${formFields.indexOf(opt)}`}
         />
       ))}
     </div>
@@ -52,6 +53,7 @@ const SearchBox = (t, tColumns, availableColumns, formFields, setFormFields) => 
           position: 'relative',
           zIndex: 1000
         }}
+        data-testid="search-bar"
       >
         {renderSelectedOptions()}
       </div>

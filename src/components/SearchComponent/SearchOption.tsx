@@ -106,7 +106,12 @@ const SearchOption = (
           const col = availableColumns.find((c) => c.field === searchSelection.field);
           const operators = getSearchOperatorsForType(col?.type);
           return operators.length > 0 ? (
-            <Grid item xs={4} sx={{ height: '100%', display: 'flex', alignItems: 'center' }}>
+            <Grid
+              item
+              xs={4}
+              sx={{ height: '100%', display: 'flex', alignItems: 'center' }}
+              data-testid="key-field-0"
+            >
               <FormControl fullWidth data-testid={'operator-select'}>
                 <InputLabel id={t('operator-label')}>{t('label.operator')}</InputLabel>
                 <Select
