@@ -5,7 +5,7 @@ import { Button } from '@ska-telescope/ska-gui-components';
 import { useTranslation } from 'react-i18next';
 import {
   shellSize,
-  FILTERCARDHEIGHT,
+  ANNOTATIONS_CARD_HEIGHT,
   tableHeight,
   SKA_DATAPRODUCT_API_URL
 } from '@utils/constants';
@@ -25,9 +25,7 @@ function DataAnnotationsCard(selectedDataProduct: SelectedDataProduct) {
   const [listOfDataAnnotations, setListOfDataAnnotations] = React.useState([]);
   const [annotationsTableAvailable, setAnnotationsTableAvailable] = React.useState(false);
   const [disableCreateButton, setDisableCreateButton] = React.useState(false);
-  const [cardHeight, setCardHeight] = React.useState(
-    tableHeight() - (window.innerHeight - shellSize() - FILTERCARDHEIGHT - 240)
-  );
+  const [cardHeight, setCardHeight] = React.useState(ANNOTATIONS_CARD_HEIGHT);
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
@@ -69,7 +67,7 @@ function DataAnnotationsCard(selectedDataProduct: SelectedDataProduct) {
 
   React.useEffect(() => {
     function handleResize() {
-      setCardHeight(tableHeight() - (window.innerHeight - shellSize() - FILTERCARDHEIGHT - 240));
+      setCardHeight(ANNOTATIONS_CARD_HEIGHT);
     }
 
     // Add event listener for window resize
@@ -108,7 +106,7 @@ function DataAnnotationsCard(selectedDataProduct: SelectedDataProduct) {
           </Modal>
           <Card
             variant="outlined"
-            sx={{ maxHeight: cardHeight, overflow: { overflowY: 'scroll' } }}
+            sx={{ minHeight: cardHeight, maxHeight: cardHeight, overflow: { overflowY: 'scroll' } }}
           >
             <CardHeader
               title={t('label.annotation.title')}

@@ -37,6 +37,7 @@ export const TEXT_NO_API = 'error.API_NOT_AVAILABLE';
 export const SPACER_HEADER = 70;
 export const SPACER_FOOTER = 0;
 export const DATA_STORE_BOX_HEIGHT = 70;
+export const SEARCH_BOX = 70;
 export const SPACER = 50;
 
 export const fullHeight = () => {
@@ -45,16 +46,17 @@ export const fullHeight = () => {
 export const tableHeight = (): any => {
   const totalHeight = window.innerHeight;
   const calculatedHeight =
-    totalHeight - (SPACER_HEADER + SPACER_FOOTER + DATA_STORE_BOX_HEIGHT + SPACER);
+    totalHeight - (SPACER_HEADER + DATA_STORE_BOX_HEIGHT + SEARCH_BOX + SPACER);
   return calculatedHeight;
 };
 
 export const shellSize = (): any => {
-  const calculatedHeight = SPACER_HEADER + SPACER_FOOTER + DATA_STORE_BOX_HEIGHT + SPACER;
+  const calculatedHeight =
+    SPACER_HEADER + SPACER_FOOTER + DATA_STORE_BOX_HEIGHT + SEARCH_BOX + SPACER;
   return calculatedHeight;
 };
 
-export const FILTERCARDHEIGHT = 410;
+export const ANNOTATIONS_CARD_HEIGHT = 300;
 
 export const USERS = [
   { label: 'AIV', value: 'aiv' },
