@@ -125,7 +125,7 @@ function DataAnnotationsCard(selectedDataProduct: SelectedDataProduct) {
               <Stack>{renderDataAnnotationStack(listOfDataAnnotations)}</Stack>
             ) : (
               <Typography variant="body2" color="text.secondary">
-                {t('prompt.selectDataProduct')}
+                {t('prompt.selectDataProductAnnotations')}
               </Typography>
             )}
           </CardContent>
