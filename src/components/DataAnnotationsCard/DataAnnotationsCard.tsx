@@ -1,6 +1,6 @@
 import React from 'react';
 import { useMsal } from '@azure/msal-react';
-import { Box, Card, CardContent, CardHeader, Modal, Stack } from '@mui/material';
+import { Box, Card, CardContent, CardHeader, Modal, Typography, Stack } from '@mui/material';
 import { Button } from '@ska-telescope/ska-gui-components';
 import { useTranslation } from 'react-i18next';
 import {
@@ -95,36 +95,42 @@ function DataAnnotationsCard(selectedDataProduct: SelectedDataProduct) {
 
   return (
     <>
-      {selectedDataProduct.uid !== '' && (
-        <Box m={1}>
-          <Modal
-            open={open}
-            onClose={handleClose}
-            sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}
-          >
-            <SaveDataAnnotationCard {...newAnnotation} />
-          </Modal>
-          <Card
-            variant="outlined"
-            sx={{ minHeight: cardHeight, maxHeight: cardHeight, overflow: { overflowY: 'scroll' } }}
-          >
-            <CardHeader
-              title={t('label.annotation.title')}
-              action={
+      <Box m={1}>
+        <Modal
+          open={open}
+          onClose={handleClose}
+          sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}
+        >
+          <SaveDataAnnotationCard {...newAnnotation} />
+        </Modal>
+        <Card
+          variant="outlined"
+          sx={{ minHeight: cardHeight, maxHeight: cardHeight, overflow: { overflowY: 'scroll' } }}
+        >
+          <CardHeader
+            title={t('label.annotation.title')}
+            action={
+              selectedDataProduct.uid !== '' && (
                 <Button
                   disabled={disableCreateButton}
                   label={t('button.create')}
                   testId="createDataAnnotation"
                   onClick={handleOpen}
                 />
-              }
-            />
-            <CardContent>
+              )
+            }
+          />
+          <CardContent>
+            {selectedDataProduct.uid !== '' ? (
               <Stack>{renderDataAnnotationStack(listOfDataAnnotations)}</Stack>
-            </CardContent>
-          </Card>
-        </Box>
-      )}
+            ) : (
+              <Typography variant="body2" color="text.secondary">
+                {t('prompt.selectDataProduct')}
+              </Typography>
+            )}
+          </CardContent>
+        </Card>
+      </Box>
     </>
   );
 }
