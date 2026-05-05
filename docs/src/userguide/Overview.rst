@@ -28,7 +28,8 @@ This table has built-in functionality for sorting and filtering, allowing a user
 .. note:: In this release, only the 'contains' filter is implemented.
 
 
-The user can also give a time range and list key value pairs as search parameters on the search box on the right of the table.
+The user can access the search options by clicking on the search box above the table. Various key value pairs can be selected as search parameters.
+Among these parameters the user can give a date range. If multiple search parameters are combined they are considered a logical `and`.
 
 .. figure:: /_static/img/dataproductdashboardSearchPanelSearch.png
    :width: 90%
@@ -84,7 +85,8 @@ Example links:
   block with that ``<eb-id>`` string in it.
 
 It is possible to combine any search term like this, but note that all search
-terms will be combined. So using dates and an execution block ID will cause the
+terms will be combined. The combined search is computed as a logical `and`.
+So using dates and an execution block ID will cause the
 search to look for any execution block with that ID that is within that date
 criteria. Any ``Key`` from the form can be used in the URL.
 
