@@ -6,6 +6,7 @@
 
   - [Changed] Search is no longer in the side panel, but above the table.
   - [Changed] Updated docs images according to new layout.
+  - [Changed] Updated annotations card to behave as the Metadata card on no selection.
 
 ## v0.17.0
 
