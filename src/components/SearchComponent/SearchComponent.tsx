@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import SearchOption from '@components/SearchComponent/SearchOption';
 import SearchIcon from '@mui/icons-material/Search';
+import { tableHeight } from '@utils/constants';
 
 import Chip from '@mui/material/Chip';
 
@@ -59,7 +60,18 @@ const SearchBox = (t, tColumns, availableColumns, formFields, setFormFields) => 
       </div>
 
       {isDropdownOpen && (
-        <div>
+        <div
+          style={{
+            position: 'absolute',
+            top: tableHeight,
+            left: 0,
+            width: '100%',
+            backgroundColor: 'white',
+            borderColor: '#0000001f',
+            border: '2px solid #0000001f',
+            zIndex: 1001
+          }}
+        >
           {SearchOption(
             t,
             tColumns,
