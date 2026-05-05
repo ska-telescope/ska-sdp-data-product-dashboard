@@ -25,9 +25,6 @@ you will also be able to view metadata of data products that have been registere
 
 This table has built-in functionality for sorting and filtering, allowing a user to select any column header, and filter for values contained in that property of the products.
 
-.. note:: In this release, only the 'contains' filter is implemented.
-
-
 The user can access the search options by clicking on the search box above the table. Various key value pairs can be selected as search parameters.
 Among these parameters the user can give a date range. If multiple search parameters are combined they are considered a logical `and`.
 
