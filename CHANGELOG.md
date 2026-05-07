@@ -2,6 +2,12 @@
 
 ## Unreleased
 
+- [PHX-452](https://jira.skatelescope.org/browse/PHX-452)
+
+  - [Changed] Search is no longer in the side panel, but above the table.
+  - [Changed] Updated docs images according to new layout.
+  - [Changed] Updated annotations card to behave as the Metadata card on no selection.
+
 ## v0.17.0
 
 - [PHX-453](https://jira.skatelescope.org/browse/PHX-453)

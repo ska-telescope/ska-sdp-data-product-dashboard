@@ -1,11 +1,11 @@
 import React from 'react';
 import { useMsal } from '@azure/msal-react';
-import { Box, Card, CardContent, CardHeader, Modal, Stack } from '@mui/material';
+import { Box, Card, CardContent, CardHeader, Modal, Typography, Stack } from '@mui/material';
 import { Button } from '@ska-telescope/ska-gui-components';
 import { useTranslation } from 'react-i18next';
 import {
   shellSize,
-  FILTERCARDHEIGHT,
+  ANNOTATIONS_CARD_HEIGHT,
   tableHeight,
   SKA_DATAPRODUCT_API_URL
 } from '@utils/constants';
@@ -25,9 +25,7 @@ function DataAnnotationsCard(selectedDataProduct: SelectedDataProduct) {
   const [listOfDataAnnotations, setListOfDataAnnotations] = React.useState([]);
   const [annotationsTableAvailable, setAnnotationsTableAvailable] = React.useState(false);
   const [disableCreateButton, setDisableCreateButton] = React.useState(false);
-  const [cardHeight, setCardHeight] = React.useState(
-    tableHeight() - (window.innerHeight - shellSize() - FILTERCARDHEIGHT - 240)
-  );
+  const [cardHeight, setCardHeight] = React.useState(ANNOTATIONS_CARD_HEIGHT);
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
@@ -69,7 +67,7 @@ function DataAnnotationsCard(selectedDataProduct: SelectedDataProduct) {
 
   React.useEffect(() => {
     function handleResize() {
-      setCardHeight(tableHeight() - (window.innerHeight - shellSize() - FILTERCARDHEIGHT - 240));
+      setCardHeight(ANNOTATIONS_CARD_HEIGHT);
     }
 
     // Add event listener for window resize
@@ -97,36 +95,42 @@ function DataAnnotationsCard(selectedDataProduct: SelectedDataProduct) {
 
   return (
     <>
-      {selectedDataProduct.uid !== '' && (
-        <Box m={1}>
-          <Modal
-            open={open}
-            onClose={handleClose}
-            sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}
-          >
-            <SaveDataAnnotationCard {...newAnnotation} />
-          </Modal>
-          <Card
-            variant="outlined"
-            sx={{ maxHeight: cardHeight, overflow: { overflowY: 'scroll' } }}
-          >
-            <CardHeader
-              title={t('label.annotation.title')}
-              action={
+      <Box m={1}>
+        <Modal
+          open={open}
+          onClose={handleClose}
+          sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}
+        >
+          <SaveDataAnnotationCard {...newAnnotation} />
+        </Modal>
+        <Card
+          variant="outlined"
+          sx={{ minHeight: cardHeight, maxHeight: cardHeight, overflow: { overflowY: 'scroll' } }}
+        >
+          <CardHeader
+            title={t('label.annotation.title')}
+            action={
+              selectedDataProduct.uid !== '' && (
                 <Button
                   disabled={disableCreateButton}
                   label={t('button.create')}
                   testId="createDataAnnotation"
                   onClick={handleOpen}
                 />
-              }
-            />
-            <CardContent>
+              )
+            }
+          />
+          <CardContent>
+            {selectedDataProduct.uid !== '' ? (
               <Stack>{renderDataAnnotationStack(listOfDataAnnotations)}</Stack>
-            </CardContent>
-          </Card>
-        </Box>
-      )}
+            ) : (
+              <Typography variant="body2" color="text.secondary">
+                {t('prompt.selectDataProductAnnotations')}
+              </Typography>
+            )}
+          </CardContent>
+        </Card>
+      </Box>
     </>
   );
 }
