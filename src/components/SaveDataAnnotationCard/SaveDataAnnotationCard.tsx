@@ -8,7 +8,7 @@ import { SKA_DATAPRODUCT_API_URL } from '@utils/constants';
 import useAxiosClient from '@services/AxiosClient/AxiosClient';
 import { useUserAuthenticated } from '@services/GetAuthStatus/GetAuthStatus';
 
-const SaveDataAnnotationCard = (props: DataAnnotation) => {
+const SaveDataAnnotationCard = React.forwardRef<HTMLDivElement, DataAnnotation>((props, ref) => {
   const { data_product_uid, annotation_text, user_principal_name, annotation_id } = props;
   const { t } = useTranslation('dpd');
   const [saveEditButtonText, setSaveEditButtonText] = React.useState(t('button.save'));
@@ -104,11 +104,13 @@ const SaveDataAnnotationCard = (props: DataAnnotation) => {
   }
 
   return (
-    <Box>
+    <Box ref={ref}>
       <Modal open={alertOpen} onClose={handleAlertClose}>
-        <Alert testId={'saveAnnotationAlert'} color={alertColour}>
-          <>{alertText}</>
-        </Alert>
+        <Box>
+          <Alert testId={'saveAnnotationAlert'} color={alertColour}>
+            <>{alertText}</>
+          </Alert>
+        </Box>
       </Modal>
       <Card sx={{ width: 600, height: 400 }}>
         <CardHeader
@@ -127,6 +129,6 @@ const SaveDataAnnotationCard = (props: DataAnnotation) => {
       </Card>
     </Box>
   );
-};
+});
 
 export default SaveDataAnnotationCard;

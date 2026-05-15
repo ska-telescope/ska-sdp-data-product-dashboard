@@ -72,7 +72,6 @@ function prepareMetadata(raw: Record<string, unknown>): Array<[string, unknown]>
   for (const [key, value] of Object.entries(data)) {
     ordered.push([key, value]);
   }
-
   return ordered;
 }
 
@@ -142,6 +141,10 @@ function renderArrayTable(arr: Array<Record<string, unknown>>, tColumns: (key: s
 function renderSection(key: string, value: unknown, tColumns: (key: string) => string) {
   if (value === null || value === undefined) return null;
 
+  const tSection = ['obscore', 'config'].includes(key)
+    ? (k: string) => tColumns(`${key}.${k}`)
+    : tColumns;
+
   // Shown as a standalone accordion with the value as content
   if (typeof value !== 'object') {
     return (
@@ -151,7 +154,7 @@ function renderSection(key: string, value: unknown, tColumns: (key: string) => s
         </AccordionSummary>
         <AccordionDetails>
           <Typography variant="body2" sx={{ wordBreak: 'break-all' }}>
-            {renderValue(value, tColumns)}
+            {renderValue(value, tSection)}
           </Typography>
         </AccordionDetails>
       </Accordion>
@@ -172,7 +175,7 @@ function renderSection(key: string, value: unknown, tColumns: (key: string) => s
           </AccordionSummary>
           <AccordionDetails>
             <Typography variant="body2" sx={{ wordBreak: 'break-all' }}>
-              {value.map((v) => renderValue(v, tColumns)).join(', ')}
+              {value.map((v) => renderValue(v, tSection)).join(', ')}
             </Typography>
           </AccordionDetails>
         </Accordion>
@@ -187,7 +190,7 @@ function renderSection(key: string, value: unknown, tColumns: (key: string) => s
           <Typography variant="subtitle2">{label}</Typography>
         </AccordionSummary>
         <AccordionDetails>
-          {renderArrayTable(objectItems as Array<Record<string, unknown>>, tColumns)}
+          {renderArrayTable(objectItems as Array<Record<string, unknown>>, tSection)}
         </AccordionDetails>
       </Accordion>
     );
@@ -204,7 +207,7 @@ function renderSection(key: string, value: unknown, tColumns: (key: string) => s
         <AccordionSummary expandIcon={<ExpandMoreIcon />}>
           <Typography variant="subtitle2">{tColumns(key)}</Typography>
         </AccordionSummary>
-        <AccordionDetails>{renderKeyValueTable(obj, tColumns)}</AccordionDetails>
+        <AccordionDetails>{renderKeyValueTable(obj, tSection)}</AccordionDetails>
       </Accordion>
     );
   }
@@ -232,8 +235,8 @@ function renderSection(key: string, value: unknown, tColumns: (key: string) => s
         <Typography variant="subtitle2">{formatLabel(key)}</Typography>
       </AccordionSummary>
       <AccordionDetails>
-        {Object.keys(primitiveEntries).length > 0 && renderKeyValueTable(primitiveEntries, tColumns)}
-        {nestedEntries.map(([k, v]) => renderSection(k, v, tColumns))}
+        {Object.keys(primitiveEntries).length > 0 && renderKeyValueTable(primitiveEntries, tSection)}
+        {nestedEntries.map(([k, v]) => renderSection(k, v, tSection))}
       </AccordionDetails>
     </Accordion>
   );
