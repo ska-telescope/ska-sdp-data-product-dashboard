@@ -1,37 +1,23 @@
 # pull the base image
-FROM node:20.11.1 AS base
+FROM artefact.skao.int/ska-build-node:0.3.1 AS base
 
-# # set the working direction
+# set the working directory
 WORKDIR /app
 COPY . .
 
-# install app dependencies
+# install app dependencies and build the app
 RUN yarn install && yarn cache clean
+RUN yarn build
 
-EXPOSE 8100
-
-# start app
-CMD ["yarn", "start"]
-
-FROM base AS builder
-
-RUN ENV_TYPE_FILE=env_scripts/env_config \
-    ENV_JS_OUTPUT_LOCATION=src/env.ts \
-        bash env_scripts/env_config.sh ts && \
-    yarn webpack build \
-    --mode production \
-    --optimization-concatenate-modules \
-    --optimization-minimize \
-    --output-clean \
-    --output-path /dist/ && \
-    npx react-inject-env set -d /dist/
-
-FROM nginx:1.30.0 AS final
+FROM artefact.skao.int/ska-webserver:0.2.1 AS final
 
 # Copy built files
+COPY --from=base /app/dist/ /usr/share/nginx/html/
+
+# COPY scripts/* /docker-entrypoint.d/
 COPY env_scripts/env_config /env_config
 COPY env_scripts/env_config.sh /docker-entrypoint.d/
+COPY env_scripts/set_absolute_paths.sh /docker-entrypoint.d/
 RUN chmod 777 /docker-entrypoint.d/env_config.sh
-COPY --from=builder /dist/* /usr/share/nginx/html/
-COPY default.conf /etc/nginx/conf.d/default.conf
-COPY nginx.conf /etc/nginx/nginx.conf
+RUN chmod 777 /docker-entrypoint.d/set_absolute_paths.sh
+COPY nginx.yaml ${NGINX_ENVSUBST_TEMPLATE_DIR}/conf.d/
