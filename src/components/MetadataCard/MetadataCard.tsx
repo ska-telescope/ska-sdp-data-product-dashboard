@@ -75,7 +75,6 @@ function prepareMetadata(raw: Record<string, unknown>): Array<[string, unknown]>
   return ordered;
 }
 
-
 function renderValue(value: unknown, tColumns: (key: string) => string): React.ReactNode {
   if (value === null || value === undefined) return '';
   if (typeof value === 'boolean') return value ? 'true' : 'false';
@@ -235,7 +234,8 @@ function renderSection(key: string, value: unknown, tColumns: (key: string) => s
         <Typography variant="subtitle2">{formatLabel(key)}</Typography>
       </AccordionSummary>
       <AccordionDetails>
-        {Object.keys(primitiveEntries).length > 0 && renderKeyValueTable(primitiveEntries, tSection)}
+        {Object.keys(primitiveEntries).length > 0 &&
+          renderKeyValueTable(primitiveEntries, tSection)}
         {nestedEntries.map(([k, v]) => renderSection(k, v, tSection))}
       </AccordionDetails>
     </Accordion>
@@ -312,7 +312,10 @@ function SdpFlowsSection({ raw }: { raw: Record<string, unknown> }): React.React
   );
 }
 
-function renderMetadataSections(entries: Array<[string, unknown]>, tColumns: (key: string) => string): React.ReactNode[] {
+function renderMetadataSections(
+  entries: Array<[string, unknown]>,
+  tColumns: (key: string) => string
+): React.ReactNode[] {
   const elements: React.ReactNode[] = [];
   let primitiveGroup: Record<string, unknown> = {};
 
