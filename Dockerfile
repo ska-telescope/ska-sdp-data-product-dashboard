@@ -17,7 +17,5 @@ COPY --from=base /app/dist/ /usr/share/nginx/html/
 # COPY scripts/* /docker-entrypoint.d/
 COPY env_scripts/env_config /env_config
 COPY env_scripts/env_config.sh /docker-entrypoint.d/
-COPY env_scripts/set_absolute_paths.sh /docker-entrypoint.d/
 RUN chmod 777 /docker-entrypoint.d/env_config.sh
-RUN chmod 777 /docker-entrypoint.d/set_absolute_paths.sh
 COPY nginx.yaml ${NGINX_ENVSUBST_TEMPLATE_DIR}/conf.d/
