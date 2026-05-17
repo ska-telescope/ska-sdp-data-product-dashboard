@@ -1,6 +1,7 @@
 # ska-dataproduct-dashboard – Copilot Instructions
 
 ## Package manager
+
 - **Yarn** (not npm, not pnpm).
 - Install deps: `yarn install`
 - Add a package: `yarn add <package>`
@@ -8,6 +9,7 @@
 ## How to run linting and tests
 
 ### Linting
+
 ```bash
 yarn lint          # ESLint on all src files
 yarn prettier      # check Prettier formatting
@@ -16,7 +18,8 @@ yarn prettier:fix  # auto-fix Prettier issues
 ```
 
 ### Tests
-Tests use **Cypress** only — both component and e2e.  There are no Jest unit tests; do not create `.test.ts` / `.test.tsx` files.
+
+Tests use **Cypress** only — both component and e2e. There are no Jest unit tests; do not create `.test.ts` / `.test.tsx` files.
 
 ```bash
 # Component tests (interactive)
@@ -32,6 +35,7 @@ yarn test:cypress:e2e:ci
 Test files live under `cypress/` and use the `.cy.tsx` extension.
 
 ## Project layout
+
 ```
 src/                        # React application source
   App/                      # top-level App component
@@ -53,18 +57,21 @@ tsconfig.json               # TypeScript compiler config
 ```
 
 ## Framework and language
+
 - **React** with **TypeScript** (`.tsx` / `.ts`).
 - **MUI** (`@mui/material`) for UI components.
 - **Axios** for HTTP requests.
 - `@ska-telescope/ska-gui-components` for SKAO-shared UI components.
 
 ## TypeScript conventions
+
 - Strict mode is enabled (`"strict": true` in `tsconfig.json`).
 - All component props and function signatures must have explicit types.
 - Use path aliases defined in `tsconfig.json`: `@components/*`, `@services/*`,
   `@utils/*`, `@contexts/*`.
 
 ## Testing conventions
+
 - All tests live under `cypress/` as `.cy.tsx` files.
 - Use Cypress component testing for isolated component behaviour.
 - Use Cypress e2e tests for full user-journey flows.
@@ -77,13 +84,16 @@ tsconfig.json               # TypeScript compiler config
   duplicating mount and interaction setup.
 
 ## Environment variables
+
 Runtime env vars are injected at startup via `env_scripts/env_config.sh` and
-typed in `src/env.ts`.  When adding a new env var:
+typed in `src/env.ts`. When adding a new env var:
+
 1. Add it to `env_scripts/env_config` (template).
 2. Add the TypeScript type in `src/env.ts`.
 3. Reference it via the typed `env` object, never via raw `process.env`.
 
 ## Helm chart
+
 The chart at `charts/ska-dataproduct-dashboard/` deploys both the dashboard
 frontend and the `ska-dataproduct-api` backend in one release.
 
@@ -93,10 +103,22 @@ frontend and the `ska-dataproduct-api` backend in one release.
 - The shared PVC is controlled by `dataProductPVC:`.
 - PostgreSQL table names default to empty strings in `values.yaml`; when empty
   the API auto-derives them from the per-volume UUID stored in `.dpd-volume-id`
-  on the PV root.  Only set them explicitly when you need to override the
+  on the PV root. Only set them explicitly when you need to override the
   auto-derived names.
 
+## After any code change
+
+After **every** code change (new files, edits, or deletions), run both fixers in order and resolve all reported issues before considering the task done:
+
+```bash
+yarn prettier:fix  # auto-fix Prettier formatting
+yarn lint:fix      # auto-fix ESLint issues
+```
+
+If either command exits with an error that cannot be auto-fixed, manually correct the reported files until both commands exit cleanly with no errors.
+
 ## Code quality rules (apply when generating or modifying code)
+
 - **No magic values**: assign bare literal strings or numbers to named
   constants at the top of the module.
 - **No bloat**: prefer the simplest, smallest change that solves the problem.
@@ -106,7 +128,7 @@ frontend and the `ska-dataproduct-api` backend in one release.
   AI-session shorthand in comments, changelog entries, or commit messages.
   All written text must be self-contained and meaningful to a reader with no
   knowledge of the session that produced the change.
-- **Changelog entries must be brief**: one line per bullet, describing *what* changed
-  and *why* at a high level. Do not explain implementation details inline.
+- **Changelog entries must be brief**: one line per bullet, describing _what_ changed
+  and _why_ at a high level. Do not explain implementation details inline.
 - **Docstrings / JSDoc**: add a JSDoc comment to every exported function or
   component that is non-trivial. Update it if the implementation changes.

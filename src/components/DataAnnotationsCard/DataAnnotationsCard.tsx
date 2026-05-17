@@ -3,12 +3,7 @@ import { useMsal } from '@azure/msal-react';
 import { Box, Card, CardContent, CardHeader, Modal, Typography, Stack } from '@mui/material';
 import { Button } from '@ska-telescope/ska-gui-components';
 import { useTranslation } from 'react-i18next';
-import {
-  shellSize,
-  ANNOTATIONS_CARD_HEIGHT,
-  tableHeight,
-  SKA_DATAPRODUCT_API_URL
-} from '@utils/constants';
+import { ANNOTATIONS_CARD_HEIGHT, SKA_DATAPRODUCT_API_URL } from '@utils/constants';
 import DataAnnotationComponent from '@components/DataAnnotationComponent/DataAnnotationComponent';
 import EmptyDataAnnotationComponent from '@components/EmptyDataAnnotationComponent/EmptyDataAnnotationComponent';
 import SaveDataAnnotationCard from '@components/SaveDataAnnotationCard/SaveDataAnnotationCard';
