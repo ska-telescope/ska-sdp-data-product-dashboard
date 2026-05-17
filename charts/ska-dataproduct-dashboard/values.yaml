@@ -19,7 +19,7 @@ api:
   metadataFileName: ska-data-product.yaml
   # Indexing tuning
   indexingTimeoutSeconds: 21600
-  indexingBatchSize: 10
+  indexingBatchSize: 100
   # Number of threads for the parallel YAML read phase. Increase on high-latency NFS storage.
   indexingParallelWorkers: 8
   # SDP config database (etcd) host.  Leave empty to disable SDP flow enrichment.
@@ -44,9 +44,15 @@ api:
     password: ""
     dbname: ""
     schema: ""
-    metadataTableName: "dpd_metadata_table"
-    annotationsTableName: "dpd_annotations_table"
-    sdpFlowsTableName: "dpd_sdp_flows_table"
+    # Leave table names empty to let the API auto-derive them from the per-volume
+    # UUID stored in .dpd-volume-id on the PV root.  Set explicitly only when you
+    # need to override the auto-derived names (e.g. to reuse a table from a
+    # previous deployment).
+    metadataTableName: ""
+    annotationsTableName: ""
+    sdpFlowsTableName: ""
+    # Filename of the volume identity file written at the root of the storage path.
+    dpdVolumeIdFile: ".dpd-volume-id"
     dlmInterfaceEnabled: false
     dlmSchema: "dlm"
     dlmMetadataTableName: "data_item"

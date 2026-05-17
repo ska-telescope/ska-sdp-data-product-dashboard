@@ -106,12 +106,20 @@ spec:
             value: "{{ .Values.api.postgresql.dbname }}"
           - name: SKA_DATAPRODUCT_API_POSTGRESQL_SCHEMA
             value: "{{ .Values.api.postgresql.schema }}"
+{{- if .Values.api.postgresql.metadataTableName }}
           - name: SKA_DATAPRODUCT_API_POSTGRESQL_METADATA_TABLE_NAME
             value: "{{ .Values.api.postgresql.metadataTableName }}"
+{{- end }}
+{{- if .Values.api.postgresql.annotationsTableName }}
           - name: SKA_DATAPRODUCT_API_POSTGRESQL_ANNOTATIONS_TABLE_NAME
             value: "{{ .Values.api.postgresql.annotationsTableName }}"
+{{- end }}
+{{- if .Values.api.postgresql.sdpFlowsTableName }}
           - name: SKA_DATAPRODUCT_API_DPD_SDP_FLOWS_TABLE_NAME
-            value: "{{ .Values.api.postgresql.sdpFlowsTableName | default "dpd_sdp_flows_table" }}"
+            value: "{{ .Values.api.postgresql.sdpFlowsTableName }}"
+{{- end }}
+          - name: SKA_DATAPRODUCT_API_DPD_VOLUME_ID_FILE
+            value: "{{ .Values.api.postgresql.dpdVolumeIdFile }}"
           - name: SKA_DATAPRODUCT_API_POSTGRESQL_QUERY_SIZE_LIMIT
             value: "{{ .Values.api.postgresql.querySizeLimit }}"
           - name: SKA_DATAPRODUCT_DLM_INTERFACE_ENABLED
