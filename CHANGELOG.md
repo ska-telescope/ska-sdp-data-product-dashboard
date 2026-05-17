@@ -5,6 +5,8 @@
 - [PHX-455](https://jira.skatelescope.org/browse/PHX-455)
 
   - [Changed] Helm chart PostgreSQL table names now default to empty, enabling automatic per-volume derivation in the API. Added `api.postgresql.dpdVolumeIdFile` value.
+  - [Added] Status icon tooltip now shows indexing coordination state: which pod last indexed, start/completion timestamps, and files indexed count, sourced from the new `indexing.coordination_state` API field.
+  - [Changed] Status icon and indexing detection updated to use the consolidated `indexing.in_progress` field from the restructured `/status` response.
 
 - [PHX-452](https://jira.skatelescope.org/browse/PHX-452)
 

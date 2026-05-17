@@ -326,6 +326,13 @@ table name — useful when reusing a database populated by a previous deployment
 (default ``.dpd-volume-id``). Change this only if the default filename conflicts
 with existing content on the PV.
 
+**Multi-instance indexing coordination**: a single shared table ``dpd_indexing_state``
+in the DPD schema coordinates which API pod is the active indexer for each volume
+prefix. On startup, each pod performs an atomic claim; only the leader scans the PV
+and populates the shared tables. Non-leaders skip the scan and serve data immediately
+from the tables the leader has already written. The coordination record is visible in
+the ``indexing.coordination_state`` block of the ``/status`` endpoint.
+
 
 Shared Persistent Volume Configuration
 ---------------------------------------

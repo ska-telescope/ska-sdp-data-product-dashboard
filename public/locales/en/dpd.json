@@ -103,7 +103,12 @@
       "dlmInterface": "DLM Interface",
       "dlmInterfaceEnabled": "Enabled",
       "dlmInterfaceDisabled": "Disabled",
-      "dlmItems": "items"
+      "dlmItems": "items",
+      "indexingState": "Indexing State",
+      "indexingStateIndexedBy": "Indexed By",
+      "indexingStateStartedAt": "Started At",
+      "indexingStateCompletedAt": "Completed At",
+      "indexingStateFilesIndexed": "Files Indexed"
     }
   }
 }
