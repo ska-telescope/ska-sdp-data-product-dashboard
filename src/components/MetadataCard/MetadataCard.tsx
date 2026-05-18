@@ -72,27 +72,22 @@ function prepareMetadata(raw: Record<string, unknown>): Array<[string, unknown]>
   for (const [key, value] of Object.entries(data)) {
     ordered.push([key, value]);
   }
-
   return ordered;
 }
 
-function formatLabel(key: string): string {
-  return key.replace(/_/g, ' ').replace(/\b\w/g, (c) => c.toUpperCase());
-}
-
-function renderValue(value: unknown): React.ReactNode {
+function renderValue(value: unknown, tColumns: (key: string) => string): React.ReactNode {
   if (value === null || value === undefined) return '';
   if (typeof value === 'boolean') return value ? 'true' : 'false';
-  if (Array.isArray(value)) return value.map((v) => renderValue(v)).join(', ');
+  if (Array.isArray(value)) return value.map((v) => renderValue(v, tColumns)).join(', ');
   if (typeof value === 'object') {
     return Object.entries(value as Record<string, unknown>)
-      .map(([k, v]) => `${formatLabel(k)}: ${renderValue(v)}`)
+      .map(([k, v]) => `${tColumns(k)}: ${renderValue(v, tColumns)}`)
       .join(', ');
   }
   return String(value);
 }
 
-function renderKeyValueTable(obj: Record<string, unknown>) {
+function renderKeyValueTable(obj: Record<string, unknown>, tColumns: (key: string) => string) {
   return (
     <Table size="small">
       <TableHead>
@@ -104,7 +99,7 @@ function renderKeyValueTable(obj: Record<string, unknown>) {
       <TableBody>
         {Object.entries(obj).map(([key, value]) => (
           <TableRow key={key}>
-            <TableCell>{formatLabel(key)}</TableCell>
+            <TableCell>{tColumns(key)}</TableCell>
             <TableCell sx={{ wordBreak: 'break-all' }}>{renderValue(value)}</TableCell>
           </TableRow>
         ))}
@@ -113,7 +108,7 @@ function renderKeyValueTable(obj: Record<string, unknown>) {
   );
 }
 
-function renderArrayTable(arr: Array<Record<string, unknown>>) {
+function renderArrayTable(arr: Array<Record<string, unknown>>, tColumns: (key: string) => string) {
   if (arr.length === 0) return <Typography variant="body2">No items</Typography>;
   const columns = Object.keys(arr[0]);
   return (
@@ -122,7 +117,7 @@ function renderArrayTable(arr: Array<Record<string, unknown>>) {
         <TableRow>
           {columns.map((col) => (
             <TableCell key={col} sx={{ fontWeight: 'bold' }}>
-              {formatLabel(col)}
+              {tColumns(col)}
             </TableCell>
           ))}
         </TableRow>
@@ -132,7 +127,7 @@ function renderArrayTable(arr: Array<Record<string, unknown>>) {
           <TableRow key={idx}>
             {columns.map((col) => (
               <TableCell key={col} sx={{ wordBreak: 'break-all' }}>
-                {renderValue(row[col])}
+                {renderValue(row[col], tColumns)}
               </TableCell>
             ))}
           </TableRow>
@@ -142,19 +137,23 @@ function renderArrayTable(arr: Array<Record<string, unknown>>) {
   );
 }
 
-function renderSection(key: string, value: unknown) {
+function renderSection(key: string, value: unknown, tColumns: (key: string) => string) {
   if (value === null || value === undefined) return null;
+
+  const tSection = ['obscore', 'config'].includes(key)
+    ? (k: string) => tColumns(`${key}.${k}`)
+    : tColumns;
 
   // Shown as a standalone accordion with the value as content
   if (typeof value !== 'object') {
     return (
       <Accordion key={key} defaultExpanded data-testid={`metadata-section-${key}`}>
         <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-          <Typography variant="subtitle2">{formatLabel(key)}</Typography>
+          <Typography variant="subtitle2">{tColumns(key)}</Typography>
         </AccordionSummary>
         <AccordionDetails>
           <Typography variant="body2" sx={{ wordBreak: 'break-all' }}>
-            {renderValue(value)}
+            {renderValue(value, tSection)}
           </Typography>
         </AccordionDetails>
       </Accordion>
@@ -170,12 +169,12 @@ function renderSection(key: string, value: unknown) {
         <Accordion key={key} defaultExpanded data-testid={`metadata-section-${key}`}>
           <AccordionSummary expandIcon={<ExpandMoreIcon />}>
             <Typography variant="subtitle2">
-              {`${formatLabel(key)} (${value.length} ${value.length === 1 ? 'item' : 'items'})`}
+              {`${tColumns(key)} (${value.length} ${value.length === 1 ? 'item' : 'items'})`}
             </Typography>
           </AccordionSummary>
           <AccordionDetails>
             <Typography variant="body2" sx={{ wordBreak: 'break-all' }}>
-              {value.map((v) => renderValue(v)).join(', ')}
+              {value.map((v) => renderValue(v, tSection)).join(', ')}
             </Typography>
           </AccordionDetails>
         </Accordion>
@@ -183,14 +182,14 @@ function renderSection(key: string, value: unknown) {
     }
 
     const objectItems = value.filter((v) => typeof v === 'object' && v !== null);
-    const label = `${formatLabel(key)} (${value.length} ${value.length === 1 ? 'item' : 'items'})`;
+    const label = `${tColumns(key)} (${value.length} ${value.length === 1 ? 'item' : 'items'})`;
     return (
       <Accordion key={key} defaultExpanded data-testid={`metadata-section-${key}`}>
         <AccordionSummary expandIcon={<ExpandMoreIcon />}>
           <Typography variant="subtitle2">{label}</Typography>
         </AccordionSummary>
         <AccordionDetails>
-          {renderArrayTable(objectItems as Array<Record<string, unknown>>)}
+          {renderArrayTable(objectItems as Array<Record<string, unknown>>, tSection)}
         </AccordionDetails>
       </Accordion>
     );
@@ -205,9 +204,9 @@ function renderSection(key: string, value: unknown) {
     return (
       <Accordion key={key} defaultExpanded data-testid={`metadata-section-${key}`}>
         <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-          <Typography variant="subtitle2">{formatLabel(key)}</Typography>
+          <Typography variant="subtitle2">{tColumns(key)}</Typography>
         </AccordionSummary>
-        <AccordionDetails>{renderKeyValueTable(obj)}</AccordionDetails>
+        <AccordionDetails>{renderKeyValueTable(obj, tSection)}</AccordionDetails>
       </Accordion>
     );
   }
@@ -235,8 +234,9 @@ function renderSection(key: string, value: unknown) {
         <Typography variant="subtitle2">{formatLabel(key)}</Typography>
       </AccordionSummary>
       <AccordionDetails>
-        {Object.keys(primitiveEntries).length > 0 && renderKeyValueTable(primitiveEntries)}
-        {nestedEntries.map(([k, v]) => renderSection(k, v))}
+        {Object.keys(primitiveEntries).length > 0 &&
+          renderKeyValueTable(primitiveEntries, tSection)}
+        {nestedEntries.map(([k, v]) => renderSection(k, v, tSection))}
       </AccordionDetails>
     </Accordion>
   );
@@ -312,7 +312,10 @@ function SdpFlowsSection({ raw }: { raw: Record<string, unknown> }): React.React
   );
 }
 
-function renderMetadataSections(entries: Array<[string, unknown]>): React.ReactNode[] {
+function renderMetadataSections(
+  entries: Array<[string, unknown]>,
+  tColumns: (key: string) => string
+): React.ReactNode[] {
   const elements: React.ReactNode[] = [];
   let primitiveGroup: Record<string, unknown> = {};
 
@@ -327,7 +330,7 @@ function renderMetadataSections(entries: Array<[string, unknown]>): React.ReactN
           <AccordionSummary expandIcon={<ExpandMoreIcon />}>
             <Typography variant="subtitle2">Overview</Typography>
           </AccordionSummary>
-          <AccordionDetails>{renderKeyValueTable(primitiveGroup)}</AccordionDetails>
+          <AccordionDetails>{renderKeyValueTable(primitiveGroup, tColumns)}</AccordionDetails>
         </Accordion>
       );
       primitiveGroup = {};
@@ -337,7 +340,7 @@ function renderMetadataSections(entries: Array<[string, unknown]>): React.ReactN
   for (const [key, value] of entries) {
     if (value !== null && value !== undefined && typeof value === 'object') {
       flushPrimitives();
-      elements.push(renderSection(key, value));
+      elements.push(renderSection(key, value, tColumns));
     } else {
       primitiveGroup[key] = value;
     }
@@ -352,6 +355,15 @@ function MetadataCard(selectedDataProduct: SelectedDataProduct) {
   const [oldFilename, setOldFilename] = React.useState(null);
   const [cardHeight, setCardHeight] = React.useState(tableHeight() - ANNOTATIONS_CARD_HEIGHT);
   const { t } = useTranslation('dpd');
+  const { t: tColumnsRaw } = useTranslation('humanreadable');
+  const tColumns = (key: string): string => {
+    const translated = tColumnsRaw(key);
+    if (translated === key) {
+      const spaced = key.replace(/_/g, ' ');
+      return spaced.charAt(0).toUpperCase() + spaced.slice(1);
+    }
+    return translated;
+  };
 
   React.useEffect(() => {
     const metaDataFile = selectedDataProduct?.uid;
@@ -391,7 +403,7 @@ function MetadataCard(selectedDataProduct: SelectedDataProduct) {
           {metaData ? (
             <>
               <SdpFlowsSection raw={metaData} />
-              {renderMetadataSections(prepareMetadata(metaData))}
+              {renderMetadataSections(prepareMetadata(metaData), tColumns)}
             </>
           ) : (
             <Typography variant="body2" color="text.secondary">
