@@ -44,13 +44,18 @@ function DataAnnotationsCard(selectedDataProduct: SelectedDataProduct) {
   React.useEffect(() => {
     async function loadDataAnnotations() {
       setListOfDataAnnotations([]);
-      const result = await getDataAnnotations(authAxiosClient, selectedDataProduct.uid);
-      if ([200, 201].includes(result.status)) {
-        setListOfDataAnnotations(result.data);
-        setAnnotationsTableAvailable(true);
-      } else if ([204].includes(result.status)) {
-        setAnnotationsTableAvailable(true);
-      } else {
+      try {
+        const result = await getDataAnnotations(authAxiosClient, selectedDataProduct.uid);
+        if ([200, 201].includes(result.status)) {
+          setListOfDataAnnotations(result.data);
+          setAnnotationsTableAvailable(true);
+        } else if ([204].includes(result.status)) {
+          setAnnotationsTableAvailable(true);
+        } else {
+          setAnnotationsTableAvailable(false);
+        }
+      } catch (error) {
+        console.error('Error loading annotations:', error);
         setAnnotationsTableAvailable(false);
       }
     }
