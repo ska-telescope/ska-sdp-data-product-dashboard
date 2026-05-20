@@ -96,13 +96,13 @@ This section details the configuration options available when deploying the Data
       - ``""``
       - Host path to an SDP Configuration DB. Example: "ska-sdp-etcd.dp-shared"
     * - ``api.postgresql.host``
-      - ``https://localhost``
-      - The PostgreSQL host.
+      - ``""``
+      - The PostgreSQL host. Leave empty to disable PostgreSQL and use in-memory storage.
     * - ``api.postgresql.port``
-      - ``9200``
+      - ``5432``
       - The PostgreSQL port.
     * - ``api.postgresql.user``
-      - ``postgre``
+      - ``postgres``
       - The PostgreSQL user.
     * - ``api.postgresql.dbname``
       -
@@ -111,11 +111,21 @@ This section details the configuration options available when deploying the Data
       -
       - The PostgreSQL schema name.
     * - ``api.postgresql.metadataTableName``
-      - ``data_products_metadata_v3``
-      - The PostgreSQL table that contain the data products metadata.
+      - ``""`` (auto-derived)
+      - PostgreSQL table for data product metadata. See
+        :ref:`volume-keyed-table-names` for how names are derived automatically.
     * - ``api.postgresql.annotationsTableName``
-      - ``data_products_annotations_v2``
-      - The PostgreSQL table that contain the data products annotations.
+      - ``""`` (auto-derived)
+      - PostgreSQL table for data product annotations. Auto-derived; see
+        :ref:`volume-keyed-table-names`.
+    * - ``api.postgresql.sdpFlowsTableName``
+      - ``""`` (auto-derived)
+      - PostgreSQL table for SDP flow data. Auto-derived; see
+        :ref:`volume-keyed-table-names`.
+    * - ``api.postgresql.dpdVolumeIdFile``
+      - ``.dpd-volume-id``
+      - Filename of the volume identity file written at the root of the storage path.
+        Change only if the default name conflicts with existing PV content.
     * - ``api.postgresql.querySizeLimit``
       - ``10000``
       - Limit of the number of results from a PostgreSQL query.
@@ -287,6 +297,34 @@ The vault-secret-sync subchart is an optional helper that automatically syncs se
 **How it works**:
 
 When enabled, the subchart creates VaultStaticSecret custom resources that the Vault Secrets Operator monitors. The operator automatically fetches secrets from the specified Vault paths and creates/updates the corresponding Kubernetes secrets. The main application always references standard Kubernetes secrets, making it portable across different secret management strategies.
+
+
+.. _volume-keyed-table-names:
+
+Volume-keyed PostgreSQL Table Names
+-------------------------------------
+
+On first startup against a Persistent Volume, the API writes a UUID v4 identity
+file (``.dpd-volume-id``) at the root of the storage path. On every subsequent
+startup the same UUID is read from that file. The UUID is used to derive a stable
+16-character table-name prefix of the form ``dpd_<first 12 hex chars of UUID>``,
+for example ``dpd_a3f1c2d4e5f6``. All three managed tables (metadata, annotations,
+SDP flows) use this prefix, isolating each PV's data in the shared PostgreSQL
+database without any manual configuration.
+
+**Two pods racing on a brand-new volume**: the identity file is written with
+``O_CREAT | O_EXCL`` (atomic on POSIX file systems), so only one write succeeds.
+The losing pod retries reading up to three times with a short random back-off and
+obtains the same UUID.
+
+**Override**: set ``api.postgresql.metadataTableName``,
+``api.postgresql.annotationsTableName``, or ``api.postgresql.sdpFlowsTableName``
+to a non-empty string in ``values.yaml`` to bypass auto-derivation and use a fixed
+table name — useful when reusing a database populated by a previous deployment.
+
+**Identity file location**: controlled by ``api.postgresql.dpdVolumeIdFile``
+(default ``.dpd-volume-id``). Change this only if the default filename conflicts
+with existing content on the PV.
 
 
 Shared Persistent Volume Configuration

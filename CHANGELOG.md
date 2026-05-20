@@ -2,6 +2,10 @@
 
 ## Unreleased
 
+- [PHX-455](https://jira.skatelescope.org/browse/PHX-455)
+
+  - [Changed] Helm chart PostgreSQL table names now default to empty, enabling automatic per-volume derivation in the API. Added `api.postgresql.dpdVolumeIdFile` value.
+
 - [PHX-452](https://jira.skatelescope.org/browse/PHX-452)
 
   - [Changed] Search is no longer in the side panel, but above the table.
