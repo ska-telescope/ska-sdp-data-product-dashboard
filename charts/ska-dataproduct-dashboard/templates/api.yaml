@@ -135,14 +135,14 @@ spec:
             port: 8000
           failureThreshold: 12
           periodSeconds: 5
-          timeoutSeconds: 10
+          timeoutSeconds: 5
         livenessProbe:
           httpGet:
             path: /status
             port: 8000
           initialDelaySeconds: 10
           periodSeconds: 30
-          timeoutSeconds: 10
+          timeoutSeconds: 5
           failureThreshold: 3
         readinessProbe:
           httpGet:
@@ -150,6 +150,6 @@ spec:
             port: 8000
           initialDelaySeconds: 5
           periodSeconds: 10
-          timeoutSeconds: 10
+          timeoutSeconds: 5
           failureThreshold: 3
 {{- end }}
