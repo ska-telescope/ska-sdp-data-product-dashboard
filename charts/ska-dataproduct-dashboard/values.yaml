@@ -22,6 +22,11 @@ api:
   indexingBatchSize: 100
   # Number of threads for the parallel YAML read phase. Increase on high-latency NFS storage.
   indexingParallelWorkers: 8
+  # Seconds since last heartbeat before an indexing leadership claim is considered stale.
+  indexingHeartbeatStaleSeconds: 300
+  # Name of the shared PostgreSQL table used for multi-instance indexing coordination.
+  # Override only when deploying multiple independent DPD stacks into the same schema.
+  indexingStateTableName: "dpd_indexing_state"
   # SDP config database (etcd) host.  Leave empty to disable SDP flow enrichment.
   sdpConfigdbHost: ""
   # Seconds the SDP flow watcher waits for an etcd event before looping (heartbeat).
