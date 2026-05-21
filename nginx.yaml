@@ -1,0 +1,6 @@
+# This file is deep-merged with the default conf.yml shipped inside the
+# ska-webserver base image at container startup.
+# https://gitlab.com/ska-telescope/ska-base-images/-/blob/main/images/ska-webserver/resources/conf.yml?ref_type=heads
+config:
+  worker_processes: 4
+  worker_connections: 32
