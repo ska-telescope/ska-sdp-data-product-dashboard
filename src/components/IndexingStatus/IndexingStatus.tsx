@@ -185,25 +185,6 @@ function IndexingStatus({ isLoading }: IndexingStatusProps) {
                     >
                       <strong>{t('toolTip.indexingStatus.indexingInProgress')}</strong>
                     </Typography>
-                    {indexingProgress && indexingProgress.files_processed > 0 && (
-                      <>
-                        <Typography color="inherit" data-testid="indexing-status-files">
-                          <strong>{t('toolTip.indexingStatus.filesProcessed')}:</strong>{' '}
-                          {indexingProgress.files_processed}
-                          {indexingProgress.total_files > 0 && ` / ${indexingProgress.total_files}`}
-                        </Typography>
-                        {indexingProgress.total_files > 0 && (
-                          <Typography color="inherit" data-testid="indexing-status-progress">
-                            <strong>{t('toolTip.indexingStatus.progress')}:</strong>{' '}
-                            {Math.round(
-                              (indexingProgress.files_processed / indexingProgress.total_files) *
-                                100
-                            )}
-                            %
-                          </Typography>
-                        )}
-                      </>
-                    )}
                     {indexingProgress?.indexing_step && (
                       <Typography
                         color="inherit"
