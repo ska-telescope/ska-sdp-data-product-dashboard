@@ -158,13 +158,13 @@ This section details the configuration options available when deploying the Data
       - Limit of the number of results from a PostgreSQL query.
     * - ``api.postgresql.dlmInterfaceEnabled``
       - ``false``
-      - Enable the DLM database interface. Requires a view of the DLM ``data_item`` table to be shared with the dashboard database user.
+      - Enable the DLM database interface. Requires the dashboard database user to have SELECT access on the DLM schema in the same PostgreSQL instance.
     * - ``api.postgresql.dlmSchema``
       - ``"dlm"``
-      - PostgreSQL schema containing the DLM ``data_item`` view.
+      - PostgreSQL schema where the DLM ``data_item`` table resides.
     * - ``api.postgresql.dlmMetadataTableName``
       - ``"data_item"``
-      - Name of the DLM view shared with the dashboard database user.
+      - Name of the DLM table the dashboard database user has SELECT access to.
     * - ``api.streamChunkSize``
       - ``65536``
       - Data downloaded are streamed in streamChunkSize chunks.
