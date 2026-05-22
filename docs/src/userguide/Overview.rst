@@ -95,7 +95,21 @@ criteria. Any ``Key`` from the form can be used in the URL.
 Data Product Index
 ==================
 
-The current release of the Data Product Dashboard can be deployed with either a persistent metadata store using a PostgreSQL backend, or an in-memory solution that indexes all the data products on the shared data volume and creates a table in memory.
+The dashboard can be deployed with either a persistent metadata store using a PostgreSQL backend, or an in-memory solution that indexes all the data products on the shared data volume and creates a table in memory.
+
+**PostgreSQL backend**
+
+When the PostgreSQL backend is in use, each Persistent Volume is assigned a stable identity (a UUID stored in a small file at the PV root).  All metadata table names in PostgreSQL are derived from this UUID, so:
+
+* The same PV always maps to the same tables — **metadata is preserved across pod restarts** and kept current via upserts.
+* Different PVs use different table names, so multiple independent volumes can share a single PostgreSQL instance without conflict.
+
+In horizontally-scaled deployments (multiple API pods), only **one pod per volume** performs the PV scan at any time.  A shared coordination table (``dpd_indexing_state``) manages this automatically: the first pod to start claims a leadership slot for its volume and begins indexing; other pods detect the active leader and serve data from the shared tables immediately.  If the leader crashes, the slot is reclaimed after a 5-minute heartbeat timeout.
+
+**In-memory backend**
+
+When no PostgreSQL instance is available, the API indexes the data volume into memory on startup.  Data is not persisted across restarts.
+
 When products are directly loaded onto the shared volume, the user can re-index the data volume to update the metadata store of the Data Product Dashboard accordingly.
 
 The dashboard will automatically reload after a re-index or when new data is added to its store via the rest API endpoints. The reload button will be deactivated while the dashboard is in sync with the data in the store.

@@ -213,7 +213,7 @@ module.exports = (env, argv) => { return {
         patterns: [
             {
               from: 'public',
-              to: 'dist',
+              to: '.',
               globOptions: {
                 dot: true,
                 gitignore: true,

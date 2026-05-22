@@ -32,7 +32,7 @@ function IndexingStatus({ isLoading }: IndexingStatusProps) {
       return StatusLevel.ERROR;
     }
     // Blue info: Backend healthy but indexing in progress
-    if (isIndexing || indexingProgress?.in_progress) {
+    if (isIndexing) {
       return StatusLevel.INFO;
     }
     // Green: Backend is healthy and idle
@@ -46,7 +46,7 @@ function IndexingStatus({ isLoading }: IndexingStatusProps) {
     if (apiError) {
       return 'status.error';
     }
-    if (isIndexing || indexingProgress?.in_progress) {
+    if (isIndexing) {
       return 'status.indexing';
     }
     return 'status.healthy';
@@ -138,7 +138,46 @@ function IndexingStatus({ isLoading }: IndexingStatusProps) {
                       )}
                   </Typography>
                 )}
-                {(isIndexing || indexingProgress?.in_progress) && (
+                {apiStatus.indexing?.coordination_state && (
+                  <>
+                    <Typography
+                      color="inherit"
+                      sx={{ borderTop: '1px solid rgba(255,255,255,0.2)', mt: 1, pt: 1 }}
+                    >
+                      <strong>{t('toolTip.indexingStatus.indexingState')}</strong>
+                    </Typography>
+                    {apiStatus.indexing.coordination_state.indexed_by && (
+                      <Typography color="inherit" data-testid="indexing-state-indexed-by">
+                        <strong>{t('toolTip.indexingStatus.indexingStateIndexedBy')}:</strong>{' '}
+                        {apiStatus.indexing.coordination_state.indexed_by}
+                      </Typography>
+                    )}
+                    {apiStatus.indexing.coordination_state.started_at && (
+                      <Typography color="inherit" data-testid="indexing-state-started-at">
+                        <strong>{t('toolTip.indexingStatus.indexingStateStartedAt')}:</strong>{' '}
+                        {new Date(
+                          apiStatus.indexing.coordination_state.started_at
+                        ).toLocaleString()}
+                      </Typography>
+                    )}
+                    {apiStatus.indexing.coordination_state.completed_at && (
+                      <Typography color="inherit" data-testid="indexing-state-completed-at">
+                        <strong>{t('toolTip.indexingStatus.indexingStateCompletedAt')}:</strong>{' '}
+                        {new Date(
+                          apiStatus.indexing.coordination_state.completed_at
+                        ).toLocaleString()}
+                      </Typography>
+                    )}
+                    {apiStatus.indexing.coordination_state.files_indexed !== null &&
+                      apiStatus.indexing.coordination_state.files_indexed !== undefined && (
+                        <Typography color="inherit" data-testid="indexing-state-files-indexed">
+                          <strong>{t('toolTip.indexingStatus.indexingStateFilesIndexed')}:</strong>{' '}
+                          {apiStatus.indexing.coordination_state.files_indexed}
+                        </Typography>
+                      )}
+                  </>
+                )}
+                {isIndexing && (
                   <>
                     <Typography
                       color="inherit"
@@ -146,25 +185,6 @@ function IndexingStatus({ isLoading }: IndexingStatusProps) {
                     >
                       <strong>{t('toolTip.indexingStatus.indexingInProgress')}</strong>
                     </Typography>
-                    {indexingProgress && indexingProgress.files_processed > 0 && (
-                      <>
-                        <Typography color="inherit" data-testid="indexing-status-files">
-                          <strong>{t('toolTip.indexingStatus.filesProcessed')}:</strong>{' '}
-                          {indexingProgress.files_processed}
-                          {indexingProgress.total_files > 0 && ` / ${indexingProgress.total_files}`}
-                        </Typography>
-                        {indexingProgress.total_files > 0 && (
-                          <Typography color="inherit" data-testid="indexing-status-progress">
-                            <strong>{t('toolTip.indexingStatus.progress')}:</strong>{' '}
-                            {Math.round(
-                              (indexingProgress.files_processed / indexingProgress.total_files) *
-                                100
-                            )}
-                            %
-                          </Typography>
-                        )}
-                      </>
-                    )}
                     {indexingProgress?.indexing_step && (
                       <Typography
                         color="inherit"

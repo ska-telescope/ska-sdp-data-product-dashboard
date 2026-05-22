@@ -34,8 +34,8 @@ export function ApiStatusProvider({ children, getStatus = GetAPIStatus }: ApiSta
       const results = await getStatus();
       if (results?.data) {
         setApiRunning(results.data?.api_running ?? false);
-        setApiIndexing(results.data?.indexing ?? false);
-        setIndexingProgress(results.data?.indexing_progress || null);
+        setApiIndexing(results.data?.indexing?.in_progress ?? false);
+        setIndexingProgress(results.data?.indexing?.progress || null);
         setApiStatus(results.data);
 
         // Check for backend errors in priority order

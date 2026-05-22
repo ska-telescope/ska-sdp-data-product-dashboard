@@ -94,6 +94,10 @@ spec:
             value: "{{ .Values.api.indexingBatchSize }}"
           - name: INDEXING_PARALLEL_WORKERS
             value: "{{ .Values.api.indexingParallelWorkers | default 8 }}"
+          - name: INDEXING_HEARTBEAT_STALE_SECONDS
+            value: "{{ .Values.api.indexingHeartbeatStaleSeconds | default 300 }}"
+          - name: INDEXING_STATE_TABLE_NAME
+            value: "{{ .Values.api.indexingStateTableName | default "dpd_indexing_state" }}"
           - name: SKA_PERMISSIONS_API_HOST
             value: "{{ .Values.api.permissionsapi.serviceUrl }}"
           - name: SKA_DATAPRODUCT_API_POSTGRESQL_HOST

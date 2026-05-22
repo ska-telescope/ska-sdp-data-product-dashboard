@@ -15,8 +15,8 @@ import { useUserAuthenticated } from '@services/GetAuthStatus/GetAuthStatus';
 
 function DataAnnotationsCard(selectedDataProduct: SelectedDataProduct) {
   const { t } = useTranslation('dpd');
-  const { instance } = useMsal();
-  const account = instance.getAllAccounts()[0];
+  const { accounts } = useMsal();
+  const account = accounts[0];
   const [listOfDataAnnotations, setListOfDataAnnotations] = React.useState([]);
   const [annotationsTableAvailable, setAnnotationsTableAvailable] = React.useState(false);
   const [disableCreateButton, setDisableCreateButton] = React.useState(false);
@@ -44,13 +44,18 @@ function DataAnnotationsCard(selectedDataProduct: SelectedDataProduct) {
   React.useEffect(() => {
     async function loadDataAnnotations() {
       setListOfDataAnnotations([]);
-      const result = await getDataAnnotations(authAxiosClient, selectedDataProduct.uid);
-      if ([200, 201].includes(result.status)) {
-        setListOfDataAnnotations(result.data);
-        setAnnotationsTableAvailable(true);
-      } else if ([204].includes(result.status)) {
-        setAnnotationsTableAvailable(true);
-      } else {
+      try {
+        const result = await getDataAnnotations(authAxiosClient, selectedDataProduct.uid);
+        if ([200, 201].includes(result.status)) {
+          setListOfDataAnnotations(result.data);
+          setAnnotationsTableAvailable(true);
+        } else if ([204].includes(result.status)) {
+          setAnnotationsTableAvailable(true);
+        } else {
+          setAnnotationsTableAvailable(false);
+        }
+      } catch (error) {
+        console.error('Error loading annotations:', error);
         setAnnotationsTableAvailable(false);
       }
     }
