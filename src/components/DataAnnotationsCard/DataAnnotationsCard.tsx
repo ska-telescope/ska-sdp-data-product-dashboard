@@ -15,8 +15,8 @@ import { useUserAuthenticated } from '@services/GetAuthStatus/GetAuthStatus';
 
 function DataAnnotationsCard(selectedDataProduct: SelectedDataProduct) {
   const { t } = useTranslation('dpd');
-  const { instance } = useMsal();
-  const account = instance.getAllAccounts()[0];
+  const { accounts } = useMsal();
+  const account = accounts[0];
   const [listOfDataAnnotations, setListOfDataAnnotations] = React.useState([]);
   const [annotationsTableAvailable, setAnnotationsTableAvailable] = React.useState(false);
   const [disableCreateButton, setDisableCreateButton] = React.useState(false);
