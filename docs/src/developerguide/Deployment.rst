@@ -1,8 +1,12 @@
 Deployment Guide
 ~~~~~~~~~~~~~~~~
 
-The Data Product Dashboard is built for continuous operation within a Kubernetes cluster.
-It functions as a service that enables access to data products created by various pipelines and saved on a shared persistent volume.
+The Data Product Dashboard is deployed as a Kubernetes service that provides access to
+data products stored on a shared persistent volume. It consists of a React frontend and
+the Data Product API backend, both deployed via a single Helm chart. Key deployment
+decisions include the choice of metadata store (PostgreSQL or in-memory), optional
+integration with the DLM database, and optional connection to an SDP Configuration
+Database.
 
 
 Pre-requisites
@@ -26,10 +30,6 @@ Pre-requisites
 
       dataProductPVC:
         name: shared
-        create:
-          enabled: false
-          size: 5Gi
-          storageClassName: nfss1
 
 
 Helm chart configuration options
@@ -53,7 +53,7 @@ This section details the configuration options available when deploying the Data
       - ``true``
       - Whether the namespace should be added to the ingress prefix.
     * - ``ingress.hostname``
-      - ``true``
+      - ``"https://sdhp.stfc.skao.int"``
       - The domain name where the application will be hosted. Used for MS Entra redirect URI.
 
 **Data product API**:
@@ -68,11 +68,14 @@ This section details the configuration options available when deploying the Data
     * - ``api.enabled``
       - ``true``
       - If the ska-dataproduct-api should be enabled.
+    * - ``api.replicas``
+      - ``1``
+      - Number of API pod replicas.
     * - ``api.container``
       - ``artefact.skao.int/ska-dataproduct-api``
       - The link to the artefact repository
     * - ``api.version``
-      - ``0.8.0``
+      - ``0.16.0``
       - The version of the ska-dataproduct-api to use.
     * - ``api.imagePullPolicy``
       - ``IfNotPresent``
@@ -80,7 +83,7 @@ This section details the configuration options available when deploying the Data
     * - ``api.verbose``
       - ``false``
       - Enable verbose logging.
-    * - ``api.dateFromat``
+    * - ``api.dateFormat``
       - ``%Y-%m-%d``
       - Date format used for search.
     * - ``api.ingress.path``
@@ -89,12 +92,36 @@ This section details the configuration options available when deploying the Data
     * - ``api.storagePath``
       - ``"/mnt/data/product/"``
       - The path to the data on the PV.
-    * - ``api.metadata_file_name``
+    * - ``api.metadataFileName``
       - ``ska-data-product.yaml``
       - The name of the data products metadata file that is used to indicate that a folder is a data product.
+    * - ``api.indexingTimeoutSeconds``
+      - ``21600``
+      - Maximum seconds to wait for a PV scan to complete.
+    * - ``api.indexingBatchSize``
+      - ``100``
+      - Number of metadata files processed per indexing batch.
+    * - ``api.indexingParallelWorkers``
+      - ``8``
+      - Threads used for the parallel YAML read phase. Increase on high-latency NFS storage.
+    * - ``api.indexingHeartbeatStaleSeconds``
+      - ``300``
+      - Seconds since the last heartbeat before an indexing leadership claim is considered stale.
+    * - ``api.indexingStateTableName``
+      - ``"dpd_indexing_state"``
+      - Shared PostgreSQL table used for multi-instance indexing coordination. Override only when running multiple independent DPD stacks in the same schema.
     * - ``api.sdpConfigdbHost``
       - ``""``
       - Host path to an SDP Configuration DB. Example: "ska-sdp-etcd.dp-shared"
+    * - ``api.sdpWatcherTimeoutSeconds``
+      - ``30.0``
+      - Seconds the SDP flow watcher waits for an etcd event before looping.
+    * - ``api.sdpWatcherReconnectDelaySeconds``
+      - ``10.0``
+      - Seconds to wait before reconnecting after an unexpected SDP watcher error.
+    * - ``api.useLocalTestData``
+      - ``false``
+      - Load mock SDP flow data without a live etcd connection. For development only — never enable in production.
     * - ``api.postgresql.host``
       - ``""``
       - The PostgreSQL host. Leave empty to disable PostgreSQL and use in-memory storage.
@@ -129,20 +156,29 @@ This section details the configuration options available when deploying the Data
     * - ``api.postgresql.querySizeLimit``
       - ``10000``
       - Limit of the number of results from a PostgreSQL query.
-    * - ``api.stream_chunk_size``
+    * - ``api.postgresql.dlmInterfaceEnabled``
+      - ``false``
+      - Enable the DLM database interface. Requires a view of the DLM ``data_item`` table to be shared with the dashboard database user.
+    * - ``api.postgresql.dlmSchema``
+      - ``"dlm"``
+      - PostgreSQL schema containing the DLM ``data_item`` view.
+    * - ``api.postgresql.dlmMetadataTableName``
+      - ``"data_item"``
+      - Name of the DLM view shared with the dashboard database user.
+    * - ``api.streamChunkSize``
       - ``65536``
-      - Data downloaded are streamed in stream_chunk_size chunks.
+      - Data downloaded are streamed in streamChunkSize chunks.
     * - ``api.resources.requests.cpu``
-      - ``500m``
+      - ``200m``
       - The requested minimum CPU usage of the api.
     * - ``api.resources.requests.memory``
-      - ``1024Mi``
+      - ``200Mi``
       - The requested minimum memory usage of the api.
     * - ``api.resources.limits.cpu``
       - ``1000m``
       - The maximum CPU usage of the api.
     * - ``api.resources.limits.memory``
-      - ``2048Mi``
+      - ``600Mi``
       - The maximum memory usage of the api.
 
 
@@ -175,7 +211,7 @@ This section details the configuration options available when deploying the Data
       - ``artefact.skao.int/ska-dataproduct-dashboard``
       - The link to the artefact repository
     * - ``dashboard.version``
-      - ``0.13.0``
+      - ``0.17.0``
       - The version of the ska-dataproduct-dashboard to use.
     * - ``dashboard.imagePullPolicy``
       - ``IfNotPresent``
@@ -186,21 +222,24 @@ This section details the configuration options available when deploying the Data
     * - ``dashboard.apiRefreshRate``
       - ``10000``
       - The polling rate for new data from the API.
+    * - ``dashboard.dataGridDefaultPageSize``
+      - ``25``
+      - Default number of rows per page in the data grid.
     * - ``dashboard.resources.requests.cpu``
-      - ``500m``
+      - ``1000m``
       - The requested minimum CPU usage of the dashboard.
     * - ``dashboard.resources.requests.memory``
-      - ``1024Mi``
+      - ``2048Mi``
       - The requested minimum memory usage of the dashboard.
     * - ``dashboard.resources.limits.cpu``
-      - ``1000m``
+      - ``2000m``
       - The maximum CPU usage of the dashboard.
     * - ``dashboard.resources.limits.memory``
-      - ``2048Mi``
+      - ``3072Mi``
       - The maximum memory usage of the dashboard.
 
 
-**Required Dashboard secrets**:
+**Dashboard secrets**:
 
 .. list-table::
     :widths: 50, 50
