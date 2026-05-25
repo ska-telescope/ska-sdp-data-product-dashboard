@@ -84,7 +84,7 @@ This section details the configuration options available when deploying the Data
       - ``artefact.skao.int/ska-dataproduct-api``
       - The link to the artefact repository
     * - ``api.version``
-      - ``0.16.0``
+      - ``0.17.0``
       - The version of the ska-dataproduct-api to use.
     * - ``api.imagePullPolicy``
       - ``IfNotPresent``
@@ -223,7 +223,7 @@ This section details the configuration options available when deploying the Data
       - ``artefact.skao.int/ska-dataproduct-dashboard``
       - The link to the artefact repository
     * - ``dashboard.version``
-      - ``0.17.0``
+      - ``0.18.0``
       - The version of the ska-dataproduct-dashboard to use.
     * - ``dashboard.imagePullPolicy``
       - ``IfNotPresent``

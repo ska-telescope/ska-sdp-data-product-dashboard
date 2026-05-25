@@ -1,6 +1,6 @@
 # Changelog
 
-## Unreleased
+## v0.18.0
 
 - [PHX-455](https://jira.skatelescope.org/browse/PHX-455)
 
