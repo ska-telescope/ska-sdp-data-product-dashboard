@@ -1,21 +1,16 @@
 Overview
 ~~~~~~~~
 
-The data product dashboard is used to list and download data products saved on a shared data volume within the environment where it is deployed.
-This documentation will guide you through utilizing the dashboard's features to find data products and view their metadata.
+The data product dashboard lists, searches, and enables download of data products saved on a shared data volume.
+This documentation guides you through the dashboard's features for finding data products and viewing their metadata.
 
-The application can be run as a standalone front-end application or used as a remote (Webpack 5 Module)
-within the SKA Portal `SKA Landing Page <https://gitlab.com/ska-telescope/ska-landing-page>`_.
-
-On DP Platform, an example dashboard HTML can be accessed through `this address <https://sdhp.stfc.skao.int/integration-ska-dataproduct-dashboard/dashboard/#>`_,
-alternatively you can also set up a Dashboard locally, please check the Developer guide page for details on how this is done.
+On the DP Platform, an example dashboard is accessible at `this address <https://sdhp.stfc.skao.int/integration-ska-dataproduct-dashboard/dashboard/#>`_.
+To set up the dashboard locally, see the Developer Guide.
 
 Usage
 =====
 
-The dashboard contains a table of data products. In the current version, you will be able to view and download all the data products on the shared data volume where the data product dashboard is deployed.
-If a view of the data_item PostgreSQL database table used by the DLM (`Data Life Cycle Manager <https://developer.skao.int/projects/ska-data-lifecycle/en/latest/?badge=latest>`_) has been shared with the dashboard database user,
-you will also be able to view metadata of data products that have been registered as data products in the DLM.
+The dashboard displays a table of data products from the shared data volume. If a view of the ``data_item`` PostgreSQL table used by the DLM (`Data Life Cycle Manager <https://developer.skao.int/projects/ska-data-lifecycle/en/latest/?badge=latest>`_) has been shared with the dashboard database user, metadata for DLM-registered products is also shown.
 
 .. figure:: /_static/img/dataproductdashboardDatagridSearch.png
    :width: 90%
@@ -34,7 +29,7 @@ Among these parameters the user can give a date range. If multiple search parame
    Example Data Product Dashboard search with time range and key value pair.
 
 On initial load the table presents only default columns. Additional columns can be selected or selected columns deselected.
-This is can be done by selecting or deselecting columns in the `Manage Columns` modal.
+This can be done by selecting or deselecting columns in the `Manage Columns` modal.
 
 .. figure:: /_static/img/manageColumns.png
    :width: 45%
@@ -133,9 +128,6 @@ The dashboard displays a status icon that provides real-time information about t
 Connecting to an SDP Configuration Database
 ===========================================
 
-The DPD has the capability (from v0.14.0) to connect to a specific Science Data Processor (SDP) Configuration Database (Config DB).
-This feature allows the DPD to retrieve data flow information from the Config DB. Data flow objects give
-the users information about the status of a data product, e.g if it is already available or being written, etc.,
-as well as will allow users to "reserve" data products in the buffer space for further processing.
-Note that this latter functionality is not yet implemented. For now, the DPD only displays flow keys and status
-associated with existing data products in the data table.
+The dashboard can connect to a Science Data Processor (SDP) Configuration Database (Config DB) to retrieve data flow information.
+Data flow objects indicate the status of a data product — for example, whether it is already available or still being written.
+The dashboard displays flow keys and status alongside data products in the table.

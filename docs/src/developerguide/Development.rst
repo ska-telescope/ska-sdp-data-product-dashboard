@@ -11,8 +11,9 @@ This project requires **Node** and **YARN** to install and run. To install pleas
 Alternatively, the official Node docker image can be used.
 Instructions can be found on the `official Node docker image site <https://github.com/nodejs/docker-node/blob/master/README.md#how-to-use-this-image>`_.
 
-After installing Node, YARN can be installed following `this page <https://yarnpkg.com/getting-started/install>`_. Currently, the repository only accepts classical YARN versions.
-We recommend using 1.22.22, and under corepack you can set this by
+After installing Node, Yarn can be installed following `this page <https://yarnpkg.com/getting-started/install>`_.
+This project requires Yarn v1.x; v2 and above is not supported.
+The recommended version is 1.22.22, which can be set via corepack:
 
 .. code-block:: bash
 
@@ -42,8 +43,7 @@ Clone the repository and its submodules:
 
 .. code-block:: bash
 
-    git clone --recursive https://gitlab.com/ska-telescope/ska-dataproduct-dashboard.git
-    make make
+    git clone --recurse-submodules https://gitlab.com/ska-telescope/ska-dataproduct-dashboard.git
 
 Scripts for running, testing, and building the application are defined in the scripts section of the package.json file.
 These are run using YARN.
@@ -58,22 +58,54 @@ To run the application locally on your host machine, install all the latest SKAO
 If you are setting this up the first time, you may need to run 'yarn install' to install any missing dependencies.
 
 Using a .env File (For hosting the application on a developer machine)
-______________________________________________________________________
+----------------------------------------------------------------------
 
-.. note:: This file is excluded from version control using .gitignore to prevent exposing sensitive information. 
-  
-Create a file named .env at the root of your project directory. The following list of environment variables can be set according to your environment:
+.. note:: This file is excluded from version control via ``.gitignore`` to prevent exposing sensitive information.
 
-.. code-block:: bash
+Create a file named ``.env`` at the root of the project. The canonical list of supported variables is defined in
+``env_scripts/env_config``. The table below describes each variable:
 
-  SKIP_PREFLIGHT_CHECK='true'
-  REACT_APP_SKA_DATAPRODUCT_API_URL='http://localhost:8000'
-  REACT_APP_API_REFRESH_RATE='1000'
-  REACT_APP_USE_LOCAL_DATA='false'
-  REACT_APP_ALLOW_MOCK_AUTH='true'
-  REACT_APP_MSENTRA_CLIENT_ID='The applciation ID'
-  REACT_APP_MSENTRA_TENANT_ID='The tenant ID'
-  REACT_APP_MSENTRA_REDIRECT_URI='http://localhost:8000'
+.. list-table::
+    :widths: 35, 10, 25, 30
+    :header-rows: 1
+
+    * - Variable
+      - Type
+      - Default
+      - Description
+    * - ``REACT_APP_SKA_DATAPRODUCT_API_URL``
+      - string
+      - ``http://localhost:8001``
+      - Base URL of the Data Product API.
+    * - ``REACT_APP_API_REFRESH_RATE``
+      - number
+      - ``30000``
+      - Polling interval in milliseconds for refreshing data from the API.
+    * - ``REACT_APP_DATAGRID_DEFAULT_PAGE_SIZE``
+      - string
+      - ``25``
+      - Default number of rows per page in the data grid.
+    * - ``REACT_APP_MSENTRA_CLIENT_ID``
+      - string
+      - *(required only for authentication)*
+      - Microsoft Entra application registration client ID.
+    * - ``REACT_APP_MSENTRA_TENANT_ID``
+      - string
+      - *(required only for authentication)*
+      - Microsoft Entra tenant ID.
+    * - ``REACT_APP_MSENTRA_REDIRECT_URI``
+      - string
+      - *(required only for authentication)*
+      - Redirect URI registered in Microsoft Entra for post-authentication redirect.
+    * - ``REACT_APP_FEEDBACK_FORM_URL``
+      - string
+      - *(Google Form URL)*
+      - URL of the user feedback form linked from the dashboard header.
+    * - ``REACT_APP_USE_LOCAL_DATA``
+      - boolean
+      - ``false``
+      - Load mock local data instead of calling the API. For development only — never enable in production.
+
 
 
 Running scripts
@@ -83,9 +115,8 @@ You should now be able to run the scripts defined in the package.json within the
 
 **Running the application in development mode**
 
-The app can be run with the node environment set to NODE_ENV=test (allowing Istanbul to instrument the code) and webpack serve with --mode development.
+Runs the application in development mode with live reloading.
 You can access your application at http://localhost:8100. The app will recompile and restart if you make any edits to the source files.
-To run, use the following command and the dashboard will pop up automatically.
 
 .. code-block:: bash
 
@@ -172,6 +203,8 @@ locally.
 4. Create a new namespace (optional): ``kubectl create namespace [namespace]``
 5. Install the helm chart with the following values: 
 
+.. code-block:: bash
+
     helm install [deploy-name] charts/ska-dataproduct-dashboard -n [namespace] --values values_local_deployment.yaml
 
 On a system with limited resources / slow connection, run with the following additional flags:
@@ -206,20 +239,6 @@ To get data onto the PV:
     kubectl cp [host path]/ska-dataproduct-api/tests/test_files/product [ska-dataproduct-api pod]:/usr/data -n [namespace]
 
 
-Connecting to SDP
-=================
-
-If you wish to connect to an existing deployment of the Science Data Processor (SDP)
-and display data flow information associated with data products, you need to install
-the DPD with the following value set in ``values.yaml``
-
-.. code-block::
-
-    api:
-      sdpConfigdbHost: "ska-sdp-etcd.<namespace>"
-
-Replace ``<namespace>`` with the SDP control system namespace where its Configuration DB is running.
-
 Column Header Labels, Descriptions, and Default Visibility
 ===========================================================
 
@@ -247,11 +266,11 @@ key string, which is then coerced to ``undefined`` by ``|| undefined`` in
 ``DataGrid.tsx``.  MUI shows no tooltip for ``undefined`` descriptions.
 
 How ``DataGrid.tsx`` injects descriptions
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 In ``fetchData``, after ``/muidatagridconfig`` columns are processed:
 
-.. code-block:: tsx
+.. code-block:: typescript
 
     setMuiConfigData({
       columns: newData.columns.map((item) => ({
@@ -271,7 +290,7 @@ Default column visibility is driven entirely by ``DEFAULT_COLUMNS`` on the API s
 communicated to the frontend through the ``col.hide`` field in ``/muidatagridconfig``.
 
 Priority chain on first load
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 .. code-block:: text
 
@@ -282,51 +301,3 @@ Priority chain on first load
 On first load (or after field-set invalidation), ``visibilityModel`` is built from
 ``col.hide``, stored to ``localStorage`` as ``defaultColumns``, and used immediately.
 On subsequent loads the stored preferences take priority.
-
-localStorage field-set invalidation
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-The key ``defaultColumnsFields`` in ``localStorage`` contains a sorted, comma-joined
-list of all field names from the last ``/muidatagridconfig`` response.
-
-On each load, this stored list is compared to the current API field set.  If they
-differ, ``defaultColumns`` is discarded and re-seeded from ``col.hide``.  This
-automatically resets saved preferences when columns are added or removed in an
-API upgrade — silently, without prompting the user.
-
-MUI column panel Reset button
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-Clicking MUI's built-in "Reset" button fires ``onColumnVisibilityModelChange``
-with an empty object ``{}``.  The handler in ``DataGrid.tsx`` detects this and
-restores the API-derived defaults from ``apiDerivedVisibilityRef`` (populated
-from ``col.hide`` during ``fetchData``) without re-fetching from the API:
-
-.. code-block:: tsx
-
-    onColumnVisibilityModelChange={(newDefaultColumns) => {
-      if (Object.keys(newDefaultColumns).length === 0) {
-        // Reset button clicked — restore API defaults
-        setDefaultColumns(apiDerivedVisibilityRef.current);
-      } else {
-        setDefaultColumns(newDefaultColumns);
-      }
-    }}
-
-After clicking Reset, ``localStorage`` is overwritten with the API defaults so the
-next page reload also shows the correct initial state.
-
-How to change the default visible set
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-Edit ``DEFAULT_COLUMNS`` in
-``ska-dataproduct-api/src/ska_dataproduct_api/configuration/settings.py``.
-The list order also controls the column display order in the DataGrid.
-
-To override per deployment without a code change, set the environment variable:
-
-.. code-block:: bash
-
-    SKA_DATAPRODUCT_API_DEFAULT_COLUMNS='["execution_block","date_created","obscore.s_ra"]'
-
-The value must be a valid JSON array of field-name strings.

@@ -1,12 +1,11 @@
 SKA Data Product Dashboard
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-The SKA Data Product Dashboard `ska-dataproduct-dashboard` is a web-based application
-that simplifies browsing and downloading data products stored within the persistent volume within a cluster.
+The SKA Data Product Dashboard is a web application for discovering, searching, downloading, and annotating SKA Data Products stored in a persistent storage volume,  managed by the Data Lifecycle Manager (DLM) or the flows in the SDP Configuration database (etcd).
 
-It utilises the `Data Product API <https://developer.skao.int/projects/ska-dataproduct-api/en/latest/>`_ as the backend
-to retrieve data products and their metadata. The repository mostly contains the frontend configurations to render
-the webpage in a user-friendly manner. The code and dependencies are managed through **YARN** (a Javascript package manager).
+It uses the `Data Product API <https://developer.skao.int/projects/ska-dataproduct-api/en/latest/>`_ as its
+backend to retrieve data products and their metadata. 
+
 If you just want to use the Dashboard, check the `User Guide <userguide/Overview>`_.
 To understand the internals, check out the `Developer Guide <developerguide/Development>`_.
 

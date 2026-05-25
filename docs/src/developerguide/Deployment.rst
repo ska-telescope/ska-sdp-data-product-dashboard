@@ -1,10 +1,6 @@
 Deployment Guide
 ~~~~~~~~~~~~~~~~
 
-The Data Product Dashboard is built for continuous operation within a Kubernetes cluster.
-It functions as a service that enables access to data products created by various pipelines and saved on a shared persistent volume.
-
-
 Pre-requisites
 ==============
 
@@ -26,10 +22,23 @@ Pre-requisites
 
       dataProductPVC:
         name: shared
-        create:
-          enabled: false
-          size: 5Gi
-          storageClassName: nfss1
+
+
+- **PostgreSQL** *(optional)*:
+
+  By default the API stores metadata in memory and all indexed data is lost on restart.
+  To persist metadata across restarts, provide a PostgreSQL instance and set
+  ``api.postgresql.host``, ``api.postgresql.dbname``, and ``api.postgresql.schema``
+  in the values file.  The API will create and manage its own tables automatically on
+  first startup.
+
+- **DLM Integration** *(optional)*:
+
+  If the deployment shares a PostgreSQL instance with the Data Lifecycle Manager (DLM),
+  the dashboard can surface DLM-registered data items alongside PV-indexed products.
+  This requires the dashboard database user to have ``SELECT`` access on the DLM schema
+  (``dlm`` by default) in the same PostgreSQL instance.  Enable the feature by setting
+  ``api.postgresql.dlmInterfaceEnabled: true``.
 
 
 Helm chart configuration options
@@ -53,7 +62,7 @@ This section details the configuration options available when deploying the Data
       - ``true``
       - Whether the namespace should be added to the ingress prefix.
     * - ``ingress.hostname``
-      - ``true``
+      - ``"https://sdhp.stfc.skao.int"``
       - The domain name where the application will be hosted. Used for MS Entra redirect URI.
 
 **Data product API**:
@@ -68,11 +77,14 @@ This section details the configuration options available when deploying the Data
     * - ``api.enabled``
       - ``true``
       - If the ska-dataproduct-api should be enabled.
+    * - ``api.replicas``
+      - ``1``
+      - Number of API pod replicas.
     * - ``api.container``
       - ``artefact.skao.int/ska-dataproduct-api``
       - The link to the artefact repository
     * - ``api.version``
-      - ``0.8.0``
+      - ``0.16.0``
       - The version of the ska-dataproduct-api to use.
     * - ``api.imagePullPolicy``
       - ``IfNotPresent``
@@ -80,7 +92,7 @@ This section details the configuration options available when deploying the Data
     * - ``api.verbose``
       - ``false``
       - Enable verbose logging.
-    * - ``api.dateFromat``
+    * - ``api.dateFormat``
       - ``%Y-%m-%d``
       - Date format used for search.
     * - ``api.ingress.path``
@@ -89,12 +101,39 @@ This section details the configuration options available when deploying the Data
     * - ``api.storagePath``
       - ``"/mnt/data/product/"``
       - The path to the data on the PV.
-    * - ``api.metadata_file_name``
+    * - ``api.metadataFileName``
       - ``ska-data-product.yaml``
       - The name of the data products metadata file that is used to indicate that a folder is a data product.
+    * - ``api.indexingTimeoutSeconds``
+      - ``21600``
+      - Maximum seconds to wait for a PV scan to complete.
+    * - ``api.indexingBatchSize``
+      - ``100``
+      - Number of metadata files processed per indexing batch.
+    * - ``api.indexingParallelWorkers``
+      - ``8``
+      - Threads used for the parallel YAML read phase. Increase on high-latency NFS storage.
+    * - ``api.indexingHeartbeatStaleSeconds``
+      - ``300``
+      - Seconds since the last heartbeat before an indexing leadership claim is considered stale.
+    * - ``api.indexingStateTableName``
+      - ``"dpd_indexing_state"``
+      - Shared PostgreSQL table used for multi-instance indexing coordination. Override only when running multiple independent DPD stacks in the same schema.
     * - ``api.sdpConfigdbHost``
       - ``""``
-      - Host path to an SDP Configuration DB. Example: "ska-sdp-etcd.dp-shared"
+      - Host of the SDP Configuration DB (etcd). Leave empty to disable SDP flow enrichment. Example: ``"ska-sdp-etcd.dp-shared"``
+    * - ``api.sdpWatcherTimeoutSeconds``
+      - ``30.0``
+      - Seconds the SDP flow watcher waits for an etcd event before looping.
+    * - ``api.sdpWatcherReconnectDelaySeconds``
+      - ``10.0``
+      - Seconds to wait before reconnecting after an unexpected SDP watcher error.
+    * - ``api.useLocalTestData``
+      - ``false``
+      - Load mock SDP flow data without a live etcd connection. For development only — never enable in production.
+    * - ``api.dashboardPort``
+      - ``"8100"``
+      - Dashboard port used to build the CORS allowed-origins list on the API.
     * - ``api.postgresql.host``
       - ``""``
       - The PostgreSQL host. Leave empty to disable PostgreSQL and use in-memory storage.
@@ -105,11 +144,11 @@ This section details the configuration options available when deploying the Data
       - ``postgres``
       - The PostgreSQL user.
     * - ``api.postgresql.dbname``
-      -
-      - The PostgreSQL database name.
+      - ``""``
+      - The PostgreSQL database name. Required when PostgreSQL is enabled.
     * - ``api.postgresql.schema``
-      -
-      - The PostgreSQL schema name.
+      - ``""``
+      - The PostgreSQL schema name. Required when PostgreSQL is enabled.
     * - ``api.postgresql.metadataTableName``
       - ``""`` (auto-derived)
       - PostgreSQL table for data product metadata. See
@@ -129,20 +168,29 @@ This section details the configuration options available when deploying the Data
     * - ``api.postgresql.querySizeLimit``
       - ``10000``
       - Limit of the number of results from a PostgreSQL query.
-    * - ``api.stream_chunk_size``
+    * - ``api.postgresql.dlmInterfaceEnabled``
+      - ``false``
+      - Enable the DLM database interface. Requires the dashboard database user to have SELECT access on the DLM schema in the same PostgreSQL instance.
+    * - ``api.postgresql.dlmSchema``
+      - ``"dlm"``
+      - PostgreSQL schema where the DLM ``data_item`` table resides.
+    * - ``api.postgresql.dlmMetadataTableName``
+      - ``"data_item"``
+      - Name of the DLM table the dashboard database user has SELECT access to.
+    * - ``api.streamChunkSize``
       - ``65536``
-      - Data downloaded are streamed in stream_chunk_size chunks.
+      - Chunk size in bytes for streaming file downloads.
     * - ``api.resources.requests.cpu``
-      - ``500m``
+      - ``200m``
       - The requested minimum CPU usage of the api.
     * - ``api.resources.requests.memory``
-      - ``1024Mi``
+      - ``200Mi``
       - The requested minimum memory usage of the api.
     * - ``api.resources.limits.cpu``
       - ``1000m``
       - The maximum CPU usage of the api.
     * - ``api.resources.limits.memory``
-      - ``2048Mi``
+      - ``600Mi``
       - The maximum memory usage of the api.
 
 
@@ -175,7 +223,7 @@ This section details the configuration options available when deploying the Data
       - ``artefact.skao.int/ska-dataproduct-dashboard``
       - The link to the artefact repository
     * - ``dashboard.version``
-      - ``0.13.0``
+      - ``0.17.0``
       - The version of the ska-dataproduct-dashboard to use.
     * - ``dashboard.imagePullPolicy``
       - ``IfNotPresent``
@@ -186,21 +234,24 @@ This section details the configuration options available when deploying the Data
     * - ``dashboard.apiRefreshRate``
       - ``10000``
       - The polling rate for new data from the API.
+    * - ``dashboard.dataGridDefaultPageSize``
+      - ``25``
+      - Default number of rows per page in the data grid.
     * - ``dashboard.resources.requests.cpu``
-      - ``500m``
+      - ``1000m``
       - The requested minimum CPU usage of the dashboard.
     * - ``dashboard.resources.requests.memory``
-      - ``1024Mi``
+      - ``2048Mi``
       - The requested minimum memory usage of the dashboard.
     * - ``dashboard.resources.limits.cpu``
-      - ``1000m``
+      - ``2000m``
       - The maximum CPU usage of the dashboard.
     * - ``dashboard.resources.limits.memory``
-      - ``2048Mi``
+      - ``3072Mi``
       - The maximum memory usage of the dashboard.
 
 
-**Required Dashboard secrets**:
+**Dashboard secrets**:
 
 .. list-table::
     :widths: 50, 50
@@ -282,13 +333,13 @@ The vault-secret-sync subchart is an optional helper that automatically syncs se
       - ``360s``
       - How often to refresh secrets from Vault
     * - ``vault-secret-sync.secrets.dashboard.vaultPath``
-      - ``phoenix/sdhp-stfc/integration/ska-dataproduct-dashboard``
+      - ``vault/path/ska-dataproduct-dashboard``
       - Vault path to dashboard secrets
     * - ``vault-secret-sync.secrets.dashboard.secretName``
       - ``ska-dataproduct-dashboard-dashboard-secret``
       - Kubernetes secret name for dashboard
     * - ``vault-secret-sync.secrets.api.vaultPath``
-      - ``phoenix/sdhp-stfc/integration/ska-sdp-dataproduct-api``
+      - ``vault/path/ska-dataproduct-api``
       - Vault path to API secrets
     * - ``vault-secret-sync.secrets.api.secretName``
       - ``ska-dataproduct-dashboard-api-secret``
@@ -346,6 +397,9 @@ Shared Persistent Volume Configuration
     * - Value
       - Default
       - Description
+    * - ``dataProductPVC.enabled``
+      - ``true``
+      - Whether to mount the shared PVC to the API pod.
     * - ``dataProductPVC.name``
       - ``shared``
       - Name of the PVC shared between pipeline and dashboard namespaces
@@ -433,6 +487,6 @@ From the master branch, the application can be deployed into the integration or 
    Deployment from pipeline on master branch
 
 
-The deployed Data Product Dashboard should then be accessible at: "https://sdhp.stfc.skao.int/$KUBE_NAMESPACE/dashboard/", and the backend should be accessible at: "https://sdhp.stfc.skao.int/$KUBE_NAMESPACE/api/"
+The deployed Data Product Dashboard should then be accessible at: ``https://sdhp.stfc.skao.int/$KUBE_NAMESPACE/dashboard/``, and the backend should be accessible at: ``https://sdhp.stfc.skao.int/$KUBE_NAMESPACE/api/``
 
 
