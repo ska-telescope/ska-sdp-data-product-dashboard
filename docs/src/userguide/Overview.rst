@@ -4,7 +4,7 @@ Overview
 The data product dashboard lists, searches, and enables download of data products saved on a shared data volume.
 This documentation guides you through the dashboard's features for finding data products and viewing their metadata.
 
-On DP Platform, an example dashboard is accessible at `this address <https://sdhp.stfc.skao.int/integration-ska-dataproduct-dashboard/dashboard/#>`_.
+On the DP Platform, an example dashboard is accessible at `this address <https://sdhp.stfc.skao.int/integration-ska-dataproduct-dashboard/dashboard/#>`_.
 To set up the dashboard locally, see the Developer Guide.
 
 Usage
@@ -29,7 +29,7 @@ Among these parameters the user can give a date range. If multiple search parame
    Example Data Product Dashboard search with time range and key value pair.
 
 On initial load the table presents only default columns. Additional columns can be selected or selected columns deselected.
-This is can be done by selecting or deselecting columns in the `Manage Columns` modal.
+This can be done by selecting or deselecting columns in the `Manage Columns` modal.
 
 .. figure:: /_static/img/manageColumns.png
    :width: 45%
@@ -131,5 +131,3 @@ Connecting to an SDP Configuration Database
 The dashboard can connect to a Science Data Processor (SDP) Configuration Database (Config DB) to retrieve data flow information.
 Data flow objects indicate the status of a data product — for example, whether it is already available or still being written.
 The dashboard displays flow keys and status alongside data products in the table.
-
-.. note:: Reserving data products in buffer space via the SDP Config DB is not yet implemented.

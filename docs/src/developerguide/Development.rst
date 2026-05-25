@@ -11,8 +11,9 @@ This project requires **Node** and **YARN** to install and run. To install pleas
 Alternatively, the official Node docker image can be used.
 Instructions can be found on the `official Node docker image site <https://github.com/nodejs/docker-node/blob/master/README.md#how-to-use-this-image>`_.
 
-After installing Node, YARN can be installed following `this page <https://yarnpkg.com/getting-started/install>`_. Currently, the repository only accepts classical YARN versions.
-We recommend using 1.22.22, and under corepack you can set this by
+After installing Node, Yarn can be installed following `this page <https://yarnpkg.com/getting-started/install>`_.
+This project requires Yarn v1.x; v2 and above is not supported.
+The recommended version is 1.22.22, which can be set via corepack:
 
 .. code-block:: bash
 
@@ -42,7 +43,7 @@ Clone the repository and its submodules:
 
 .. code-block:: bash
 
-    git clone --recursive https://gitlab.com/ska-telescope/ska-dataproduct-dashboard.git
+    git clone --recurse-submodules https://gitlab.com/ska-telescope/ska-dataproduct-dashboard.git
 
 Scripts for running, testing, and building the application are defined in the scripts section of the package.json file.
 These are run using YARN.
@@ -202,6 +203,8 @@ locally.
 4. Create a new namespace (optional): ``kubectl create namespace [namespace]``
 5. Install the helm chart with the following values: 
 
+.. code-block:: bash
+
     helm install [deploy-name] charts/ska-dataproduct-dashboard -n [namespace] --values values_local_deployment.yaml
 
 On a system with limited resources / slow connection, run with the following additional flags:
@@ -298,18 +301,3 @@ Priority chain on first load
 On first load (or after field-set invalidation), ``visibilityModel`` is built from
 ``col.hide``, stored to ``localStorage`` as ``defaultColumns``, and used immediately.
 On subsequent loads the stored preferences take priority.
-
-How to change the default visible set
--------------------------------------
-
-Edit ``DEFAULT_COLUMNS`` in
-``ska-dataproduct-api/src/ska_dataproduct_api/configuration/settings.py``.
-The list order also controls the column display order in the DataGrid.
-
-To override per deployment without a code change, set the environment variable:
-
-.. code-block:: bash
-
-    SKA_DATAPRODUCT_API_DEFAULT_COLUMNS='["execution_block","date_created","obscore.s_ra"]'
-
-The value must be a valid JSON array of field-name strings.

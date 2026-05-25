@@ -1,14 +1,6 @@
 Deployment Guide
 ~~~~~~~~~~~~~~~~
 
-The Data Product Dashboard is deployed as a Kubernetes service that provides access to
-data products stored on a shared persistent volume. It consists of a React frontend and
-the Data Product API backend, both deployed via a single Helm chart. Key deployment
-decisions include the choice of metadata store (PostgreSQL or in-memory), optional
-integration with the DLM database, and optional connection to an SDP Configuration
-Database.
-
-
 Pre-requisites
 ==============
 
@@ -30,6 +22,23 @@ Pre-requisites
 
       dataProductPVC:
         name: shared
+
+
+- **PostgreSQL** *(optional)*:
+
+  By default the API stores metadata in memory and all indexed data is lost on restart.
+  To persist metadata across restarts, provide a PostgreSQL instance and set
+  ``api.postgresql.host``, ``api.postgresql.dbname``, and ``api.postgresql.schema``
+  in the values file.  The API will create and manage its own tables automatically on
+  first startup.
+
+- **DLM Integration** *(optional)*:
+
+  If the deployment shares a PostgreSQL instance with the Data Lifecycle Manager (DLM),
+  the dashboard can surface DLM-registered data items alongside PV-indexed products.
+  This requires the dashboard database user to have ``SELECT`` access on the DLM schema
+  (``dlm`` by default) in the same PostgreSQL instance.  Enable the feature by setting
+  ``api.postgresql.dlmInterfaceEnabled: true``.
 
 
 Helm chart configuration options
@@ -112,7 +121,7 @@ This section details the configuration options available when deploying the Data
       - Shared PostgreSQL table used for multi-instance indexing coordination. Override only when running multiple independent DPD stacks in the same schema.
     * - ``api.sdpConfigdbHost``
       - ``""``
-      - Host path to an SDP Configuration DB. Example: "ska-sdp-etcd.dp-shared"
+      - Host of the SDP Configuration DB (etcd). Leave empty to disable SDP flow enrichment. Example: ``"ska-sdp-etcd.dp-shared"``
     * - ``api.sdpWatcherTimeoutSeconds``
       - ``30.0``
       - Seconds the SDP flow watcher waits for an etcd event before looping.
@@ -122,6 +131,9 @@ This section details the configuration options available when deploying the Data
     * - ``api.useLocalTestData``
       - ``false``
       - Load mock SDP flow data without a live etcd connection. For development only — never enable in production.
+    * - ``api.dashboardPort``
+      - ``"8100"``
+      - Dashboard port used to build the CORS allowed-origins list on the API.
     * - ``api.postgresql.host``
       - ``""``
       - The PostgreSQL host. Leave empty to disable PostgreSQL and use in-memory storage.
@@ -132,11 +144,11 @@ This section details the configuration options available when deploying the Data
       - ``postgres``
       - The PostgreSQL user.
     * - ``api.postgresql.dbname``
-      -
-      - The PostgreSQL database name.
+      - ``""``
+      - The PostgreSQL database name. Required when PostgreSQL is enabled.
     * - ``api.postgresql.schema``
-      -
-      - The PostgreSQL schema name.
+      - ``""``
+      - The PostgreSQL schema name. Required when PostgreSQL is enabled.
     * - ``api.postgresql.metadataTableName``
       - ``""`` (auto-derived)
       - PostgreSQL table for data product metadata. See
@@ -167,7 +179,7 @@ This section details the configuration options available when deploying the Data
       - Name of the DLM table the dashboard database user has SELECT access to.
     * - ``api.streamChunkSize``
       - ``65536``
-      - Data downloaded are streamed in streamChunkSize chunks.
+      - Chunk size in bytes for streaming file downloads.
     * - ``api.resources.requests.cpu``
       - ``200m``
       - The requested minimum CPU usage of the api.
@@ -321,13 +333,13 @@ The vault-secret-sync subchart is an optional helper that automatically syncs se
       - ``360s``
       - How often to refresh secrets from Vault
     * - ``vault-secret-sync.secrets.dashboard.vaultPath``
-      - ``phoenix/sdhp-stfc/integration/ska-dataproduct-dashboard``
+      - ``vault/path/ska-dataproduct-dashboard``
       - Vault path to dashboard secrets
     * - ``vault-secret-sync.secrets.dashboard.secretName``
       - ``ska-dataproduct-dashboard-dashboard-secret``
       - Kubernetes secret name for dashboard
     * - ``vault-secret-sync.secrets.api.vaultPath``
-      - ``phoenix/sdhp-stfc/integration/ska-sdp-dataproduct-api``
+      - ``vault/path/ska-dataproduct-api``
       - Vault path to API secrets
     * - ``vault-secret-sync.secrets.api.secretName``
       - ``ska-dataproduct-dashboard-api-secret``
@@ -385,6 +397,9 @@ Shared Persistent Volume Configuration
     * - Value
       - Default
       - Description
+    * - ``dataProductPVC.enabled``
+      - ``true``
+      - Whether to mount the shared PVC to the API pod.
     * - ``dataProductPVC.name``
       - ``shared``
       - Name of the PVC shared between pipeline and dashboard namespaces
@@ -472,6 +487,6 @@ From the master branch, the application can be deployed into the integration or 
    Deployment from pipeline on master branch
 
 
-The deployed Data Product Dashboard should then be accessible at: "https://sdhp.stfc.skao.int/$KUBE_NAMESPACE/dashboard/", and the backend should be accessible at: "https://sdhp.stfc.skao.int/$KUBE_NAMESPACE/api/"
+The deployed Data Product Dashboard should then be accessible at: ``https://sdhp.stfc.skao.int/$KUBE_NAMESPACE/dashboard/``, and the backend should be accessible at: ``https://sdhp.stfc.skao.int/$KUBE_NAMESPACE/api/``
 
 
