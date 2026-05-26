@@ -2,10 +2,11 @@
 api:
   sdpConfigdbHost: "ska-sdp-etcd.dp-shared"
   postgresql:
-    host: "pgdev-lb.cnpgdev.svc.cluster.local"
+    host: "pgdp.pgprod.svc.cluster.local"
     user: "sdp_sdp_dataproduct_dashboard_integration"
-    dbname: "integration"
+    dbname: "ska_dlm_meta"
     schema: "sdp_sdp_dataproduct_dashboard_integration"
+    dlmInterfaceEnabled: true
 
 vault-secret-sync:
   enabled: true
