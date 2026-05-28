@@ -11,7 +11,7 @@
 # Make production deployment to allow application to be run with Helm and Nginx image
 production-deploy:
 	cp -R public /dist/
-	yarn webpack build --optimization-concatenate-modules --mode production --optimization-minimize --output-clean --output-path /dist/
+	yarn vite build --mode production --outDir /dist/
 
 dev-local-env:
 	-rm public/env.js src/env.ts

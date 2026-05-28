@@ -7,18 +7,20 @@ import { AuthProvider } from '@ska-telescope/ska-login-page';
 import { MSENTRA_CLIENT_ID, MSENTRA_TENANT_ID, MSENTRA_REDIRECT_URI } from '@utils/constants';
 
 const container = document.getElementById('root');
-const root = createRoot(container);
+if (!container) {
+  throw new Error('Root container missing from index.html');
+}
 
-root.render(
-    <StoreProvider>
-      <AuthProvider
-        MSENTRA_CLIENT_ID={MSENTRA_CLIENT_ID}
-        MSENTRA_TENANT_ID={MSENTRA_TENANT_ID}
-        MSENTRA_REDIRECT_URI={MSENTRA_REDIRECT_URI}
-      >
-        <React.StrictMode>
-          <App />
-        </React.StrictMode>
-      </AuthProvider>
-    </StoreProvider>
+createRoot(container).render(
+  <StoreProvider>
+    <AuthProvider
+      MSENTRA_CLIENT_ID={MSENTRA_CLIENT_ID}
+      MSENTRA_TENANT_ID={MSENTRA_TENANT_ID}
+      MSENTRA_REDIRECT_URI={MSENTRA_REDIRECT_URI}
+    >
+      <React.StrictMode>
+        <App />
+      </React.StrictMode>
+    </AuthProvider>
+  </StoreProvider>
 );

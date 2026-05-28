@@ -5,6 +5,8 @@
 Run: "make dev-local-env" to update it
 */
 
+/// <reference types="vite/client" />
+
 declare global {
   interface Window {
     env: any;
@@ -24,7 +26,7 @@ type EnvType = {
   REACT_APP_USE_LOCAL_DATA: boolean;
 };
 export const env: EnvType = {
-  ...process.env,
   ...window.env,
-  ...(typeof Cypress !== 'undefined' ? Cypress.env() : {})
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  ...((window as any).Cypress?.env?.() ?? {}),
 };

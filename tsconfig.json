@@ -1,29 +1,39 @@
 {
   "compilerOptions": {
-    "target": "es5",
-    "esModuleInterop": true,
-    "forceConsistentCasingInFileNames": true,
-    "strict": true,
-    "skipLibCheck": true,
-    "resolveJsonModule": true,
-
-    "jsx": "react",
+    "target": "ESNext",
+    "useDefineForClassFields": true,
+    "lib": ["ESNext", "DOM", "DOM.Iterable"],
     "module": "ESNext",
-    "declaration": true,
-    "declarationDir": "types",
-    "sourceMap": true,
-    "outDir": "dist",
-    "moduleResolution": "node",
-    "allowJs": true,
-    "allowSyntheticDefaultImports": true,
-    "emitDeclarationOnly": true,
+    "skipLibCheck": true,
 
-    "baseUrl": "src/",
+    "moduleResolution": "bundler",
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "noEmit": true,
+    "jsx": "react-jsx",
+
+    "strict": true,
+    "noUnusedLocals": false,
+    "noUnusedParameters": false,
+    "noFallthroughCasesInSwitch": true,
+    "forceConsistentCasingInFileNames": true,
+
+    "baseUrl": ".",
     "paths": {
-      "@components/*": ["components/*"],
-      "@services/*": ["services/*"],
-      "@utils/*": ["utils/*"],
-      "@contexts/*": ["contexts/*"]
-    }
-  }
+      "@/*":           ["src/*"],
+      "@components/*": ["src/components/*"],
+      "@services/*":   ["src/services/*"],
+      "@utils/*":      ["src/utils/*"],
+      "@contexts/*":   ["src/contexts/*"],
+      "@pages/*":      ["src/pages/*"],
+      "types/*":       ["src/types/*"]
+    },
+
+    "types": ["vite/client", "node"],
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "allowJs": true
+  },
+  "include": ["src", "vite.config.ts"],
+  "exclude": ["node_modules", "**/*.cy.ts", "**/*.cy.tsx"]
 }

@@ -2,8 +2,7 @@ import { env } from '../env';
 
 export const VERSION = env.REACT_APP_VERSION || 'unknown';
 
-export const { NODE_ENV } = process.env;
-export const IS_DEV = NODE_ENV !== 'production';
+export const IS_DEV = import.meta.env.MODE !== 'production';
 export const USE_LOCAL_DATA = env.REACT_APP_USE_LOCAL_DATA;
 export const API_REFRESH_RATE = env.REACT_APP_API_REFRESH_RATE;
 export const SKA_DATAPRODUCT_API_URL = env.REACT_APP_SKA_DATAPRODUCT_API_URL;
