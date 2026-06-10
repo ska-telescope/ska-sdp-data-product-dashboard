@@ -20,13 +20,13 @@
 
     "baseUrl": ".",
     "paths": {
-      "@/*":           ["src/*"],
+      "@/*": ["src/*"],
       "@components/*": ["src/components/*"],
-      "@services/*":   ["src/services/*"],
-      "@utils/*":      ["src/utils/*"],
-      "@contexts/*":   ["src/contexts/*"],
-      "@pages/*":      ["src/pages/*"],
-      "types/*":       ["src/types/*"]
+      "@services/*": ["src/services/*"],
+      "@utils/*": ["src/utils/*"],
+      "@contexts/*": ["src/contexts/*"],
+      "@pages/*": ["src/pages/*"],
+      "types/*": ["src/types/*"]
     },
 
     "types": ["vite/client", "node"],

@@ -28,5 +28,5 @@ type EnvType = {
 export const env: EnvType = {
   ...window.env,
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  ...((window as any).Cypress?.env?.() ?? {}),
+  ...((window as any).Cypress?.env?.() ?? {})
 };

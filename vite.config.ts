@@ -6,7 +6,7 @@ import istanbul from 'vite-plugin-istanbul';
 export default defineConfig({
   base: './',
   resolve: {
-    dedupe: ['react', 'react-dom'],
+    dedupe: ['react', 'react-dom']
   },
   build: {
     chunkSizeWarningLimit: 8000,
@@ -18,23 +18,24 @@ export default defineConfig({
           if (id.includes('node_modules')) {
             return 'vendor';
           }
-        },
-      },
-    },
+        }
+      }
+    }
   },
   plugins: [
     react(),
     viteTsconfigPaths(),
     // Istanbul instrumentation only during Cypress runs, not normal dev
-    process.env.CYPRESS_COVERAGE === 'true' && istanbul({
-      include: 'src/**/*.{js,jsx,ts,tsx}',
-      exclude: ['node_modules', 'tests/cypress/', '**/*.test.*', '**/*.cy.*'],
-      extension: ['.js', '.jsx', '.ts', '.tsx'],
-      cypress: true,
-    }),
+    process.env.CYPRESS_COVERAGE === 'true' &&
+      istanbul({
+        include: 'src/**/*.{js,jsx,ts,tsx}',
+        exclude: ['node_modules', 'tests/cypress/', '**/*.test.*', '**/*.cy.*'],
+        extension: ['.js', '.jsx', '.ts', '.tsx'],
+        cypress: true
+      })
   ].filter(Boolean),
   server: {
     host: true,
-    port: 8100,
-  },
+    port: 8100
+  }
 });
