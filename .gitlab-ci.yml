@@ -1,5 +1,5 @@
 default:
-  image: node:20.11.1
+  image: node:22.22.3
 
 variables:
   GIT_SUBMODULE_STRATEGY: recursive
@@ -76,7 +76,7 @@ code_analysis:
 
 # run the cypress test coverage reports
 test_and_coverage:
-  image: cypress/browsers:node-20.11.1-chrome-123.0.6312.58-1-ff-124.0-edge-122.0.2365.92-1
+  image: cypress/browsers:node-22.21.0-chrome-141.0.7390.107-1-ff-144.0-edge-141.0.3537.92-1
   stage: test
   tags:
     - ${SKA_DEFAULT_RUNNER}
