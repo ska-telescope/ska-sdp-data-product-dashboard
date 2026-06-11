@@ -24,7 +24,7 @@ export default mergeConfig(
         include: ['src/**/*.{ts,tsx}'],
         exclude: ['src/main.tsx', 'src/env.ts', '**/__mocks__/**']
       },
-      exclude: ['tests/cypress/**', 'node_modules/**']
+      exclude: ['node_modules/**']
     }
   })
 );

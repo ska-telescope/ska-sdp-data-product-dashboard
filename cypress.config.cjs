@@ -9,20 +9,10 @@ module.exports = defineConfig({
     REACT_APP_USE_LOCAL_DATA: true,
     REACT_APP_API_REFRESH_RATE: 30000,
   },
-  component: {
-    devServer: {
-      framework: "react",
-      bundler: "vite",
-    },
-    setupNodeEvents(on, config) {
-      return require('./cypress/plugins/index.js')(on, config)
-    },
-  },
-
   e2e: {
     setupNodeEvents(on, config) {
       // implement node event listeners here
-      return require('./cypress/plugins/index.js')(on, config)
+      return require('./cypress/plugins/index.cjs')(on, config)
     },
     pageLoadTimeout: 120000, // 120 seconds
   },

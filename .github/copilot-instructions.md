@@ -27,8 +27,8 @@ yarn prettier:fix  # auto-fix Prettier issues
 
 ### Tests
 
-This repo uses **Vitest** for unit tests and **Cypress** for component/e2e tests.
-Do not add Jest tests.
+This repo uses **Vitest** for unit tests and **Cypress** for e2e tests.
+Do not add Jest tests. Do not add Cypress component tests.
 
 ```bash
 # Unit tests (Vitest)
@@ -38,9 +38,6 @@ yarn test:unit:ui
 # Cypress interactive runner
 yarn cypress:open
 
-# Cypress headless (default cypress run mode)
-yarn cypress:run
-
 # End-to-end tests (CI)
 yarn test:cypress:e2e:ci
 ```
@@ -48,7 +45,6 @@ yarn test:cypress:e2e:ci
 Test locations:
 
 - Unit tests: `tests/unit/**/*.test.{ts,tsx}`
-- Cypress component tests: colocated in `src/**` as `*.cy.tsx`
 - Cypress e2e tests: `cypress/e2e/**/*.cy.js`
 
 ## Project layout
@@ -63,7 +59,11 @@ src/                        # React application source
   utils/                    # pure utility functions
   env.ts                    # runtime environment variable types
 tests/                      # Vitest unit tests
-cypress/                    # Cypress e2e data, config, plugins, support
+cypress/                    # Cypress e2e tests, plugins, and support
+  e2e/                      # e2e test specs
+  support/                  # Cypress support files
+  plugins/                  # Cypress plugins
+  fixtures/                 # test fixtures
 charts/                     # Helm chart for Kubernetes deployment
   ska-dataproduct-dashboard/
     values.yaml             # default Helm values
@@ -80,6 +80,7 @@ tsconfig.json               # TypeScript compiler config
 - **React** with **TypeScript** (`.tsx` / `.ts`).
 - **Vite** for dev server and production bundling.
 - **Vitest** for unit tests.
+- **Cypress** for e2e tests (`cypress.config.cjs` — CommonJS because `package.json` has `"type": "module"`).
 - **MUI** (`@mui/material`) for UI components.
 - **Axios** for HTTP requests.
 - `@ska-telescope/ska-gui-components` for SKAO-shared UI components.
@@ -94,13 +95,9 @@ tsconfig.json               # TypeScript compiler config
 ## Testing conventions
 
 - Use Vitest for unit tests (`tests/unit/**/*.test.{ts,tsx}`).
-- Use Cypress component testing for isolated component behaviour.
-- Use Cypress e2e tests for full user-journey flows.
-- Cypress component tests are colocated with source files as `*.cy.tsx`.
-- Cypress e2e tests are under `cypress/e2e/`.
+- Use Cypress e2e tests for full user-journey flows (`cypress/e2e/`).
+- Do not add Cypress component tests — component behaviour is covered by Vitest.
 - Vitest is configured with `happy-dom` and setup file `src/setupTests.ts`.
-- Keep tests in the existing framework split (Vitest for unit logic,
-  Cypress for UI flows).
 - **Test coverage discipline**: each code path should be covered by exactly one
   test. Do not write multiple tests that exercise the same branch or condition.
   Prefer `context`/`it` blocks for variations of the same logic rather than
@@ -146,6 +143,27 @@ When UI behavior, routing, or API integration changes are involved, also run:
 ```bash
 yarn test:cypress:e2e:ci
 ```
+
+## Changelog
+
+Every change that is part of a ticket must have a corresponding entry added to `CHANGELOG.md` under an `## Unreleased` section at the top of the file. Create the section if it does not exist.
+
+Format:
+
+```markdown
+## Unreleased
+
+- [TICKET-123](https://jira.skatelescope.org/browse/TICKET-123)
+
+  - [Added] / [Changed] / [Fixed] / [Removed] Brief description of what changed and why.
+```
+
+Rules:
+
+- One bullet per logical change. Do not group unrelated changes under one bullet.
+- Use `[Added]`, `[Changed]`, `[Fixed]`, or `[Removed]` as the tag.
+- One line per bullet — no implementation detail, no code references.
+- This step is **mandatory** and must be done before marking work as ready for review.
 
 ## Code quality rules (apply when generating or modifying code)
 
