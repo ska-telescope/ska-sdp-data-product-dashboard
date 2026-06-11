@@ -45,7 +45,7 @@ yarn test:cypress:e2e:ci
 Test locations:
 
 - Unit tests: `tests/unit/**/*.test.{ts,tsx}`
-- Cypress e2e tests: `cypress/e2e/**/*.cy.js`
+- Cypress e2e tests: `tests/e2e/cypress/e2e/**/*.cy.js`
 
 ## Project layout
 
@@ -58,12 +58,14 @@ src/                        # React application source
   types/                    # TypeScript type definitions
   utils/                    # pure utility functions
   env.ts                    # runtime environment variable types
-tests/                      # Vitest unit tests
-cypress/                    # Cypress e2e tests, plugins, and support
-  e2e/                      # e2e test specs
-  support/                  # Cypress support files
-  plugins/                  # Cypress plugins
-  fixtures/                 # test fixtures
+tests/                      # all tests
+  unit/                     # Vitest unit tests
+  e2e/
+    cypress/                # Cypress e2e tests, plugins, and support
+      e2e/                  # e2e test specs
+      support/              # Cypress support files
+      plugins/              # Cypress plugins
+      fixtures/             # test fixtures
 charts/                     # Helm chart for Kubernetes deployment
   ska-dataproduct-dashboard/
     values.yaml             # default Helm values

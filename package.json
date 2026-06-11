@@ -20,7 +20,7 @@
     "prettier:fix": "prettier --write \"**/*\"",
     "skao:update": "yarn add @ska-telescope/ska-gui-components@latest @ska-telescope/ska-gui-local-storage@latest",
     "test:unit": "vitest run --no-file-parallelism --reporter=default --reporter=junit --outputFile=build/reports/unit-tests.xml --coverage.enabled=true --coverage.reportsDirectory=build/coverage",
-    "test:unit:ui": "vitest --coverage.enabled=true --reporter=default --ui",
+    "test:unit:ui": "vitest --coverage.enabled=true --reporter=default --ui --api.host 127.0.0.1 --api.port 5174",
     "cypress:open": "cypress open",
     "cypress:run": "cypress run --config video=false",
     "test:cypress:e2e:ci": "cross-env cypress run --e2e --headless --browser chrome --reporter junit --reporter-options mochaFile=build/tests/e2e-tests[hash].xml",
