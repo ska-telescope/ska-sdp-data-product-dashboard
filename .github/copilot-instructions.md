@@ -6,7 +6,15 @@
 - Install deps: `yarn install`
 - Add a package: `yarn add <package>`
 
-## How to run linting and tests
+## How to run development, linting, and tests
+
+### Development and build
+
+```bash
+yarn dev      # local dev server via Vite
+yarn build    # production bundle via Vite
+yarn preview  # preview the production build
+```
 
 ### Linting
 
@@ -19,20 +27,29 @@ yarn prettier:fix  # auto-fix Prettier issues
 
 ### Tests
 
-Tests use **Cypress** only — both component and e2e. There are no Jest unit tests; do not create `.test.ts` / `.test.tsx` files.
+This repo uses **Vitest** for unit tests and **Cypress** for component/e2e tests.
+Do not add Jest tests.
 
 ```bash
-# Component tests (interactive)
+# Unit tests (Vitest)
+yarn test:unit
+yarn test:unit:ui
+
+# Cypress interactive runner
 yarn cypress:open
 
-# Component tests (headless CI)
-yarn test:cypress:component:ci
+# Cypress headless (default cypress run mode)
+yarn cypress:run
 
-# End-to-end tests (headless CI)
+# End-to-end tests (CI)
 yarn test:cypress:e2e:ci
 ```
 
-Test files live under `cypress/` and use the `.cy.tsx` extension.
+Test locations:
+
+- Unit tests: `tests/unit/**/*.test.{ts,tsx}`
+- Cypress component tests: colocated in `src/**` as `*.cy.tsx`
+- Cypress e2e tests: `cypress/e2e/**/*.cy.js`
 
 ## Project layout
 
@@ -45,20 +62,24 @@ src/                        # React application source
   types/                    # TypeScript type definitions
   utils/                    # pure utility functions
   env.ts                    # runtime environment variable types
-cypress/                    # Cypress component and e2e tests
+tests/                      # Vitest unit tests
+cypress/                    # Cypress e2e data, config, plugins, support
 charts/                     # Helm chart for Kubernetes deployment
   ska-dataproduct-dashboard/
     values.yaml             # default Helm values
     templates/              # Kubernetes manifest templates
 public/                     # static assets
 env_scripts/                # env config generation scripts
-webpack.config.js           # Webpack bundle config
+vite.config.ts              # Vite app config
+vitest.config.ts            # Vitest config
 tsconfig.json               # TypeScript compiler config
 ```
 
 ## Framework and language
 
 - **React** with **TypeScript** (`.tsx` / `.ts`).
+- **Vite** for dev server and production bundling.
+- **Vitest** for unit tests.
 - **MUI** (`@mui/material`) for UI components.
 - **Axios** for HTTP requests.
 - `@ska-telescope/ska-gui-components` for SKAO-shared UI components.
@@ -67,17 +88,19 @@ tsconfig.json               # TypeScript compiler config
 
 - Strict mode is enabled (`"strict": true` in `tsconfig.json`).
 - All component props and function signatures must have explicit types.
-- Use path aliases defined in `tsconfig.json`: `@components/*`, `@services/*`,
-  `@utils/*`, `@contexts/*`.
+- Use path aliases defined in `tsconfig.json`: `@/*`, `@components/*`,
+  `@services/*`, `@utils/*`, `@contexts/*`, `@pages/*`, `types/*`.
 
 ## Testing conventions
 
-- All tests live under `cypress/` as `.cy.tsx` files.
+- Use Vitest for unit tests (`tests/unit/**/*.test.{ts,tsx}`).
 - Use Cypress component testing for isolated component behaviour.
 - Use Cypress e2e tests for full user-journey flows.
-- Do not write Jest tests — the Jest config exists for legacy reasons only.
-- When adding tests, follow the existing component test pattern: mount the
-  component, interact via Cypress commands, assert on rendered output.
+- Cypress component tests are colocated with source files as `*.cy.tsx`.
+- Cypress e2e tests are under `cypress/e2e/`.
+- Vitest is configured with `happy-dom` and setup file `src/setupTests.ts`.
+- Keep tests in the existing framework split (Vitest for unit logic,
+  Cypress for UI flows).
 - **Test coverage discipline**: each code path should be covered by exactly one
   test. Do not write multiple tests that exercise the same branch or condition.
   Prefer `context`/`it` blocks for variations of the same logic rather than
@@ -108,14 +131,21 @@ frontend and the `ska-dataproduct-api` backend in one release.
 
 ## After any code change
 
-After **every** code change (new files, edits, or deletions), run both fixers in order and resolve all reported issues before considering the task done:
+After **every** code change (new files, edits, or deletions), run these checks in order and resolve all reported issues before considering the task done:
 
 ```bash
 yarn prettier:fix  # auto-fix Prettier formatting
 yarn lint:fix      # auto-fix ESLint issues
+yarn test:unit     # run Vitest suite
 ```
 
-If either command exits with an error that cannot be auto-fixed, manually correct the reported files until both commands exit cleanly with no errors.
+If any command exits with an error that cannot be auto-fixed, manually correct the reported files until all commands exit cleanly.
+
+When UI behavior, routing, or API integration changes are involved, also run:
+
+```bash
+yarn test:cypress:e2e:ci
+```
 
 ## Code quality rules (apply when generating or modifying code)
 
