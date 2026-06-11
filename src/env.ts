@@ -5,8 +5,6 @@
 Run: "make dev-local-env" to update it
 */
 
-/// <reference types="vite/client" />
-
 declare global {
   interface Window {
     env: any;

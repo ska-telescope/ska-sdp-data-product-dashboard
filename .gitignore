@@ -2,18 +2,18 @@
 
 # dependencies
 /node_modules
-/.pnp
-.pnp.js
 
-# testing
-/coverage
-/cypress/screenshots
-/cypress/videos
-/cypress/downloads
+# testing artifacts
+/build/coverage/
+/build/reports/
+/.nyc_output/
+/tests/cypress/screenshots/
+/tests/cypress/videos/
+/tests/cypress/downloads/
 
 # production
-/build
-/dist
+/build/
+/dist/
 
 # misc
 .DS_Store
@@ -27,8 +27,6 @@ env/
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
-
-/.nyc_output/*
 
 public/env.js
 
