@@ -12,7 +12,7 @@ module.exports = defineConfig({
   component: {
     devServer: {
       framework: "react",
-      bundler: "webpack",
+      bundler: "vite",
     },
     setupNodeEvents(on, config) {
       return require('./cypress/plugins/index.js')(on, config)
@@ -22,9 +22,7 @@ module.exports = defineConfig({
   e2e: {
     setupNodeEvents(on, config) {
       // implement node event listeners here
-      require('./cypress/plugins/index.js')(on, config)
-      on('file:preprocessor', require('@cypress/code-coverage/use-babelrc'))
-      return config
+      return require('./cypress/plugins/index.js')(on, config)
     },
     pageLoadTimeout: 120000, // 120 seconds
   },
