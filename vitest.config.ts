@@ -7,7 +7,7 @@ export default mergeConfig(
     test: {
       globals: true,
       environment: 'happy-dom',
-      include: ['tests/unit/**/*.test.{ts,tsx}'],
+      include: ['tests/vitest/**/*.test.{ts,tsx}'],
       setupFiles: ['src/setupTests.ts'],
       includeTaskLocation: true,
       server: {

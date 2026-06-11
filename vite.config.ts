@@ -29,7 +29,7 @@ export default defineConfig({
     process.env.CYPRESS_COVERAGE === 'true' &&
       istanbul({
         include: 'src/**/*.{js,jsx,ts,tsx}',
-        exclude: ['node_modules', 'tests/e2e/cypress/', '**/*.test.*', '**/*.cy.*'],
+        exclude: ['node_modules', 'tests/cypress/', '**/*.test.*', '**/*.cy.*'],
         extension: ['.js', '.jsx', '.ts', '.tsx'],
         cypress: true
       })

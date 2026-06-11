@@ -127,8 +127,8 @@ test_and_coverage:
     when: always
     paths:
       - build/
-      - tests/e2e/cypress/screenshots/
-      - tests/e2e/cypress/videos/
+      - tests/cypress/screenshots/
+      - tests/cypress/videos/
     reports:
       junit:
         - build/tests/e2e-tests*.xml

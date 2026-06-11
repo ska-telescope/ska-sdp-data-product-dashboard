@@ -5,7 +5,7 @@
 - [PHX-351](https://jira.skatelescope.org/browse/PHX-351)
 
   - [Changed] Migrated build toolchain from Webpack to Vite; replaced CRA dev server with `vite` and `vite preview`.
-  - [Changed] Replaced Jest/CRA unit test setup with Vitest using `happy-dom` and `@vitest/coverage-istanbul`; unit tests now live under `tests/unit/`.
+  - [Changed] Replaced Jest/CRA unit test setup with Vitest using `happy-dom` and `@vitest/coverage-istanbul`; unit tests now live under `tests/vitest/`.
   - [Changed] GitLab CI pipeline updated: added dedicated `unit_tests` job (Vitest + JUnit + Cobertura), updated `test_and_coverage` to Cypress e2e only with `CYPRESS_COVERAGE=true`, and wired `artifacts.reports.coverage_report` for both jobs.
 
 - [PHX-455](https://jira.skatelescope.org/browse/PHX-455)
