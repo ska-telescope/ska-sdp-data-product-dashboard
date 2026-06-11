@@ -8,7 +8,6 @@
   - [Changed] Replaced Jest/CRA unit test setup with Vitest using `happy-dom` and `@vitest/coverage-istanbul`; unit tests now live under `tests/unit/`.
   - [Changed] GitLab CI pipeline updated: added dedicated `unit_tests` job (Vitest + JUnit + Cobertura), updated `test_and_coverage` to Cypress e2e only with `CYPRESS_COVERAGE=true`, and wired `artifacts.reports.coverage_report` for both jobs.
 
-
 - [PHX-455](https://jira.skatelescope.org/browse/PHX-455)
 
   - [Changed] Helm chart PostgreSQL table names now default to empty, enabling automatic per-volume derivation in the API. Added `api.postgresql.dpdVolumeIdFile` value.
