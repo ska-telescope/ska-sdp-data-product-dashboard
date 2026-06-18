@@ -1,6 +1,8 @@
 # Changelog
 
 ## Unreleased
+- [PHX-520] (https://jira.skatelescope.org/browse/PHX-520)
+  [Changed] Fixed description bug.
 
 - [PHX-351](https://jira.skatelescope.org/browse/PHX-351)
 
