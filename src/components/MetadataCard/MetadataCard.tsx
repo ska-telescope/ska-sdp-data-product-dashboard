@@ -357,6 +357,9 @@ function MetadataCard(selectedDataProduct: SelectedDataProduct) {
   const { t } = useTranslation('dpd');
   const { t: tColumnsRaw } = useTranslation('humanreadable');
   const tColumns = (key: string): string => {
+    if (key === 'description') {
+      return 'Description';
+    }
     const translated = tColumnsRaw(key);
     if (translated === key) {
       const spaced = key.replace(/_/g, ' ');
