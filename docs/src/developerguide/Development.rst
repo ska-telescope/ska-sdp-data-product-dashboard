@@ -122,33 +122,52 @@ You can access your application at http://localhost:8100. The app will recompile
 
   > yarn start
 
-**Running the application tests using Cypress**
+**Running unit tests**
 
-The package `Cypress <https://www.cypress.io>`_ has been set up to provide component and end to end testing.
-For information on the use of Cypress, see `Cypress component-testing <https://docs.cypress.io/guides/component-testing/overview>`_.
+Unit tests use `Vitest <https://vitest.dev/>`_ with `happy-dom <https://github.com/capricorn86/happy-dom>`_.
+Tests live under ``tests/vitest/``.
 
-Code coverage is implemented with `Istanbul <https://istanbul.js.org/>`_ and `NYC <https://www.npmjs.com/package/nyc>`_ for instrumenting the code,
-and `cobertura reporter <https://istanbul.js.org/docs/advanced/alternative-reporters/#cobertura>`_ as it is used for reporting for the Gitlab CI of coverage statistics.
+Run all unit tests once (also generates coverage reports under ``build/coverage/``):
 
-Cypress can be opened in a browser by running the following (this will open an interactive session):
+.. code-block:: bash
+
+  > yarn test:unit
+
+Launch the interactive Vitest UI with live coverage:
+
+.. code-block:: bash
+
+  > yarn test:unit:ui
+
+**Running end-to-end tests using Cypress**
+
+`Cypress <https://www.cypress.io>`_ is used for end-to-end testing only.
+E2e test specs live under ``tests/cypress/e2e/``.
+
+Open Cypress interactively in a browser:
 
 .. code-block:: bash
 
   > yarn cypress:open
 
-Or alternatively unit and end to end tests can be run headless by: 
+Run e2e tests headless (as used in CI):
 
 .. code-block:: bash
 
-  > yarn test:cypress:component:ci
   > yarn test:cypress:e2e:ci
 
+E2e code coverage is instrumented via `vite-plugin-istanbul <https://github.com/ifaxity/vite-plugin-istanbul>`_
+and reported by `NYC <https://www.npmjs.com/package/nyc>`_ using the
+`cobertura reporter <https://istanbul.js.org/docs/advanced/alternative-reporters/#cobertura>`_
+for GitLab CI coverage statistics.
 
-Code coverage can be viewed by opening the `build/coverage/index.html` in a browser after running:
+Generate the e2e coverage report after a Cypress run:
 
 .. code-block:: bash
 
-  > yarn test:coverage:report
+  > yarn test:coverage:report:ci
+
+Unit coverage HTML can be viewed by opening ``build/coverage/index.html`` in a browser after running ``yarn test:unit``.
 
 **Running the production code**
 

@@ -1,5 +1,5 @@
 default:
-  image: node:20.11.1
+  image: node:22.22.3
 
 variables:
   GIT_SUBMODULE_STRATEGY: recursive
@@ -46,7 +46,7 @@ install_dependencies:
     - rm -rf node_modules
   script:
     - npm config set registry https://registry.npmjs.org/
-    - yarn install --immutable
+    - yarn install --frozen-lockfile
   cache:
     paths:
       - node_modules/
@@ -74,10 +74,38 @@ code_analysis:
     paths:
       - build/
 
-# run the cypress test coverage reports
-test_and_coverage:
-  image: cypress/browsers:node-20.11.1-chrome-123.0.6312.58-1-ff-124.0-edge-122.0.2365.92-1
+# Run Vitest unit tests and publish JUnit + Cobertura coverage reports
+unit_tests:
   stage: test
+  tags:
+    - ${SKA_DEFAULT_RUNNER}
+  dependencies:
+    - install_dependencies
+  cache:
+    paths:
+      - node_modules/
+    policy: pull
+  before_script:
+    - mkdir -p build/reports
+  script:
+    - yarn test:unit
+  artifacts:
+    when: always
+    paths:
+      - build/
+    reports:
+      junit:
+        - build/reports/unit-tests.xml
+      coverage_report:
+        coverage_format: cobertura
+        path: build/coverage/unit-coverage.xml
+
+# Run Cypress e2e tests and publish coverage reports
+test_and_coverage:
+  image: cypress/browsers:node-22.21.0-chrome-141.0.7390.107-1-ff-144.0-edge-141.0.3537.92-1
+  stage: test
+  variables:
+    CYPRESS_COVERAGE: 'true'
   tags:
     - ${SKA_DEFAULT_RUNNER}
   dependencies:
@@ -90,7 +118,6 @@ test_and_coverage:
     - mkdir -p build/reports
     - yarn cypress install
   script:
-    - yarn test:cypress:component:ci
     - yarn start &
     - npx wait-on http://localhost:8100/ --timeout 120000
     - yarn test:cypress:e2e:ci
@@ -100,10 +127,38 @@ test_and_coverage:
     when: always
     paths:
       - build/
-      - cypress/screenshots/
-      - cypress/videos/
+      - tests/cypress/screenshots/
+      - tests/cypress/videos/
     reports:
-      junit: build/tests/e2e-tests*.xml
+      junit:
+        - build/tests/e2e-tests*.xml
+      coverage_report:
+        coverage_format: cobertura
+        path: build/reports/code-coverage.xml
+
+# List the current top-level dependencies for the project
+list_dependencies:
+  stage: test
+  tags:
+    - ${SKA_DEFAULT_RUNNER}
+  dependencies:
+    - install_dependencies
+  allow_failure: true
+  cache:
+    paths:
+      - node_modules/
+    policy: pull
+  before_script:
+    - mkdir -p build/tests
+  script:
+    - yarn list --depth=0 --json >> npm_deps.json
+    - yarn list --depth=0  >> npm_deps.txt
+    - mkdir .public
+    - cp npm_deps.txt .public/
+    - cp npm_deps.json .public/
+  artifacts:
+    paths:
+      - .public
 
 # Build the application
 build:
@@ -119,37 +174,13 @@ build:
   script:
     - yarn build
 
-# list the current top level dependencies for the project
-list_dependencies:
-  stage: test
-  tags:
-    - ${SKA_DEFAULT_RUNNER}
-  dependencies:
-    - install_dependencies
-  allow_failure: true
-  cache:
-    paths:
-      - node_modules/
-    policy: pull
-  before_script:
-    - mkdir -p build/tests
-    - yarn cypress install
-  script:
-    - yarn list --depth=0 --json >> npm_deps.json
-    - yarn list --depth=0  >> npm_deps.txt
-    - mkdir .public
-    - cp npm_deps.txt .public/
-    - cp npm_deps.json .public/
-  artifacts:
-    paths:
-      - .public
-
-# export the report
+# Export reports and coverage to GitLab Pages
 pages:
   stage: pages
   tags:
     - ${SKA_DEFAULT_RUNNER}
   dependencies:
+    - unit_tests
     - test_and_coverage
     - list_dependencies
     - code_quality

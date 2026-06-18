@@ -115,9 +115,9 @@ EOF
         cat - <<EOF
 };
 export const env: EnvType = {
-  ...process.env,
   ...window.env,
-  ...(typeof Cypress !== 'undefined' ? Cypress.env() : {})
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  ...((window as any).Cypress?.env?.() ?? {})
 };
 EOF
     } > "$ENV_JS_OUTPUT_LOCATION"
