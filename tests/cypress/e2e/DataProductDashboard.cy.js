@@ -235,5 +235,39 @@ context('Select and download data product', () => {
       cy.findByTestId("Brightness7Icon").click();
     })
   })
+
+  describe('MetadataCard displays description label', () => {
+    // Test SKB-1375 "Description" is shown and not error.
+    const PRODUCT_UID = 'test-uid-description-001';
+
+    beforeEach(() => {
+      setUpForTests();
+      cy.intercept('POST', `${API_URL}/filterdataproducts`, [
+        {
+          id: PRODUCT_UID,
+          uid: PRODUCT_UID,
+          execution_block: 'eb-test-description-001',
+          date_created: '2024-01-01',
+          dataproduct_file: 'product/eb-test-description-001',
+          metadata_file: 'product/eb-test-description-001/ska-data-product.yaml',
+          metadata_store_name: 'test-store',
+        }
+      ]);
+      cy.intercept('POST', `${API_URL}/dataproductmetadata`, {
+        statusCode: 200,
+        body: {
+          ...ExampleMetadata,
+          files: [{ path: 'vis.ms', status: 'working', description: 'Raw visibility dump' }]
+        }
+      }).as('getMetadata');
+      cy.visit(LOCAL_HOST);
+    });
+
+    it('shows "Description" as the field label when description is a metadata key', () => {
+      cy.get('[role="row"][data-rowindex="0"]').should('be.visible').click();
+      cy.wait('@getMetadata');
+      cy.findByTestId('metadata-section-files').get('th:nth-child(3)').scrollIntoView().contains('Description').should('be.visible');
+    });
+  })
 })
 
