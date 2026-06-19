@@ -6,7 +6,7 @@
   "interface": "Interface",
   "dataproduct_file": "Data Product File",
   "metadata_file": "Metadata File",
-  "description": {
+  "_tooltip": {
     "execution_block": "Unique identifier for the execution block that produced this data product.",
     "date_created": "Date and time at which this data product was created by the pipeline.",
     "dataproduct_file": "Relative path to the primary data product file within the persistent storage volume.",
