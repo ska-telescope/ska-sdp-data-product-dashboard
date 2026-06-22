@@ -2,6 +2,9 @@
 
 ## Unreleased
 
+- [PHX-520] (https://jira.skatelescope.org/browse/PHX-520)
+  [Changed] Fixed description bug.
+
 - [PHX-351](https://jira.skatelescope.org/browse/PHX-351)
 
   - [Changed] Migrated build toolchain from Webpack to Vite; replaced CRA dev server with `vite` and `vite preview`.

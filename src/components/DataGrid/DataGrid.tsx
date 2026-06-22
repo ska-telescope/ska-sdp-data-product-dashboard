@@ -323,7 +323,7 @@ export default function DataproductDataGrid({
         columns: newData.columns.map((item) => ({
           ...item,
           headerName: tColumns(item.field),
-          description: tColumns(`description.${item.field}`) || undefined
+          description: tColumns(`_tooltip.${item.field}`) || undefined
         }))
       });
     } catch (error) {
