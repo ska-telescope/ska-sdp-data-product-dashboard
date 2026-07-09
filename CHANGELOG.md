@@ -1,6 +1,6 @@
 # Changelog
 
-## Unreleased
+## 0.19.0
 
 - [PHX-520](https://jira.skatelescope.org/browse/PHX-520)
 
