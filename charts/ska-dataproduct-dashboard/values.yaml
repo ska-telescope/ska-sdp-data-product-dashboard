@@ -7,7 +7,7 @@ ingress:
 api:
   enabled: true
   container: artefact.skao.int/ska-dataproduct-api
-  version: 0.17.0
+  version: 0.18.0
   imagePullPolicy: IfNotPresent
   replicas: 1
   secretName: ska-dataproduct-dashboard-api-secret
@@ -64,7 +64,7 @@ api:
     querySizeLimit: 10000
   resources:
     requests:
-      cpu: 200m
+      cpu: 500m
       memory: 200Mi
     limits:
       cpu: 1000m
@@ -73,7 +73,7 @@ api:
 dashboard:
   enabled: true
   container: artefact.skao.int/ska-dataproduct-dashboard
-  version: 0.18.0
+  version: 0.19.0
   imagePullPolicy: IfNotPresent
   secretName: ska-dataproduct-dashboard-dashboard-secret
   ingress:
@@ -82,11 +82,11 @@ dashboard:
   apiRefreshRate: 10000
   resources:
     requests:
-      cpu: 1000m
-      memory: 2048Mi
+      cpu: 250m
+      memory: 128Mi
     limits:
-      cpu: 2000m
-      memory: 3072Mi
+      cpu: 500m
+      memory: 256Mi
 
 dataProductPVC:
   enabled: true
