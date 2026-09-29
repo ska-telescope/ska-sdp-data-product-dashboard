@@ -1,5 +1,11 @@
 # Changelog
 
+## Development
+
+- [PHX-620]
+
+  - [Fixed] `MetadataCard` no longer crashes with `ReferenceError: formatLabel is not defined` when a metadata section contains both primitive and nested-object fields.
+
 ## 0.19.0
 
 - [PHX-520](https://jira.skatelescope.org/browse/PHX-520)

@@ -231,7 +231,7 @@ function renderSection(key: string, value: unknown, tColumns: (key: string) => s
   return (
     <Accordion key={key} defaultExpanded data-testid={`metadata-section-${key}`}>
       <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-        <Typography variant="subtitle2">{formatLabel(key)}</Typography>
+        <Typography variant="subtitle2">{tColumns(key)}</Typography>
       </AccordionSummary>
       <AccordionDetails>
         {Object.keys(primitiveEntries).length > 0 &&
