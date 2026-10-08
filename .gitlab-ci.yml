@@ -206,15 +206,15 @@ pages:
 
 deploy-dev-environment:
   stage: deploy
-  when: never
+  when: manual
 
 deploy-integration:
   stage: deploy
-  when: never
+  when: manual
 
 deploy-staging:
   stage: deploy
-  when: never
+  when: manual
 
 deploy-dev-environment-dp:
   stage: deploy-dp
