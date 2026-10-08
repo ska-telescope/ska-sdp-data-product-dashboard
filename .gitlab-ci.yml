@@ -27,11 +27,8 @@ stages:
   - scan
   - pages
   - publish
-  - deploy
   - deploy-dp
-  - integration
   - integration-dp
-  - staging
   - staging-dp
   - integration-psi-low
 
