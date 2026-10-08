@@ -27,8 +27,11 @@ stages:
   - scan
   - pages
   - publish
+  - deploy
   - deploy-dp
+  - integration
   - integration-dp
+  - staging
   - staging-dp
   - integration-psi-low
 
@@ -200,6 +203,18 @@ pages:
     echo "  https://sdhp.stfc.skao.int/$KUBE_NAMESPACE/dashboard/"
     echo "Backend API:"
     echo "  https://sdhp.stfc.skao.int/$KUBE_NAMESPACE/api/"
+
+deploy-dev-environment:
+  stage: deploy
+  when: never
+
+deploy-integration:
+  stage: deploy
+  when: never
+
+deploy-staging:
+  stage: deploy
+  when: never
 
 deploy-dev-environment-dp:
   stage: deploy-dp
