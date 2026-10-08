@@ -204,6 +204,9 @@ pages:
     echo "Backend API:"
     echo "  https://sdhp.stfc.skao.int/$KUBE_NAMESPACE/api/"
 
+# The following 3 jobs are for deploying to the development, integration, and staging 
+# environments in the TechOps cluster, and they are set to manually trigger, as the 
+# cluster is not currently used or configured for the DPD.
 deploy-dev-environment:
   stage: deploy
   when: manual
@@ -216,6 +219,7 @@ deploy-staging:
   stage: deploy
   when: manual
 
+# DP Cluster deployments:
 deploy-dev-environment-dp:
   stage: deploy-dp
   extends: deploy-dev-environment
