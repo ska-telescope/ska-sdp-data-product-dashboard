@@ -193,6 +193,15 @@ pages:
       - public
     expire_in: 30 days
 
+docs-build:
+  before_script:
+    - poetry config virtualenvs.in-project true
+    - poetry config virtualenvs.create $POETRY_CONFIG_VIRTUALENVS_CREATE
+    - poetry env use python3.14
+    - poetry sync --no-root --only docs
+  script:
+    - poetry run make docs-build $CI_SPHINX_BUILDERS
+
 # Deploy the application
 
 .info_script: &info_script
