@@ -5,10 +5,8 @@
 Dockerfile
 Makefile
 node_modules
-README.md
 CHANGELOG.md
 CODEOWNERS
-LICENSE
 version
 build/
 cypress/
