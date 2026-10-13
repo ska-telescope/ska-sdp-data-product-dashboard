@@ -20,13 +20,10 @@ RUN yarn build
 FROM artefact.skao.int/ska-webserver:1.1.1 AS final
 
 # Copy built files
-COPY --from=base --chown=1000:1000 /app/dist/ /usr/share/nginx/html/
+COPY --from=base /app/dist/ /usr/share/nginx/html/
 
 # COPY scripts/* /docker-entrypoint.d/
-COPY --chown=1000:1000 env_scripts/env_config /env_config
-COPY --chown=1000:1000 env_scripts/env_config.sh /docker-entrypoint.d/
+COPY env_scripts/env_config /env_config
+COPY env_scripts/env_config.sh /docker-entrypoint.d/
 RUN chmod 755 /docker-entrypoint.d/env_config.sh
-COPY --chown=1000:1000 nginx.yaml ${NGINX_ENVSUBST_TEMPLATE_DIR}/conf.d/
-RUN chown -R 1000:1000 /usr/share/nginx/html /etc/nginx/conf.d /docker-entrypoint.d
-
-USER 1000
+COPY nginx.yaml ${NGINX_ENVSUBST_TEMPLATE_DIR}/conf.d/
