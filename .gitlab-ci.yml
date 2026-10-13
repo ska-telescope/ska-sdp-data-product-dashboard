@@ -7,6 +7,8 @@ variables:
   SKA_DP_DEFAULT_RUNNER: ska-dp-default
   # Tag for GitLab runner on PSI Low
   K8SRUNNER_PSI_LOW: k8srunner-psi-low
+  POETRY_CONFIG_VIRTUALENVS_CREATE: 'true'
+  POETRY_CONFIG_VIRTUALENVS_IN_PROJECT: 'false'
 
 include:
   - template: Code-Quality.gitlab-ci.yml
@@ -192,6 +194,15 @@ pages:
     paths:
       - public
     expire_in: 30 days
+
+docs-build:
+  before_script:
+    - poetry config virtualenvs.in-project $POETRY_CONFIG_VIRTUALENVS_IN_PROJECT
+    - poetry config virtualenvs.create $POETRY_CONFIG_VIRTUALENVS_CREATE
+    - poetry env use python3.14
+    - poetry sync --no-root --only docs
+  script:
+    - poetry run make docs-build $CI_SPHINX_BUILDERS
 
 # Deploy the application
 
