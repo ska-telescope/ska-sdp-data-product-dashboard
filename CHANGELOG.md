@@ -2,6 +2,11 @@
 
 ## Development
 
+- [PHX-624](https://jira.skatelescope.org/browse/PHX-624)
+
+  - [Changed] Updated docs to make use of Ubuntu26.04 and Python 3.14.
+  - [Changed] Updated docker file to use ska-build-node:1.1.1 and ska-webserver:1.1.1 base images.
+
 - [PHX-620]
 
   - [Fixed] `MetadataCard` no longer crashes with `ReferenceError: formatLabel is not defined` when a metadata section contains both primitive and nested-object fields.
