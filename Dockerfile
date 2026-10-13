@@ -27,8 +27,6 @@ COPY --chown=1000:1000 env_scripts/env_config /env_config
 COPY --chown=1000:1000 env_scripts/env_config.sh /docker-entrypoint.d/
 RUN chmod 755 /docker-entrypoint.d/env_config.sh
 COPY --chown=1000:1000 nginx.yaml ${NGINX_ENVSUBST_TEMPLATE_DIR}/conf.d/
-
-# base image pre-creates these dirs as root; re-own so user 1000 can write generated/runtime files
 RUN chown -R 1000:1000 /usr/share/nginx/html /etc/nginx/conf.d /docker-entrypoint.d
 
 USER 1000
