@@ -53,7 +53,7 @@ const DataProductDashboard = () => {
   const [initFlag, setInitFlag] = React.useState(true);
 
   const [formFields, setFormFields] = React.useState([]);
-
+  const [draftSearch, setDraftSearch] = React.useState(null);
   const [searchPanelOptions, setSearchPanelOptions] = React.useState({
     items: [],
     logicOperator: 'and'
@@ -124,7 +124,7 @@ const DataProductDashboard = () => {
 
   React.useEffect(() => {
     // Add metadata_store_name filter if not 'all'
-    let items = [...formFields];
+    let items = draftSearch ? [...formFields, draftSearch] : [...formFields];
     if (dataSourceFilter && dataSourceFilter !== 'all') {
       items = items.filter((item) => item.field !== 'metadata_store_name');
       items.push({ field: 'metadata_store_name', operator: 'equals', value: dataSourceFilter });
@@ -133,7 +133,7 @@ const DataProductDashboard = () => {
       items,
       logicOperator: 'and'
     });
-  }, [formFields, dataSourceFilter]);
+  }, [formFields, draftSearch, dataSourceFilter]);
 
   React.useEffect(() => {
     // Reset updating flag after filter changes have been applied
@@ -264,7 +264,14 @@ const DataProductDashboard = () => {
     <Box sx={{ height: '100%' }}>
       {RenderDataStoreBox()}
       <Box sx={{ height: '100%' }}>
-        {SearchBox(t, tColumns, availableColumns, formFields, setFormFields)}
+        <SearchBox
+          t={t}
+          tColumns={tColumns}
+          availableColumns={availableColumns}
+          formFields={formFields}
+          setFormFields={setFormFields}
+          onDraftChange={setDraftSearch}
+        />
       </Box>
       <Grid
         sx={{ height: '100%' }}

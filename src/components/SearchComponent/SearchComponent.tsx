@@ -1,17 +1,27 @@
-import React, { useState } from 'react';
-import SearchOption from '@components/SearchComponent/SearchOption';
+import React, { useEffect, useState } from 'react';
+import SearchOption, {
+  EMPTY_SEARCH_SELECTION,
+  isSearchSelectionValid
+} from '@components/SearchComponent/SearchOption';
 import SearchIcon from '@mui/icons-material/Search';
 import { tableHeight } from '@utils/constants';
 
 import Chip from '@mui/material/Chip';
 
-const SearchBox = (t, tColumns, availableColumns, formFields, setFormFields) => {
+const DRAFT_DEBOUNCE_MS = 300;
+
+const SearchBox = ({ t, tColumns, availableColumns, formFields, setFormFields, onDraftChange }) => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-  const [searchSelection, setSearchSelection] = useState({
-    field: 'string',
-    operator: '>',
-    value: 'string'
-  });
+  const [searchSelection, setSearchSelection] = useState(EMPTY_SEARCH_SELECTION);
+
+  // Apply the in-progress search as the user types, before it is added as a chip
+  useEffect(() => {
+    const draft = isSearchSelectionValid(availableColumns, searchSelection)
+      ? searchSelection
+      : null;
+    const timer = setTimeout(() => onDraftChange(draft), DRAFT_DEBOUNCE_MS);
+    return () => clearTimeout(timer);
+  }, [availableColumns, searchSelection, onDraftChange]);
 
   const removeField = (opt) => {
     setFormFields(formFields.filter((o) => o !== opt));
@@ -72,16 +82,16 @@ const SearchBox = (t, tColumns, availableColumns, formFields, setFormFields) => 
             zIndex: 1001
           }}
         >
-          {SearchOption(
-            t,
-            tColumns,
-            availableColumns,
-            formFields,
-            setFormFields,
-            searchSelection,
-            setSearchSelection,
-            setIsDropdownOpen
-          )}
+          <SearchOption
+            t={t}
+            tColumns={tColumns}
+            availableColumns={availableColumns}
+            formFields={formFields}
+            setFormFields={setFormFields}
+            searchSelection={searchSelection}
+            setSearchSelection={setSearchSelection}
+            setIsDropdownOpen={setIsDropdownOpen}
+          />
         </div>
       )}
     </>

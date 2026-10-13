@@ -14,7 +14,19 @@ import { getSearchOperatorsForType } from '@utils/columnOperators';
 import { Button, DateEntry, TextEntry, ButtonColorTypes } from '@ska-telescope/ska-gui-components';
 import { ButtonVariantTypes } from '@ska-telescope/ska-gui-components';
 
-const SearchOption = (
+export const EMPTY_SEARCH_SELECTION = { field: '', operator: '', value: '' };
+
+export const isSearchSelectionValid = (availableColumns, selection): boolean => {
+  const column = availableColumns.find((c) => c.field === selection.field);
+  const operator = getSearchOperatorsForType(column?.type).find(
+    (o) => o.value === selection.operator
+  );
+  return (
+    !!column && !!operator && (operator.requiresFilterValue === false || selection.value !== '')
+  );
+};
+
+const SearchOption = ({
   t,
   tColumns,
   availableColumns,
@@ -23,7 +35,7 @@ const SearchOption = (
   searchSelection,
   setSearchSelection,
   setIsDropdownOpen
-) => {
+}) => {
   const handleKeyPairChange = (field: string) => {
     const col = availableColumns.find((c) => c.field === field);
     const defaultOperator = getSearchOperatorsForType(col?.type)[0]?.value ?? 'contains';
@@ -41,8 +53,6 @@ const SearchOption = (
       if (op?.requiresFilterValue === false) return '';
       return searchSelection.value;
     })();
-    console.log(op);
-    console.log(operator);
     setSearchSelection({
       field: searchSelection.field,
       operator: operator,
@@ -57,9 +67,12 @@ const SearchOption = (
       value: event
     });
   };
+  const canAdd = isSearchSelectionValid(availableColumns, searchSelection);
+
   const addSearch = () => {
+    if (!canAdd) return;
     setFormFields([...formFields, searchSelection]);
-    setSearchSelection({ field: 'string', operator: '>', value: 'string' });
+    setSearchSelection(EMPTY_SEARCH_SELECTION);
     setIsDropdownOpen(false);
   };
 
@@ -164,6 +177,9 @@ const SearchOption = (
               xs={4}
               data-testid={'value-field'}
               sx={{ height: '100%', display: 'flex', alignItems: 'center', minHeight: '60px' }}
+              onKeyDown={(e: React.KeyboardEvent) => {
+                if (e.key === 'Enter') addSearch();
+              }}
             >
               <TextEntry
                 ariaTitle="value"
@@ -179,6 +195,7 @@ const SearchOption = (
         <Button
           testId="AddKeyValuePairButton"
           color={ButtonColorTypes.Secondary}
+          disabled={!canAdd}
           icon={<LibraryAddOutlinedIcon />}
           label="Add"
           onClick={addSearch}

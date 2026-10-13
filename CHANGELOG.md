@@ -2,6 +2,10 @@
 
 ## Development
 
+- [PHX-640]
+
+  - [Fixed] The search now runs as you type.
+
 - [PHX-620]
 
   - [Fixed] `MetadataCard` no longer crashes with `ReferenceError: formatLabel is not defined` when a metadata section contains both primitive and nested-object fields.
