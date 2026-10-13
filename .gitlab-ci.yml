@@ -7,8 +7,8 @@ variables:
   SKA_DP_DEFAULT_RUNNER: ska-dp-default
   # Tag for GitLab runner on PSI Low
   K8SRUNNER_PSI_LOW: k8srunner-psi-low
-  POETRY_CONFIG_VIRTUALENVS_CREATE: "true"
-  POETRY_CONFIG_VIRTUALENVS_IN_PROJECT: "false"
+  POETRY_CONFIG_VIRTUALENVS_CREATE: 'true'
+  POETRY_CONFIG_VIRTUALENVS_IN_PROJECT: 'false'
 
 include:
   - template: Code-Quality.gitlab-ci.yml
