@@ -105,7 +105,41 @@ describe('SearchBox', () => {
     fireEvent.keyDown(screen.getByTestId('textEntry-value'), { key: 'Enter' });
 
     expect(setFormFields).toHaveBeenCalledWith([
-      { field: 'name', operator: 'contains', value: 'abc' }
+      { id: expect.any(String), field: 'name', operator: 'contains', value: 'abc' }
     ]);
+  });
+
+  describe('chips', () => {
+    const duplicates = [
+      { id: 'a', field: 'name', operator: 'contains', value: 'abc' },
+      { id: 'b', field: 'name', operator: 'contains', value: 'abc' }
+    ];
+    const renderChips = () =>
+      render(
+        <SearchBox
+          t={(k: string) => k}
+          tColumns={(k: string) => k}
+          availableColumns={COLUMNS}
+          formFields={duplicates}
+          setFormFields={setFormFields}
+          onDraftChange={onDraftChange}
+        />
+      );
+
+    it('removes only the chip whose id matches, even when another is identical', () => {
+      renderChips();
+      const chip = screen.getByTestId('search-option-0');
+      fireEvent.click(chip.querySelector('.MuiChip-deleteIcon') as Element);
+
+      expect(setFormFields).toHaveBeenCalledWith([duplicates[1]]);
+    });
+
+    it('loads a clicked chip back into the form for editing', () => {
+      renderChips();
+      fireEvent.click(screen.getByTestId('search-option-1'));
+
+      expect(setFormFields).toHaveBeenCalledWith([duplicates[0]]);
+      expect(screen.getByTestId('textEntry-value')).toHaveValue('abc');
+    });
   });
 });

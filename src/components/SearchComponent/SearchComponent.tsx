@@ -4,13 +4,20 @@ import SearchOption, {
   isSearchSelectionValid
 } from '@components/SearchComponent/SearchOption';
 import SearchIcon from '@mui/icons-material/Search';
-import { tableHeight } from '@utils/constants';
 
 import Chip from '@mui/material/Chip';
+import type { SearchBoxProps, SearchFilter } from 'types/search/search';
 
 const DRAFT_DEBOUNCE_MS = 300;
 
-const SearchBox = ({ t, tColumns, availableColumns, formFields, setFormFields, onDraftChange }) => {
+const SearchBox = ({
+  t,
+  tColumns,
+  availableColumns,
+  formFields,
+  setFormFields,
+  onDraftChange
+}: SearchBoxProps) => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [searchSelection, setSearchSelection] = useState(EMPTY_SEARCH_SELECTION);
 
@@ -23,27 +30,27 @@ const SearchBox = ({ t, tColumns, availableColumns, formFields, setFormFields, o
     return () => clearTimeout(timer);
   }, [availableColumns, searchSelection, onDraftChange]);
 
-  const removeField = (opt) => {
-    setFormFields(formFields.filter((o) => o !== opt));
-    setSearchSelection(opt);
+  const removeField = (opt: SearchFilter) => {
+    setFormFields(formFields.filter((o) => o.id !== opt.id));
+    setSearchSelection({ field: opt.field, operator: opt.operator, value: opt.value });
     setIsDropdownOpen(true);
   };
-  const deleteField = (opt) => {
-    setFormFields(formFields.filter((o) => o !== opt));
+  const deleteField = (opt: SearchFilter) => {
+    setFormFields(formFields.filter((o) => o.id !== opt.id));
   };
 
   const renderSelectedOptions = () => (
     <div>
       <SearchIcon />
-      {formFields.map((opt) => (
+      {formFields.map((opt, index) => (
         <Chip
-          key={`search-option-${formFields.indexOf(opt)}`}
-          id={`search-option-${formFields.indexOf(opt)}`}
+          key={opt.id}
+          id={`search-option-${index}`}
           label={`${tColumns(opt.field)}  ${t(opt.operator)}  ${opt.value}`}
           onClick={() => removeField(opt)}
           onDelete={() => deleteField(opt)}
           variant="outlined"
-          data-testid={`search-option-${formFields.indexOf(opt)}`}
+          data-testid={`search-option-${index}`}
         />
       ))}
     </div>
@@ -73,7 +80,6 @@ const SearchBox = ({ t, tColumns, availableColumns, formFields, setFormFields, o
         <div
           style={{
             position: 'absolute',
-            top: tableHeight,
             left: 0,
             width: '100%',
             backgroundColor: 'white',

@@ -11,12 +11,22 @@ import {
 } from '@mui/material';
 
 import { getSearchOperatorsForType } from '@utils/columnOperators';
-import { Button, DateEntry, TextEntry, ButtonColorTypes } from '@ska-telescope/ska-gui-components';
-import { ButtonVariantTypes } from '@ska-telescope/ska-gui-components';
+import { createSearchFilter } from '@utils/searchFilters';
+import {
+  Button,
+  DateEntry,
+  TextEntry,
+  ButtonColorTypes,
+  ButtonVariantTypes
+} from '@ska-telescope/ska-gui-components';
+import type { SearchableColumn, SearchOptionProps, SearchSelection } from 'types/search/search';
 
-export const EMPTY_SEARCH_SELECTION = { field: '', operator: '', value: '' };
+export const EMPTY_SEARCH_SELECTION: SearchSelection = { field: '', operator: '', value: '' };
 
-export const isSearchSelectionValid = (availableColumns, selection): boolean => {
+export const isSearchSelectionValid = (
+  availableColumns: SearchableColumn[],
+  selection: SearchSelection
+): boolean => {
   const column = availableColumns.find((c) => c.field === selection.field);
   const operator = getSearchOperatorsForType(column?.type).find(
     (o) => o.value === selection.operator
@@ -35,7 +45,7 @@ const SearchOption = ({
   searchSelection,
   setSearchSelection,
   setIsDropdownOpen
-}) => {
+}: SearchOptionProps) => {
   const handleKeyPairChange = (field: string) => {
     const col = availableColumns.find((c) => c.field === field);
     const defaultOperator = getSearchOperatorsForType(col?.type)[0]?.value ?? 'contains';
@@ -71,7 +81,7 @@ const SearchOption = ({
 
   const addSearch = () => {
     if (!canAdd) return;
-    setFormFields([...formFields, searchSelection]);
+    setFormFields([...formFields, createSearchFilter(searchSelection)]);
     setSearchSelection(EMPTY_SEARCH_SELECTION);
     setIsDropdownOpen(false);
   };
@@ -163,9 +173,7 @@ const SearchOption = ({
                 <DateEntry
                   testId={'dateEntry-value'}
                   label={t('label.value')}
-                  setValue={(event: React.SetStateAction<string>) =>
-                    handleValuePairChange(event as string)
-                  }
+                  setValue={(value: string) => handleValuePairChange(value)}
                   value={searchSelection.value}
                 />
               </Grid>
@@ -184,7 +192,7 @@ const SearchOption = ({
               <TextEntry
                 ariaTitle="value"
                 label={t('label.value')}
-                setValue={(event: any) => handleValuePairChange(event)}
+                setValue={(value: string) => handleValuePairChange(value)}
                 value={searchSelection.value}
               />
             </Grid>

@@ -9,6 +9,8 @@ import RefreshIcon from '@mui/icons-material/Refresh';
 import { Button, ButtonColorTypes } from '@ska-telescope/ska-gui-components';
 import { ButtonVariantTypes } from '@ska-telescope/ska-gui-components';
 import GetMuiDataGridConfig, { MuiColumnConfig } from '@components/DataGrid/GetMuiDataGridConfig';
+import { createSearchFilter, toSearchPanelItem } from '@utils/searchFilters';
+import type { SearchFilter, SearchSelection } from 'types/search/search';
 
 import DataProductsTable from '@components/DataProductsTable/DataProductsTable';
 import MetadataCard from '@components/MetadataCard/MetadataCard';
@@ -52,9 +54,12 @@ const DataProductDashboard = () => {
     React.useState(null);
   const [initFlag, setInitFlag] = React.useState(true);
 
-  const [formFields, setFormFields] = React.useState([]);
-  const [draftSearch, setDraftSearch] = React.useState(null);
-  const [searchPanelOptions, setSearchPanelOptions] = React.useState({
+  const [formFields, setFormFields] = React.useState<SearchFilter[]>([]);
+  const [draftSearch, setDraftSearch] = React.useState<SearchSelection | null>(null);
+  const [searchPanelOptions, setSearchPanelOptions] = React.useState<{
+    items: SearchSelection[];
+    logicOperator: string;
+  }>({
     items: [],
     logicOperator: 'and'
   });
@@ -77,27 +82,27 @@ const DataProductDashboard = () => {
     // Handle all search options, including legacy date-range params.
     // Legacy: ?start_date=YYYY-MM-DD / ?end_date=YYYY-MM-DD  →  date_created onOrAfter/before rows
     // Current: ?key=value  →  key contains value rows
-    const localSearch: Array<{ field: string; operator: string; value: string }> = [];
+    const localSearch: SearchFilter[] = [];
     params.forEach((value, key) => {
       if (key === 'start_date') {
-        localSearch.push({ field: 'date_created', operator: 'onOrAfter', value });
+        localSearch.push(
+          createSearchFilter({ field: 'date_created', operator: 'onOrAfter', value })
+        );
       } else if (key === 'end_date') {
-        localSearch.push({ field: 'date_created', operator: 'before', value });
+        localSearch.push(createSearchFilter({ field: 'date_created', operator: 'before', value }));
       } else {
-        localSearch.push({ field: key, operator: 'contains', value });
+        localSearch.push(createSearchFilter({ field: key, operator: 'contains', value }));
       }
     });
 
     if (localSearch.length > 0) {
       // Putting search options before any current form options
-      setFormFields(
-        (URLParamFunction: Array<{ field: string; operator: string; value: string }>) => {
-          // Only add items that don't already exist (check by field name)
-          const existingFields = URLParamFunction.map((f) => f.field);
-          const newItems = localSearch.filter((item) => !existingFields.includes(item.field));
-          return [...newItems, ...URLParamFunction];
-        }
-      );
+      setFormFields((current) => {
+        // Only add items that don't already exist (check by field name)
+        const existingFields = current.map((f) => f.field);
+        const newItems = localSearch.filter((item) => !existingFields.includes(item.field));
+        return [...newItems, ...current];
+      });
     }
   }, []);
 
@@ -124,7 +129,8 @@ const DataProductDashboard = () => {
 
   React.useEffect(() => {
     // Add metadata_store_name filter if not 'all'
-    let items = draftSearch ? [...formFields, draftSearch] : [...formFields];
+    let items: SearchSelection[] = formFields.map(toSearchPanelItem);
+    if (draftSearch) items.push(draftSearch);
     if (dataSourceFilter && dataSourceFilter !== 'all') {
       items = items.filter((item) => item.field !== 'metadata_store_name');
       items.push({ field: 'metadata_store_name', operator: 'equals', value: dataSourceFilter });

@@ -4,7 +4,9 @@
 
 - [PHX-640]
 
-  - [Fixed] The search now runs as you type.
+  - [Fixed] Search now runs as the user types instead of requiring a separate add action.
+  - [Fixed] Removing one of two identical search chips no longer removes both.
+  - [Changed] Search components are fully typed and no longer use placeholder default values.
 
 - [PHX-620]
 
