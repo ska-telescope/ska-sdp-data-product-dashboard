@@ -20,7 +20,7 @@ RUN yarn build
 FROM artefact.skao.int/ska-webserver:1.1.1 AS final
 
 # Copy built files
-COPY --from=base --chown=1000:1000 /app/dist/ /usr/share/nginx/html/
+COPY --from=base /app/dist/ /usr/share/nginx/html/
 
 # COPY scripts/* /docker-entrypoint.d/
 COPY env_scripts/env_config /env_config

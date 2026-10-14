@@ -18,7 +18,6 @@ docs = [
 
 [tool.poetry]
 package-mode = false
-requires-poetry = ">=2.2.1,<3.0.0"
 
 [[tool.poetry.source]]
 name = "PyPI"
