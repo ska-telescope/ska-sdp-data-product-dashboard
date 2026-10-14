@@ -7,6 +7,7 @@
   - [Fixed] Search now runs as the user types instead of requiring a separate add action.
   - [Fixed] Removing one of two identical search chips no longer removes both.
   - [Changed] Search components are fully typed and no longer use placeholder default values.
+  - [Fixed] The search form now sits in normal page flow between the search bar and the table, so opening it pushes the table down instead of covering it.
 
 - [PHX-624](https://jira.skatelescope.org/browse/PHX-624)
 
