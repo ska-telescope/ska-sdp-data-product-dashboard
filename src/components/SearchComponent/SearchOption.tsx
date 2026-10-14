@@ -100,7 +100,7 @@ const SearchOption = ({
         direction="row"
         justifyContent="space-between"
       >
-        <Grid item xs={4} data-testid={`key-field`}>
+        <Grid item xs={3} data-testid={`key-field`}>
           <Autocomplete
             options={availableColumns}
             getOptionLabel={(option) => tColumns(option.field)}
@@ -132,7 +132,7 @@ const SearchOption = ({
           return operators.length > 0 ? (
             <Grid
               item
-              xs={4}
+              xs={3}
               sx={{ height: '100%', display: 'flex', alignItems: 'center' }}
               data-testid="key-field-0"
             >
@@ -198,18 +198,19 @@ const SearchOption = ({
             </Grid>
           );
         })()}
-      </Grid>
-      <Grid item xs={4}>
-        <Button
-          testId="AddKeyValuePairButton"
-          color={ButtonColorTypes.Secondary}
-          disabled={!canAdd}
-          icon={<LibraryAddOutlinedIcon />}
-          label="Add"
-          onClick={addSearch}
-          toolTip="Add Key/Value pair"
-          variant={ButtonVariantTypes.Outlined}
-        />
+
+        <Grid item xs="auto" sx={{ display: 'flex', alignItems: 'center' }}>
+          <Button
+            testId="AddKeyValuePairButton"
+            color={ButtonColorTypes.Secondary}
+            disabled={!canAdd}
+            icon={<LibraryAddOutlinedIcon />}
+            label="Add"
+            onClick={addSearch}
+            toolTip="Add Key/Value pair"
+            variant={ButtonVariantTypes.Outlined}
+          />
+        </Grid>
       </Grid>
     </div>
   );

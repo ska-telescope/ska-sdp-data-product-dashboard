@@ -79,13 +79,10 @@ const SearchBox = ({
       {isDropdownOpen && (
         <div
           style={{
-            position: 'absolute',
-            left: 0,
             width: '100%',
+            boxSizing: 'border-box',
             backgroundColor: 'white',
-            borderColor: '#0000001f',
-            border: '2px solid #0000001f',
-            zIndex: 1001
+            border: '2px solid #0000001f'
           }}
         >
           <SearchOption
