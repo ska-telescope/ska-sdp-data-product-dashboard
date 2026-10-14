@@ -269,7 +269,7 @@ const DataProductDashboard = () => {
   return (
     <Box sx={{ height: '100%' }}>
       {RenderDataStoreBox()}
-      <Box sx={{ height: '100%' }}>
+      <Box sx={{ height: '100%', mx: 1 }}>
         <SearchBox
           t={t}
           tColumns={tColumns}

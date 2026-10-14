@@ -87,7 +87,7 @@ const SearchOption = ({
   };
 
   return (
-    <div style={{ padding: '20px 0' }}>
+    <div style={{ padding: '20px 16px' }}>
       <Grid
         sx={{
           height: '100%',

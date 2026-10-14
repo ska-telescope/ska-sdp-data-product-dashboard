@@ -7,6 +7,7 @@ import SearchIcon from '@mui/icons-material/Search';
 
 import Chip from '@mui/material/Chip';
 import type { SearchBoxProps, SearchFilter } from 'types/search/search';
+import { SEARCH_BOX } from 'src/utils/constants';
 
 const DRAFT_DEBOUNCE_MS = 300;
 
@@ -40,7 +41,7 @@ const SearchBox = ({
   };
 
   const renderSelectedOptions = () => (
-    <div>
+    <div style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', gap: '4px' }}>
       <SearchIcon />
       {formFields.map((opt, index) => (
         <Chip
@@ -62,8 +63,8 @@ const SearchBox = ({
         onClick={() => setIsDropdownOpen(!isDropdownOpen)}
         style={{
           cursor: 'pointer',
-          minHeight: '60px',
-          padding: '12px',
+          minHeight: `${SEARCH_BOX}px`,
+          padding: '6px',
           border: '2px solid #e1e8ed',
           borderRadius: '8px',
           fontSize: '14px',
