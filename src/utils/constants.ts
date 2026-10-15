@@ -36,7 +36,7 @@ export const TEXT_NO_API = 'error.API_NOT_AVAILABLE';
 export const SPACER_HEADER = 70;
 export const SPACER_FOOTER = 0;
 export const DATA_STORE_BOX_HEIGHT = 70;
-export const SEARCH_BOX = 70;
+export const SEARCH_BOX = 40;
 export const SPACER = 50;
 
 export const fullHeight = () => {

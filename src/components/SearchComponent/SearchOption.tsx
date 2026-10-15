@@ -1,4 +1,5 @@
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 import LibraryAddOutlinedIcon from '@mui/icons-material/LibraryAddOutlined';
 import {
   FormControl,
@@ -11,19 +12,41 @@ import {
 } from '@mui/material';
 
 import { getSearchOperatorsForType } from '@utils/columnOperators';
-import { Button, DateEntry, TextEntry, ButtonColorTypes } from '@ska-telescope/ska-gui-components';
-import { ButtonVariantTypes } from '@ska-telescope/ska-gui-components';
+import { createSearchFilter } from '@utils/searchFilters';
+import {
+  Button,
+  DateEntry,
+  TextEntry,
+  ButtonColorTypes,
+  ButtonVariantTypes
+} from '@ska-telescope/ska-gui-components';
+import type { SearchableColumn, SearchOptionProps, SearchSelection } from 'types/search/search';
 
-const SearchOption = (
-  t,
-  tColumns,
+export const EMPTY_SEARCH_SELECTION: SearchSelection = { field: '', operator: '', value: '' };
+
+export const isSearchSelectionValid = (
+  availableColumns: SearchableColumn[],
+  selection: SearchSelection
+): boolean => {
+  const column = availableColumns.find((c) => c.field === selection.field);
+  const operator = getSearchOperatorsForType(column?.type).find(
+    (o) => o.value === selection.operator
+  );
+  return (
+    !!column && !!operator && (operator.requiresFilterValue === false || selection.value !== '')
+  );
+};
+
+const SearchOption = ({
   availableColumns,
   formFields,
   setFormFields,
   searchSelection,
   setSearchSelection,
   setIsDropdownOpen
-) => {
+}: SearchOptionProps) => {
+  const { t } = useTranslation('dpd');
+  const { t: tColumns } = useTranslation('humanreadable');
   const handleKeyPairChange = (field: string) => {
     const col = availableColumns.find((c) => c.field === field);
     const defaultOperator = getSearchOperatorsForType(col?.type)[0]?.value ?? 'contains';
@@ -41,8 +64,6 @@ const SearchOption = (
       if (op?.requiresFilterValue === false) return '';
       return searchSelection.value;
     })();
-    console.log(op);
-    console.log(operator);
     setSearchSelection({
       field: searchSelection.field,
       operator: operator,
@@ -57,14 +78,17 @@ const SearchOption = (
       value: event
     });
   };
+  const canAdd = isSearchSelectionValid(availableColumns, searchSelection);
+
   const addSearch = () => {
-    setFormFields([...formFields, searchSelection]);
-    setSearchSelection({ field: 'string', operator: '>', value: 'string' });
+    if (!canAdd) return;
+    setFormFields([...formFields, createSearchFilter(searchSelection)]);
+    setSearchSelection(EMPTY_SEARCH_SELECTION);
     setIsDropdownOpen(false);
   };
 
   return (
-    <div style={{ padding: '20px 0' }}>
+    <div style={{ padding: '20px 16px' }}>
       <Grid
         sx={{
           height: '100%',
@@ -77,7 +101,7 @@ const SearchOption = (
         direction="row"
         justifyContent="space-between"
       >
-        <Grid item xs={4} data-testid={`key-field`}>
+        <Grid item xs={3} data-testid={`key-field`}>
           <Autocomplete
             options={availableColumns}
             getOptionLabel={(option) => tColumns(option.field)}
@@ -109,7 +133,7 @@ const SearchOption = (
           return operators.length > 0 ? (
             <Grid
               item
-              xs={4}
+              xs={3}
               sx={{ height: '100%', display: 'flex', alignItems: 'center' }}
               data-testid="key-field-0"
             >
@@ -150,9 +174,7 @@ const SearchOption = (
                 <DateEntry
                   testId={'dateEntry-value'}
                   label={t('label.value')}
-                  setValue={(event: React.SetStateAction<string>) =>
-                    handleValuePairChange(event as string)
-                  }
+                  setValue={(value: string) => handleValuePairChange(value)}
                   value={searchSelection.value}
                 />
               </Grid>
@@ -164,27 +186,32 @@ const SearchOption = (
               xs={4}
               data-testid={'value-field'}
               sx={{ height: '100%', display: 'flex', alignItems: 'center', minHeight: '60px' }}
+              onKeyDown={(e: React.KeyboardEvent) => {
+                if (e.key === 'Enter') addSearch();
+              }}
             >
               <TextEntry
                 ariaTitle="value"
                 label={t('label.value')}
-                setValue={(event: any) => handleValuePairChange(event)}
+                setValue={(value: string) => handleValuePairChange(value)}
                 value={searchSelection.value}
               />
             </Grid>
           );
         })()}
-      </Grid>
-      <Grid item xs={4}>
-        <Button
-          testId="AddKeyValuePairButton"
-          color={ButtonColorTypes.Secondary}
-          icon={<LibraryAddOutlinedIcon />}
-          label="Add"
-          onClick={addSearch}
-          toolTip="Add Key/Value pair"
-          variant={ButtonVariantTypes.Outlined}
-        />
+
+        <Grid item xs="auto" sx={{ display: 'flex', alignItems: 'center' }}>
+          <Button
+            testId="AddKeyValuePairButton"
+            color={ButtonColorTypes.Secondary}
+            disabled={!canAdd}
+            icon={<LibraryAddOutlinedIcon />}
+            label="Add"
+            onClick={addSearch}
+            toolTip="Add Key/Value pair"
+            variant={ButtonVariantTypes.Outlined}
+          />
+        </Grid>
       </Grid>
     </div>
   );
