@@ -28,7 +28,6 @@ const DataProductDashboard = () => {
   // State for metadata_store_name filter
   const [dataSourceFilter, setDataSourceFilter] = React.useState('all');
   const { t } = useTranslation('dpd');
-  const { t: tColumns } = useTranslation('humanreadable');
   const {
     apiRunning,
     apiIndexing,
@@ -271,8 +270,6 @@ const DataProductDashboard = () => {
       {RenderDataStoreBox()}
       <Box sx={{ height: '100%', mx: 1 }}>
         <SearchBox
-          t={t}
-          tColumns={tColumns}
           availableColumns={availableColumns}
           formFields={formFields}
           setFormFields={setFormFields}

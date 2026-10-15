@@ -1,9 +1,6 @@
 import type React from 'react';
 import type { MuiColumnConfig } from '@components/DataGrid/GetMuiDataGridConfig';
 
-/** Translation function as used by the search components. */
-export type TranslateFn = (key: string) => string;
-
 /** The subset of a column definition the search form needs. */
 export type SearchableColumn = Pick<MuiColumnConfig, 'field' | 'type'>;
 
@@ -22,8 +19,6 @@ export interface SearchFilter extends SearchSelection {
 export type SetSearchFilters = React.Dispatch<React.SetStateAction<SearchFilter[]>>;
 
 export interface SearchBoxProps {
-  t: TranslateFn;
-  tColumns: TranslateFn;
   availableColumns: SearchableColumn[];
   formFields: SearchFilter[];
   setFormFields: SetSearchFilters;
@@ -31,8 +26,6 @@ export interface SearchBoxProps {
 }
 
 export interface SearchOptionProps {
-  t: TranslateFn;
-  tColumns: TranslateFn;
   availableColumns: SearchableColumn[];
   formFields: SearchFilter[];
   setFormFields: SetSearchFilters;

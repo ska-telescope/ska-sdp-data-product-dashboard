@@ -4,6 +4,7 @@ import SearchOption, {
   isSearchSelectionValid
 } from '@components/SearchComponent/SearchOption';
 import SearchIcon from '@mui/icons-material/Search';
+import { useTranslation } from 'react-i18next';
 
 import Chip from '@mui/material/Chip';
 import type { SearchBoxProps, SearchFilter } from 'types/search/search';
@@ -12,13 +13,13 @@ import { SEARCH_BOX } from 'src/utils/constants';
 const DRAFT_DEBOUNCE_MS = 300;
 
 const SearchBox = ({
-  t,
-  tColumns,
   availableColumns,
   formFields,
   setFormFields,
   onDraftChange
 }: SearchBoxProps) => {
+  const { t } = useTranslation('dpd');
+  const { t: tColumns } = useTranslation('humanreadable');
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [searchSelection, setSearchSelection] = useState(EMPTY_SEARCH_SELECTION);
 
@@ -87,8 +88,6 @@ const SearchBox = ({
           }}
         >
           <SearchOption
-            t={t}
-            tColumns={tColumns}
             availableColumns={availableColumns}
             formFields={formFields}
             setFormFields={setFormFields}

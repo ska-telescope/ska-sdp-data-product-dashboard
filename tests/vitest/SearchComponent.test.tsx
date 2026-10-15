@@ -42,8 +42,6 @@ describe('SearchBox', () => {
   const openAndSelectKey = () => {
     render(
       <SearchBox
-        t={(k: string) => k}
-        tColumns={(k: string) => k}
         availableColumns={COLUMNS}
         formFields={[]}
         setFormFields={setFormFields}
@@ -117,8 +115,6 @@ describe('SearchBox', () => {
     const renderChips = () =>
       render(
         <SearchBox
-          t={(k: string) => k}
-          tColumns={(k: string) => k}
           availableColumns={COLUMNS}
           formFields={duplicates}
           setFormFields={setFormFields}

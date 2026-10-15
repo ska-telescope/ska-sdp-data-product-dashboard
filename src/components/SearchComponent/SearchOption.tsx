@@ -1,4 +1,5 @@
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 import LibraryAddOutlinedIcon from '@mui/icons-material/LibraryAddOutlined';
 import {
   FormControl,
@@ -37,8 +38,6 @@ export const isSearchSelectionValid = (
 };
 
 const SearchOption = ({
-  t,
-  tColumns,
   availableColumns,
   formFields,
   setFormFields,
@@ -46,6 +45,8 @@ const SearchOption = ({
   setSearchSelection,
   setIsDropdownOpen
 }: SearchOptionProps) => {
+  const { t } = useTranslation('dpd');
+  const { t: tColumns } = useTranslation('humanreadable');
   const handleKeyPairChange = (field: string) => {
     const col = availableColumns.find((c) => c.field === field);
     const defaultOperator = getSearchOperatorsForType(col?.type)[0]?.value ?? 'contains';
