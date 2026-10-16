@@ -2,7 +2,7 @@
 name = "ska-dataproduct-dashboard"
 description = "Data Product Dashboard"
 license = "BSD-3-Clause"
-version = "0.19.0"
+version = "0.20.0"
 authors = [{name="SKA SDP Developers"}]
 
 requires-python = '>=3.14,<4.0'
