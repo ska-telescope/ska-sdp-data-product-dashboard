@@ -2,6 +2,8 @@
 
 ## Development
 
+## 0.20.0
+
 - [PHX-640]
 
   - [Fixed] Search now runs as the user types instead of requiring a separate add action.
