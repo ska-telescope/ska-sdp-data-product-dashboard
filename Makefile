@@ -68,7 +68,7 @@ dev-setup:
 		-v $(shell pwd)/.cache:/.cache \
 		--user 1000:1000 \
 		-w /data \
-		artefact.skao.int/ska-build-node:0.1.4 \
+		artefact.skao.int/ska-build-node:1.1.4 \
 		yarn install --frozen-lockfile
 
 dev-start:
@@ -81,6 +81,6 @@ dev-start:
 		-v $(shell pwd)/.cache:/.cache \
 		--user 1000:1000 \
 		-w /data \
-		artefact.skao.int/ska-build-node:0.1.4 \
+		artefact.skao.int/ska-build-node:1.1.4 \
 		yarn start
 

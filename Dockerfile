@@ -1,5 +1,5 @@
 # pull the base image
-FROM artefact.skao.int/ska-build-node:1.1.1 AS base
+FROM artefact.skao.int/ska-build-node:1.1.4 AS base
 
 # set the working directory
 WORKDIR /app
@@ -17,7 +17,7 @@ COPY README.md LICENSE ./
 
 RUN yarn build
 
-FROM artefact.skao.int/ska-webserver:1.1.1 AS final
+FROM artefact.skao.int/ska-webserver:1.1.4 AS final
 
 # Copy built files
 COPY --from=base /app/dist/ /usr/share/nginx/html/

@@ -2,6 +2,10 @@
 
 ## Development
 
+- [PHX-657]
+
+  - [Fixed] Updated docker file and Make file to use ska-build-node:1.1.4 and ska-webserver:1.1.4 base images.
+
 ## 0.20.0
 
 - [PHX-640]
