@@ -223,7 +223,7 @@ This section details the configuration options available when deploying the Data
       - ``artefact.skao.int/ska-dataproduct-dashboard``
       - The link to the artefact repository
     * - ``dashboard.version``
-      - ``0.19.0``
+      - ``0.20.1``
       - The version of the ska-dataproduct-dashboard to use.
     * - ``dashboard.imagePullPolicy``
       - ``IfNotPresent``
