@@ -13,7 +13,7 @@ interface TestProviderProps {
  */
 const TestProvider = ({ children }: TestProviderProps) => (
   <AppSettingsProvider>
-    <ThemeProvider theme={theme}>{children}</ThemeProvider>
+    <ThemeProvider theme={theme('light')}>{children}</ThemeProvider>
   </AppSettingsProvider>
 );
 

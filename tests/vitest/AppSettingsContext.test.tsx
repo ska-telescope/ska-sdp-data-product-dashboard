@@ -1,6 +1,6 @@
 import { ReactNode } from 'react';
 import { renderHook, act } from '@testing-library/react';
-import { describe, it, expect, beforeEach, vi } from 'vitest';
+import { describe, it, expect, beforeEach } from 'vitest';
 import { THEME_DARK, THEME_LIGHT } from '@ska-telescope/ska-gui-components';
 import {
   AppSettingsProvider,
@@ -11,9 +11,6 @@ import {
 const wrapper = ({ children }: { children: ReactNode }) => (
   <AppSettingsProvider>{children}</AppSettingsProvider>
 );
-
-// The 2.x library bundles its own MUI, which Vitest cannot resolve; only the constants are needed.
-vi.mock('@ska-telescope/ska-gui-components', () => ({ THEME_DARK: 'dark', THEME_LIGHT: 'light' }));
 
 const seedStorage = (value: object) =>
   window.localStorage.setItem(SETTINGS_STORAGE_KEY, JSON.stringify(value));

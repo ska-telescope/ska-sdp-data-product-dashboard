@@ -46,7 +46,7 @@
     "@mui/x-data-grid": "^8",
     "@mui/x-date-pickers": "^8",
     "@react-spring/web": "^9.7.3",
-    "@ska-telescope/ska-gui-components": "^2.2.14",
+    "@ska-telescope/ska-gui-components": "^3.2.0",
     "@ska-telescope/ska-login-page": "0.9.15",
     "@types/streamsaver": "^2.0.4",
     "axios": "^1.6.5",

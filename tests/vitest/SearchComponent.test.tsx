@@ -10,7 +10,7 @@ const COLUMNS = [
   { field: 'size', type: 'number' }
 ];
 
-// The shared GUI library cannot be loaded by vitest; stub the pieces the search form uses.
+// Stub the shared GUI components so the tests control the search form inputs.
 vi.mock('@ska-telescope/ska-gui-components', () => ({
   ButtonColorTypes: { Secondary: 'secondary' },
   ButtonVariantTypes: { Outlined: 'outlined' },
