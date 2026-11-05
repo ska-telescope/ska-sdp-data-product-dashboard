@@ -1,7 +1,7 @@
 import i18n from 'i18next';
 import { initReactI18next } from 'react-i18next';
 import LanguageDetector from 'i18next-browser-languagedetector';
-import { SKA_DATAPRODUCT_API_URL } from '@utils/constants';
+import { I18N_DEBUG, SKA_DATAPRODUCT_API_URL } from '@utils/constants';
 import Backend from 'i18next-http-backend';
 import moment from 'moment';
 
@@ -30,7 +30,7 @@ i18n
     defaultNS: 'dpd',
     initImmediate: false,
     useSuspense: true,
-    debug: true,
+    debug: I18N_DEBUG,
     interpolation: {
       escapeValue: false,
       format(value, format) {
