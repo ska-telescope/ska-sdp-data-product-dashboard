@@ -1,7 +1,7 @@
 import React from 'react';
 import { createRoot } from 'react-dom/client';
+import { AppSettingsProvider } from '@contexts/appSettingsContext';
 import '@services/i18n/i18n';
-import { StoreProvider } from '@ska-telescope/ska-gui-local-storage';
 import App from './App/App';
 import { AuthProvider } from '@ska-telescope/ska-login-page';
 import { MSENTRA_CLIENT_ID, MSENTRA_TENANT_ID, MSENTRA_REDIRECT_URI } from '@utils/constants';
@@ -12,7 +12,7 @@ if (!container) {
 }
 
 createRoot(container).render(
-  <StoreProvider>
+  <AppSettingsProvider>
     <AuthProvider
       MSENTRA_CLIENT_ID={MSENTRA_CLIENT_ID}
       MSENTRA_TENANT_ID={MSENTRA_TENANT_ID}
@@ -22,5 +22,5 @@ createRoot(container).render(
         <App />
       </React.StrictMode>
     </AuthProvider>
-  </StoreProvider>
+  </AppSettingsProvider>
 );

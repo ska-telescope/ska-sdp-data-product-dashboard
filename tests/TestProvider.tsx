@@ -1,5 +1,5 @@
 import React from 'react';
-import { StoreProvider } from '@ska-telescope/ska-gui-local-storage';
+import { AppSettingsProvider } from '@contexts/appSettingsContext';
 import { ThemeProvider } from '@mui/material';
 import theme from '@services/theme/theme';
 
@@ -12,9 +12,9 @@ interface TestProviderProps {
  * Use this in unit tests instead of mounting providers manually.
  */
 const TestProvider = ({ children }: TestProviderProps) => (
-  <StoreProvider>
+  <AppSettingsProvider>
     <ThemeProvider theme={theme}>{children}</ThemeProvider>
-  </StoreProvider>
+  </AppSettingsProvider>
 );
 
 export default TestProvider;

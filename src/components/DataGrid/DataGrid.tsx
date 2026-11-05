@@ -16,7 +16,7 @@ import {
 } from '@ska-telescope/ska-gui-components';
 import { useTranslation } from 'react-i18next';
 import dataProductDownloadStream from '@services/GetDownloadStream/GetDownloadStream';
-import useLocalStorage from '@services/UseLocalStorage/UseLocalStorage';
+import usePersistentState from '@hooks/usePersistentState';
 
 interface DataproductDataGridProps {
   handleSelectedNode: () => void;
@@ -42,8 +42,8 @@ export default function DataproductDataGrid({
   });
   const [muiDataGridFilterModel, setMuiDataGridFilterModel] = React.useState({});
   const [dataFilterModel, setDataFilterModel] = React.useState({});
-  const [defaultColumns, setDefaultColumns] = useLocalStorage('defaultColumns', {});
-  const [storedFields, setStoredFields] = useLocalStorage('defaultColumnsFields', '');
+  const [defaultColumns, setDefaultColumns] = usePersistentState('defaultColumns', {});
+  const [storedFields, setStoredFields] = usePersistentState('defaultColumnsFields', '');
   const processedApiColumnsRef = React.useRef<any[]>([]);
   const [sortModel, setSortModel] = React.useState<GridSortModel>([]);
   const [rows, setRows] = React.useState([]);
