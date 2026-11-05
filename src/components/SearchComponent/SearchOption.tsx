@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next';
 import LibraryAddOutlinedIcon from '@mui/icons-material/LibraryAddOutlined';
 import {
   FormControl,
-  Grid,
+  GridLegacy as Grid,
   InputLabel,
   MenuItem,
   Select,

@@ -2,6 +2,8 @@
 
 ## Development
 
+- [Changed] Upgraded MUI to v7, MUI X to v8 and MSAL to v5; removed unused `@mui/lab` and `@mui/x-data-grid-generator`.
+
 ## 0.20.1
 
 - [PHX-657]
