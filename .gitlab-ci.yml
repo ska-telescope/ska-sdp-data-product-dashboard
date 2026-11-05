@@ -91,6 +91,7 @@ unit_tests:
     - mkdir -p build/reports
   script:
     - yarn test:unit
+  coverage: '/All files\s*\|\s*(\d+(?:\.\d+)?)/'
   artifacts:
     when: always
     paths:
@@ -122,9 +123,10 @@ test_and_coverage:
   script:
     - yarn start &
     - npx wait-on http://localhost:8100/ --timeout 120000
-    - yarn test:cypress:e2e:ci
+    - yarn test:cypress:e2e:ci || CYPRESS_EXIT=$?
     - yarn test:coverage:report:ci
     - cp build/reports/cobertura-coverage.xml build/reports/code-coverage.xml
+    - exit ${CYPRESS_EXIT:-0}
   artifacts:
     when: always
     paths:
