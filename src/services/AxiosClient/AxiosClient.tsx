@@ -36,13 +36,6 @@ const useAxiosClient = (baseURL: string) => {
       // Correct logic: Allow HTTP ONLY on localhost.  Otherwise, force HTTPS.
       if (isHttp && !isLocalhost) {
         return Promise.reject('HTTP is not allowed except on localhost.');
-      } else if (
-        isHttp &&
-        !isLocalhost &&
-        request.baseURL &&
-        !request.baseURL.startsWith('https://')
-      ) {
-        request.baseURL = request.baseURL.replace('http://', 'https://');
       }
 
       if (authenticated) {

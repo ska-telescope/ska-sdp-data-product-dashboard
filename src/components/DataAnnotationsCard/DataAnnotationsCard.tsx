@@ -17,7 +17,7 @@ function DataAnnotationsCard(selectedDataProduct: SelectedDataProduct) {
   const { t } = useTranslation('dpd');
   const { accounts } = useMsal();
   const account = accounts[0];
-  const [listOfDataAnnotations, setListOfDataAnnotations] = React.useState([]);
+  const [listOfDataAnnotations, setListOfDataAnnotations] = React.useState<DataAnnotation[]>([]);
   const [annotationsTableAvailable, setAnnotationsTableAvailable] = React.useState(false);
   const [disableCreateButton, setDisableCreateButton] = React.useState(false);
   const [cardHeight, setCardHeight] = React.useState(ANNOTATIONS_CARD_HEIGHT);
@@ -79,12 +79,12 @@ function DataAnnotationsCard(selectedDataProduct: SelectedDataProduct) {
     };
   }, []);
 
-  function renderDataAnnotationStack(listOfDataAnnotations: any) {
-    if (listOfDataAnnotations.length > 0) {
+  function renderDataAnnotationStack(annotations: DataAnnotation[]) {
+    if (annotations.length > 0) {
       return (
         <>
-          {listOfDataAnnotations.map((annotation: DataAnnotation) => (
-            <DataAnnotationComponent {...annotation} />
+          {annotations.map((annotation: DataAnnotation) => (
+            <DataAnnotationComponent key={annotation.annotation_id} {...annotation} />
           ))}
         </>
       );

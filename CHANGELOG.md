@@ -1,5 +1,9 @@
 # Changelog
 
+## Unreleased
+
+- [Changed] Replaced the legacy ESLint setup with ESLint 9 flat config.
+
 ## Development
 
 - [Changed] Upgraded `ska-login-page` to v2; the header now uses `AppWrapper` with login and user menu buttons.

@@ -6,8 +6,7 @@ import { Box, FormControl, Grid, InputLabel, MenuItem, Select } from '@mui/mater
 import CachedIcon from '@mui/icons-material/Cached';
 import RefreshIcon from '@mui/icons-material/Refresh';
 
-import { Button, ButtonColorTypes } from '@ska-telescope/ska-gui-components';
-import { ButtonVariantTypes } from '@ska-telescope/ska-gui-components';
+import { Button, ButtonColorTypes, ButtonVariantTypes } from '@ska-telescope/ska-gui-components';
 import GetMuiDataGridConfig, { MuiColumnConfig } from '@components/DataGrid/GetMuiDataGridConfig';
 import { createSearchFilter, toSearchPanelItem } from '@utils/searchFilters';
 import type { SearchFilter, SearchSelection } from 'types/search/search';
@@ -16,12 +15,11 @@ import DataProductsTable from '@components/DataProductsTable/DataProductsTable';
 import MetadataCard from '@components/MetadataCard/MetadataCard';
 import IndexingStatus from '@components/IndexingStatus/IndexingStatus';
 import { useApiStatus } from '@contexts/ApiStatusContext';
-import { SKA_DATAPRODUCT_API_URL } from '@utils/constants';
+import { SKA_DATAPRODUCT_API_URL, FEEDBACK_URL } from '@utils/constants';
 import DataproductDataGrid from '@components/DataGrid/DataGrid';
 import DataAnnotationsCard from '@components/DataAnnotationsCard/DataAnnotationsCard';
 import { SelectedDataProduct } from 'types/dataproducts/dataproducts';
 import FeedbackButton from '@components/FeedbackButton/FeedbackButton';
-import { FEEDBACK_URL } from '@utils/constants';
 import SearchBox from '@components/SearchComponent/SearchComponent';
 
 const DataProductDashboard = () => {
@@ -153,9 +151,9 @@ const DataProductDashboard = () => {
   }, [updating, searchPanelOptions]);
 
   const handleRowClick = () => {
-    const selectedDataProduct = localStorage.getItem('selectedDataProduct');
-    const selectedFileNames = selectedDataProduct ? JSON.parse(selectedDataProduct) : null;
-    setSelectedFileNames(selectedFileNames);
+    const storedSelection = localStorage.getItem('selectedDataProduct');
+    const parsedSelection = storedSelection ? JSON.parse(storedSelection) : null;
+    setSelectedFileNames(parsedSelection);
   };
 
   // Memoize the DataGrid to prevent unnecessary re-renders
