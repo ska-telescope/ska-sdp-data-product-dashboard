@@ -47,7 +47,7 @@
     "@mui/x-date-pickers": "^8",
     "@react-spring/web": "^9.7.3",
     "@ska-telescope/ska-gui-components": "^3.2.0",
-    "@ska-telescope/ska-login-page": "0.9.15",
+    "@ska-telescope/ska-login-page": "^2.0.0",
     "@types/streamsaver": "^2.0.4",
     "axios": "^1.6.5",
     "cross-env": "^7.0.3",

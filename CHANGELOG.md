@@ -2,6 +2,10 @@
 
 ## Development
 
+- [Changed] Upgraded `ska-login-page` to v2; the header now uses `AppWrapper` with login and user menu buttons.
+- [Changed] Renamed the `REACT_APP_MSENTRA_*` runtime variables to `REACT_APP_AUTH_CLIENT_ID`, `REACT_APP_AUTH_AUTHORITY` and `REACT_APP_AUTH_REDIRECT_URI`.
+- [Changed] API requests now obtain access tokens through the login page's `useGetToken`.
+- [Removed] Unused `authConfig.js` MSAL configuration.
 - [Changed] Upgraded MUI to v7, MUI X to v8 and MSAL to v5; removed unused `@mui/lab` and `@mui/x-data-grid-generator`.
 - [Changed] Replaced the deprecated `ska-gui-local-storage` with a local settings context aligned with the QA display; the saved theme is kept.
 - [Changed] Upgraded `ska-gui-components` to v3 with `createSKATheme`; removed the unused `MetaDataComponent` (`DataTree` no longer exists).

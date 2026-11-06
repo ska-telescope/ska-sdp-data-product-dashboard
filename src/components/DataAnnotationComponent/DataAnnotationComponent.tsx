@@ -4,7 +4,7 @@ import { Button } from '@ska-telescope/ska-gui-components';
 import { useTranslation } from 'react-i18next';
 import SaveDataAnnotationCard from '@components/SaveDataAnnotationCard/SaveDataAnnotationCard';
 import { DataAnnotation } from 'types/annotations/annotations';
-import { useUserAuthenticated } from '@services/GetAuthStatus/GetAuthStatus';
+import { isLoggedIn } from '@ska-telescope/ska-login-page';
 
 function DataAnnotationComponent(props: DataAnnotation) {
   const {
@@ -19,7 +19,7 @@ function DataAnnotationComponent(props: DataAnnotation) {
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
   const [disableViewButton, setDisableViewButton] = React.useState(false);
-  const isAuthenticated = useUserAuthenticated();
+  const isAuthenticated = isLoggedIn();
 
   React.useEffect(() => {
     if (isAuthenticated) {

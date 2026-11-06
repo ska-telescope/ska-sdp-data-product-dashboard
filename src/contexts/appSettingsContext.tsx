@@ -1,5 +1,5 @@
 import { createContext, useCallback, useContext, useMemo, useState, ReactNode } from 'react';
-import { THEME_DARK, THEME_LIGHT } from '@ska-telescope/ska-gui-components';
+import { SKABrandColor, THEME_DARK, THEME_LIGHT } from '@ska-telescope/ska-gui-components';
 import usePersistentState from '@hooks/usePersistentState';
 
 // Same key and shape as the former ska-gui-local-storage, so saved settings survive the switch.
@@ -8,8 +8,8 @@ export const SETTINGS_STORAGE_KEY = 'ska-ui-store';
 export type ThemeModeValue = typeof THEME_LIGHT | typeof THEME_DARK;
 
 type HelpState = {
-  content: object | string;
-  component: object | string;
+  content: object;
+  component: object;
   showHelp: boolean;
   contentURL: string;
   componentURL: string;
@@ -17,6 +17,9 @@ type HelpState = {
 
 type PersistedSettings = {
   themeMode?: { mode?: ThemeModeValue };
+  accessibility?: number;
+  buttonVariant?: SKABrandColor;
+  flatten?: boolean;
 };
 
 export type AppSettingsContextType = {
@@ -25,7 +28,16 @@ export type AppSettingsContextType = {
   themeMode: { mode: ThemeModeValue };
   darkMode: boolean;
   toggleTheme: () => void;
+  accessibility: number;
+  setAccessibility: (value: number) => void;
+  buttonVariant: SKABrandColor;
+  setButtonVariant: (value: SKABrandColor) => void;
+  flatten: boolean;
+  setFlatten: (value: boolean) => void;
 };
+
+// Index of the default (non colour-blind) palette set in createSKATheme.
+const DEFAULT_ACCESSIBILITY = 0;
 
 const INITIAL_HELP: HelpState = {
   content: [],
@@ -58,6 +70,33 @@ export const AppSettingsProvider = ({ children }: { children: ReactNode }) => {
     });
   }, [setPersisted]);
 
+  const setSetting = useCallback(
+    <K extends keyof PersistedSettings>(key: K, value: PersistedSettings[K]) => {
+      setPersisted((prev) => ({
+        ...(typeof prev === 'object' && prev !== null ? prev : {}),
+        [key]: value
+      }));
+    },
+    [setPersisted]
+  );
+
+  const setAccessibility = useCallback(
+    (value: number) => setSetting('accessibility', value),
+    [setSetting]
+  );
+  const setButtonVariant = useCallback(
+    (value: SKABrandColor) => setSetting('buttonVariant', value),
+    [setSetting]
+  );
+  const setFlatten = useCallback((value: boolean) => setSetting('flatten', value), [setSetting]);
+
+  const stored = typeof persisted === 'object' && persisted !== null ? persisted : {};
+  const accessibility =
+    typeof stored.accessibility === 'number' ? stored.accessibility : DEFAULT_ACCESSIBILITY;
+  const buttonVariant =
+    stored.buttonVariant === SKABrandColor.Pink ? SKABrandColor.Pink : SKABrandColor.Blue;
+  const flatten = stored.flatten === true;
+
   const helpToggle = useCallback(() => {
     setHelp((prev) => ({ ...prev, showHelp: !prev.showHelp }));
   }, []);
@@ -68,9 +107,26 @@ export const AppSettingsProvider = ({ children }: { children: ReactNode }) => {
       helpToggle,
       themeMode: { mode },
       darkMode: mode === THEME_DARK,
-      toggleTheme
+      toggleTheme,
+      accessibility,
+      setAccessibility,
+      buttonVariant,
+      setButtonVariant,
+      flatten,
+      setFlatten
     }),
-    [help, helpToggle, mode, toggleTheme]
+    [
+      help,
+      helpToggle,
+      mode,
+      toggleTheme,
+      accessibility,
+      setAccessibility,
+      buttonVariant,
+      setButtonVariant,
+      flatten,
+      setFlatten
+    ]
   );
 
   return <AppSettingsContext.Provider value={value}>{children}</AppSettingsContext.Provider>;

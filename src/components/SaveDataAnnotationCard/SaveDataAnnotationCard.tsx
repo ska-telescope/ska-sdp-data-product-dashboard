@@ -6,7 +6,7 @@ import saveDataAnnotations from '@services/SaveDataAnnotation/SaveDataAnnotation
 import { DataAnnotation } from 'types/annotations/annotations';
 import { SKA_DATAPRODUCT_API_URL } from '@utils/constants';
 import useAxiosClient from '@services/AxiosClient/AxiosClient';
-import { useUserAuthenticated } from '@services/GetAuthStatus/GetAuthStatus';
+import { isLoggedIn } from '@ska-telescope/ska-login-page';
 
 const SaveDataAnnotationCard = React.forwardRef<HTMLDivElement, DataAnnotation>((props, ref) => {
   const { data_product_uid, annotation_text, user_principal_name, annotation_id } = props;
@@ -20,7 +20,7 @@ const SaveDataAnnotationCard = React.forwardRef<HTMLDivElement, DataAnnotation>(
   const [alertText, setAlertText] = React.useState('');
   const [alertColour, setAlertColour] = React.useState(AlertColorTypes.Success);
   const [standardText, setStandardText] = React.useState('');
-  const isAuthenticated = useUserAuthenticated();
+  const isAuthenticated = isLoggedIn();
   const [disableEditButton, setDisableEditButton] = React.useState(false);
   const authAxiosClient = useAxiosClient(SKA_DATAPRODUCT_API_URL);
 

@@ -1,7 +1,7 @@
 import { ReactNode } from 'react';
 import { renderHook, act } from '@testing-library/react';
 import { describe, it, expect, beforeEach } from 'vitest';
-import { THEME_DARK, THEME_LIGHT } from '@ska-telescope/ska-gui-components';
+import { SKABrandColor, THEME_DARK, THEME_LIGHT } from '@ska-telescope/ska-gui-components';
 import {
   AppSettingsProvider,
   SETTINGS_STORAGE_KEY,
@@ -57,6 +57,26 @@ describe('AppSettingsContext', () => {
     act(() => result.current.helpToggle());
 
     expect(result.current.help.showHelp).toBe(true);
+  });
+
+  it('defaults and persists accessibility, button variant and flatten', () => {
+    const { result } = renderHook(() => useAppSettings(), { wrapper });
+
+    expect(result.current.accessibility).toBe(0);
+    expect(result.current.buttonVariant).toBe(SKABrandColor.Blue);
+    expect(result.current.flatten).toBe(false);
+
+    act(() => {
+      result.current.setAccessibility(2);
+      result.current.setButtonVariant(SKABrandColor.Pink);
+      result.current.setFlatten(true);
+    });
+
+    expect(readStored()).toEqual({
+      accessibility: 2,
+      buttonVariant: SKABrandColor.Pink,
+      flatten: true
+    });
   });
 
   it('keeps theme across a reload', () => {

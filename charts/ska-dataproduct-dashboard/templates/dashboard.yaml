@@ -57,21 +57,23 @@ spec:
               value: "{{ .Values.dashboard.i18nDebug }}"
             - name: REACT_APP_VERSION
               value: "{{ .Values.dashboard.version }}"
-            - name: REACT_APP_MSENTRA_REDIRECT_URI
+            - name: REACT_APP_AUTH_REDIRECT_URI
               value: "{{ .Values.ingress.hostname }}{{ include "ska-dataproduct-dashboard.dashboard.ingress.path" . }}/"
-            - name: REACT_APP_MSENTRA_CLIENT_ID
+            - name: REACT_APP_AUTH_CLIENT_ID
               valueFrom:
                 secretKeyRef:
                   name: {{ .Values.dashboard.secretName }}
                   key: REACT_APP_MSENTRA_CLIENT_ID
                   optional: true
 
-            - name: REACT_APP_MSENTRA_TENANT_ID
+            - name: AUTH_TENANT_ID
               valueFrom:
                 secretKeyRef:
                   name: {{ .Values.dashboard.secretName }}
                   key: REACT_APP_MSENTRA_TENANT_ID
                   optional: true
+            - name: REACT_APP_AUTH_AUTHORITY
+              value: "https://login.microsoftonline.com/$(AUTH_TENANT_ID)"
           livenessProbe:
             httpGet:
               path: /

@@ -5,12 +5,30 @@ import DataProductDashboard from '@components/DataProductDashboard/DataProductDa
 import Loader from '@components/loader/Loader';
 import theme from '@services/theme/theme';
 import { useAppSettings } from '@contexts/appSettingsContext';
-import { AuthWrapper } from '@ska-telescope/ska-login-page';
-import { VERSION } from '@utils/constants';
+import { AppWrapper } from '@ska-telescope/ska-gui-components';
+import {
+  ButtonLogin,
+  ButtonLogout,
+  ButtonUserMenu,
+  isLoggedIn
+} from '@ska-telescope/ska-login-page';
+import { FEEDBACK_URL, VERSION } from '@utils/constants';
 import { ApiStatusProvider, useApiStatus } from '@contexts/ApiStatusContext';
 
 function AppContent() {
-  const { help, helpToggle, themeMode, toggleTheme } = useAppSettings();
+  const {
+    help,
+    helpToggle,
+    themeMode,
+    toggleTheme,
+    accessibility,
+    setAccessibility,
+    buttonVariant,
+    setButtonVariant,
+    flatten,
+    setFlatten
+  } = useAppSettings();
+  const authenticated = isLoggedIn();
   const { t } = useTranslation('authentication');
   const { apiStatus } = useApiStatus();
   const apiVersion = apiStatus?.api_version || 'LOCAL';
@@ -23,22 +41,31 @@ function AppContent() {
         height: '100vh'
       }}
     >
-      <AuthWrapper
-        mainChildren={<DataProductDashboard data-testid="DataProductDashboardId" />}
+      <AppWrapper
+        application={t('application', { ns: 'dpd' })}
         version={VERSION}
         versionTooltip={`${t('label.apiVersion', { ns: 'dpd' })} ${apiVersion}`}
-        application={t('application', { ns: 'dpd' })}
-        buttonLoginLabel={t('button.signIn')}
-        buttonLoginToolTip={t('toolTip.button.signIn')}
-        buttonLogoutLabel={t('button.signOut')}
-        buttonLogoutToolTip={t('toolTip.button.user')}
-        buttonUserShowPhoto
-        buttonUserShowUsername
-        buttonUserToolTip={t('toolTip.button.signOut')}
-        docsIconToolTip={t('toolTip.button.docs', { ns: 'dpd' })}
-        docsURL={t('toolTip.button.docsURL', { ns: 'dpd' })}
-        skaoLogoToolTip={t('toolTip.button.skao', { ns: 'dpd' })}
-        themeModeToolTip={t('toolTip.button.mode', { ns: 'dpd' })}
+        iconDocsURL={t('toolTip.button.docsURL', { ns: 'dpd' })}
+        iconDocsToolTip={t('toolTip.button.docs', { ns: 'dpd' })}
+        iconFeedbackURL={FEEDBACK_URL}
+        iconSKAOToolTip={t('toolTip.button.skao', { ns: 'dpd' })}
+        iconThemeToolTip={t('toolTip.button.mode', { ns: 'dpd' })}
+        loginComponent={
+          authenticated ? (
+            <ButtonUserMenu showPhoto showUsername toolTip={t('toolTip.button.user')}>
+              <ButtonLogout label={t('button.signOut')} toolTip={t('toolTip.button.signOut')} />
+            </ButtonUserMenu>
+          ) : (
+            <ButtonLogin label={t('button.signIn')} toolTip={t('toolTip.button.signIn')} />
+          )
+        }
+        mainChildren={<DataProductDashboard data-testid="DataProductDashboardId" />}
+        storageAccessibility={accessibility}
+        storageAccessibilityUpdate={setAccessibility}
+        storageButtonVariant={buttonVariant}
+        storageSetButtonVariant={setButtonVariant}
+        storageFlatten={flatten}
+        storageSetFlatten={setFlatten}
         storageHelp={help}
         storageHelpToggle={helpToggle}
         storageThemeMode={themeMode.mode}
@@ -49,10 +76,10 @@ function AppContent() {
 }
 
 function App() {
-  const { themeMode } = useAppSettings();
+  const { themeMode, accessibility, buttonVariant, flatten } = useAppSettings();
 
   return (
-    <ThemeProvider theme={theme(themeMode?.mode)}>
+    <ThemeProvider theme={theme(themeMode?.mode, accessibility, buttonVariant, flatten)}>
       <CssBaseline enableColorScheme />
       <React.Suspense fallback={<Loader />}>
         <ApiStatusProvider>
