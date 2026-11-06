@@ -232,7 +232,7 @@ context('Select and download data product', () => {
     })
 
     it('Verify light/dark mode is available', () => {
-      cy.findByTestId("Brightness7Icon").click();
+      cy.findByLabelText("light/dark mode").click();
     })
   })
 
