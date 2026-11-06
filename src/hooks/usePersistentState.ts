@@ -13,8 +13,8 @@ function usePersistentState<T>(key: string, defaultValue: T) {
       const parsed = JSON.parse(saved) as T | null;
       // A stored `null` would otherwise crash consumers that dereference the value.
       return parsed === null || parsed === undefined ? defaultValue : parsed;
-    } catch {
-      // Corrupt JSON or storage blocked (e.g. SecurityError): use the default.
+    } catch (error) {
+      console.warn(`Unable to read "${key}" from localStorage, using default value:`, error);
       return defaultValue;
     }
   });
@@ -22,8 +22,8 @@ function usePersistentState<T>(key: string, defaultValue: T) {
   useEffect(() => {
     try {
       localStorage.setItem(key, JSON.stringify(value));
-    } catch {
-      // Storage unavailable or full; keep working with in-memory state.
+    } catch (error) {
+      console.warn(`Unable to save "${key}" to localStorage:`, error);
     }
   }, [key, value]);
 
