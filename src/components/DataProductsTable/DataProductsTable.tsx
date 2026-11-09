@@ -1,6 +1,6 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import { Box, Grid } from '@mui/material';
+import { Box, GridLegacy as Grid } from '@mui/material';
 import { Alert, Progress, AlertColorTypes } from '@ska-telescope/ska-gui-components';
 
 const DataProductsTable = (

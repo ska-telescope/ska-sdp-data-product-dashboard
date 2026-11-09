@@ -10,6 +10,7 @@
 /tests/cypress/screenshots/
 /tests/cypress/videos/
 /tests/cypress/downloads/
+/cypress
 
 # production
 /build/

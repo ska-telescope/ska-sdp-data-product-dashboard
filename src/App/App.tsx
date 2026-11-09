@@ -3,14 +3,14 @@ import { useTranslation } from 'react-i18next';
 import { CssBaseline, Paper, ThemeProvider } from '@mui/material';
 import DataProductDashboard from '@components/DataProductDashboard/DataProductDashboard';
 import Loader from '@components/loader/Loader';
-import { storageObject } from '@ska-telescope/ska-gui-local-storage';
 import theme from '@services/theme/theme';
+import { useAppSettings } from '@contexts/appSettingsContext';
 import { AuthWrapper } from '@ska-telescope/ska-login-page';
 import { VERSION } from '@utils/constants';
 import { ApiStatusProvider, useApiStatus } from '@contexts/ApiStatusContext';
 
 function AppContent() {
-  const { help, helpToggle, themeMode, toggleTheme } = storageObject.useStore();
+  const { help, helpToggle, themeMode, toggleTheme } = useAppSettings();
   const { t } = useTranslation('authentication');
   const { apiStatus } = useApiStatus();
   const apiVersion = apiStatus?.api_version || 'LOCAL';
@@ -49,7 +49,7 @@ function AppContent() {
 }
 
 function App() {
-  const { themeMode } = storageObject.useStore();
+  const { themeMode } = useAppSettings();
 
   return (
     <ThemeProvider theme={theme(themeMode?.mode)}>

@@ -2,7 +2,7 @@ import React from 'react';
 import axios from 'axios';
 import { useTranslation } from 'react-i18next';
 
-import { Box, FormControl, Grid, InputLabel, MenuItem, Select } from '@mui/material';
+import { Box, FormControl, GridLegacy as Grid, InputLabel, MenuItem, Select } from '@mui/material';
 import CachedIcon from '@mui/icons-material/Cached';
 import RefreshIcon from '@mui/icons-material/Refresh';
 
