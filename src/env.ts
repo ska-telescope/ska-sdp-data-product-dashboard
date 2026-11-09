@@ -21,6 +21,7 @@ type EnvType = {
   REACT_APP_MSENTRA_TENANT_ID: string;
   REACT_APP_SKA_DATAPRODUCT_API_URL: string;
   REACT_APP_VERSION: string;
+  REACT_APP_I18N_DEBUG: boolean;
   REACT_APP_USE_LOCAL_DATA: boolean;
 };
 export const env: EnvType = {

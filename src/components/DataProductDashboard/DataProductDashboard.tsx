@@ -2,7 +2,7 @@ import React from 'react';
 import axios from 'axios';
 import { useTranslation } from 'react-i18next';
 
-import { Box, FormControl, GridLegacy as Grid, InputLabel, MenuItem, Select } from '@mui/material';
+import { Box, FormControl, Grid, InputLabel, MenuItem, Select } from '@mui/material';
 import CachedIcon from '@mui/icons-material/Cached';
 import RefreshIcon from '@mui/icons-material/Refresh';
 
@@ -199,7 +199,7 @@ const DataProductDashboard = () => {
           justifyContent="justify-left"
           alignItems="center"
         >
-          <Grid item>
+          <Grid>
             <FormControl
               size="small"
               sx={{
@@ -230,7 +230,7 @@ const DataProductDashboard = () => {
               </Select>
             </FormControl>
           </Grid>
-          <Grid item>
+          <Grid>
             <Button
               testId="IndexDataProductsButton"
               color={ButtonColorTypes.Secondary}
@@ -242,7 +242,7 @@ const DataProductDashboard = () => {
               variant={ButtonVariantTypes.Outlined}
             />
           </Grid>
-          <Grid item>
+          <Grid>
             <Button
               testId="ReloadDataProductsButton"
               color={ButtonColorTypes.Secondary}
@@ -254,10 +254,10 @@ const DataProductDashboard = () => {
               variant={ButtonVariantTypes.Outlined}
             />
           </Grid>
-          <Grid item>
+          <Grid>
             <IndexingStatus isLoading={isDataLoading} />
           </Grid>
-          <Grid item sx={{ ml: 'auto' }}>
+          <Grid sx={{ ml: 'auto' }}>
             <FeedbackButton href={FEEDBACK_URL} />
           </Grid>
         </Grid>
@@ -283,10 +283,10 @@ const DataProductDashboard = () => {
         direction="row"
         justifyContent="space-between"
       >
-        <Grid item xs={8}>
+        <Grid size={8}>
           {DataProductsTable(updating, apiRunning, dataGridComponent, indexingProgress)}
         </Grid>
-        <Grid item xs={4}>
+        <Grid size={4}>
           <>
             <MetadataCard {...selectedFileNames} />
             {DataAnnotationsCard(selectedFileNames)}

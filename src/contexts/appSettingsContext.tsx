@@ -43,7 +43,7 @@ export const AppSettingsProvider = ({ children }: { children: ReactNode }) => {
   // Stored value may be a non-object (e.g. a string or number); ignore anything unexpected.
   const storedMode =
     typeof persisted === 'object' && persisted !== null ? persisted.themeMode?.mode : undefined;
-  const mode = storedMode === THEME_DARK ? THEME_DARK : THEME_LIGHT;
+  const mode: ThemeModeValue = storedMode === THEME_DARK ? THEME_DARK : THEME_LIGHT;
 
   const toggleTheme = useCallback(() => {
     setPersisted((prev) => {

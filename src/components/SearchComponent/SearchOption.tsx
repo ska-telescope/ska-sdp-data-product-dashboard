@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next';
 import LibraryAddOutlinedIcon from '@mui/icons-material/LibraryAddOutlined';
 import {
   FormControl,
-  GridLegacy as Grid,
+  Grid,
   InputLabel,
   MenuItem,
   Select,
@@ -101,7 +101,7 @@ const SearchOption = ({
         direction="row"
         justifyContent="space-between"
       >
-        <Grid item xs={3} data-testid={`key-field`}>
+        <Grid size={3} data-testid={`key-field`}>
           <Autocomplete
             options={availableColumns}
             getOptionLabel={(option) => tColumns(option.field)}
@@ -132,8 +132,7 @@ const SearchOption = ({
           const operators = getSearchOperatorsForType(col?.type);
           return operators.length > 0 ? (
             <Grid
-              item
-              xs={3}
+              size={3}
               sx={{ height: '100%', display: 'flex', alignItems: 'center' }}
               data-testid="key-field-0"
             >
@@ -166,8 +165,7 @@ const SearchOption = ({
           if (col?.type === 'date') {
             return (
               <Grid
-                item
-                xs={4}
+                size={4}
                 data-testid={'value-field'}
                 sx={{ height: '100%', display: 'flex', alignItems: 'center', minHeight: '60px' }}
               >
@@ -182,8 +180,7 @@ const SearchOption = ({
           }
           return (
             <Grid
-              item
-              xs={4}
+              size={4}
               data-testid={'value-field'}
               sx={{ height: '100%', display: 'flex', alignItems: 'center', minHeight: '60px' }}
               onKeyDown={(e: React.KeyboardEvent) => {
@@ -200,7 +197,7 @@ const SearchOption = ({
           );
         })()}
 
-        <Grid item xs="auto" sx={{ display: 'flex', alignItems: 'center' }}>
+        <Grid size="auto" sx={{ display: 'flex', alignItems: 'center' }}>
           <Button
             testId="AddKeyValuePairButton"
             color={ButtonColorTypes.Secondary}

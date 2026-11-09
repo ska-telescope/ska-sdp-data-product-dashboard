@@ -80,6 +80,7 @@ dashboard:
     path: dashboard
   dataGridDefaultPageSize: 25
   apiRefreshRate: 10000
+  i18nDebug: false
   resources:
     requests:
       cpu: 250m

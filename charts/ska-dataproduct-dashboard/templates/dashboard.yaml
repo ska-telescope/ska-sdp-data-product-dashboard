@@ -53,6 +53,8 @@ spec:
               value: "{{ .Values.dashboard.apiRefreshRate }}"
             - name: REACT_APP_DATAGRID_DEFAULT_PAGE_SIZE
               value: "{{ .Values.dashboard.dataGridDefaultPageSize }}"
+            - name: REACT_APP_I18N_DEBUG
+              value: "{{ .Values.dashboard.i18nDebug }}"
             - name: REACT_APP_VERSION
               value: "{{ .Values.dashboard.version }}"
             - name: REACT_APP_MSENTRA_REDIRECT_URI

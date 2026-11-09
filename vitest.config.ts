@@ -12,7 +12,7 @@ export default mergeConfig(
       includeTaskLocation: true,
       server: {
         deps: {
-          inline: ['@mui/material']
+          inline: ['@mui/material', 'react-dropzone', '@ska-telescope/ska-gui-components']
         }
       },
       coverage: {
