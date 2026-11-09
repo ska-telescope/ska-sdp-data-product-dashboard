@@ -36,6 +36,10 @@ export default defineConfig({
   ].filter(Boolean),
   server: {
     host: true,
-    port: 8100
+    port: 8100,
+    // Coverage/test reports written during Cypress runs must not trigger page reloads
+    watch: {
+      ignored: ['**/build/**', '**/.nyc_output/**', '**/tests/cypress/**']
+    }
   }
 });
