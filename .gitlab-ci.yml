@@ -50,6 +50,9 @@ install_dependencies:
     - npm config set registry https://registry.npmjs.org/
     - yarn install --frozen-lockfile
   cache:
+    key:
+      files:
+        - yarn.lock
     paths:
       - node_modules/
     policy: push
@@ -62,6 +65,9 @@ code_analysis:
   dependencies:
     - install_dependencies
   cache:
+    key:
+      files:
+        - yarn.lock
     paths:
       - node_modules/
     policy: pull
@@ -84,6 +90,9 @@ unit_tests:
   dependencies:
     - install_dependencies
   cache:
+    key:
+      files:
+        - yarn.lock
     paths:
       - node_modules/
     policy: pull
@@ -114,6 +123,9 @@ test_and_coverage:
   dependencies:
     - install_dependencies
   cache:
+    key:
+      files:
+        - yarn.lock
     paths:
       - node_modules/
     policy: pull
@@ -149,6 +161,9 @@ list_dependencies:
     - install_dependencies
   allow_failure: true
   cache:
+    key:
+      files:
+        - yarn.lock
     paths:
       - node_modules/
     policy: pull
@@ -172,6 +187,9 @@ build:
   dependencies:
     - install_dependencies
   cache:
+    key:
+      files:
+        - yarn.lock
     paths:
       - node_modules/
     policy: pull
