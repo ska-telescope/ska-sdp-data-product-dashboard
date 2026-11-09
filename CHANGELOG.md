@@ -2,6 +2,8 @@
 
 ## Development
 
+- [PHX-636]
+
 - [Changed] Upgraded MUI to v7, MUI X to v8 and MSAL to v5; removed unused `@mui/lab` and `@mui/x-data-grid-generator`.
 - [Changed] Replaced the deprecated `ska-gui-local-storage` with a local settings context aligned with the QA display; the saved theme is kept.
 - [Changed] Upgraded `ska-gui-components` to v3 with `createSKATheme`; removed the unused `MetaDataComponent` (`DataTree` no longer exists).
