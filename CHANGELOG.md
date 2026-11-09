@@ -2,6 +2,8 @@
 
 ## Development
 
+- [PHX-636]
+
 - [Changed] Upgraded `ska-login-page` to v2; the header now uses `AppWrapper` with login and user menu buttons.
 - [Changed] Renamed the `REACT_APP_MSENTRA_*` runtime variables to `REACT_APP_AUTH_CLIENT_ID`, `REACT_APP_AUTH_AUTHORITY` and `REACT_APP_AUTH_REDIRECT_URI`.
 - [Changed] API requests now obtain access tokens through the login page's `useGetToken`.
