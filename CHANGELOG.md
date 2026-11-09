@@ -1,9 +1,5 @@
 # Changelog
 
-## Unreleased
-
-- [Changed] Replaced the legacy ESLint setup with ESLint 9 flat config.
-
 ## Development
 
 - [Changed] Upgraded `ska-login-page` to v2; the header now uses `AppWrapper` with login and user menu buttons.
@@ -15,6 +11,7 @@
 - [Changed] Upgraded `ska-gui-components` to v3 with `createSKATheme`; removed the unused `MetaDataComponent` (`DataTree` no longer exists).
 - [Added] `REACT_APP_I18N_DEBUG` environment variable to control i18next debug logging (off by default).
 - [Changed] Upgraded the MUI GridLegacy component to the new MUI Grid component.
+- [Changed] Replaced the legacy ESLint setup with ESLint 9 flat config.
 
 ## 0.20.1
 
