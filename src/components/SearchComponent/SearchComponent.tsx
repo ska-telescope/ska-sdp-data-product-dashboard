@@ -49,8 +49,14 @@ const SearchBox = ({
           key={opt.id}
           id={`search-option-${index}`}
           label={`${tColumns(opt.field)}  ${t(opt.operator)}  ${opt.value}`}
-          onClick={() => removeField(opt)}
-          onDelete={() => deleteField(opt)}
+          onClick={(event) => {
+            event.stopPropagation();
+            removeField(opt);
+          }}
+          onDelete={(event) => {
+            event.stopPropagation();
+            deleteField(opt);
+          }}
           variant="outlined"
           data-testid={`search-option-${index}`}
         />
@@ -61,7 +67,17 @@ const SearchBox = ({
   return (
     <>
       <div
-        onClick={() => setIsDropdownOpen(!isDropdownOpen)}
+        onClick={() => setIsDropdownOpen((open) => !open)}
+        onKeyDown={(event) => {
+          if (event.target !== event.currentTarget) return;
+          if (event.key === 'Enter' || event.key === ' ') {
+            event.preventDefault();
+            setIsDropdownOpen((open) => !open);
+          }
+        }}
+        role="button"
+        tabIndex={0}
+        aria-expanded={isDropdownOpen}
         style={{
           cursor: 'pointer',
           minHeight: `${SEARCH_BOX}px`,

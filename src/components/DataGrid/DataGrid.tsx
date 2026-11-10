@@ -3,8 +3,6 @@ import { DataGrid, GridFilterModel, GridColDef, GridSortModel } from '@mui/x-dat
 import { getMuiOperatorsForType } from '@utils/columnOperators';
 import DownloadIcon from '@mui/icons-material/Download';
 import { Box } from '@mui/material';
-import GetMuiDataGridConfig from './GetMuiDataGridConfig';
-import GetMuiDataGridRows from '../../services/GetMuiDataGridRows/GetMuiDataGridRows';
 import useAxiosClient from '@services/AxiosClient/AxiosClient';
 import { shellSize, SKA_DATAPRODUCT_API_URL, DATAGRID_DEFAULT_PAGE_SIZE } from '@utils/constants';
 import {
@@ -17,6 +15,8 @@ import {
 import { useTranslation } from 'react-i18next';
 import dataProductDownloadStream from '@services/GetDownloadStream/GetDownloadStream';
 import usePersistentState from '@hooks/usePersistentState';
+import GetMuiDataGridRows from '@services/GetMuiDataGridRows/GetMuiDataGridRows';
+import GetMuiDataGridConfig from '@components/DataGrid/GetMuiDataGridConfig';
 
 interface DataproductDataGridProps {
   handleSelectedNode: () => void;

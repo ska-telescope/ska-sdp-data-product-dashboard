@@ -34,11 +34,15 @@ const dataProductDownloadStream = async (selectedDataProduct: {
     } else {
       // Fallback for older browsers
       const writer = fileStream.getWriter();
-      const reader = response?.body?.getReader();
+      const reader = response.body?.getReader();
+
+      if (!reader) {
+        throw new Error('Response body is not readable.');
+      }
 
       const pump = async () => {
         try {
-          const { value, done } = await reader?.read();
+          const { value, done } = await reader.read();
           if (done) {
             writer.close();
           } else {
