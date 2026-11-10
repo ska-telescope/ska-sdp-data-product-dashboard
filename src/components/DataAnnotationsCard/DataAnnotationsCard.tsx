@@ -11,7 +11,7 @@ import getDataAnnotations from '@services/GetDataAnnotations/GetDataAnnotations'
 import { DataAnnotation } from 'types/annotations/annotations';
 import { SelectedDataProduct } from 'types/dataproducts/dataproducts';
 import useAxiosClient from '@services/AxiosClient/AxiosClient';
-import { useUserAuthenticated } from '@services/GetAuthStatus/GetAuthStatus';
+import { isLoggedIn } from '@ska-telescope/ska-login-page';
 
 function DataAnnotationsCard(selectedDataProduct: SelectedDataProduct) {
   const { t } = useTranslation('dpd');
@@ -31,7 +31,7 @@ function DataAnnotationsCard(selectedDataProduct: SelectedDataProduct) {
     annotation_id: 0
   };
   const authAxiosClient = useAxiosClient(SKA_DATAPRODUCT_API_URL);
-  const isAuthenticated = useUserAuthenticated();
+  const isAuthenticated = isLoggedIn();
 
   React.useEffect(() => {
     if (isAuthenticated && annotationsTableAvailable) {

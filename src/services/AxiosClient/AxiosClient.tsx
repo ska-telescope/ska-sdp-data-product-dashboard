@@ -1,6 +1,6 @@
 import axios, { AxiosError } from 'axios';
-import { useMsal } from '@azure/msal-react';
-import { InteractionRequiredAuthError } from '@azure/msal-browser';
+import { isLoggedIn, useGetToken } from '@ska-telescope/ska-login-page';
+import { AUTH_LOGIN_SCOPES } from '@utils/constants';
 
 export enum LogLevel {
   Error,
@@ -11,11 +11,12 @@ export enum LogLevel {
 }
 
 export const loginRequest = {
-  scopes: ['User.Read']
+  scopes: AUTH_LOGIN_SCOPES
 };
 
 const useAxiosClient = (baseURL: string) => {
-  const { instance } = useMsal();
+  const getToken = useGetToken();
+  const authenticated = isLoggedIn();
 
   const axiosClient = axios.create({
     baseURL,
@@ -44,23 +45,10 @@ const useAxiosClient = (baseURL: string) => {
         request.baseURL = request.baseURL.replace('http://', 'https://');
       }
 
-      const account = instance.getAllAccounts()[0];
-      if (account) {
-        try {
-          const tokenResponse = await instance.acquireTokenSilent({
-            ...loginRequest,
-            account
-          });
-          request.headers['Authorization'] = `Bearer ${tokenResponse.accessToken}`;
-        } catch (error) {
-          console.error('Error acquiring token silently:', error);
-          if (error instanceof InteractionRequiredAuthError) {
-            instance.loginRedirect({
-              ...loginRequest,
-              redirectUri: window.location.origin
-            });
-          }
-          return Promise.reject(error); // Re-reject the error
+      if (authenticated) {
+        const accessToken = await getToken(loginRequest);
+        if (accessToken) {
+          request.headers['Authorization'] = `Bearer ${accessToken}`;
         }
       }
       return request;

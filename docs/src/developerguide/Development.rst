@@ -85,18 +85,18 @@ Create a file named ``.env`` at the root of the project. The canonical list of s
       - string
       - ``25``
       - Default number of rows per page in the data grid.
-    * - ``REACT_APP_MSENTRA_CLIENT_ID``
+    * - ``REACT_APP_AUTH_CLIENT_ID``
       - string
       - *(required only for authentication)*
-      - Microsoft Entra application registration client ID.
-    * - ``REACT_APP_MSENTRA_TENANT_ID``
+      - OAuth2/OIDC application registration client ID.
+    * - ``REACT_APP_AUTH_AUTHORITY``
       - string
       - *(required only for authentication)*
-      - Microsoft Entra tenant ID.
-    * - ``REACT_APP_MSENTRA_REDIRECT_URI``
+      - Authority URL, e.g. ``https://login.microsoftonline.com/<tenant-id>`` or the Indigo IAM URL.
+    * - ``REACT_APP_AUTH_REDIRECT_URI``
       - string
       - *(required only for authentication)*
-      - Redirect URI registered in Microsoft Entra for post-authentication redirect.
+      - Redirect URI registered with the identity provider for post-authentication redirect.
     * - ``REACT_APP_FEEDBACK_FORM_URL``
       - string
       - *(Google Form URL)*
