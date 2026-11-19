@@ -114,10 +114,6 @@ spec:
           - name: SKA_DATAPRODUCT_API_POSTGRESQL_METADATA_TABLE_NAME
             value: "{{ .Values.api.postgresql.metadataTableName }}"
 {{- end }}
-{{- if .Values.api.postgresql.annotationsTableName }}
-          - name: SKA_DATAPRODUCT_API_POSTGRESQL_ANNOTATIONS_TABLE_NAME
-            value: "{{ .Values.api.postgresql.annotationsTableName }}"
-{{- end }}
 {{- if .Values.api.postgresql.sdpFlowsTableName }}
           - name: SKA_DATAPRODUCT_API_DPD_SDP_FLOWS_TABLE_NAME
             value: "{{ .Values.api.postgresql.sdpFlowsTableName }}"

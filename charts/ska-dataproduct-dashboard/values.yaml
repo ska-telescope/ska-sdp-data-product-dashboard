@@ -54,7 +54,6 @@ api:
     # need to override the auto-derived names (e.g. to reuse a table from a
     # previous deployment).
     metadataTableName: ""
-    annotationsTableName: ""
     sdpFlowsTableName: ""
     # Filename of the volume identity file written at the root of the storage path.
     dpdVolumeIdFile: ".dpd-volume-id"
