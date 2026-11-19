@@ -14,7 +14,7 @@
 - [Added] `REACT_APP_I18N_DEBUG` environment variable to control i18next debug logging (off by default).
 - [Changed] Upgraded the MUI GridLegacy component to the new MUI Grid component.
 - [Changed] Replaced the legacy ESLint setup with ESLint 9 flat config.
-- [Removed] Removed data product annotation capability form the dashboard.
+- [Removed] Removed data product annotation capability from the dashboard.
 
 ## 0.20.1
 
