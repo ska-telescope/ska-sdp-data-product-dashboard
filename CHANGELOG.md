@@ -5,16 +5,22 @@
 - [PHX-636]
 
 - [Changed] Upgraded `ska-login-page` to v2; the header now uses `AppWrapper` with login and user menu buttons.
-- [Changed] Renamed the `REACT_APP_MSENTRA_*` runtime variables to `REACT_APP_AUTH_CLIENT_ID`, `REACT_APP_AUTH_AUTHORITY` and `REACT_APP_AUTH_REDIRECT_URI`.
-- [Changed] API requests now obtain access tokens through the login page's `useGetToken`.
+- [Changed] Renamed the `REACT_APP_MSENTRA_*` runtime variables to `REACT_APP_AUTH_CLIENT_ID`, `REACT_APP_AUTH_AUTHORITY`, and `REACT_APP_AUTH_REDIRECT_URI`.
+- [Changed] Updated API requests to obtain access tokens through the login page's `useGetToken`.
 - [Removed] Unused `authConfig.js` MSAL configuration.
-- [Changed] Upgraded MUI to v7, MUI X to v8 and MSAL to v5; removed unused `@mui/lab` and `@mui/x-data-grid-generator`.
+- [Changed] Upgraded MUI to v7, MUI X to v8, and MSAL to v5; removed unused `@mui/lab` and `@mui/x-data-grid-generator`.
 - [Changed] Replaced the deprecated `ska-gui-local-storage` with a local settings context aligned with the QA display; the saved theme is kept.
 - [Changed] Upgraded `ska-gui-components` to v3 with `createSKATheme`; removed the unused `MetaDataComponent` (`DataTree` no longer exists).
 - [Added] `REACT_APP_I18N_DEBUG` environment variable to control i18next debug logging (off by default).
 - [Changed] Upgraded the MUI GridLegacy component to the new MUI Grid component.
 - [Changed] Replaced the legacy ESLint setup with ESLint 9 flat config.
-- [Removed] Removed data product annotation capability from the dashboard.
+
+- [PHX-502]
+
+- [Removed] Data product annotation capability from the dashboard.
+- [Removed] Deprecated SKA Permission API from the DPD chart.
+- [Changed] Renamed the authentication environment variables to align to a generic auth provider (REACT_APP_AUTH_CLIENT_ID and REACT_APP_AUTH_TENANT_ID)
+
 
 ## 0.20.1
 

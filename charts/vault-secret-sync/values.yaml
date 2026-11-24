@@ -17,8 +17,8 @@ secrets:
     secretName: "ska-dataproduct-dashboard-dashboard-secret"
     # Keys to extract from Vault secret
     keys:
-      - REACT_APP_MSENTRA_CLIENT_ID
-      - REACT_APP_MSENTRA_TENANT_ID
+      - REACT_APP_AUTH_CLIENT_ID
+      - REACT_APP_AUTH_TENANT_ID
   
   api:
     vaultPath: "phoenix/sdhp-stfc/integration/ska-sdp-dataproduct-api"
