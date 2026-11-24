@@ -51,13 +51,6 @@
     "dataProductUUID": "Data Product UUID",
     "indexingStatus": "Data Processing Status",
     "leaveFeedback": "Feedback",
-    "annotation": {
-      "title": "Annotations",
-      "noAnnotations": "No Data Annotations found for this Data Product",
-      "placeholderText": "Add information on data product here.",
-      "error": "Error Saving Data Annotation",
-      "errorMessage": "Error Message"
-    },
     "metadataStore": "Metadata Store",
     "all": "All",
     "operator": "Operator"
@@ -65,8 +58,7 @@
   "prompt": {
     "filter": "Filter data products:",
     "selectedProduct": "Selected Data Product:",
-    "selectDataProduct": "Select a data product to view its metadata.",
-    "selectDataProductAnnotations": "Select a data product to view its annotations."
+    "selectDataProduct": "Select a data product to view its metadata."
   },
   "toolTip": {
     "button": {

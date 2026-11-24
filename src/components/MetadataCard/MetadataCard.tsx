@@ -15,7 +15,7 @@ import {
   Typography
 } from '@mui/material';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import { ANNOTATIONS_CARD_HEIGHT, tableHeight } from '@utils/constants';
+import { tableHeight } from '@utils/constants';
 import getMetaData from '@services/GetMetaData/GetMetaData';
 import { useTranslation } from 'react-i18next';
 import { SelectedDataProduct } from 'types/dataproducts/dataproducts';
@@ -353,7 +353,7 @@ function renderMetadataSections(
 function MetadataCard(selectedDataProduct: SelectedDataProduct) {
   const [metaData, setMetaData] = React.useState<Record<string, unknown> | null>(null);
   const [oldFilename, setOldFilename] = React.useState(null);
-  const [cardHeight, setCardHeight] = React.useState(tableHeight() - ANNOTATIONS_CARD_HEIGHT);
+  const [cardHeight, setCardHeight] = React.useState(tableHeight());
   const { t } = useTranslation('dpd');
   const { t: tColumnsRaw } = useTranslation('humanreadable');
   const tColumns = (key: string): string => {
@@ -386,7 +386,7 @@ function MetadataCard(selectedDataProduct: SelectedDataProduct) {
 
   React.useEffect(() => {
     function handleResize() {
-      setCardHeight(tableHeight() - ANNOTATIONS_CARD_HEIGHT);
+      setCardHeight(tableHeight());
     }
 
     window.addEventListener('resize', handleResize);

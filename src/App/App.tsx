@@ -70,6 +70,7 @@ function AppContent() {
         storageHelpToggle={helpToggle}
         storageThemeMode={themeMode.mode}
         storageToggleTheme={toggleTheme}
+        selectTelescope={false}
       />
     </Paper>
   );

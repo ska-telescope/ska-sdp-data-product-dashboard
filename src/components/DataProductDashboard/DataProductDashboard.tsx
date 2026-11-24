@@ -17,9 +17,7 @@ import IndexingStatus from '@components/IndexingStatus/IndexingStatus';
 import { useApiStatus } from '@contexts/ApiStatusContext';
 import { SKA_DATAPRODUCT_API_URL, FEEDBACK_URL } from '@utils/constants';
 import DataproductDataGrid from '@components/DataGrid/DataGrid';
-import DataAnnotationsCard from '@components/DataAnnotationsCard/DataAnnotationsCard';
 import { SelectedDataProduct } from 'types/dataproducts/dataproducts';
-import FeedbackButton from '@components/FeedbackButton/FeedbackButton';
 import SearchBox from '@components/SearchComponent/SearchComponent';
 
 const DataProductDashboard = () => {
@@ -255,9 +253,6 @@ const DataProductDashboard = () => {
           <Grid>
             <IndexingStatus isLoading={isDataLoading} />
           </Grid>
-          <Grid sx={{ ml: 'auto' }}>
-            <FeedbackButton href={FEEDBACK_URL} />
-          </Grid>
         </Grid>
       </Box>
     );
@@ -285,10 +280,7 @@ const DataProductDashboard = () => {
           {DataProductsTable(updating, apiRunning, dataGridComponent, indexingProgress)}
         </Grid>
         <Grid size={4}>
-          <>
-            <MetadataCard {...selectedFileNames} />
-            {DataAnnotationsCard(selectedFileNames)}
-          </>
+          <MetadataCard {...selectedFileNames} />
         </Grid>
       </Grid>
     </Box>

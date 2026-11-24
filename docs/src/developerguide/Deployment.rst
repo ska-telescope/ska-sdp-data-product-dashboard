@@ -153,10 +153,6 @@ This section details the configuration options available when deploying the Data
       - ``""`` (auto-derived)
       - PostgreSQL table for data product metadata. See
         :ref:`volume-keyed-table-names` for how names are derived automatically.
-    * - ``api.postgresql.annotationsTableName``
-      - ``""`` (auto-derived)
-      - PostgreSQL table for data product annotations. Auto-derived; see
-        :ref:`volume-keyed-table-names`.
     * - ``api.postgresql.sdpFlowsTableName``
       - ``""`` (auto-derived)
       - PostgreSQL table for SDP flow data. Auto-derived; see
@@ -259,10 +255,10 @@ This section details the configuration options available when deploying the Data
 
     * - Secret Key
       - Description
-    * - ``REACT_APP_MSENTRA_CLIENT_ID``
-      - Microsoft Entra application registration client ID
-    * - ``REACT_APP_MSENTRA_TENANT_ID``
-      - Microsoft Entra application registration tenant ID
+    * - ``REACT_APP_AUTH_CLIENT_ID``
+      - Authentication provider registration client ID
+    * - ``REACT_APP_AUTH_TENANT_ID``
+      - Authentication provider application registration tenant ID
 
 
 Secret Management
@@ -300,8 +296,8 @@ The following Kubernetes secrets must exist (either created manually or synced f
 **Dashboard secret** (default name: ``ska-dataproduct-dashboard-dashboard-secret``)
 
   Required keys:
-    - ``REACT_APP_MSENTRA_CLIENT_ID`` - Microsoft Entra application registration client ID
-    - ``REACT_APP_MSENTRA_TENANT_ID`` - Microsoft Entra application registration tenant ID
+    - ``REACT_APP_AUTH_CLIENT_ID`` - Microsoft Entra application registration client ID
+    - ``REACT_APP_AUTH_TENANT_ID`` - Microsoft Entra application registration tenant ID
 
 **API secret** (default name: ``ska-dataproduct-dashboard-api-secret``)
 
@@ -359,19 +355,19 @@ On first startup against a Persistent Volume, the API writes a UUID v4 identity
 file (``.dpd-volume-id``) at the root of the storage path. On every subsequent
 startup the same UUID is read from that file. The UUID is used to derive a stable
 16-character table-name prefix of the form ``dpd_<first 12 hex chars of UUID>``,
-for example ``dpd_a3f1c2d4e5f6``. All three managed tables (metadata, annotations,
-SDP flows) use this prefix, isolating each PV's data in the shared PostgreSQL
-database without any manual configuration.
+for example ``dpd_a3f1c2d4e5f6``. Both managed tables (metadata, SDP flows) 
+use this prefix, isolating each PV's data in the shared PostgreSQL database 
+without any manual configuration.
 
 **Two pods racing on a brand-new volume**: the identity file is written with
 ``O_CREAT | O_EXCL`` (atomic on POSIX file systems), so only one write succeeds.
 The losing pod retries reading up to three times with a short random back-off and
 obtains the same UUID.
 
-**Override**: set ``api.postgresql.metadataTableName``,
-``api.postgresql.annotationsTableName``, or ``api.postgresql.sdpFlowsTableName``
-to a non-empty string in ``values.yaml`` to bypass auto-derivation and use a fixed
-table name — useful when reusing a database populated by a previous deployment.
+**Override**: set ``api.postgresql.metadataTableName``, or 
+``api.postgresql.sdpFlowsTableName`` to a non-empty string in ``values.yaml`` 
+to bypass auto-derivation and use a fixed table name — useful when reusing a 
+database populated by a previous deployment.
 
 **Identity file location**: controlled by ``api.postgresql.dpdVolumeIdFile``
 (default ``.dpd-volume-id``). Change this only if the default filename conflicts
@@ -448,8 +444,8 @@ Create secrets manually:
 .. code-block:: bash
 
     kubectl create secret generic ska-dataproduct-dashboard-dashboard-secret \
-      --from-literal=REACT_APP_MSENTRA_CLIENT_ID="your-client-id" \
-      --from-literal=REACT_APP_MSENTRA_TENANT_ID="your-tenant-id"
+      --from-literal=REACT_APP_AUTH_CLIENT_ID="your-client-id" \
+      --from-literal=REACT_APP_AUTH_TENANT_ID="your-tenant-id"
 
     kubectl create secret generic ska-dataproduct-dashboard-api-secret \
       --from-literal=SKA_DATAPRODUCT_API_POSTGRESQL_PASSWORD="your-db-password"

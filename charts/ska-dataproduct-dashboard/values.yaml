@@ -40,8 +40,6 @@ api:
   streamChunkSize: 65536
   # Dashboard port used to build CORS allowed origins.
   dashboardPort: "8100"
-  permissionsapi:
-    serviceUrl: https://sdhp.stfc.skao.int/integration-ska-permissions-api
   postgresql:
     host: ""
     port: 5432
@@ -54,7 +52,6 @@ api:
     # need to override the auto-derived names (e.g. to reuse a table from a
     # previous deployment).
     metadataTableName: ""
-    annotationsTableName: ""
     sdpFlowsTableName: ""
     # Filename of the volume identity file written at the root of the storage path.
     dpdVolumeIdFile: ".dpd-volume-id"
@@ -108,8 +105,8 @@ vault-secret-sync:
       vaultPath: "phoenix/sdhp-stfc/integration/ska-dataproduct-dashboard"
       secretName: "ska-dataproduct-dashboard-dashboard-secret"
       keys:
-        - REACT_APP_MSENTRA_CLIENT_ID
-        - REACT_APP_MSENTRA_TENANT_ID
+        - REACT_APP_AUTH_CLIENT_ID
+        - REACT_APP_AUTH_TENANT_ID
     api:
       vaultPath: "phoenix/sdhp-stfc/integration/ska-sdp-dataproduct-api"
       secretName: "ska-dataproduct-dashboard-api-secret"

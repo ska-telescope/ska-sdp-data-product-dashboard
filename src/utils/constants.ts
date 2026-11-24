@@ -57,8 +57,6 @@ export const shellSize = (): any => {
   return calculatedHeight;
 };
 
-export const ANNOTATIONS_CARD_HEIGHT = tableHeight() / 4;
-
 export const USERS = [
   { label: 'AIV', value: 'aiv' },
   { label: 'Developer', value: 'developer' },
