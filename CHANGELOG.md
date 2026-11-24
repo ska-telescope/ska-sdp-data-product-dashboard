@@ -21,7 +21,6 @@
 - [Removed] Deprecated SKA Permission API from the DPD chart.
 - [Changed] Renamed the authentication environment variables to align to a generic auth provider (REACT_APP_AUTH_CLIENT_ID and REACT_APP_AUTH_TENANT_ID)
 
-
 ## 0.20.1
 
 - [PHX-657]
